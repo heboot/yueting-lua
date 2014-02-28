@@ -37,7 +37,7 @@
 		<node rect="582,15,123,63"  extendstyle="1010">
 		<button name="addfocusBtn" rect="0,0,123,63" OnSelect="addfocusBtnOnSelect" color="#000000" extendstyle="1010">
 		<image rect="0,0,123,63" style="autosize" src="file://image/addfocus.png" extendstyle="1010"/>
-		<label name="addfouseName" rect="0,0,123,63" text="+关注" font-size="36" h-align="center" v-align="center" color="#ffffff" extendstyle="1010"/>
+		<label name="addfouseName" rect="0,0,123,63" text="+关注" font-size="30" h-align="center" v-align="center" color="#ffffff" extendstyle="1010"/>
 		</button>
 		</node>		
 		<node rect="238,0,240,84"  extendstyle="1510">

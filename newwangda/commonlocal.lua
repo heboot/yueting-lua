@@ -99,7 +99,9 @@ Alias = {
 	 home       = 'MODULE:\\com_wondertek_mobileaudio\\home.wdml',  -- 首页推荐
 	 
 	nodeImgData     = '/publish/clt/resource/mobileaudio3/common/nodeImgData.jsp', --获取栏目图
-}
+
+	setting = 'MODULE:\\com_wondertek_mobileaudio\\mycommunitysetting.wdml', 
+	}
 
 Msg = {
     scene          = 1001,

@@ -1247,6 +1247,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
+	    commonDeactivate()
 		Timer:cancel(4444)
 		Timer:set(4444,500,'getStatusa')
         -- Http:request('homeData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/homeData2.jsp',103)

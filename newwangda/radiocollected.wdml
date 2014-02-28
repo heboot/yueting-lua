@@ -122,7 +122,6 @@ function bodyOnSpriteEvent(msg, param)
 	if msg == MSG_ACTIVATE then
 	  Timer:cancel(4444)
 	  Timer:set(4444,500,'getStatusa')
-	  searchDownloadedFiles()
     elseif msg == MSG_DEACTIVATE then
       
     else

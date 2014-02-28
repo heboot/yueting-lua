@@ -767,20 +767,6 @@ function setGalleryData()
 	elseif audioplayCollect=='2' then
 	Reg:setString(reg,'audioplayCollect','0')
 	audioplayCollectTable=Reg:getTable(reg,'audioplayCollectTable')
-	--Log:write('audioplayCollectTable=====',#audioplayCollectTable)
-	--local _,_,nodeId1=string.find(data,'nodeId=(%d+);')
-	--local temptable
-    --local j=0	
-	--for i=1,#audioplayCollectTable do
-    --local _,_, nodeId = string.find(audioplayCollectTable[i].param,'nodeId=(%d+);')
-    --if nodeId1 == nodeId then
-	--j=i
-	--temptable=audioplayCollectTable[i]
-    --end
-	--end
-	--if j~=0 or j~=''then
-	--table.remove(audioplayCollectTable, j)
-	--table.insert(audioplayCollectTable, 1, temptable)
 	Gallery:removeAllItems(gallery, 1) 
 	Gallery:loadItem(gallery, galleryItem, #audioplayCollectTable, 'onLoadGalleryItem')
     Gallery:adjust(gallery) 

@@ -21,7 +21,7 @@
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
-		    <button name="selectedWorksBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="selectedWorksBtnOnSelect" visible="1" enable="1">
+		    <button name="commentBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="commentBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
 			<label rect="0,0,0,0" extendstyle="0077" text="评论" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
@@ -624,11 +624,10 @@ function moreContentsBtnOnSelect(sprite)
 end
 
 --选集按钮
-function selectedWorksBtnOnSelect(sprite)
+function commentBtnOnSelect(sprite)
    local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-   Reg:setTable(reg,'selectedworks',subListTable)
-   Reg:setString(reg,'selectedworkstitle', Sprite:getText(mainTitle))
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\selectedworks.wdml',{freeDestScene=true})
+   Reg:setString(reg,'contentId', tempnodeId)
+   Scene:go('MODULE:\\com_wondertek_mobileaudio\\comment.wdml',{freeDestScene=true})
 end
 
 function backBtnOnSelect(sprite)
@@ -691,7 +690,6 @@ function onLoadGalleryItem(gallery, item, index)
 end
 
 function galleryOnSelect(sprite)
-   local tempnodeId
    local index = Gallery:getCurItem(gallery)
    local item=Gallery:getItem(gallery, index)
    local collection_n=Sprite:findChild(item,'collection_n')
