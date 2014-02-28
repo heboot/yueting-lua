@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Author: wangweipeng <wangweipeng@mantis.com>
+ == ============================================================================
+ == | Desc: 首页
+ == ============================================================================
+-->
+<root>
+    <header/>
+	<body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</button>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>	   
+	    </node>
+		
+		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,100,0"   extendstyle="1016" />
+		<node name="contentNode" rect="20,120,686,0" padding="0,0,20,0" extendstyle="1116" >
+	    <listview name="datalListView" rect="0,0,686,0" padding="0,0,100,0"  extendstyle="1116" >	
+		</listview>
+		
+		<node rect="0,0,0,80" extendstyle="1571">
+		<button name="downloadBtn" OnSelect="downloadBtnOnSelect" rect="0,0,0,0" extendstyle="1177">	
+		
+		<image name="downbtnn"  visible="1"   rect="0,0,0,0" style="autosize" src="file://image/alldownload_btnn.png" extendstyle="1077"/>
+		<image name="downbtns"  visible="0"  rect="0,0,0,0" style="autosize" src="file://image/alldownload_btns.png" extendstyle="1077"/>
+		<label name="downbtnlbl" text="确定下载" rect="280,20,0,0" h-align="true" v-align="true"  color="#999999" extendstyle="1177"/>
+		</button>
+		
+		
+		</node>
+	
+		
+		
+		</node>
+		
+	</node>
+	
+	
+	<node name="dataListviewItem" rect="0,0,686,0" extendstyle="1017"  visible="0" enable="0" active="0">
+	    <list name="datalList" rect="0,0,686,500" col="5"  extendstyle="1117" auto-adjust="true" offset="0,0">
+		</list>
+	</node>
+	
+	<!--item-->
+	<node name="dataItem" rect="0,0,137,137" extendstyle="1011"  visible="0" enable="0" active="0">
+		<button name="dataItemBtn"  sel="s" OnSelect="dataItemBtnOnSelect" rect="0,0,0,0" extendstyle="1177">					    
+		<!--<shadow name="ts" color="#FF0000" alpha="255" rect="0,0,200,200"  extendstyle="1011"/>-->
+		<image name="checkBoxN" rect="0,0,137,137" style="autosize" src="file://image/downloaditem_normal.png" extendstyle="1011"/>
+		<image name="checkBoxW" rect="0,0,137,137" style="autosize" src="file://image/downloaditem_finish.png" extendstyle="1011"/>
+		<image name="checkBoxF" rect="0,0,137,137" extendstyle="1011" visible="0" style='autosize' src="file://image/downloaditem_check.png"/>
+		<label name="numbelNumber" rect="0,0,0,100" v-align="center"  h-align="center"  extendstyle="1171" color="#FFFFFF"  font-size="40"/>					
+		<label name="downloadBuffer" visible="0" text="1111" rect="0,0,0,30" v-align="center" h-align="center"  extendstyle="1871" color="#FFFFFF"  font-size="25"/>
+		</button>
+	</node>
+	
+	
+	
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--底部区域-->
+	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
+
+			 <animate name="bottomRateAnimation" rect="120,0,0,50" extendstyle="1571" delay="25" loop="true" visible="0">
+				<animate-frame start="0" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate1.png" />
+				</animate-frame>
+				<animate-frame start="5" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate2.png" />
+				</animate-frame>
+				<animate-frame start="10" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate3.png" />
+				</animate-frame>
+				<animate-frame start="15" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate4.png" />
+				</animate-frame>
+				<animate-frame start="20" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate5.png" />
+				</animate-frame>
+			</animate>
+			
+			 <button name="playBtn" rect="10,10,90,90" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="autosize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,10,90,90" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="autosize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,10,90,90" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,90,90" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,90,90" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+		 
+             
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="120,15,450,112" extendstyle="1111"   color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+			 
+			
+    </node>
+	
+	</node>
+	</body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+require('framework.player')
+
+local downloadlistview
+local downloadItem
+local subListTable
+local contentListData
+local filesName
+local checkBoxF
+local checkBoxN
+local checkBoxW
+local downloadBtn
+local downbtnn
+local downbtns
+local downbtnlbl
+local downtable
+
+local mainTitle
+local title
+
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+--底部所需变量end
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 datalListView= Sprite:findChild(sprite,'datalListView')
+	 dataListviewItem= Sprite:findChild(sprite, 'dataListviewItem')
+	 dataItem = Sprite:findChild(sprite,'dataItem')
+	 mainTitle = Sprite:findChild(sprite, 'mainTitle')
+	 local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	 subListTable =Reg:getTable(reg,'selectedworks')
+	 contentListData = subListTable
+	
+	 downloadBtn = Sprite:findChild(sprite,'downloadBtn')
+	 downbtnn = Sprite:findChild(downloadBtn,'downbtnn')
+	 downbtns = Sprite:findChild(downloadBtn,'downbtns')
+	 downbtnlbl =  Sprite:findChild(downloadBtn,'downbtnlbl')
+	 mainTitle = Sprite:findChild(sprite,'mainTitle')
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+     title= Reg:getString(reg,'novelItemTitle')
+	 Sprite:setProperty(mainTitle,'text',title)
+	
+	playBtn=Sprite:findChild(sprite,'playBtn')
+	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	bottomRateAnimation = Sprite:findChild(sprite,'bottomRateAnimation')
+	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	
+	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+	local filterStr = Config:get('video_type')
+    local filterArr = Util:split(filterStr, '|')
+    videoType = filterArr[1] or '.cmtv'
+    if '.cmtv' ~= videoType then
+        _,_,videoType = string.find(filterArr[1], '*([^;]+)')
+    end
+	 
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+	if msg == MSG_ACTIVATE then
+	 Timer:cancel(4444)
+	 Timer:set(4444,500,'getStatusa')
+	 LoadBottomPlayerData()
+	 searchDownloadedFiles()
+	 LoadDownloadQuene()
+     LoadListData()
+	
+	 
+    elseif msg == MSG_DEACTIVATE then
+        
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 101 then
+		Loading:close()
+		local downloadData = Http:jsonDecode('multiDownload')
+        Log:write('mutidownloadData',downloadData.success)
+		if downloadData and downloadData.code == '1014' then
+			Log:write('101410141014')
+            Net:goToMyAccount()
+			Tips:show('授权失败需要登陆')
+        elseif downloadData and downloadData.success == 'true' then
+			local count = #downloadData.urls
+            local emptyUrlItemsStr = ''
+            local curDownloadCount = Download:getCount()
+            local existcount = 0
+            local bIsAudio  = 1
+            --if detailData.isAudio == "true" then 
+				--bIsAudio = detailData.isAudio 
+			--end
+			local downloadPath,server,sdkversion,playerType,netSpeed = Util:getDownloadPath(1,bIsAudio),Util:getServer(),Config:get('sdk_version'),Util:getPlayerInfo(),Config:get('rate')
+			
+			local freeSpace = Util:getRemainSpace()--单位为MB
+            if freeSpace < 10 then Tips:show('剩余空间不足10M，请释放些空间再缓存哦') return end
+            local totalsize = 0
+            for i=0, count do
+                if downloadData.urls[i].size then
+                    totalsize = totalsize + downloadData.urls[i].size
+                end
+            end
+            WriteLogs("--------mutiappend---------" .. totalsize/1024/1024,downloadPath)
+            if totalsize/1024/1024 > freeSpace then Tips:show('亲，剩余空间不足了哦') return end
+			
+			
+			 for i=0, count do
+                if curDownloadCount + i+1 > 200 then
+                    Tips:show('缓存队列已满啦')
+                    return
+                end
+                local videoName = title..'@'..downloadData.urls[i].name
+                toCoverTheExistFilePath = false
+                toCoverTheExistFilePath = Util:checkDownloadFile(downloadPath,videoName,videoType)
+                if toCoverTheExistFilePath and string.match(toCoverTheExistFilePath,"temp_") then toCoverTheExistFilePath = false end
+                if not toCoverTheExistFilePath then
+                    toCoverTheExistFilePath = Util:checkDownloadList(downloadPath .. 'temp_' .. videoName .. videoType)
+                end
+                if '' == downloadData.urls[i].url then
+                    emptyUrlItemsStr = (emptyUrlItemsStr == '') and videoName or emptyUrlItemsStr .. ',' .. videoName
+                else
+                    if not toCoverTheExistFilePath then
+                        local retryUrl = server .. 'msp/playVideo.msp?' .. 'contentId=' .. downloadData.urls[i].id .. '&sdkVersion=' .. sdkversion .. '&playerType=' .. playerType .. '&uc=' .. downloadData.urls[i].uc .. '&mt=' .. downloadData.urls[i].mt
+                        local params = 'contentId=' .. downloadData.urls[i].id .. '&uc=' .. downloadData.urls[i].uc .. '&mt=' .. downloadData.urls[i].mt
+                        local setVideoName = string.gsub(videoName,"(.+)@","")
+                        local notificationTable = '[{\"type\":\"1\",\"tick\":\"开始下载' .. setVideoName .. '\",\"content1\":\"' .. setVideoName .. '\",\"content2\":\"\",\"action\":\"download\"},{\"type\":\"2\",\"tick\":\"' .. setVideoName .. '下载完成\",\"content1\":\"' .. setVideoName .. '\",\"content2\":\"下载完成，点击播放\",\"action\":\"' .. setVideoName .. '|' .. downloadPath .. videoName .. videoType .. '\"}]'
+                        Log:write('downloadtest1',downloadPath .. 'temp_' .. videoName .. videoType)
+						--local rtn = Download:append(downloadPath .. 'temp_' .. videoName .. videoType, videoName, downloadData.urls[i].url, nil, retryUrl, "downloadBuildNewUrl", 0, "downloadCheckRetryUrl", notificationTable, params)
+						local rtn = Download:append(downloadPath .. 'temp_' .. videoName .. videoType, videoName, downloadData.urls[i].url, nil)
+					else
+                        existcount = existcount + 1 
+                    end
+                end
+            end
+			
+			if '' ~= emptyUrlItemsStr then
+                if count+1 == #Util:split(emptyUrlItemsStr, ',') then -- 全部都没有缓存地址
+                    Tips:show('缓存地址均不存在，没法缓存…')
+                    return
+                else
+                    Tips:show(emptyUrlItemsStr .. '该节目缓存地址不存在，没法缓存…')
+                end
+                errorDispose(33,'download url is null')
+            end
+            local autoDownload = Config:get('autoDownload') == "1" and true or false
+            if (Http:getCurConnect() == 'CMWAP' or Http:getCurConnect() == 'CMNET') and not autoDownload then
+                Download:pause()
+                Tips:show('亲，忘了设置过移动网络不缓存了？')
+            else
+                if existcount == count + 1 then
+                    Tips:show('这些内容已缓存') 
+                else
+                    Tips:show('已开始缓存')
+                end
+                Timer:set(1,2000,"backOnSelect")
+            end
+		
+		elseif downloadData and downloadData.success == 'false' then -- 授权失败时，跳转到订购页
+             requestProduct(orderParam)
+			 --OrderNode:show(downloadData)
+			 Tips:show('授权失败需要订购')
+			 Log:write('授权失败需要订购')
+        elseif not downloadData then
+            Tips:show('返回数据为空')
+        end
+	elseif msg==102 then
+		 Loading:close()
+        local productData = Http:jsonDecode('productData')
+        Log:write("productData",productData)
+        if productData and productData.orderList then
+            local bShowOrderNode = 0
+            for i=0,#productData.orderList do
+                local typeName = productData.orderList[i].typeName 
+                if typeName and (typeName == "xiaobaoyue" or typeName == "dabaoyue") then
+                    bShowOrderNode = 1
+                end
+            end
+            --local reg = Reg:create(Reg.com_wondertek_mobilevideo3.player)
+            --if bShowOrderNode == 1 then
+                --Reg:setString(reg, 'multiDownload','true')
+                OrderNode:show(productData)
+            --elseif bShowOrderNode == 0 and bEnableSingleOrder then
+                --Reg:setString(reg, 'multiDownload','false')
+                --OrderNode:show(productData)
+            --else
+                --Reg:setString(reg, 'multiDownload','false')
+                --Tips:show('该栏目不支持批量缓存')
+            --end
+            bEnableSingleOrder = nil
+        end
+	end
+	
+end
+
+function requestProduct(contparam)
+    local _,_,contentId = string.find(contparam, 'contentId=(%d+);')
+    if contentId == nil then contentId = "null" end
+    local _,_,nodeId = string.find(contparam, 'nodeId=(%d+);')
+    local _,_,objType = string.find(contparam, 'objType=([%a%d]+);')
+    if not objType then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+        return
+    end
+    if not nodeId and objType ~= 'community' then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+        return
+    end
+    nodeId = nodeId or ''
+    local url = Util:getServer() .. '/publish/clt/resource/mobilevideo34/common/contentproduct.jsp'.. '?contentId=' .. contentId .. '&nodeId=' .. nodeId .. '&objType=' .. objType
+    url = string.find(contparam, 'live=true') and url .. '&live=true' or url
+    Loading:show()
+    Http:request('productData', url, 102, {useCache = 0})
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+function LoadListData()
+	ListView:removeAllItems(datalListView, 1, 1)
+    ListView:loadItem(datalListView,dataListviewItem,1,'loadDataItem')
+	ListView:adjust(datalListView) 
+end
+
+
+function loadDataItem(list,item,index)
+	Sprite:setRect(item,0,0,689,0)
+	Sprite:setProperty(item, 'extendstyle', '1117')
+	datalList = Sprite:findChild(item, 'datalList')
+	Sprite:setProperty(datalList, 'line',math.ceil(#subListTable+1/5))
+	Sprite:setProperty(datalList, 'col', '5')
+	List:removeAllItems(datalList, 1, 1)
+    List:loadItem(datalList,dataItem,#subListTable+1,'loadDataListItem')
+	List:adjust(datalList) 
+   
+end
+
+function loadDataListItem(list,item,index)
+    Sprite:setRect(item,0,0,135,135)
+    Sprite:setProperty(item, 'extendstyle', '1111')
+	Sprite:setProperty(Sprite:findChild(item,'numbelNumber'),'text',index+1)
+	Sprite:setProperty(Sprite:findChild(item,'dataItemBtn'),'data',subListTable[index].param)
+	checkBoxF = Sprite:findChild(Sprite:findChild(item,'dataItemBtn'), "checkBoxF")
+	checkBoxN = Sprite:findChild(Sprite:findChild(item,'dataItemBtn'), "checkBoxN")
+	checkBoxW = Sprite:findChild(Sprite:findChild(item,'dataItemBtn'), "checkBoxW")
+	downloadBuffer = Sprite:findChild(Sprite:findChild(item,'dataItemBtn'), "downloadBuffer")
+	if checkDownloadByName(subListTable[index].name) ~= '0' then
+		 Log:write('zhendeyou',subListTable[index].name)
+		 Sprite:setVisible(checkBoxF, 0)
+		 Sprite:setVisible(checkBoxN,0)
+		 Sprite:setVisible(checkBoxW,1)
+		 Sprite:setVisible(downloadBuffer,1)
+		 Sprite:setProperty(downloadBuffer,'text','已下载')
+		 
+	else
+		 Sprite:setVisible(checkBoxF, 0)
+		 Sprite:setVisible(checkBoxN,1)
+		 Sprite:setVisible(checkBoxW,0)
+		 Sprite:setVisible(downloadBuffer,0)
+	end
+	
+	for i=1,#downtable do
+		if subListTable[index].name == downtable[i].title then
+		 Sprite:setVisible(checkBoxF,0)
+		 Sprite:setVisible(checkBoxN,0)
+		 Sprite:setVisible(checkBoxW,1)
+		 Sprite:setVisible(downloadBuffer,1)
+		 Sprite:setProperty(downloadBuffer,'text','正在下载')
+		 Log:write('队列里的..',#downtable,subListTable[index].name,index)
+		end
+	end
+end
+
+function dataItemBtnOnSelect(sprite)
+   checkBoxF = Sprite:findChild(sprite, "checkBoxF")
+	checkBoxN = Sprite:findChild(sprite, "checkBoxN")
+	checkBoxW = Sprite:findChild(sprite, "checkBoxW")
+	 
+	 local isVisible = Sprite:isVisible(checkBoxF)
+	 local isVisible2 = Sprite:isVisible(checkBoxW)
+	 Log:write('ttestttest',isVisible,isVisible2)
+	 
+	 if isVisible == 0 and isVisible2 == 0 then
+		 Sprite:setVisible(checkBoxF, 1)
+		 Sprite:setVisible(checkBoxN,0)
+		 Sprite:setVisible(checkBoxW,0)
+	elseif isVisible == 1 and isVisible2 == 0 then
+		 Sprite:setVisible(checkBoxF, 0)
+		 Sprite:setVisible(checkBoxN,1)
+		 Sprite:setVisible(checkBoxW,0)
+	end
+	
+	local count = List:getItemCount(datalList)
+	local flag = 0
+	for i=0,count-1 do
+		local item = List:getItem(datalList,i)
+		local checkBoxF   = Sprite:findChild(item,"checkBoxF")
+		local isVisible = Sprite:isVisible(checkBoxF)
+		if isVisible == 1 then
+			Log:write('flag111222',downbtnn)
+			Sprite:setVisible(downbtnn,0)
+			Sprite:setVisible(downbtns,1)
+			
+			Sprite:setProperty(downbtnlbl,'color','#FF6600')
+		else
+			flag = flag+1
+		end	
+	end
+	Log:write('flag111',flag)
+	if flag == count then
+		Sprite:setVisible(downbtnn,1)
+		Sprite:setVisible(downbtns,0)	
+		Sprite:setProperty(downbtnlbl,'color', '#999999')
+	end
+	 
+	 
+	 
+	
+	 
+	local data=Sprite:getData(sprite) 
+	local _,_,nodeId = string.find(data,'nodeId=(%d+);')
+	local _,_,contentId = string.find(data,'contentId=(%d+);')
+	--http://c22.cmvideo.cn/clt30/msp/playMoreVideo.msp
+	--local url = "http://c22.cmvideo.cn/clt30/msp/playMoreVideo.msp"
+	--Http:request('multiDownload', url, 101, {useCache=0, method='post', postData='contentIds='..contentId.."&nodeId="..nodeId.."&contSetId="..nodeId })
+end
+
+function downloadBtnOnSelect(sprite)
+	local count = List:getItemCount(datalList)
+	local ids = ""
+	local n
+	
+	for i=0,count-1 do
+		local item = List:getItem(datalList,i)
+		local checkBoxF   = Sprite:findChild(item,"checkBoxF")
+		local isVisible = Sprite:isVisible(checkBoxF)
+		n = List:getItemIndex(item)
+		if isVisible == 1 then
+			contentListData[n].toDownload = true
+		else
+			contentListData[n].toDownload = false
+		end	
+	end
+	
+	if #contentListData>0 or (#contentListData == 0 and #contentListData[0]) then
+	local _,_,nodeId = string.find(contentListData[0].param, "nodeId=(%d+)")
+	local downloadcount = 0
+	for i=0,#contentListData do
+		if contentListData[i].toDownload then
+			local _,_,contentId = string.find(contentListData[i].param, "contentId=(%d+);")
+            ids = ids .. contentId .. ","
+            downloadcount = downloadcount + 1
+			Log:write('vvvvvvvvvvv',contentId,nodeId)
+		end
+	end
+	
+	if ids == "" then
+            Tips:show('请选择需要缓存的节目')
+            return
+    end
+	
+	Loading:show()
+    orderParam = contentListData[#contentListData].param
+	if downloadcount == 1 then
+            bEnableSingleOrder = true
+    end
+	
+	local url = "http://c22.cmvideo.cn/clt30/msp/playMoreVideo.msp"
+	Http:request('multiDownload', url, 101, {useCache=0, method='post', postData='contentIds='..ids.."&nodeId="..nodeId.."&contSetId="..nodeId })
+	else
+		 Dialog:show("提示", "没有内容可以缓存", "ok")
+	end
+
+end
+
+function searchDownloadedFiles()
+    filesName = {}
+    local flashCard = Util:getDownloadFolder(1,true)
+	Log:write('searchDownloadedFiles========',flashCard)
+    local innerCard = Util:getDownloadFolder(0,true)
+
+    local filterStr = Config:get('video_type')
+    local filterArr = Util:split(filterStr, '|')
+    local count = #filterArr
+	Log:write('searchDownloadedFiles=====4444',innerCard)
+    if flashCard and flashCard ~= '' then
+        for i=1, count do
+            local files = IO:openDir(flashCard .. '\\' .. filterArr[i])
+            filterFiles(files, flashCard .. '\\')
+        end
+    end
+	 if innerCard and innerCard ~= '' then
+        for i=1, count do
+            --local files = IO:openDir(innerCard .. '\\' .. filterArr[i])
+			local files = IO:openDir(innerCard)
+            filterFiles(files, innerCard .. '\\')
+        end
+    end
+   
+end
+
+function filterFiles(files, path)
+    Log:write('filterFiles========')
+    if files then
+        local count = #files
+        for i = 0, count do
+            if files[i].attr == 0 then
+                if string.match(files[i].filename, '^temp') then
+                else
+                    local fileTable = {}
+                    fileTable.name = files[i].filename
+					Log:write('filterFiles=======2',files[i].filename)
+                    fileTable.path = path
+                    table.insert(filesName, fileTable)
+                end
+            end
+        end
+    end
+end
+
+function checkDownloadByName(curContName)
+    for j=1,#filesName do
+        if string.match(filesName[j].name,"@") then
+		    Log:write('checkDownloadByName=====22',filesName[j].name,curContName)
+            local i,_ = string.find(filesName[j].name,curContName)
+			Log:write('checkDownloadByName=====3',i)
+            if i ~= nil then
+                return filesName[j].path..filesName[j].name
+			else
+				local ai,aj = string.find(filesName[j].name,'@')
+				local di,dj = string.find(filesName[j].name,'%.')
+				local name2 = string.sub(filesName[j].name,ai+1,di-1)
+				if name2 == curContName then
+					return name2
+				end
+            end
+        end
+    end
+    return '0'
+end
+
+function LoadDownloadQuene()
+    downtable = {}
+	local status  = Download:getStatus()	
+	for i=1,#status do
+		Log:write('当前xx',i,#status,status[i].title)
+		for j=0,#subListTable do	
+			if subListTable[j].name == status[i].title then
+				Log:write('LoadDownloadQuene1111',subListTable[j].name,#status,status[i].title)
+				
+				table.insert(downtable,status[i])
+			end
+		end
+	end
+	Log:write('当前正在下载的有',#downtable,table.getn(downtable))
+end
+
+
+--底部按钮模块start
+function LoadBottomPlayerData()
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~= '' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+			Sprite:setEnable(playBtn,0)
+			Sprite:setEnable(pauseBtn,0)
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~= '' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+			Sprite:setEnable(playBtn,0)
+			Sprite:setEnable(pauseBtn,0)
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		--local data = Reg:getString(bottomReg,'tempParentId')
+		--Reg:setInteger(reg,'fromFlag',1)
+		--Reg:setString(reg,'novelItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+	elseif type == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	--local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+	
+	Sprite:setActive(bottomRateAnimation, 0) 
+	--Sprite:setVisible(bottomRateAnimation,0)
+	
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+	
+	Sprite:setActive(bottomRateAnimation, 1) 
+	Sprite:setVisible(bottomRateAnimation,1)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+--底部按钮模块end
+]]>

@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Author: wangweipeng <wangweipeng@mantis.com>
+ == ============================================================================
+ == | Desc: 首页
+ == ============================================================================
+-->
+<root>
+    <header/>       
+    <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+	<!--main -->
+	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		
+		
+		<node name="searchNode" rect="20,20,450,70" extendstyle="1111">
+			<image src="file://image/loginedit_bg.png" extendstyle="1177" style="autosize"/>
+			<button name="searchTypeBtn" rect="0,0,120,70" extendstyle="1111">
+				<image src="file://image/radiotopbtn_bg.png" rect="0,0,100,0" extendstyle="1117" style="autosize"/>
+				<label name="searchTypeName" rect="0,0,80,70" v-align="center" h-align="center" text="内容" extendstyle="1111" color="#FFFFFF"/>
+			</button>		
+			<edit name="searchText" font-size="50"  rect="0,0,350,70" color="#CCCCCC" extendstyle="8111">	
+			</edit>			
+		</node>
+		
+		
+		<node rect="0,20,240,60" extendstyle="5111">
+			<button name="searchBtn" normal="n" sel="s" rect="10,0,120,61" extendstyle="1111" OnSelect="searchBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_n.png" extendstyle="1017"/>
+			<image name="s" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_f.png" extendstyle="1017"/>
+			<label rect="0,0,104,61" extendstyle="1111" text="搜索" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+
+			<button name="backBtn" normal="n" sel="s" rect="10,0,104,65" extendstyle="8111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/searchclose_n.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/searchclose_f.png" extendstyle="1077"/>
+			<label rect="0,0,104,61" extendstyle="1111" text="关闭" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+		
+		</node>
+        <!--<label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="加载中" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>-->
+	    </node>
+		
+		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,20,0"   extendstyle="1016" />
+		<node name="contentNode" rect="20,120,686,0" padding="0,0,20,0"   extendstyle="1116" >
+	    <listview name="searchDataListview" rect="0,0,686,0"  extendstyle="1117" limit="false">
+		</listview>
+		
+		<label name="noHaveResult" rect="0,300,686,100" extendstyle="1111" h-align="center" v-align="center" text="抱歉没有找到相关内容"/>
+		
+	    </node>
+	</node>
+	
+	
+	
+	<!--左侧菜单推荐的电台数据item-->
+	<node name="searchDataItem" rect="0,50,686,160" extendstyle="1070"  visible="0" enable="0" active="0">
+		    <button name="searchDataItemBtn" normal="n" sel="s" OnSelect="searchDataItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">					
+			<image name="n" rect="0,0,686,0" style="autosize" extendstyle="1117" src="file://image/novel_listitem_bg.png"/>
+			<shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/> 
+			<image src="file://image/defaultbg.png" rect="20,15,210,141" style="autosize" extendstyle="1111"/>
+			<image name="searchDataImage" src="file://image/defaultbg.png" rect="20,15,210,141" style="autosize" extendstyle="1111"/>
+			<image name="filterImage" visible="0" rect="20,15,96,96" style="maxsize" extendstyle="1111" src="file://image/authorfliter.png"/>	
+			<label name="searchDataName" rect="250,10,400,55" v-align="center" postfix=".."  extendstyle="1111" color="#FFFFFF"  font-size="35"/>
+			<!--<label rect="250,100,70,50" v-align="center" text="作者:" h-align="center"  extendstyle="1111" color="#999999"  font-size="28"/>-->		
+			<label name="searchDataAuthor" rect="0,100,80,50" v-align="center" h-align="center" postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
+			<label name="anchorLbl" rect="250,100,70,40" v-align="center" h-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
+			<label name="novelAnchor" rect="0,100,200,40" v-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
+			<image name="rimg" rect="600,70,50,50" style="autosize"  extendstyle="1111" src="file://image/arrow.png"/>					
+			</button>
+	</node>
+	
+	
+	<!--底部区域-->
+	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
+			
+			 
+			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+		 
+             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="脱口秀青春派"  color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+    </node>
+    </node>	
+</body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+local rootSprite
+local mainTitle
+local searchText
+
+local searchDataListview
+local searchDataItem
+local resultData = {}
+local noHaveResult
+
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+--底部所需变量end
+local tempTable = {}
+local showFlag = false
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	rootSprite = sprite	
+	--mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	playBtn=Sprite:findChild(sprite,'playBtn')
+	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	
+	searchText = Sprite:findChild(sprite,'searchText')
+	searchDataListview = Sprite:findChild(sprite, 'searchDataListview')
+	searchDataItem = Sprite:findChild(sprite, 'searchDataItem')
+	noHaveResult = Sprite:findChild(sprite, 'noHaveResult')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Timer:cancel(4444)
+	  Timer:set(4444,500,'getStatusa')
+	  Loading:close()
+    elseif msg == MSG_DEACTIVATE then
+        Loading:close()
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 101 then
+	    resultData = {}
+		local searchResultData = Http:jsonDecode('search_result')
+		Log:write('=======searchdata',searchResultData.count)	
+		if searchResultData.searchresult and  searchResultData.count+0 >0 then
+		    Log:write('=======searchdata2',#searchResultData.searchresult)
+			Loading:close()
+			Sprite:setVisible(searchDataListview, 1) 
+			Sprite:setVisible(noHaveResult, 0)
+			showFlag = true
+			resultData = searchResultData.searchresult         
+			LoadSearchresultListviewData()
+			
+		else
+			Sprite:setVisible(searchDataListview, 0) 
+			Sprite:setVisible(noHaveResult, 1) 
+			showFlag = false
+		end		
+		
+		url = 'http://c22.cmvideo.cn/music-weibo/publish/clt/resource/mobileaudio3/search/communitysearchResult.jsp?searchType=1&k='..keyword
+		Http:request('search_result',url, 102, {method = 'post',  postData='k=' .. keyword .. "&searchType=1&timeparam=" .. g_timeparam,useCache=0})
+	elseif msg == 102 then
+		Loading:close()
+		local searchResultData = Http:jsonDecode('search_result')
+		
+		if searchResultData.searchresult and  searchResultData.count+0 >0 then
+			Sprite:setVisible(searchDataListview, 1) 
+			Sprite:setVisible(noHaveResult, 0) 
+			for i = 0,#searchResultData.searchresult do
+				for j=0,#searchResultData.searchresult[i].contentList do
+					table.insert(resultData,searchResultData.searchresult[i].contentList[j])
+				end
+			end
+			Log:write('=======searchdata555552',#resultData)
+			LoadSearchresultListviewData()
+		else
+			if showFlag == true then
+			else
+			Sprite:setVisible(searchDataListview, 0) 
+			Sprite:setVisible(noHaveResult, 1) 
+			end
+		end
+	end
+end
+
+
+
+--[[  加载小说列表数据方法 ]]--
+function LoadSearchresultListviewData()
+	Log:write('=======searchdata555553',#resultData)
+	ListView:removeAllItems(searchDataListview,1,1)
+    ListView:loadItem(searchDataListview,searchDataItem,math.ceil(#resultData),'loadSearchresultItem')
+	ListView:adjust(searchDataListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadSearchresultItem(list,item,index)
+		Log:write('=======searchdata555554',index)
+		 Log:write('=======searchdata555554',index,resultData[index+1].contName)
+		 Sprite:setProperty(item,"extendstyle","1070")
+		 Sprite:setRect(item,0,0,720,160)
+		 Sprite:setRect(Sprite:findChild(item,'searchDataImage'),20,15,210,141)
+		 Sprite:setVisible(Sprite:findChild(item,'filterImage'),0)
+		 
+		 Sprite:setVisible(Sprite:findChild(item,'anchorLbl'),1)
+		 Sprite:setVisible(Sprite:findChild(item,'novelAnchor'),1)
+		 Sprite:setProperty(Sprite:findChild(item,'searchDataName'),'text',resultData[index+1].contName)
+		 Sprite:setProperty(Sprite:findChild(item,'searchDataItemBtn'),'data',resultData[index+1].contParam)	 
+		 Sprite:setProperty(Sprite:findChild(item,'searchDataImage'),'src',resultData[index+1].img) 
+		 Sprite:setProperty(Sprite:findChild(item,'novelAnchor'),'text',resultData[index+1].anchor)
+end
+
+function searchDataItemBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local _,_,type = string.find(data,'type=(.-);')
+	Log:write("searchDataItemBtnOnSelect=====",type)
+	if type == 'content' then
+		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		Reg:setString(reg,'novelItemId',data)
+		Log:write('isurl============',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+	elseif type == 'blog' then 	
+		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+		Reg:setString(reg,'bokeItemData',data)
+		Reg:setInteger(reg,'isUserId',1)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+	else
+	end
+	
+end
+
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+function searchBtnOnSelect(sprite)
+	Log:write('keyword ===============11 ')
+    keyword = Sprite:getText(searchText)
+    Log:write('keyword =============== ', keyword)
+	
+	 local i = string.find(keyword, '"')
+    if '' == keyword then
+        Tips:show('请输入搜索关键词')
+        return
+    elseif '*#local#' == keyword or '*#LOCAL#' == keyword then
+        Config:set("readLocal", 1)
+        Tips:show('已切换至本地模板')
+        return
+    elseif '*#online#' == keyword or '*#ONLINE#' == keyword then
+        Config:set("readLocal", 0)
+        Tips:show('已切换至在线模板')
+        return
+    elseif '*#dingxiang*#' == keyword or '*#DINGXIANG*#' == keyword then
+        Config:set('wlan_serverandportal', 'http://211.136.119.78/sup3/')
+        Config:set('cmwap_serverandportal', 'http://211.136.119.78/sup3/')
+        IO:fileRemove('MODULE:\\newToken.dat')
+        Tips:show('已切换至丁香环境')
+        return
+    elseif '*#yunqiao*#' == keyword or '*#YUNQIAO*#' == keyword then
+        Config:set('wlan_serverandportal', 'http://c22.cmvideo.cn/clt30/')
+        Config:set('cmwap_serverandportal', 'http://c2.cmvideo.cn/clt30/')
+        IO:fileRemove('MODULE:\\newToken.dat')
+        Tips:show('已切换至现网环境')
+        return
+    elseif '*#ylhj*#' == keyword or '*#YLHJ*#' == keyword then
+        Config:set('wlan_serverandportal', 'http://presup.cmvideo.cn:8080/clt30/')
+        Config:set('cmwap_serverandportal', 'http://presup.cmvideo.cn:8080/clt30/')
+        IO:fileRemove('MODULE:\\newToken.dat')
+        Tips:show('已切换至预览环境')
+        return
+    elseif i and i ~= 0 then
+        Tips:show('字符非法哦，请重新输入')
+        return
+    end
+	Loading:show()
+	local ct = Util:getServerTime()
+    local t = os.date('*t', math.floor(ct / 1000))
+    g_timeparam = t.month .. "-" .. t.day
+	--local url = Util:getServer() .. '/publish/clt/resource/mobileaudio3/search/Exsearchresult.jsp'
+	local url
+	Log:write('searchTYpe========',searchType)
+
+	 url = 'http://c22.cmvideo.cn/clt30/publish/clt/resource/mobileaudio3/search/Exsearchresult.jsp'
+
+	 --url = 'http://c22.cmvideo.cn/music-weibo/publish/clt/resource/mobileaudio3/search/communitysearchResult.jsp?searchType=1&k='..keyword
+	Http:request('search_result',url, 101, {method = 'post',  postData='k=' .. keyword .. "&searchType=1&timeparam=" .. g_timeparam,useCache=0})
+	
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+
+
+
+
+--底部按钮模块start
+function LoadBottomPlayerData()
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local data = Reg:getString(bottomReg,'tempParentId')
+		Reg:setInteger(reg,'fromFlag',1)
+		Reg:setString(reg,'novelItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=false})
+	elseif type == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('底部status',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	--local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+--底部按钮模块end
+
+]]>

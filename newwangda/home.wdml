@@ -1,0 +1,2807 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Author: wangweipeng <wangweipeng@mantis.com>
+ == ============================================================================
+ == | Desc: 首页
+ == ============================================================================
+-->
+<root>
+    <header/>       
+    <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true" OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+        <shadow rect="0,0,720,1280" alpha="255" color="#292929" extendstyle="1017"/>    
+        <panorama name="mainPanorama" rect="0,0,720,1180" extendstyle="1017" foreground="foreground">
+            <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
+                <node name="popupNode" rect="0,0,720,1180" extendstyle="1111"/>
+                <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+            </panoramaitem>
+            <panoramaitem rect="0,0,720,1180" extendstyle="1017" navigation_l="leftSideguideNode" navigation_r="rightSideguideNode" navigation_auto="true" preview="190"
+                OnNavigationL="itemOnNavigationL" OnNavigationC="itemOnNavigationC" frame="false">               
+				<!--左部 -->
+				<node name="leftSideguideNode" rect="0,0,720,1180" padding="0,0,112,0" extendstyle="1116">
+                    <image name="leftBg" rect="0,0,720,0" extendstyle="1117" src="file://image/right_bg.jpg"/>
+					<image name="leftImage" rect="0,0,0,270" style="autosize" extendstyle="1171" src="file://image/left_image.png"/>
+					<listview name="leftListview" rect="30,300,480,0" col="1" line="6" auto-adjust="true" offset="0,10" extendstyle="1117">
+					
+					<list-item name="rightItem" rect="0,10,480,100" extendstyle="1070">					
+				    <button name="leftBtn" normal="n" sel="s" OnSelect="leftBtnOnSelect" rect="0,0,480,0" extendstyle="1117">					
+					<image rect="0,0,480,0" style="autosize"  extendstyle="1117" src="file://image/right_item_background.png"/>
+					<node  name="n" rect="0,0,480,0" extendstyle="1117">
+				    <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc)"/>
+					<label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#999999"  font-size="30"/>
+					</node>
+					<node  name="s" rect="0,0,480,0" extendstyle="1117">
+				    <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc_s)"/>
+					<label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#e15e00"  font-size="30"/>
+					</node>
+					<image name="rimg" rect="$(rrect)" style="maxsize"  extendstyle="111" src="$(rsrc)"/>					
+					</button>
+					<list name="radioList" rect="0,0,480,0" visible="0" col="2" line="3" auto-adjust="true" offset="0,0" extendstyle="1010">											
+			            <button name="allRadioBtn" rect="0,300,480,100" OnSelect="allRadioBtnOnSelect" normal="n" sel="s" extendstyle="1111" >
+						<image name="n" rect="0,0,480,100" style="autosize" src="file://image/left_radio_bottom.png"/>
+						<image name="s" rect="0,0,480,100" style="autosize" src="file://image/left_radio_bottom_s.png"/>
+						<label rect="0,0,480,100" extendstyle="1111" h-align="center" text="查看完整电台分类" color="#fb6c03" v-align="center" font-size="30"/>
+						</button>							
+					</list>
+				    </list-item>
+					<dataset>
+					<set lsrc="file://image/search_n.png" lsrc_s="file://image/search_f.png" rsrc="file://image/arrow.png" txt="搜索" rrect="400,30,50,50" />
+					<set lsrc="file://image/left_collect.png" lsrc_s="file://image/left_collect_s.png" rsrc="file://image/arrow.png" txt="个人收藏" rrect="400,30,50,50" />
+                    <set lsrc="file://image/left_home_selection.png" lsrc_s="file://image/left_home_selection_s.png"  rsrc="file://image/arrow.png" txt="首页精选"  rrect="400,30,50,50"/>	
+                    <set lsrc="file://image/transceiver_n.png" lsrc_s="file://image/transceiver_n_s.png"  rsrc="file://image/left_radio_arrow.png" txt="网络电台" rrect="405,33,35,40"/>	
+                    <set lsrc="file://image/novel_n.png" lsrc_s="file://image/novel_n_s.png"  rsrc="file://image/arrow.png" txt="有声小说"  rrect="400,30,50,50"/>	
+                    <set lsrc="file://image/podcast_n.png" lsrc_s="file://image/podcast_n_s.png"  rsrc="file://image/arrow.png" txt="发现播客"  rrect="400,30,50,50"/>	
+					</dataset>
+				
+					</listview>
+                </node>			
+				<!--main -->
+				<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+				  <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+				  <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+				    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+					<button name="leftNavigationBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="leftNavigationBtnOnSelect" visible="1" enable="1">
+					<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+					<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+				    <label rect="0,0,104,61" extendstyle="1111" text="导航" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+				    </button>
+                    <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="首页精选" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+					<button name="rightNavigationBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="rightNavigationBtnOnSelect" visible="1" enable="1">
+					<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+					<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+				    <label rect="0,0,104,61" extendstyle="1111" text="功能" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+				    </button>
+				</node>  
+				<node name="mainPanoramaNode" rect="0,100,720,300"  extendstyle="1111">
+				<image rect="17,0,686,300" style="autosize" src="file://image/defaultbg.png" extendstyle="1010"/>
+				<!--main 电台头部滑动-->
+				  <panorama name="mainRecPanorama"  OnSelect='recmPanoramaItemOnSelect' rect="17,0,686,300" style="circle" foreground="foreground" alpha="255" extendstyle="1110" visible="1" enable="1">
+					<panoramaitem name="foreground" rect="0,0,686,300" extendstyle="1110">
+					</panoramaitem>
+				  </panorama>
+				  <!--main 小说头部滑动-->
+				  <panorama name="mainRecNovelPanorama" OnKeyUp="mainPanoramaOnKeyup" rect="17,0,686,300" style="circle" foreground="foreground" alpha="255" extendstyle="1110" visible="0" enable="0">
+					<panoramaitem name="foreground" rect="0,0,686,300" extendstyle="1110">
+					</panoramaitem>
+				  </panorama>
+				  <!--main 播客头部滑动-->
+				  <panorama name="mainRecPodcastPanorama" OnKeyUp="mainPanoramaOnKeyup" rect="17,0,686,300" style="circle" foreground="foreground" alpha="255" extendstyle="1110" visible="0" enable="0">
+					<panoramaitem name="foreground" rect="0,0,686,300" extendstyle="1110">
+					</panoramaitem>
+				  </panorama>
+				  
+				  <!--left 电台头部滑动-->
+				  <panorama name="leftRadioRecPanorama"  rect="17,0,686,300" style="circle" foreground="foreground" alpha="255" extendstyle="1110" visible="0" enable="0">
+					<panoramaitem name="foreground" rect="0,0,686,300" extendstyle="1110">
+					</panoramaitem>
+				  </panorama>
+				  
+				  <!--left 小说头部滑动-->
+				  <panorama name="leftNovelRecPanorama"  rect="17,0,686,300" style="circle" foreground="foreground" alpha="255" extendstyle="1110" visible="0" enable="0">
+					<panoramaitem name="foreground" rect="0,0,686,300" extendstyle="1110">
+					</panoramaitem>
+				  </panorama>
+				  
+				  <!--left 播客头部滑动-->
+				  <panorama name="leftPodcastRecPanorama"  rect="17,0,686,300" style="circle" foreground="foreground" alpha="255" extendstyle="1110" visible="0" enable="0">
+					<panoramaitem name="foreground" rect="0,0,686,300" extendstyle="1110">
+					</panoramaitem>
+				  </panorama>
+				  
+				  <!--main 电台头部标记当前页-->
+				  <node name="listNode" rect="17,315,686,40" visible="0" enable="0" extendstyle="1010">
+					  <list name="foregroundList" rect="0,0,686,40" line="1"  auto-adjust="true" offset="0,0" extendstyle="1111"/>
+				  </node>
+				  <!--main 小说头部标记当前页-->
+				  <node name="listNovelNode" rect="17,315,686,40" extendstyle="1010" visible="0" enable="0">
+					  <list name="foregroundNovelList" rect="0,0,686,40" line="1" auto-adjust="true" offset="0,0" extendstyle="1111"/>
+				  </node>
+				  <!--main 播客头部标记当前页-->
+				  <node name="listPodcastNode" rect="17,315,686,40" extendstyle="1010">
+					  <list name="foregroundPodcastList" rect="0,0,686,40" line="1"  auto-adjust="true" offset="0,0" extendstyle="1111"/>
+				  </node>
+				  <!--left 电台头部标记当前页-->
+				  <node name="leftlistRadioNode" rect="17,315,686,40" extendstyle="1010" visible="0" enable="0">
+					  <list name="foregroundLeftRadioList" rect="0,0,686,40" line="1"  auto-adjust="true" offset="0,0" extendstyle="1111"/>
+				  </node>
+				  
+				  <!--left 小说头部标记当前页-->
+				  <node name="listleftNovelNode" rect="17,315,686,40" extendstyle="1010" visible="0" enable="0">
+					  <list name="foregroundLeftNovelList" rect="0,0,686,40" line="1" auto-adjust="true" offset="0,0" extendstyle="1111"/>
+				  </node>
+				
+				<!--left 播客头部标记当前页-->
+				  <node name="listleftPodcastNode" rect="17,315,686,40" extendstyle="1010" visible="0" enable="0">
+					  <list name="foregroundLeftPodcastList" rect="0,0,686,40" line="1" auto-adjust="true" offset="0,0" extendstyle="1111"/>
+				  </node>
+				</node> 
+				
+				<!--main 电台ListView-->
+				<node name="mainListviewRadioNode" rect="17,450,686,0"  padding="0,0,75,0" extendstyle="1016" visible="1" enable="1">
+					<listview  name="mainListViewRadio" rect="0,0,0,0" extendstyle="1077">
+				    </listview >
+				</node>
+				<!--main 小说ListView-->
+                <node name="mainListviewNovelNode" rect="17,450,686,0"  padding="0,0,75,0" extendstyle="1016" visible="0" enable="0">
+					<listview  name="mainListViewNovel" rect="0,0,0,0" extendstyle="1077">
+				    </listview >
+				</node>
+				<!--main 播客ListView-->
+                <node name="mainListviewPodcastNode" rect="17,450,686,0"  padding="0,0,75,0" extendstyle="1016" visible="0" enable="0">
+					<listview  name="mainListViewPodcast" rect="0,0,0,0" extendstyle="1077">
+				    </listview >
+				</node>
+				<!--left 电台ListView-->
+                <node name="leftListviewRadioNode" rect="17,450,686,0" padding="0,0,17,0" extendstyle="1016" visible="0" enable="0">
+				   <!-- <shadow  rect="0,0,0,0" color="#FF7F00" extendstyle="1177"/>-->
+				<image rect="0,0,0,0" style="autosize" src="file://image/novel_listbg.png"  extendstyle="1077"/>
+				<listview  name="leftListViewRadio" rect="3,15,676,0" padding="0,0,3,0" extendstyle="1016">
+				</listview>
+				</node>	
+                <!--left 小说ListView-->
+                <node name="leftListviewNovelNode" rect="17,450,686,0" extendstyle="1017" visible="0" enable="0">
+				   <!-- <shadow  rect="0,0,0,0" color="#FF7F00" extendstyle="1177"/>-->
+				<listview  name="leftListViewNovel" rect="0,0,0,0" extendstyle="1077">
+				</listview>
+				</node>	
+                <!--left 播客ListView-->
+                <node name="leftListviewPodcastNode" rect="17,450,686,0" extendstyle="1017" visible="0" enable="0">
+				   <!-- <shadow  rect="0,0,0,0" color="#FF7F00" extendstyle="1177"/>-->
+				<listview  name="leftListViewPodcast" rect="0,0,0,0" extendstyle="1077">
+				</listview>
+				</node>				
+                <!--main 最底部-->				
+				<node name="mainBottomNode" rect="0,0,720,70"  extendstyle="1511">
+				    <list name="mainBottomList"rect="0,0,0,0" line="1" col="4" auto-adjust="true" extendstyle="1077">
+					<list-item name="functionList" rect="0,0,240,70" extendstyle="1010">
+					    <button name="functionBtn" rect="0,0,240,70" normal="n" sel="s" disabled="d" extendstyle="1111" OnSelect="functionBtnOnSelect" visible="1" enable="1">
+	                     <node name="n" rect="0,0,240,70"  extendstyle="1111">
+						 <image rect="20,0,68,64" src="$(url_n)" style="maxsize" extendstyle="1010"/>
+						 <label rect="120,5,68,64" text="$(text)" font-size="25" color="$(color_n)" extendstyle="1010"/>
+						 </node>
+						 <node name="s" rect="0,0,240,70"  extendstyle="1111">
+						 <image rect="20,0,68,64" src="$(url_s)" style="maxsize" extendstyle="1010"/>
+						 <label rect="120,5,68,64" text="$(text)" font-size="25"color="#D2691E" extendstyle="1010"/>
+						 </node>
+						 <node name="d" rect="0,0,240,70"  extendstyle="1111">
+						 <image rect="20,0,68,64" src="$(url_s)" style="maxsize" extendstyle="1010"/>
+						 <label rect="120,5,68,64" text="$(text)" font-size="25"color="#D2691E" extendstyle="1010"/>
+						 </node>
+						 <shadow rect="0,0,4,64" color="$(color)" visible="$(visible)" extendstyle="5010"/>
+						</button>
+                    </list-item>
+					<dataset>
+	                 <!--<set url_n="file://image/live_n.png" url_s="file://image/live_s.png" color="#000000" color_n="#FFFFFF" color_s="#D2691E" text="直播" visible="true"/> -->
+					 <set url_n="file://image/transceiver_n.png" url_s="file://image/transceiver_s.png" color="#000000" color_n="#FFFFFF"  text="电台" visible="true"/> 
+					 <set url_n="file://image/novel_n.png"  url_s="file://image/novel_s.png" color="#000000" color_n="#FFFFFF"  text="小说" visible="true"/>
+                     <set url_n="file://image/podcast_n.png" url_s="file://image/podcast_s.png" color="" color_n="#FFFFFF"  text="播客" visible="false"/>
+                    </dataset>
+					</list>
+				  </node>  
+                </node>			
+				<!--右部 -->
+				<node name="rightSideguideNode" rect="190,0,720,1168" extendstyle="1111">
+                    <image name="rightBg" rect="0,0,720,1168" extendstyle="1111" src="file://image/right_bg.jpg"/>	
+					<node name="loginNode" rect="30,20,480,100" extendstyle="1111" visible="1" enable="1">
+					   <button name="loginBtn" normal="n" sel="s" OnSelect="loginBtnOnSelect" rect="0,0,480,100" extendstyle="1010">					
+					   <image rect="0,0,480,0" style="autosize" extendstyle="1117" src="file://image/right_item_background.png"/>
+					   <node  name="n"  rect="0,0,480,0" extendstyle="1117">
+				       <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/user.png"/>
+					   <label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="用户登录" color="#999999"  font-size="30"/>
+					   </node>
+					   <node name="s" rect="0,0,480,0" extendstyle="1117">
+				       <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/user_s.png"/>
+					   <label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="用户登录" color="#e15e00"  font-size="30"/>
+					   </node>
+					   <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
+					   </button>
+					</node>   
+					<node name="userNode" rect="30,20,480,100" extendstyle="1111" visible="0" enable="0">
+					   <button name="userBtn" normal="n" OnSelect="userBtnOnSelect" rect="0,0,480,100" extendstyle="1010">					
+					   <image name="n" rect="0,0,480,100" style="maxsize" extendstyle="1010" src="file://image/right_item_background.png"/>
+				       <image name="userPic" rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/dft_headimg_mid.jpg" BuildChildrenFinished="resChoose"><node/></image>
+                       <image rect="18,27,52,52" style="minsize" src="file://image/sg_spacemask.png" extendstyle="0000" />					  
+					   <label name="userName" rect="80,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="欢迎你" color="#D2691E"  font-size="28"/>
+					   <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
+					   </button>
+					</node>
+					
+					<list name="rightList" rect="30,130,480,1000" col="1" line="6" auto-adjust="true" offset="0,10" extendstyle="1111">
+					<list-item name="rightItem" rect="0,0,480,100">					
+				    <button name="rightBtn" normal="n" sel="s" OnSelect="rightBtnOnSelect" rect="0,0,480,0" extendstyle="1117">					
+					<image rect="0,0,480,0" style="autosize" extendstyle="1117" src="file://image/right_item_background.png"/>
+				    <node name="n" rect="0,0,480,0" extendstyle="1117">
+				    <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc)"/>
+					<label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#999999"  font-size="30"/>
+					</node>
+					<node name="s" rect="0,0,480,0" extendstyle="1117">
+				    <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc_s)"/>
+					<label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#e15e00"  font-size="30"/>
+					</node>
+					<image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
+					</button>
+				    </list-item>
+					<dataset>
+					<!--<set lsrc="file://image/user.png" txt="用户登录"/>-->
+                    <set lsrc="file://image/timing.png" lsrc_s="file://image/timing_s.png" txt="定时关闭"/>	
+                    <set lsrc="file://image/set.png" lsrc_s="file://image/set_s.png"  txt="系统设置"/>	
+                    <set lsrc="file://image/opinion.png" lsrc_s="file://image/opinion_s.png"  txt="意见反馈"/>	
+                    <set lsrc="file://image/question.png" lsrc_s="file://image/question_s.png"  txt="常见问题"/>	
+                    <set lsrc="file://image/about.png" lsrc_s="file://image/about_s.png"  txt="关于悦听"/>						
+					</dataset>
+					</list>
+                </node>             
+            </panoramaitem>
+        </panorama>
+        <node name="timedCloseNode" rect="100,306,620,410" extendstyle="1010" visible="0" enable="0">        
+            <image rect="0,0,500,410" src="file://image/commonbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
+            <image rect="0,0,500,85" src="file://image/orderDig_head.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+            <label name="dtitle" rect="15,0,200,85" text="定时关闭" color="#4F6852" font-size="30" v-align="center"  extendstyle="1010"/>
+            <label name="closeTimeLbl" rect="0,0,100,85" color="#4F6852" font-size="30" v-align="center"  extendstyle="8010"/>
+			<shadow rect="0,85,500,4" color="#B2DB93" alpha="255" extendstyle="1010"/>
+            <node rect="0,20,500,65" extendstyle="1111">
+			<button name="switchBtn1" rect="0,0,140,65" extendstyle="5010" data="off" OnSelect="switchOnMouseUp" >
+                <image rect="0,0,120,50" src="file://image/onoffbtn_bg.png" style="autosize" extendstyle="1010" />
+				<label name="off" rect="0,0,60,50" extendstyle="1010" v-align="center" h-align="center" font-size="25" color="#CD2626" text="关" />
+                <label name="on" rect="60,0,60,50" extendstyle="1010" v-align="center" h-align="center" font-size="25" color="#9ACD32" text="开" />
+                <node name="switchNode1" rect="0,0,60,50" extendstyle="1010"> 
+                <image name="shadow" rect="0,0,60,50" src="file://image/onoffbtn.png" style="autosize" extendstyle="1010" />
+                </node>
+            </button>
+			</node>
+			<node name="btnNode" rect="0,105,500,500" extendstyle="1111">
+				<list name="btnList" rect="15,0,0,0" extendstyle="1177" line="2" col="3" auto-adjust="true" offset="2,6">
+					<list-item name="item1" rect="0,0,160,150">
+						<button name="timedCloseBtn" OnSelect="timedCloseBtnOnSelect" rect="0,0,160,150" extendstyle="1111">
+						<image rect="0,0,150,0" extendstyle="1117" src="file://image/progressop_btnbg.png" style="autosize"/>
+						<label text="$(minuteTxt)" rect="$(mrect)" extendstyle="1111" autoextend="true" color="#CCCCCC" font-size="55" h-align="left" v-align="center"/>
+						<label text="分钟" rect="58,0,50,50" extendstyle="1811"  autoextend="true" color="#CCCCCC" font-size="20"/>
+						</button>
+					</list-item>
+					<dataset>
+						<set minuteTxt="10" mrect="45,30,60,50" />
+						<set minuteTxt="20" mrect="45,30,60,50"/>
+						<set minuteTxt="30" mrect="45,30,60,50"/>
+						<set minuteTxt="60" mrect="45,30,60,50"/>
+						<set minuteTxt="90" mrect="45,30,60,50"/>
+						<set minuteTxt="120" mrect="30,30,100,50"/>
+					</dataset>
+				</list>
+			</node>
+        </node>		
+    <!--底部区域-->
+	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/> 
+			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>		 
+             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+    </node>
+		<!-- panorama电台的item-->
+       <node name="mainPanoramaItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
+            <button name="radioRecommendBtn"  OnSelect="radioRecommendBtnOnSelect" rect="0,0,686,300" extendstyle="1110">
+			<image name="recommendImg" rect="0,0,686,300" style="autosize" src="" extendstyle="1110"/>
+			<shadow rect="0,0,0,74" alpha="125" color="#000000" extendstyle="1571"/>  
+			<label rect="20,0,150,74" extendstyle="1511"  text="01/27"  color="#FFFFFF"  font-size="40"/>
+			<label rect="0,0,150,74" extendstyle="8511"  text="12:00"  color="#FFFFFF"  font-size="40"/>
+			<label rect="0,0,386,74" name="mainPanoramaItemname" extendstyle="8511"  text="" postfix=".." color="#FFFFFF"  font-size="40"/>
+			</button>
+	   </node>
+       <!-- panorama小说的item-->
+       <node name="mainPanoramaNovelItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
+            <button name="novelRecommendBtn" OnSelect="novelRecommendBtnOnSelect" rect="0,0,686,300" extendstyle="1110">
+			<image name="recommendImg" rect="0,0,686,300" style="autosize" src="" extendstyle="1110"/>
+			<shadow rect="0,0,0,74" alpha="125" color="#000000" extendstyle="1571"/>  
+			<label rect="20,0,150,74" extendstyle="1511"  text="01/27"  color="#FFFFFF"  font-size="40"/>
+			<label rect="0,0,150,74" extendstyle="8511"  text="21:00"  color="#FFFFFF"  font-size="40"/>
+			<label rect="0,0,386,74" name="mainPanoramaItemname" extendstyle="8511"  text="" postfix=".." color="#FFFFFF"  font-size="40"/>
+			</button>
+	   </node>
+      <!-- panorama播客的item-->
+       <node name="mainPanoramaPodcastItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
+	        <button name="podcastRecommendBtn" OnSelect="podcastRecommendBtnOnSelect" rect="0,0,686,300" extendstyle="1110">
+            <image name="recommendImg" rect="0,0,686,300" style="autosize" src="" extendstyle="1110"/>
+			<shadow rect="0,0,0,74" alpha="125" color="#000000" extendstyle="1571"/>  
+			<label rect="20,0,150,74" extendstyle="1511"  text="01/27"  color="#FFFFFF"  font-size="40"/>
+			<label rect="0,0,150,74" extendstyle="8511"  text="21:00"  color="#FFFFFF"  font-size="40"/>
+			<label rect="0,0,386,74" name="mainPanoramaItemname" extendstyle="8511"  text="" postfix=".." color="#FFFFFF"  font-size="40"/>
+            </button>
+	   </node>
+	    <!--left panorama电台的item  --> 
+       <node name="leftRadioPanoramaItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
+			<button name="leftradioRecommendBtn" OnSelect="leftradioRecommendBtnOnSelect" rect="0,0,686,300" extendstyle="1110">
+            <image name="recommendImg" rect="0,0,686,300" style="autosize" src="" extendstyle="1110"/>
+			<shadow rect="0,0,0,74" alpha="125" color="#000000" extendstyle="1571" visible="false" enable="false"/>  
+			<label rect="20,0,150,74" extendstyle="1511"  text="01/27"  color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			<label rect="0,0,150,74" extendstyle="8511"  text="21:00"  color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			<label rect="0,0,386,74" name="leftPanoramaItemname" extendstyle="8511"  text="" postfix=".." color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			</button>
+	  </node>	
+	   
+       <!--left panorama小说的item  --> 
+       <node name="leftNovelPanoramaItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
+			<button rect="0,0,686,300" name="novelPanoramaItemBtn" extendstyle="1110" OnSelect="novelPanoramaItemBtnOnSelect">
+            <image name="recommendImg" rect="0,0,686,300" style="autosize" src="" extendstyle="1110"/>
+			<shadow rect="0,0,0,74" alpha="125" color="#000000" extendstyle="1571" visible="false" enable="false"/>  
+			<label rect="20,0,150,74" extendstyle="1511"  text="01/27"  color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			<label rect="0,0,150,74" extendstyle="8511"  text="21:00"  color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			<label rect="0,0,386,74" name="leftPanoramaItemname" extendstyle="8511"  text="" postfix=".." color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			</button>
+	   </node>
+
+       <!--left panorama播客的item  --> 
+       <node name="leftPodcastPanoramaItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
+			<button rect="0,0,686,300" name="podcastPanoramaItemBtn" extendstyle="1110" OnSelect="podcastPanoramaItemBtnOnSelect">
+            <image name="recommendImg" rect="0,0,686,300" style="autosize" src="" extendstyle="1110"/>
+			<shadow rect="0,0,0,74" alpha="125" color="#000000" extendstyle="1571" visible="false" enable="false"/>  
+			<label rect="20,0,150,74" extendstyle="1511"  text="01/27"  color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			<label rect="0,0,150,74" extendstyle="8511"  text="21:00"  color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			<label rect="0,0,386,74" name="leftPanoramaItemname" extendstyle="8511"  text="" postfix=".." color="#FFFFFF"  font-size="40" visible="false" enable="false"/>
+			</button>
+	   </node>	
+	   
+       <!-- 推荐列表电台的item-->
+        <node name="recommendItem" rect="0,0,686,403" extendstyle="1010" visible="0" enable="0" active="0"> 
+			  <node name="imgNode1" rect="0,0,407,192" extendstyle="1111">
+               <!-- <image rect="0,0,342,142" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" alpha="255" padding="0,5,5,0" extendstyle="0066" >-->
+			    <shadow rect="0,0,407,192" color="#000000" alpha="50" padding="0,5,5,0" extendstyle="0066">
+                <image name="fallImg" rect="5,5,397,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,407,192" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode2" rect="416,0,271,192" extendstyle="1111">
+                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,261,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode3" rect="0,201,271,192" extendstyle="1111">
+                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,271,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode4" rect="280,201,407,192" extendstyle="1111">
+                <shadow rect="0,0,407,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,392,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,397,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+        </node>
+        <!-- 推荐列表小说的item-->
+        <node name="recommendNovelItem" rect="0,0,686,403" extendstyle="1010" visible="0" enable="0" active="0"> 
+			  <node name="imgNode1" rect="0,0,407,192" extendstyle="1111">
+               <!-- <image rect="0,0,342,142" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" alpha="255" padding="0,5,5,0" extendstyle="0066" >-->
+			    <shadow rect="0,0,407,192" color="#000000" alpha="50" padding="0,5,5,0" extendstyle="0066">
+                <image name="fallImg" rect="5,5,397,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,397,192" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode2" rect="416,0,271,192" extendstyle="1111">
+                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,261,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode3" rect="0,201,271,192" extendstyle="1111">
+                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,271,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode4" rect="280,201,407,192" extendstyle="1111">
+                <shadow rect="0,0,407,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,392,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,397,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+         </node>
+ 
+        <!-- 推荐列表播客的item-->
+        <node name="recommendPodcastItem" rect="0,0,686,403" extendstyle="1010" visible="0" enable="0" active="0"> 
+			  <node name="imgNode1" rect="0,0,407,192" extendstyle="1111">
+               <!-- <image rect="0,0,342,142" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" alpha="255" padding="0,5,5,0" extendstyle="0066" >-->
+			    <shadow rect="0,0,407,192" color="#000000" alpha="50" padding="0,5,5,0" extendstyle="0066">
+                <image name="fallImg" rect="5,5,397,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,397,192" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode2" rect="416,0,271,192" extendstyle="1111">
+                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,261,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode3" rect="0,201,271,192" extendstyle="1111">
+                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,271,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+			  <node name="imgNode4" rect="280,201,407,192" extendstyle="1111">
+                <shadow rect="0,0,407,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
+                <image name="fallImg" rect="5,5,392,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
+                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
+				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
+				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                </image>
+                </image>
+                </shadow>
+                <button name="contentBtn" rect="0,0,397,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
+                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                </button>
+              </node>
+         </node>
+		 
+		  <!-- left电台ListView的item-->
+		  <node name="leftRadioListviewItem" rect="0,0,687,90" extendstyle="1010" visible="0" enable="0" active="0"> 
+			  <node rect="0,0,0,0" extendstyle="1077">
+			  <button name="leftRadioItemBtn"   sel="s" rect="0,0,0,0"  OnSelect="leftRadioItemBtnOnSelect" style="autosize" extendstyle="1077">
+			  <image name="s" rect="0,0,0,90" style="autosize" src="file://image/leftlistview_itembg_s.png"  extendstyle="1077"/>
+			  <image name="radioimg" rect="40,30,41,34" style="maxsize" src=""  extendstyle="1011"/>
+			  <label name="radioname" rect="120,0,250,0" text="" v-align="center" extendstyle="1017" color="#FFFFFF" font-size="30"/>
+			  <image rect="600,20,55,55" style="maxsize" src="file://image/arrow.png"  extendstyle="1011"/>
+			  </button>
+			  </node>
+			  <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1570"/>
+		  </node> 
+		 
+		 <!-- left小说ListView的item-->
+		  <node name="leftNovelListviewItem" rect="0,0,686,400" extendstyle="1010" visible="0" enable="0" active="0"> 
+		      <image rect="0,0,0,90" style="autosize" src="file://image/leftlistview_topbg.png"  extendstyle="1070">
+			  <label name="leftNovelRecTitle" rect="20,0,250,0" text="" v-align="center" extendstyle="1017" color="#FF7F00" font-size="30"/>
+			  </image>
+			  <node rect="0,0,0,90" extendstyle="1070">
+			  <button name="leftNovelRecMoreBtn"  normal="n" sel="s" rect="530,15,150,60"  OnSelect="leftNovelRecMoreBtnOnSelect" style="autosize" extendstyle="1011">
+			  <image name="n" rect="0,0,0,90" style="autosize" src="file://image/leftlistview_topbt.png"  extendstyle="1077"/>
+			  <image name="s" rect="0,0,0,90" style="autosize" src="file://image/leftlistview_topbt_s.png"  extendstyle="1077"/>
+			  <label name="leftNovelRecMoreText"  rect="0,0,0,0" text="查看更多" h-align="center" v-align="center" extendstyle="1077" color="#FFFFFF" font-size="25"/>
+			  </button>
+			  </node>
+			  <list name="leftNovelChildList" line="2" col="1" rect="0,0,0,344" extendstyle="1870"/>
+		  </node> 
+		  <!-- left小说ListView的item的childlist的Item-->
+		  <node name="leftNovelChildListItem" rect="0,0,686,172" extendstyle="1070" visible="0" enable="0" active="0"> 
+		  <button rect="0,0,0,0" name="leftNovelChildBtn" normale="n" sel="s" style="autosize" src="file://image/leftlistview_itembg.png"  OnSelect="leftNovelListViewChildListOnSelect" extendstyle="1177">
+		   <image name="n" rect="0,0,0,172" style="autosize" src="file://image/leftlistview_itembg.png"  extendstyle="1070">
+            <image rect="20,19,237,133"  src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>		   
+			<image name="novelImage"  rect="20,19,237,133"  style="autosize" extendstyle="1010"/>
+			<label name="leftNovelRecName"  rect="275,15,411,45" text="" extendstyle="1010" color="#FFFFFF" font-size="35"/>
+			<node  rect="275,0,0,45" extendstyle="1810">
+			<label name="leftNovelRecHost"  rect="0,20,80,45" text="主播:"   v-align="center" extendstyle=8110" color="#a3a3a3" font-size="30"/>
+			<label name="leftNovelRecHostName" rect="0,20,150,45" text=""   v-align="center" extendstyle="8110" color="#a3a3a3" font-size="30"/>
+			</node>
+		  </image>
+		  <image name="s" rect="0,0,0,172" style="autosize" extendstyle="1070">
+			<shadow rect="0,0,0,172" alpha="50" color="#000000" extendstyle="1170"/> 
+			<image name="novelImage_s"  rect="20,19,237,133"  style="autosize" extendstyle="1010"/>
+			<label name="leftNovelRecName_s"  rect="275,15,411,45" text="" extendstyle="1010" color="#FFFFFF" font-size="35"/>
+			<node  rect="275,0,0,45" extendstyle="1810">
+			<label name="leftNovelRecHost_s"  rect="0,20,80,45" text="主播:"   v-align="center" extendstyle=8110" color="#a3a3a3" font-size="30"/>
+			<label name="leftNovelRecHostName_s" rect="0,20,150,45" text=""   v-align="center" extendstyle="8110" color="#a3a3a3" font-size="30"/>
+			</node>
+		  </image>
+		  <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png"  extendstyle="1571"/>
+		   </button>
+		   </node>
+		   
+		   <!-- left播客ListView的item-->
+		  <node name="leftPodcastListviewItem" rect="0,0,686,400" extendstyle="1010" visible="0" enable="0" active="0"> 
+		      <image rect="0,0,0,90" style="autosize" src="file://image/leftlistview_topbg.png"  extendstyle="1070">
+			  <label name="leftPodcastRecTitle" rect="20,0,350,0" text="" v-align="center" extendstyle="1017" color="#FF7F00" font-size="30"/>
+			  </image>
+			  <node rect="0,0,0,90" extendstyle="1070">
+			  <button name="leftPodcastRecMoreBtn"  normal="n" sel="s" rect="530,15,150,60"  OnSelect="leftPodcastRecMoreBtnOnSelect" style="autosize" extendstyle="1011">
+			  <image name="n" rect="0,0,0,90" style="autosize" src="file://image/leftlistview_topbt.png"  extendstyle="1077"/>
+			  <image name="s" rect="0,0,0,90" style="autosize" src="file://image/leftlistview_topbt_s.png"  extendstyle="1077"/>
+			  <label name="leftPodcastRecMoreText"  rect="0,0,0,0" text="查看更多" h-align="center" v-align="center" extendstyle="1077" color="#FFFFFF" font-size="25"/>
+			  </button>
+			  </node>
+			  <list name="leftPodcastChildList" line="2" col="1" rect="0,0,0,344" extendstyle="1870"/>
+		  </node> 
+		  <!-- left播客ListView的item的childlist的Item-->
+		  <node name="leftPodcastChildListItem" rect="0,0,686,172" extendstyle="1070" visible="0" enable="0" active="0"> 
+		  <button rect="0,0,0,0" name="leftPodcastChildBtn" normale="n" sel="s" style="autosize" src="file://image/leftlistview_itembg.png"  OnSelect="leftPodcastListViewChildListOnSelect" extendstyle="1177">
+		   <image name="n" rect="0,0,0,172" style="autosize" src="file://image/leftlistview_itembg.png"  extendstyle="1070">
+            <image rect="20,19,237,133"  src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>			   
+			<image name="podcastImage"  rect="20,19,237,133"  style="autosize" extendstyle="1010"/>
+			<label name="leftPodcastRecName"  rect="275,15,411,45" text="" extendstyle="1010" color="#FFFFFF" font-size="35"/>
+			<node  rect="275,0,0,45" extendstyle="1810">
+			<label name="leftPodcastRecHost"  rect="0,20,80,45" text="主播:"   v-align="center" extendstyle=8110" color="#a3a3a3" font-size="30"/>
+			<label name="leftPodcastRecHostName" rect="0,20,150,45" text=""   v-align="center" extendstyle="8110" color="#a3a3a3" font-size="30"/>
+			</node>
+		  </image>
+		  <image name="s" rect="0,0,0,172" style="autosize" extendstyle="1070">
+			<shadow rect="0,0,0,172" alpha="50" color="#000000" extendstyle="1170"/> 
+			<image name="podcastImage_s"  rect="20,19,237,133"  style="autosize" extendstyle="1010"/>
+			<label name="leftPodcastRecName_s"  rect="275,15,411,45" text="" extendstyle="1010" color="#FFFFFF" font-size="35"/>
+			<node  rect="275,0,0,45" extendstyle="1810">
+			<label name="leftPodcastRecHost_s"  rect="0,20,80,45" text="主播:"   v-align="center" extendstyle=8110" color="#a3a3a3" font-size="30"/>
+			<label name="leftPodcastRecHostName_s" rect="0,20,150,45" text=""   v-align="center" extendstyle="8110" color="#a3a3a3" font-size="30"/>
+			</node>
+		  </image>
+		  <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png"  extendstyle="1571"/>
+		   </button>
+		   </node>
+		 
+		<!--左侧菜单推荐的电台数据item-->
+		<node name="leftRadioItem" rect="0,0,240,100" padding="0,2,0,2" extendstyle="0000" visible="0" enable="0" active="0">
+		    <button name="leftRadioBtn" rect="0,0,240,100" normal="n" sel="s" OnSelect="leftRadioBtnOnSelect" extendstyle="0000">
+			<image name="n" rect="0,0,240,100" src="file://image/left_radio_child.png" style="autosize"/>
+			<image name="s" rect="0,0,240,100" src="file://image/leftlistview_itembg_s.png" style="minsize"/>
+			<image rect="20,35,20,30" src="file://image/left_radio_child_arrow.png" style="autosize"/>
+			<label name="leftRadioName" rect="60,0,200,100" extendstyle="1111" text="$(text)" h-align="left" color="#999999" v-align="center" font-size="30"/>
+			</button>
+		 </node>
+    </node>
+</body>
+</root>
+
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+local rootSprite
+--main控件
+local mainRecPanorama 
+local mainRecNovelPanorama
+local mainPanoramaItem
+local mainPanoramaNovelItem
+local mainPanoramaPodcastItem
+local listNode
+local foregroundList
+local listNovelNode 
+local foregroundNovelList
+local mainRecPodcastPanorama 
+local listPodcastNode 
+local foregroundPodcastList
+local mainTitle
+local mainBottomList
+--left控件
+local leftRadioRecPanorama--left电台Panorama
+local leftRadioPanoramaItem--left电台PanoramaItem
+local leftlistRadioNode--left电台Point 的node
+local foregroundLeftRadioList--left电台标记当前页
+local leftListviewRadioNode--left电台listview node 
+local leftListViewRadio--left电台listview
+local leftRadioListviewItem--left电台listview的Item
+local leftNovelRecPanorama --left小说Panorama
+local leftNovelPanoramaItem --left小说PanoramaItem
+local listleftNovelNode--left小说Point 的node
+local foregroundLeftNovelList--left小说标记当前页
+local leftListviewNovelNode --left小说listview node
+local leftListViewNovel--left小说listview
+local leftNovelListviewItem--left小说listview的Item
+local leftNovelChildListItem--left小说listview child的Item
+local leftPodcastRecPanorama --left播客Panorama
+local leftPodcastPanoramaItem --left播客PanoramaItem
+local listleftPodcastNode --left播客Point 的node
+local foregroundLeftPodcastList--left播客标记当前页
+local leftListviewPodcastNode --left播客listview node
+local leftListViewPodcast--left播客listview
+local leftPodcastListviewItem--left播客listview的Item
+local leftPodcastChildListItem--left播客listview child的Item
+
+local subjectsTable
+local radioList
+local leftListview
+local leftRadioItem
+local leftRadioItemCount
+local leftRadioLineCount
+
+
+local subjectsNovelTable
+local subjectsPodcastTable
+local mainListviewRadioNode
+local mainListviewNovelNode
+local mainListviewPodcastNode
+
+
+local recommendItem
+local recommendNovelItem
+local recommendPodcastItem
+local mainPanorama
+local mainBottomNode  --首页存放电台、小说、播客的node
+
+--right 控件
+local loginNode
+local userNode
+local userPic 
+local userName
+local userBtn 
+
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+--底部所需变量end
+
+local timedCloseNode
+local closeTimeLbl
+local switchBtn
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+    rootSprite = sprite
+	mainTitle= Sprite:findChild(sprite, 'mainTitle')
+    mainRecPanorama = Sprite:findChild(sprite, 'mainRecPanorama')
+	mainRecNovelPanorama = Sprite:findChild(sprite, 'mainRecNovelPanorama')
+	mainRecPodcastPanorama= Sprite:findChild(sprite, 'mainRecPodcastPanorama')
+    mainPanoramaItem = Sprite:findChild(sprite, 'mainPanoramaItem')
+	mainPanoramaNovelItem= Sprite:findChild(sprite, 'mainPanoramaNovelItem')
+	mainPanoramaPodcastItem= Sprite:findChild(sprite, 'mainPanoramaPodcastItem')
+	listNode= Sprite:findChild(sprite, 'listNode')
+	foregroundList= Sprite:findChild(sprite, 'foregroundList')
+	listNovelNode = Sprite:findChild(sprite, 'listNovelNode')
+    foregroundNovelList= Sprite:findChild(sprite, 'foregroundNovelList')  
+    listPodcastNode = Sprite:findChild(sprite, 'listPodcastNode')
+    foregroundPodcastList= Sprite:findChild(sprite, 'foregroundPodcastList')
+	mainListViewRadio= Sprite:findChild(sprite, 'mainListViewRadio')
+	mainListViewNovel= Sprite:findChild(sprite, 'mainListViewNovel')
+	mainListViewPodcast= Sprite:findChild(sprite, 'mainListViewPodcast')
+	mainListviewRadioNode= Sprite:findChild(sprite, 'mainListviewRadioNode')
+	mainListviewNovelNode= Sprite:findChild(sprite, 'mainListviewNovelNode')
+	mainListviewPodcastNode= Sprite:findChild(sprite, 'mainListviewPodcastNode')
+    mainBottomList= Sprite:findChild(sprite, 'mainBottomList')
+	recommendItem= Sprite:findChild(sprite, 'recommendItem')
+    recommendNovelItem= Sprite:findChild(sprite, 'recommendNovelItem')	
+	recommendPodcastItem= Sprite:findChild(sprite, 'recommendPodcastItem')
+    -- Log:write('contList========= ',mainListViewRadio,recommendItem)
+	leftListview = Sprite:findChild(sprite, 'leftListview')
+	Sprite:setRect(leftListview,30,300,480,700)
+	ListView:adjust(leftListview)
+	leftRadioItem = Sprite:findChild(sprite, 'leftRadioItem')
+	mainPanorama = Sprite:findChild(sprite,'mainPanorama')
+	mainBottomNode= Sprite:findChild(sprite,'mainBottomNode')
+	--left
+	leftRadioRecPanorama= Sprite:findChild(sprite,'leftRadioRecPanorama')--left电台Panorama
+    leftRadioPanoramaItem= Sprite:findChild(sprite,'leftRadioPanoramaItem')--left电台PanoramaItem
+	foregroundLeftRadioList= Sprite:findChild(sprite,'foregroundLeftRadioList') --left电台标记当前页
+	leftlistRadioNode= Sprite:findChild(sprite,'leftlistRadioNode') --left电台Point 的node
+    leftListviewRadioNode= Sprite:findChild(sprite,'leftListviewRadioNode') --left电台listview node 
+    leftListViewRadio= Sprite:findChild(sprite,'leftListViewRadio') --left电台listview
+    leftRadioListviewItem= Sprite:findChild(sprite,'leftRadioListviewItem') --left电台listview的Item
+    leftNovelRecPanorama = Sprite:findChild(sprite,'leftNovelRecPanorama')--left小说Panorama
+    leftNovelPanoramaItem = Sprite:findChild(sprite,'leftNovelPanoramaItem') --left小说PanoramaItem	
+	foregroundLeftNovelList = Sprite:findChild(sprite,'foregroundLeftNovelList') --left小说标记当前页
+	listleftNovelNode= Sprite:findChild(sprite,'listleftNovelNode') --left小说Point 的node
+	leftListviewNovelNode = Sprite:findChild(sprite,'leftListviewNovelNode') --left小说listview node
+	leftListViewNovel= Sprite:findChild(sprite,'leftListViewNovel')--left小说listview
+	leftNovelListviewItem= Sprite:findChild(sprite,'leftNovelListviewItem')--left小说listview的Item
+	leftNovelChildListItem= Sprite:findChild(sprite,'leftNovelChildListItem')--left小说listview child的Item
+	leftPodcastRecPanorama = Sprite:findChild(sprite,'leftPodcastRecPanorama') --left播客Panorama
+    leftPodcastPanoramaItem = Sprite:findChild(sprite,'leftPodcastPanoramaItem') --left播客PanoramaItem
+    listleftPodcastNode = Sprite:findChild(sprite,'listleftPodcastNode')--left播客Point 的node
+    foregroundLeftPodcastList = Sprite:findChild(sprite,'foregroundLeftPodcastList')--left播客标记当前页
+    leftListviewPodcastNode = Sprite:findChild(sprite,'leftListviewPodcastNode')--left播客listview node
+    leftListViewPodcast= Sprite:findChild(sprite,'leftListViewPodcast')--left播客listview
+    leftPodcastListviewItem= Sprite:findChild(sprite,'leftPodcastListviewItem')--left播客listview的Item
+    leftPodcastChildListItem= Sprite:findChild(sprite,'leftPodcastChildListItem')--left播客listview child的Item
+	--right
+	loginNode = Sprite:findChild(sprite,'loginNode')
+    userNode = Sprite:findChild(sprite,'userNode')
+	userPic = Sprite:findChild(userNode,'userPic')
+    userName = Sprite:findChild(userNode,'userName')
+    userBtn = Sprite:findChild(userNode,'userBtn')
+    Http:request('homeData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/homeData2.jsp',103)
+    Http:request('leftData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/leftData.jsp',102)
+	Http:request('podcastRecommendData', Util:getWeiBoServer() ..'/publish/clt/resource/mobileaudio3/podcast/podcastRecommendData.jsp?',107)
+	Http:request('radioRecommendData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/radiolive/radioRecommendData.jsp',104)
+    -- Loading:show()
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	Reg:setInteger(reg,'currentFlag',0)
+	
+	playBtn=Sprite:findChild(sprite,'playBtn')
+	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+	
+	timedCloseNode = Sprite:findChild(sprite,'timedCloseNode')
+    closeTimeLbl = Sprite:findChild(sprite,'closeTimeLbl')
+	switchBtn = Sprite:findChild(sprite,'switchBtn1')
+	switchNode = Sprite:findChild(sprite,'switchNode1')
+	
+	local n=0
+       for i=0,2 do
+       local item =List:getItem(mainBottomList,i)
+       local functionBtn=Sprite:findChild(item,'functionBtn')
+            if i==n then
+               Sprite:setEnable(functionBtn,0)
+               curIndex=i
+            else
+               Sprite:setEnable(functionBtn,1)
+            end
+        end
+end
+
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+if msg == 101 then
+    -- Loading:close()
+    local sceneModifiedData = Http:jsonDecode('sceneModifiedData')
+    Log:write("sceneModifiedData",sceneModifiedData)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+    Reg:setTable(reg, 'sceneModifiedData', sceneModifiedData)
+    if Alias.sdcfg then
+    local md5sceneName = Util:md5(Alias.sdcfg)
+    local regSceneModified = Reg:create("sceneModified")
+    local localModifiedTime = Reg:getString(regSceneModified, md5sceneName)
+    Log:write('localModifiedTime', tonumber(localModifiedTime))
+    Log:write('sceneModifiedData[md5sceneName]', tonumber(sceneModifiedData[md5sceneName]))
+        if tonumber(localModifiedTime) ~= tonumber(sceneModifiedData[md5sceneName]) then
+            Http:request('_sdcfg', Util:getServer() .. Alias.sdcfg .. '?ua=' .. System:getUserAgent(), Msg.sdcfg, {useCache = 0}) --sd卡路径配置请求
+        end
+    end
+    if Alias.tipfile then
+    local md5sceneName = Util:md5(Alias.tipfile)
+    local regSceneModified = Reg:create("sceneModified")
+    local localModifiedTime = Reg:getString(regSceneModified, md5sceneName)
+    Log:write('localModifiedTime=======1', tonumber(localModifiedTime))
+    Log:write('localModifiedTime=======2', tonumber(sceneModifiedData[md5sceneName]))
+        if tonumber(localModifiedTime) ~= tonumber(sceneModifiedData[md5sceneName]) then
+            Http:request('_tipfile', Util:getServer() .. Alias.tipfile, 106, {fileName='MODULE:\\com_wondertek_mobileaudio\\tips.dat',useCache = 0}) ----Alias.tipfile
+        end
+    end		
+ elseif msg == 103 then
+     -- Loading:close()
+	 homeData = Http:jsonDecode('homeData')
+	 Log:write('homeData======',homeData)
+	 subjectsTable=homeData.recommendList
+	 subjectsNovelTable=homeData.recommendList2
+	 subjectsPodcastTable=homeData.recommendList3
+	 leftRadioItemCount=#homeData.radioSort+1--获取左侧电台推荐的个数
+	 LoadPanoramaData()--加载电台Panorama
+	 LoadPanoramaNovelData()--加载小说Panorama
+	 LoadPanoramaPodcastData()--加载播客Panorama
+	 LoadMainListViewData()--加载电台listview
+	 LoadMainListViewNovelData()--加载小说listview
+	 LoadMainListViewPodcastData()--加载播客listview
+	 setNodeState(listNode,1) --电台point数据list
+	 setNodeState(listNovelNode,0)--小说point数据list
+	 setNodeState(listPodcastNode,0)--播客point数据list	
+	 setNodeState(mainRecPanorama,1)--电台头部Panorama数据
+	 setNodeState(mainRecNovelPanorama,0)--小说头部Panorama数据
+	 setNodeState(mainRecPodcastPanorama,0)--播客头部Panorama数据
+	 setNodeState(mainListviewRadioNode,1)--电台ListView数据
+	 setNodeState(mainListviewNovelNode,0)--小说ListView数据
+	 setNodeState(mainListviewPodcastNode,0)--播客ListView数据
+ elseif msg==102 then
+	 -- Log:write('leftRecommendData======')
+	 leftData = Http:jsonDecode('leftData')
+	 Log:write('leftData===222===',leftData.novelPostList)
+	 LoadleftNovelPanoramaData()
+	 LoadleftNovelListviewData()
+ elseif msg==107 then
+     podcastRecommendData = Http:jsonDecode('podcastRecommendData')
+	 -- Log:write('podcastRecommendData===333===',#podcastRecommendData.novelPostList)
+	 LoadleftPodcastPanoramaData()
+	 LoadleftPodcastListviewData()
+ elseif msg==104 then
+     radioRecommendData= Http:jsonDecode('radioRecommendData')
+	 Log:write('radioRecommendData===222===',radioRecommendData.postList[0].desc)
+     LoadleftRadioPanoramaData()
+	 LoadleftRadioListviewData()
+ elseif msg == 106 then  -- tipfile请求返回
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        local sceneModifiedData = Reg:getTable(reg, 'sceneModifiedData')
+        local md5sceneName = Util:md5(Alias.tipfile)
+        local regSceneModified = Reg:create("sceneModified")
+        local localModifiedTime = Reg:getString(regSceneModified, md5sceneName)
+		Log:write('localModifiedTime========',localModifiedTime,md5sceneName,sceneModifiedData)
+        localModifiedTime = localModifiedTime == "" and 0 or localModifiedTime
+        if tonumber(localModifiedTime) < tonumber(sceneModifiedData[md5sceneName]) then
+            Reg:setString(regSceneModified,md5sceneName,sceneModifiedData[md5sceneName])
+            Reg:save(regSceneModified, "WONDER:\\temp\\sceneModified.xml")
+            Log:write(md5sceneName .. ' has saved to file sceneModified.xml')
+        end
+  elseif msg == Msg.phoneNumber then
+        local loginPhoneNumData = Http:jsonDecode('loginPhoneNum')
+        Log:write("loginPhoneNumData",loginPhoneNumData)
+        if loginPhoneNumData and loginPhoneNumData.userInfo then
+            local img = Util:getWeiBoServer() ..'publish/clt' .. loginPhoneNumData.userInfo.picture
+            Sprite:setProperty(userPic,"src",img)
+            Sprite:setProperty(userBtn,"data",'')
+			local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+            local phoneNumber = Reg:getString(regI, 'phoneNumber')
+            -- Sprite:setProperty(userName,"text",loginPhoneNumData.userInfo.sname .. " 欢迎您")
+			if loginPhoneNumData.userInfo.sname~='' then
+			 Sprite:setProperty(userName,"text",loginPhoneNumData.userInfo.sname .. " 欢迎您")			 
+			else
+			 Sprite:setProperty(userName,"text",phoneNumber .. " 欢迎您")
+			end
+			
+        else
+            LoginStatusChange(false)
+        end
+  elseif msg == Msg.sdcfg then  --sd卡路径配置
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        local sceneModifiedData = Reg:getTable(reg, 'sceneModifiedData')
+        local md5sceneName = Util:md5(Alias.sdcfg)
+        local regSceneModified = Reg:create("sceneModified")
+        local localModifiedTime = Reg:getString(regSceneModified, md5sceneName)
+        localModifiedTime = localModifiedTime == "" and 0 or localModifiedTime
+        if tonumber(localModifiedTime) < tonumber(sceneModifiedData[md5sceneName]) then
+            Reg:setString(regSceneModified,md5sceneName,sceneModifiedData[md5sceneName])
+            Reg:save(regSceneModified, "WONDER:\\temp\\sceneModified.xml")
+            Log:write(md5sceneName .. ' has saved to file sceneModified.xml')
+        end
+        local sdcfg = Http:xmlDecode('_sdcfg')
+        Log:write('sdcfg', sdcfg)
+        if type(sdcfg) == 'table' then --有配置信息
+            Net:changeSdcfg(sdcfg)
+        end
+  end
+    
+end
+
+--电台数据load
+function loadImagefallItem(list, item, index)
+    Sprite:setRect(item, 0, 0, 686, 403)
+    Sprite:setProperty(item, 'extendstyle', '1111')
+	local subjectCount=#homeData.recommendList+1
+	Log:write('subjectCount======2=',subjectCount,4*index)
+    if subjectCount > 4*index then
+        loadImagefallData(Sprite:findChild(item, 'imgNode1'), 4*index)
+    else
+        Sprite:setRect(item, 0, 0, 686, 0)
+		Log:write('index=======1')
+        for i=1, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+1 then
+        loadImagefallData(Sprite:findChild(item, 'imgNode2'), 4*index+1)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======2')
+        for i=2, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+2 then
+        loadImagefallData(Sprite:findChild(item, 'imgNode3'), 4*index+2)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======2')
+        for i=3, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+3 then
+        loadImagefallData(Sprite:findChild(item, 'imgNode4'), 4*index+3)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======4')
+        setNodeState(Sprite:findChild(item, 'imgNode4'), 0)
+        return
+    end
+end
+
+--小说数据load
+function loadImagefallNovelItem(list, item, index)
+    Sprite:setRect(item, 0, 0, 686, 403)
+    Sprite:setProperty(item, 'extendstyle', '1111')
+	local subjectCount=#homeData.recommendList2+1
+	Log:write('subjectCount======2=',subjectCount,4*index)
+    if subjectCount > 4*index then
+        loadImagefallNovelData(Sprite:findChild(item, 'imgNode1'), 4*index)
+    else
+        Sprite:setRect(item, 0, 0, 686, 0)
+		Log:write('index=======1')
+        for i=1, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+1 then
+        loadImagefallNovelData(Sprite:findChild(item, 'imgNode2'), 4*index+1)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======2')
+        for i=2, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+2 then
+        loadImagefallNovelData(Sprite:findChild(item, 'imgNode3'), 4*index+2)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======2')
+        for i=3, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+3 then
+        loadImagefallNovelData(Sprite:findChild(item, 'imgNode4'), 4*index+3)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======4')
+        setNodeState(Sprite:findChild(item, 'imgNode4'), 0)
+        return
+    end
+end
+
+
+
+--播客数据load
+function loadImagefallPodcastItem(list, item, index)
+    Sprite:setRect(item, 0, 0, 686, 403)
+    Sprite:setProperty(item, 'extendstyle', '1111')
+	local subjectCount=#homeData.recommendList3+1
+	Log:write('subjectCount======2=',subjectCount,4*index)
+    if subjectCount > 4*index then
+        loadImagefallPodcastData(Sprite:findChild(item, 'imgNode1'), 4*index)
+    else
+        Sprite:setRect(item, 0, 0, 686, 0)
+		Log:write('index=======1')
+        for i=1, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+1 then
+        loadImagefallPodcastData(Sprite:findChild(item, 'imgNode2'), 4*index+1)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======2')
+        for i=2, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+2 then
+        loadImagefallPodcastData(Sprite:findChild(item, 'imgNode3'), 4*index+2)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======2')
+        for i=3, 4 do
+            setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
+        end
+        return
+    end
+    if subjectCount > 4*index+3 then
+        loadImagefallPodcastData(Sprite:findChild(item, 'imgNode4'), 4*index+3)
+    else
+        Sprite:setRect(item, 0, 0, 686, 192)
+		Log:write('index=======4')
+        setNodeState(Sprite:findChild(item, 'imgNode4'), 0)
+        return
+    end
+end
+
+--加载电台填充数据
+function loadImagefallData(parentSprite, index)
+    -- Log:write('index========1',parentSprite)
+	Log:write('index========2',index,subjectsTable[index].cimage)
+    if subjectsTable[index].cimage and '' ~= subjectsTable[index].cimage then
+        Sprite:setProperty(Sprite:findChild(parentSprite, 'fallImg'), 'src', subjectsTable[index].cimage)
+    end
+	if subjectsTable[index].cname and '' ~= subjectsTable[index].cname then
+	   Sprite:setProperty(Sprite:findChild(parentSprite, 'recommendItemname'), 'text', subjectsTable[index].cname)
+	end
+	Sprite:setProperty(Sprite:findChild(parentSprite, 'contentBtn'), 'data', subjectsTable[index].cid)
+end
+
+--加载小说填充数据
+function loadImagefallNovelData(parentSprite, index)
+    -- Log:write('index========1',parentSprite)
+	-- Log:write('index========2',index,subjectsNovelTable[index].cimage)
+    if subjectsNovelTable[index].cimage and '' ~= subjectsNovelTable[index].cimage then
+        Sprite:setProperty(Sprite:findChild(parentSprite, 'fallImg'), 'src', subjectsNovelTable[index].cimage)
+    end
+	if subjectsNovelTable[index].cname and '' ~= subjectsNovelTable[index].cname then
+	   Sprite:setProperty(Sprite:findChild(parentSprite, 'recommendItemname'), 'text', subjectsNovelTable[index].cname)
+	end
+	Sprite:setProperty(Sprite:findChild(parentSprite, 'contentBtn'), 'data', subjectsNovelTable[index].cid)
+end
+
+--加载播客填充数据
+function loadImagefallPodcastData(parentSprite, index)
+    -- Log:write('index========1',parentSprite)
+    if subjectsPodcastTable[index].cimage and '' ~= subjectsPodcastTable[index].cimage then
+        Sprite:setProperty(Sprite:findChild(parentSprite, 'fallImg'), 'src', subjectsPodcastTable[index].cimage)
+    end
+	if subjectsPodcastTable[index].cname and '' ~= subjectsPodcastTable[index].cname then
+	   Sprite:setProperty(Sprite:findChild(parentSprite, 'recommendItemname'), 'text', subjectsPodcastTable[index].cname)
+	end
+	Sprite:setProperty(Sprite:findChild(parentSprite, 'contentBtn'), 'data', subjectsPodcastTable[index].cid)
+end
+
+--加载leftRadio ListView填充数据
+function LoadleftRadioListviewData()
+    Log:write('loadLeftRadioItem========2',leftListViewRadio, leftRadioListviewItem)
+    ListView:removeAllItems(leftListViewRadio, 1, 1)
+    ListView:loadItem(leftListViewRadio, leftRadioListviewItem,#radioRecommendData.radioRecommendList+1, 'loadLeftRadioListviewItem')
+	ListView:adjust(leftListViewRadio) 
+end
+
+function loadLeftRadioListviewItem(list,item, index)
+    local radioimg =Sprite:findChild(item, 'radioimg')
+	local radioname =Sprite:findChild(item, 'radioname')
+	local leftRadioItemBtn =Sprite:findChild(item, 'leftRadioItemBtn')
+	Sprite:setProperty(radioimg, 'src',radioRecommendData.radioRecommendList[index].cimg)
+	Sprite:setProperty(radioname, 'text', radioRecommendData.radioRecommendList[index].name)
+	Sprite:setProperty(leftRadioItemBtn, 'data', radioRecommendData.radioRecommendList[index].nodeId)
+end
+
+
+--加载leftNovel ListView填充数据
+function LoadleftNovelListviewData()
+    Log:write('loadLeftNovelItem========2',leftListViewNovel, leftNovelListviewItem)
+    ListView:removeAllItems(leftListViewNovel, 1, 1)
+    ListView:loadItem(leftListViewNovel, leftNovelListviewItem,#leftData.novelRecommendList+1, 'loadLeftNovelListviewItem')
+	ListView:adjust(leftListViewNovel) 
+end
+
+--加载leftNovel ListView loadItem
+function loadLeftNovelListviewItem(list,item, index)
+    local leftNovelRecTitle =Sprite:findChild(item, 'leftNovelRecTitle')
+	local leftNovelRecMoreBtn =Sprite:findChild(item, 'leftNovelRecMoreBtn')
+	Sprite:setProperty(leftNovelRecTitle, 'text', leftData.novelRecommendList[index].name)
+	Sprite:setProperty(leftNovelRecMoreBtn, 'data', leftData.novelRecommendList[index].link)
+	pindex=index
+	local leftNovelChildList  = Sprite:findChild(item,'leftNovelChildList')   
+	Log:write('loadLeftNovelItem========33311',pindex,leftNovelChildList,leftNovelChildListItem)
+	List:removeAllItems(leftNovelChildList, 1,1) 
+	List:loadItem(leftNovelChildList, leftNovelChildListItem,#leftData.novelRecommendList[index].child+1, 'loadLeftNovelListviewChildListItem')
+	List:adjust(leftNovelChildList) 
+end
+
+--加载leftNovel ListView ChildList loadItem
+function loadLeftNovelListviewChildListItem(list,item, index)
+    local leftNovelRecName =Sprite:findChild(item, 'leftNovelRecName')
+	local leftNovelRecAuthorName=Sprite:findChild(item, 'leftNovelRecAuthorName')
+	local leftNovelRecHostName=Sprite:findChild(item, 'leftNovelRecHostName')
+	local leftNovelRecName_s =Sprite:findChild(item, 'leftNovelRecName_s')
+	local leftNovelRecAuthorName_s=Sprite:findChild(item, 'leftNovelRecAuthorName_s')
+	local leftNovelRecHostName_s=Sprite:findChild(item, 'leftNovelRecHostName_s')
+	local leftNovelChildBtn = Sprite:findChild(item,'leftNovelChildBtn')
+	local novelImage = Sprite:findChild(item,'novelImage')
+	local novelImage_s = Sprite:findChild(item,'novelImage_s')
+	Sprite:setProperty(leftNovelRecName, 'text', leftData.novelRecommendList[pindex].child[index].name)
+	Sprite:setProperty(leftNovelRecHostName, 'text', leftData.novelRecommendList[pindex].child[index].anchor)
+	Sprite:setProperty(leftNovelChildBtn, 'data', leftData.novelRecommendList[pindex].child[index].link)
+	Sprite:setProperty(leftNovelRecName_s, 'text', leftData.novelRecommendList[pindex].child[index].name)
+	Sprite:setProperty(leftNovelRecHostName_s, 'text', leftData.novelRecommendList[pindex].child[index].anchor)
+	Sprite:setProperty(novelImage, 'src', leftData.novelRecommendList[pindex].child[index].limg)
+	Sprite:setProperty(novelImage_s, 'src', leftData.novelRecommendList[pindex].child[index].limg)
+end
+
+
+--加载leftPodcast ListView填充数据
+function LoadleftPodcastListviewData()
+    Log:write('loadLeftPodcastItem========2',leftListViewPodcast, leftPodcastListviewItem)
+    ListView:removeAllItems(leftListViewPodcast, 1, 1)
+    ListView:loadItem(leftListViewPodcast, leftPodcastListviewItem,#podcastRecommendData.podcastRecommendList+1, 'loadLeftPodcastListviewItem')
+	ListView:adjust(leftListViewPodcast) 
+end
+
+--加载leftNovel ListView loadItem
+function loadLeftPodcastListviewItem(list,item, index)
+    local leftPodcastRecTitle =Sprite:findChild(item, 'leftPodcastRecTitle')
+	local leftPodcastRecMoreBtn =Sprite:findChild(item, 'leftPodcastRecMoreBtn')
+	Sprite:setProperty(leftPodcastRecTitle, 'text', podcastRecommendData.podcastRecommendList[index].name)
+	Sprite:setProperty(leftPodcastRecMoreBtn, 'data', 'name='..podcastRecommendData.podcastRecommendList[index].name..';'..podcastRecommendData.podcastRecommendList[index].link)
+	Podcastindex=index
+	local leftPodcastChildList  = Sprite:findChild(item,'leftPodcastChildList')   
+	-- Log:write('loadLeftNovelItem========33311',Podcastindex,leftPodcastChildList,leftPodcastChildListItem)
+	List:removeAllItems(leftPodcastChildList, 1,1) 
+	List:loadItem(leftPodcastChildList, leftPodcastChildListItem,#podcastRecommendData.podcastRecommendList[index].child+1, 'loadLeftPodcastListviewChildListItem')
+	List:adjust(leftPodcastChildList) 
+end
+
+--加载leftPodcast ListView ChildList loadItem
+function loadLeftPodcastListviewChildListItem(list,item, index)
+    local leftPodcastRecName =Sprite:findChild(item, 'leftPodcastRecName')
+	-- local leftPodcastRecAuthorName=Sprite:findChild(item, 'leftPodcastRecAuthorName')
+	local leftPodcastRecHostName=Sprite:findChild(item, 'leftPodcastRecHostName')
+	local leftPodcastRecName_s =Sprite:findChild(item, 'leftPodcastRecName_s')
+	-- local leftPodcastRecAuthorName_s=Sprite:findChild(item, 'leftNovelRecAuthorName_s')
+	local leftPodcastRecHostName_s=Sprite:findChild(item, 'leftPodcastRecHostName_s')
+	local leftPodcastChildBtn = Sprite:findChild(item,'leftPodcastChildBtn')
+	local podcastImage = Sprite:findChild(item,'podcastImage')
+	local podcastImage_s = Sprite:findChild(item,'podcastImage_s')
+	Sprite:setProperty(leftPodcastRecName, 'text', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].name)
+	Sprite:setProperty(leftPodcastRecHostName, 'text', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].anchor)
+	Sprite:setProperty(leftPodcastChildBtn, 'data', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].link)
+	Sprite:setProperty(leftPodcastRecName_s, 'text', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].name)
+	Sprite:setProperty(leftPodcastRecHostName_s, 'text', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].anchor)
+	Sprite:setProperty(podcastImage, 'src', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].limg)
+	Sprite:setProperty(podcastImage_s, 'src', podcastRecommendData.podcastRecommendList[Podcastindex].child[index].limg)
+end
+
+
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+		Timer:cancel(4444)
+		Timer:set(4444,500,'getStatusa')
+        -- Http:request('homeData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/homeData2.jsp',103)
+		-- Http:request('leftData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/leftData.jsp',102)
+		Http:request('sceneModifiedData', Util:getServer() .. Alias.sceneModifiedData, 101, {useCache=0})
+		local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        local phoneNumber = Reg:getString(regI, 'phoneNumber')
+        Log:write('phoneNumber=====', phoneNumber,Reg:getInteger(regI, 'accountLogin'))
+		
+		mobileVideoVerTable = getLoginUpdateData()
+        Log:write('mobileVideoVerTable', mobileVideoVerTable)
+        Log:write('updateTips_setting', Config:get('updateTips_setting'))
+        if mobileVideoVerTable and mobileVideoVerTable.url and mobileVideoVerTable.url ~= "" then
+            if mobileVideoVerTable.flags == '2' or Config:get('updateTips_setting') == "1" then
+                    Timer:set(homeTimeId.updateDelay,500,"updateFunc")
+            end
+        end
+		
+        if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
+		    
+            LoginStatusChange(true)
+        else
+            if phoneNumber == '' then
+                LoginStatusChange(false)
+            elseif phoneNumber == 'logout' then
+                LoginStatusChange(false)
+            else
+                LoginStatusChange(false)
+            end
+        end
+    elseif msg == MSG_DEACTIVATE then
+        
+    elseif msg == Msg.login then
+      LoginStatusChange(true)
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+	   if Sprite:isVisible(timedCloseNode) == true or Sprite:isVisible(timedCloseNode) == 1  then
+			Sprite:setVisible(timedCloseNode,0)
+			Sprite:setEnable(timedCloseNode,0) 
+	   else
+       dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
+       Dialog:show(dialogTitle, dialogContent, 'ok_cancel', 'UI_exit')
+	   end
+    end
+end
+
+
+--更改用户登录状态
+function LoginStatusChange(isLogin)
+    if isLogin then
+        setNodeState(loginNode,0)
+        setNodeState(userNode,1)
+		-- Sprite:setRect(loginBtn, 30,20,480,100) 
+		-- Sprite:setProperty(loginBtn, 'extendstyle', '1111') 
+        Http:request('loginPhoneNum', Util:getWeiBoServer() .. Alias.phonenumber, Msg.phoneNumber, {useCache = 0})
+    else
+	    -- Sprite:setRect(loginBtn, 30,20,480,100) 
+		-- Sprite:setProperty(loginBtn, 'extendstyle', '1111') 
+        setNodeState(loginNode,1)
+        setNodeState(userNode,0)
+    end
+end
+
+
+
+--加载头部Panorama电台数据
+function LoadPanoramaData()
+    Panorama:loadItem(mainRecPanorama, mainPanoramaItem, #homeData.postList+1, "onLoadRecmPanoramaItem")
+	Log:write('LoadPanoramaData=====',Panorama:getItemCount(mainRecPanorama))
+    createPanoramaForeground(foregroundList, Panorama:getItemCount(mainRecPanorama))
+end
+
+--加载头部Panorama小说数据
+function LoadPanoramaNovelData()
+    Panorama:loadItem(mainRecNovelPanorama, mainPanoramaNovelItem, #homeData.postList2+1, "onLoadRecmPanoramaNovelItem")
+    createPanoramaNovelForeground(foregroundNovelList, Panorama:getItemCount(mainRecNovelPanorama))
+end
+
+--加载头部Panorama播客数据
+function LoadPanoramaPodcastData()
+    if homeData.postList3~=nil and  homeData.postList3~="" then 
+    Panorama:loadItem(mainRecPodcastPanorama, mainPanoramaPodcastItem, #homeData.postList3+1, "onLoadRecmPanoramaPodcastItem")
+    createPanoramaPodcastForeground(foregroundPodcastList, Panorama:getItemCount(mainRecPodcastPanorama))
+	end
+end
+
+
+--加载头部left Panorama小说数据
+function LoadleftRadioPanoramaData()
+    Log:write('leftRadioRecommendData=========')
+    Panorama:loadItem(leftRadioRecPanorama, leftRadioPanoramaItem, #radioRecommendData.postList+1, "onLoadleftRadioRecmPanoramaItem")
+    createPanoramaLeftRadioForeground(foregroundLeftRadioList, Panorama:getItemCount(leftRadioRecPanorama))
+end
+
+
+--加载头部left Panorama小说数据
+function LoadleftNovelPanoramaData()
+    Log:write('leftRecommendData=========')
+    Panorama:loadItem(leftNovelRecPanorama, leftNovelPanoramaItem, #leftData.novelPostList+1, "onLoadleftNovelRecmPanoramaItem")
+    createPanoramaLeftNovelForeground(foregroundLeftNovelList, Panorama:getItemCount(leftNovelRecPanorama))
+end
+
+--加载头部left Panorama小说数据
+function LoadleftPodcastPanoramaData()
+    Panorama:loadItem(leftPodcastRecPanorama, leftPodcastPanoramaItem, #podcastRecommendData.postList+1, "onLoadleftPodcastRecmPanoramaItem")
+	createPanoramaLeftPodcastForeground(foregroundLeftPodcastList, Panorama:getItemCount(leftPodcastRecPanorama))
+end
+
+
+--加载mainListView电台数据
+function  LoadMainListViewData()
+    ListView:removeAllItems(mainListViewRadio, 1, 1)
+    ListView:loadItem(mainListViewRadio, Sprite:findChild(rootSprite, 'recommendItem'), math.ceil(#homeData.recommendList+1/4), 'loadImagefallItem')
+	ListView:adjust(mainListViewRadio) 
+end
+
+
+--加载mainListView小说数据
+function LoadMainListViewNovelData()
+    ListView:removeAllItems(mainListViewNovel, 1, 1)
+    ListView:loadItem(mainListViewNovel, Sprite:findChild(rootSprite, 'recommendNovelItem'), math.ceil(#homeData.recommendList2+1/4), 'loadImagefallNovelItem')
+	ListView:adjust(mainListViewNovel) 
+end
+
+--加载mainListView播客数据
+function LoadMainListViewPodcastData()
+   if homeData.recommendList3~=nil and homeData.recommendList3~='' then
+    ListView:removeAllItems(mainListViewPodcast, 1, 1)
+    ListView:loadItem(mainListViewPodcast, Sprite:findChild(rootSprite, 'recommendPodcastItem'), math.ceil(#homeData.recommendList3+1/4), 'loadImagefallPodcastItem')
+	ListView:adjust(mainListViewPodcast) 
+	end
+end
+
+
+
+--导航按钮
+function leftNavigationBtnOnSelect(sprite)
+    local item = Sprite:getParent(Sprite:getParent(Sprite:getParent(sprite)))
+    if Panorama:getCurNavigation(item) == 0 then
+        Panorama:showNavigation(item, 1)
+    else
+        Panorama:showNavigation(item, 0)
+    end
+end
+
+--功能按钮
+function rightNavigationBtnOnSelect(sprite)
+    local item = Sprite:getParent(Sprite:getParent(Sprite:getParent(sprite)))
+    if Panorama:getCurNavigation(item) == 0 then
+        Panorama:showNavigation(item, 2)
+    else
+        Panorama:showNavigation(item, 0)
+    end
+end
+
+ 
+
+function itemOnNavigationL(sprite)
+    Log:write('itemOnNavigationL ============= ')
+end
+
+function itemOnNavigationR(sprite)
+    Log:write('itemOnNavigationR ============= ')
+end
+
+function itemOnNavigationC(sprite)
+    Log:write('itemOnNavigationC ============= ')
+end
+
+--电台加载point
+function recmPanoramaItemOnSelect(sprite)
+    local panorama = Sprite:getParent(sprite)
+    local index = Panorama:getCurItem(mainRecPanorama)
+    setPanoramaForeground(foregroundList, index)
+end
+
+
+--播客小说point
+function recmPanoramaNovelItemOnSelect(sprite)
+    local panorama = Sprite:getParent(sprite)
+    local index = Panorama:getCurItem(mainRecNovelPanorama)
+    setPanoramaNovelForeground(foregroundNovelList, index)
+end
+
+
+--播客加载point
+function recmPanoramaPodcastItemOnSelect(sprite)
+    local panorama = Sprite:getParent(sprite)
+    local index = Panorama:getCurItem(mainRecPodcastPanorama)
+    setPanoramaPodcastForeground(foregroundPodcastList, index)
+end
+
+--left电台加载point
+function recmPanoramaLeftRadioItemOnSelect(sprite)
+    local panorama = Sprite:getParent(sprite)
+    local index = Panorama:getCurItem(leftRadioRecPanorama)
+    setPanoramaLeftRadioForeground(foregroundLeftRadioList, index)
+end
+
+
+--left小说加载point
+function recmPanoramaLeftNovelItemOnSelect(sprite)
+    local panorama = Sprite:getParent(sprite)
+    local index = Panorama:getCurItem(leftNovelRecPanorama)
+    setPanoramaLeftNovelForeground(foregroundLeftNovelList, index)
+end
+
+--left播客加载point
+function recmPanoramaLeftPodcastItemOnSelect(sprite)
+    local panorama = Sprite:getParent(sprite)
+    local index = Panorama:getCurItem(leftPodcastRecPanorama)
+    setPanoramaLeftPodcastForeground(foregroundLeftPodcastList, index)
+end
+
+function getNeighbourIndex(nCurIndex,nTotal)
+    return (nCurIndex-1)%nTotal,nCurIndex,(nCurIndex+1)%nTotal
+end
+
+
+--@brief电台推荐onLoadRecmPanoramaItem
+function onLoadRecmPanoramaItem(list, item, index)
+    Log:write('onLoadPanoramaItem', index)
+    local recommendImg = Sprite:findChild(item, 'recommendImg')
+	local mainPanoramaItemname = Sprite:findChild(item, 'mainPanoramaItemname')
+	local radioRecommendBtn = Sprite:findChild(item, 'radioRecommendBtn')
+	Log:write('onLoadPanoramaItem', recommendImg)
+	Sprite:setProperty(recommendImg, 'src', homeData.postList[index].cimage)
+	Sprite:setProperty(mainPanoramaItemname, 'text', homeData.postList[index].desc)
+    Sprite:setProperty(item, 'OnSelect', 'recmPanoramaItemOnSelect')
+	Sprite:setProperty(radioRecommendBtn, 'data', homeData.postList[index].cid)
+    Sprite:setRect(item, 0, 0, 686,300)
+    Sprite:setProperty(item, 'extendstyle', '1110')
+end
+
+--@brief小说推荐onLoadRecmPanoramaItem
+function onLoadRecmPanoramaNovelItem(list, item, index)
+    local recommendImg = Sprite:findChild(item, 'recommendImg')
+	local mainPanoramaItemname = Sprite:findChild(item, 'mainPanoramaItemname')
+	local novelRecommendBtn =  Sprite:findChild(item, 'novelRecommendBtn')
+	Log:write('onLoadPanoramaItem', recommendImg)
+	Sprite:setProperty(recommendImg, 'src', homeData.postList2[index].cimage)
+	Sprite:setProperty(mainPanoramaItemname, 'text', homeData.postList2[index].desc)
+	Sprite:setProperty(novelRecommendBtn, 'data', homeData.postList2[index].cid)
+    Sprite:setProperty(item, 'OnSelect', 'recmPanoramaNovelItemOnSelect')
+    Sprite:setRect(item, 0, 0, 686,300)
+    Sprite:setProperty(item, 'extendstyle', '1110')
+end
+
+
+--@brief播客推荐onLoadRecmPanoramaPodcastItem
+function onLoadRecmPanoramaPodcastItem(list, item, index)
+    local podcastRecommendBtn = Sprite:findChild(item, 'podcastRecommendBtn')
+    local recommendImg = Sprite:findChild(item, 'recommendImg')
+	local mainPanoramaItemname = Sprite:findChild(item, 'mainPanoramaItemname')
+	Log:write('onLoadPanoramaItem', recommendImg)
+	Sprite:setProperty(recommendImg, 'src', homeData.postList3[index].cimage)
+	Sprite:setProperty(mainPanoramaItemname, 'text', homeData.postList3[index].desc)
+	Sprite:setProperty(podcastRecommendBtn, 'data',homeData.postList3[index].cid)
+    Sprite:setProperty(item, 'OnSelect', 'recmPanoramaPodcastItemOnSelect')
+    Sprite:setRect(item, 0, 0, 686,300)
+    Sprite:setProperty(item, 'extendstyle', '1110')
+	
+end
+
+
+--@brief电台推荐onLoadRecmPanoramaPodcastItem
+function onLoadleftRadioRecmPanoramaItem(list, item, index)
+    -- Log:write('leftRecommendData======12===',leftData.novelPostList[index].desc)
+    local recommendImg = Sprite:findChild(item, 'recommendImg')
+	local leftPanoramaItemname = Sprite:findChild(item, 'leftPanoramaItemname')
+	local leftradioRecommendBtn  = Sprite:findChild(item, 'leftradioRecommendBtn')
+	Log:write('onLoadleftRadioRecmPanoramaItem===', radioRecommendData.postList[index].cid)
+	Sprite:setProperty(recommendImg, 'src', radioRecommendData.postList[index].cimage)
+	Sprite:setProperty(leftradioRecommendBtn,'data',radioRecommendData.postList[index].cid)
+	-- Sprite:setProperty(leftPanoramaItemname, 'text', radioRecommendData.postList[index].desc)
+	
+    Sprite:setProperty(item, 'OnSelect', 'recmPanoramaLeftRadioItemOnSelect')
+    Sprite:setRect(item, 0, 0, 686,300)
+    Sprite:setProperty(item, 'extendstyle', '1110')
+end
+
+
+--@brief小说推荐onLoadRecmPanoramaPodcastItem
+function onLoadleftNovelRecmPanoramaItem(list, item, index)
+    Log:write('leftRecommendData======12===',leftData.novelPostList[index].desc)
+    local recommendImg = Sprite:findChild(item, 'recommendImg')
+	local leftPanoramaItemname = Sprite:findChild(item, 'leftPanoramaItemname')
+	local novelPanoramaItemBtn = Sprite:findChild(item, 'novelPanoramaItemBtn')
+	Log:write('onLoadPanoramaItem', recommendImg)
+	Sprite:setProperty(recommendImg, 'src', leftData.novelPostList[index].cimage)
+	Sprite:setProperty(novelPanoramaItemBtn, 'data', leftData.novelPostList[index].link)
+	-- Sprite:setProperty(leftPanoramaItemname, 'text', leftData.novelPostList[index].desc)
+    Sprite:setProperty(item, 'OnSelect', 'recmPanoramaLeftNovelItemOnSelect')
+    Sprite:setRect(item, 0, 0, 686,300)
+    Sprite:setProperty(item, 'extendstyle', '1110')
+end
+
+--@brief小说推荐onLoadleftPodcastRecmPanoramaItem
+function onLoadleftPodcastRecmPanoramaItem(list, item, index)
+    -- Log:write('leftRecommendData======12===',podcastRecommendData.postList[index].desc)
+    local recommendImg = Sprite:findChild(item, 'recommendImg')
+	-- local leftPanoramaItemname = Sprite:findChild(item, 'leftPanoramaItemname')
+	local podcastPanoramaItemBtn = Sprite:findChild(item, 'podcastPanoramaItemBtn')
+	Log:write('onLoadPanoramaItem', recommendImg)
+	-- Sprite:setProperty(leftPanoramaItemname, 'text', podcastRecommendData.postList[index].name)
+	Sprite:setProperty(recommendImg, 'src', podcastRecommendData.postList[index].cimage)
+	Sprite:setProperty(podcastPanoramaItemBtn, 'data', podcastRecommendData.postList[index].param)
+    Sprite:setProperty(item, 'OnSelect', 'recmPanoramaLeftPodcastItemOnSelect')
+    Sprite:setRect(item, 0, 0, 686,300)
+    Sprite:setProperty(item, 'extendstyle', '1110')
+end
+
+-- @brief 创建电台panorama的标识点
+function createPanoramaForeground(list, count)
+    Sprite:setProperty(list,"col",count)
+	Log:write('count====2==',count,list)
+    local s_w = 720
+    local point_w = 35
+    local offset = 0
+    local _, y, _, h = Sprite:getRect(list)
+    local w1 = point_w * count + offset * (count+1)
+    local x1 = (s_w - w1) / 2
+    List:removeAllItems(list, 1, 1)
+    for i = 1, count do
+        local item = Sprite:create('listitem', list)
+        local img = Sprite:create('image', item)
+		-- local shadow1 = Sprite:create('shadow', item)
+		-- Sprite:setRect(shadow1, 0, 0, point_w, point_w)
+		-- Sprite:setProperty(shadow1, 'color', '#FFE4B5')
+        Sprite:setRect(item, 0, 0, point_w, point_w)
+        Sprite:setProperty(item, 'extendstyle', '0110')
+        Sprite:setRect(img, 0, 0, point_w, point_w)
+        Sprite:setProperty(img, 'extendstyle', '0100')
+        Sprite:setName(img, 'img')
+        Sprite:setProperty(img, 'src', 'file://image/panorama_point_f.png')
+        -- resChoose(img)
+        Sprite:setProperty(img, 'style', 'center')
+        List:addItem(list, item)
+		Log:write('point_w=====11===',point_w)
+    end
+    Sprite:setRect(list, x1, y, w1, h)
+    Sprite:setProperty(list, 'extendstyle', '1110')
+    List:adjust(list)
+    setPanoramaForeground(list, 0)
+end
+
+-- @brief 设置电台panorama当前第几页的标识点
+function setPanoramaForeground(list, index)
+    Log:write('setPanoramaForeground=====电台1===',lastPanoramaPointIndex,index)
+    if lastPanoramaPointIndex then
+	 -- Log:write('setPanoramaForeground=====电台===',index)
+        local setSprite = Sprite:findChild(List:getItem(list, lastPanoramaPointIndex), 'img')
+        Sprite:setProperty(setSprite,'src','file://image/panorama_point_f.png')
+        -- resChoose(setSprite)
+    end
+    local setSprite = Sprite:findChild(List:getItem(list, index), 'img')
+    Sprite:setProperty(setSprite,'src','file://image/panorama_point_n.png')
+    -- resChoose(setSprite)
+    lastPanoramaPointIndex = index
+end
+
+-- @brief 创建小说panorama的标识点
+function createPanoramaNovelForeground(list, count)
+    Sprite:setProperty(list,"col",count)
+	Log:write('count====2==',count,list)
+    local s_w = 720
+    local point_w = 35
+    local offset = 0
+    local _, y, _, h = Sprite:getRect(list)
+    local w1 = point_w * count + offset * (count+1)
+    local x1 = (s_w - w1) / 2
+    List:removeAllItems(list, 1, 1)
+    for i = 1, count do
+        local item = Sprite:create('listitem', list)
+        local img = Sprite:create('image', item)
+		-- local shadow1 = Sprite:create('shadow', item)
+		-- Sprite:setRect(shadow1, 0, 0, point_w, point_w)
+		-- Sprite:setProperty(shadow1, 'color', '#FFE4B5')
+        Sprite:setRect(item, 0, 0, point_w, point_w)
+        Sprite:setProperty(item, 'extendstyle', '0110')
+        Sprite:setRect(img, 0, 0, point_w, point_w)
+        Sprite:setProperty(img, 'extendstyle', '0100')
+        Sprite:setName(img, 'img')
+        Sprite:setProperty(img, 'src', 'file://image/panorama_point_f.png')
+        -- resChoose(img)
+        Sprite:setProperty(img, 'style', 'center')
+        List:addItem(list, item)
+		Log:write('point_w=====11===',point_w)
+    end
+    Sprite:setRect(list, x1, y, w1, h)
+    Sprite:setProperty(list, 'extendstyle', '1110')
+    List:adjust(list)
+    setPanoramaNovelForeground(list, 0)
+end
+
+-- @brief 设置小说panorama当前第几页的标识点
+function setPanoramaNovelForeground(list, index)
+    if lastPanoramaNovelPointIndex then
+	 Log:write('setPanoramaForeground=====11===',index)
+        local setSprite = Sprite:findChild(List:getItem(list, lastPanoramaNovelPointIndex), 'img')
+        Sprite:setProperty(setSprite,'src','file://image/panorama_point_f.png')
+        -- resChoose(setSprite)
+    end
+    local setSprite = Sprite:findChild(List:getItem(list, index), 'img')
+    Sprite:setProperty(setSprite,'src','file://image/panorama_point_n.png')
+    -- resChoose(setSprite)
+    lastPanoramaNovelPointIndex = index
+end
+
+-- @brief 创建播客panorama的标识点
+function createPanoramaPodcastForeground(list, count)
+    Sprite:setProperty(list,"col",count)
+	Log:write('count====2==',count,list)
+    local s_w = 720
+    local point_w = 35
+    local offset = 0
+    local _, y, _, h = Sprite:getRect(list)
+    local w1 = point_w * count + offset * (count+1)
+    local x1 = (s_w - w1) / 2
+    List:removeAllItems(list, 1, 1)
+    for i = 1, count do
+        local item = Sprite:create('listitem', list)
+        local img = Sprite:create('image', item)
+		-- local shadow1 = Sprite:create('shadow', item)
+		-- Sprite:setRect(shadow1, 0, 0, point_w, point_w)
+		-- Sprite:setProperty(shadow1, 'color', '#FFE4B5')
+        Sprite:setRect(item, 0, 0, point_w, point_w)
+        Sprite:setProperty(item, 'extendstyle', '0110')
+        Sprite:setRect(img, 0, 0, point_w, point_w)
+        Sprite:setProperty(img, 'extendstyle', '0100')
+        Sprite:setName(img, 'img')
+        Sprite:setProperty(img, 'src', 'file://image/panorama_point_f.png')
+        -- resChoose(img)
+        Sprite:setProperty(img, 'style', 'center')
+        List:addItem(list, item)
+		Log:write('point_w=====11===',point_w)
+    end
+    Sprite:setRect(list, x1, y, w1, h)
+    Sprite:setProperty(list, 'extendstyle', '1110')
+    List:adjust(list)
+    setPanoramaPodcastForeground(list, 0)
+end
+
+-- @brief 设置播客panorama当前第几页的标识点
+function setPanoramaPodcastForeground(list, index)
+    if lastPanoramaPodcastPointIndex then
+	 Log:write('setPanoramaForeground=====11===',index)
+        local setSprite = Sprite:findChild(List:getItem(list, lastPanoramaPodcastPointIndex), 'img')
+        Sprite:setProperty(setSprite,'src','file://image/panorama_point_f.png')
+        -- resChoose(setSprite)
+    end
+    local setSprite = Sprite:findChild(List:getItem(list, index), 'img')
+    Sprite:setProperty(setSprite,'src','file://image/panorama_point_n.png')
+    -- resChoose(setSprite)
+    lastPanoramaPodcastPointIndex = index
+end
+
+-- @brief 创建电台panorama的标识点
+function createPanoramaLeftRadioForeground(list, count)
+    Sprite:setProperty(list,"col",count)
+	Log:write('count===12=2==',count,list)
+    local s_w = 720
+    local point_w = 35
+    local offset = 0
+    local _, y, _, h = Sprite:getRect(list)
+    local w1 = point_w * count + offset * (count+1)
+    local x1 = (s_w - w1) / 2
+    List:removeAllItems(list, 1, 1)
+    for i = 1, count do
+        local item = Sprite:create('listitem', list)
+        local img = Sprite:create('image', item)
+		-- local shadow1 = Sprite:create('shadow', item)
+		-- Sprite:setRect(shadow1, 0, 0, point_w, point_w)
+		-- Sprite:setProperty(shadow1, 'color', '#FFE4B5')
+        Sprite:setRect(item, 0, 0, point_w, point_w)
+        Sprite:setProperty(item, 'extendstyle', '0110')
+        Sprite:setRect(img, 0, 0, point_w, point_w)
+        Sprite:setProperty(img, 'extendstyle', '0100')
+        Sprite:setName(img, 'img')
+        Sprite:setProperty(img, 'src', 'file://image/panorama_point_f.png')
+        -- resChoose(img)
+        Sprite:setProperty(img, 'style', 'center')
+        List:addItem(list, item)
+		Log:write('point_w=====12===',point_w)
+    end
+    Sprite:setRect(list, x1, y, w1, h)
+    Sprite:setProperty(list, 'extendstyle', '1110')
+    List:adjust(list)
+    setPanoramaLeftRadioForeground(list, 0)
+end
+
+-- @brief 设置left电台panorama当前第几页的标识点
+function setPanoramaLeftRadioForeground(list, index)
+    if lastPanoramaLeftRadioPointIndex then
+	 Log:write('setPanoramaForeground=====11===',index)
+        local setSprite = Sprite:findChild(List:getItem(list, lastPanoramaLeftRadioPointIndex), 'img')
+        Sprite:setProperty(setSprite,'src','file://image/panorama_point_f.png')
+        -- resChoose(setSprite)
+    end
+    local setSprite = Sprite:findChild(List:getItem(list, index), 'img')
+    Sprite:setProperty(setSprite,'src','file://image/panorama_point_n.png')
+    -- resChoose(setSprite)
+    lastPanoramaLeftRadioPointIndex = index
+end
+
+
+
+-- @brief 创建小说panorama的标识点
+function createPanoramaLeftNovelForeground(list, count)
+    Sprite:setProperty(list,"col",count)
+	Log:write('count===12=2==',count,list)
+    local s_w = 720
+    local point_w = 35
+    local offset = 0
+    local _, y, _, h = Sprite:getRect(list)
+    local w1 = point_w * count + offset * (count+1)
+    local x1 = (s_w - w1) / 2
+    List:removeAllItems(list, 1, 1)
+    for i = 1, count do
+        local item = Sprite:create('listitem', list)
+        local img = Sprite:create('image', item)
+		-- local shadow1 = Sprite:create('shadow', item)
+		-- Sprite:setRect(shadow1, 0, 0, point_w, point_w)
+		-- Sprite:setProperty(shadow1, 'color', '#FFE4B5')
+        Sprite:setRect(item, 0, 0, point_w, point_w)
+        Sprite:setProperty(item, 'extendstyle', '0110')
+        Sprite:setRect(img, 0, 0, point_w, point_w)
+        Sprite:setProperty(img, 'extendstyle', '0100')
+        Sprite:setName(img, 'img')
+        Sprite:setProperty(img, 'src', 'file://image/panorama_point_f.png')
+        -- resChoose(img)
+        Sprite:setProperty(img, 'style', 'center')
+        List:addItem(list, item)
+		Log:write('point_w=====11===',point_w)
+    end
+    Sprite:setRect(list, x1, y, w1, h)
+    Sprite:setProperty(list, 'extendstyle', '1110')
+    List:adjust(list)
+    setPanoramaLeftNovelForeground(list, 0)
+end
+
+-- @brief 设置left小说panorama当前第几页的标识点
+function setPanoramaLeftNovelForeground(list, index)
+    if lastPanoramaLeftNovelPointIndex then
+	 Log:write('setPanoramaForeground=====11===',index)
+        local setSprite = Sprite:findChild(List:getItem(list, lastPanoramaLeftNovelPointIndex), 'img')
+        Sprite:setProperty(setSprite,'src','file://image/panorama_point_f.png')
+        -- resChoose(setSprite)
+    end
+    local setSprite = Sprite:findChild(List:getItem(list, index), 'img')
+    Sprite:setProperty(setSprite,'src','file://image/panorama_point_n.png')
+    -- resChoose(setSprite)
+    lastPanoramaLeftNovelPointIndex = index
+end
+ 
+-- @brief 创建播客panorama的标识点
+function createPanoramaLeftPodcastForeground(list, count)
+    Sprite:setProperty(list,"col",count)
+	Log:write('count===02=17==',count,list)
+    local s_w = 720
+    local point_w = 35
+    local offset = 0
+    local _, y, _, h = Sprite:getRect(list)
+    local w1 = point_w * count + offset * (count+1)
+    local x1 = (s_w - w1) / 2
+    List:removeAllItems(list, 1, 1)
+    for i = 1, count do
+        local item = Sprite:create('listitem', list)
+        local img = Sprite:create('image', item)
+		-- local shadow1 = Sprite:create('shadow', item)
+		-- Sprite:setRect(shadow1, 0, 0, point_w, point_w)
+		-- Sprite:setProperty(shadow1, 'color', '#FFE4B5')
+        Sprite:setRect(item, 0, 0, point_w, point_w)
+        Sprite:setProperty(item, 'extendstyle', '0110')
+        Sprite:setRect(img, 0, 0, point_w, point_w)
+        Sprite:setProperty(img, 'extendstyle', '0100')
+        Sprite:setName(img, 'img')
+        Sprite:setProperty(img, 'src', 'file://image/panorama_point_f.png')
+        -- resChoose(img)
+        Sprite:setProperty(img, 'style', 'center')
+        List:addItem(list, item)
+		Log:write('point_w=====14===',point_w)
+    end
+    Sprite:setRect(list, x1, y, w1, h)
+    Sprite:setProperty(list, 'extendstyle', '1110')
+    List:adjust(list)
+    setPanoramaLeftPodcastForeground(list, 0)
+end
+
+-- @brief 设置left播客panorama当前第几页的标识点
+function setPanoramaLeftPodcastForeground(list, index)
+if lastPanoramaLeftPodcastPointIndex then
+	 Log:write('setPanoramaForeground=====14===',index)
+        local setSprite = Sprite:findChild(List:getItem(list, lastPanoramaLeftPodcastPointIndex), 'img')
+        Sprite:setProperty(setSprite,'src','file://image/panorama_point_f.png')
+        -- resChoose(setSprite)
+    end
+    local setSprite = Sprite:findChild(List:getItem(list, index), 'img')
+    Sprite:setProperty(setSprite,'src','file://image/panorama_point_n.png')
+    -- resChoose(setSprite)
+    lastPanoramaLeftPodcastPointIndex = index
+end
+
+
+
+--直播、电台、小说、播客四个按钮的点击事件
+function functionBtnOnSelect(sprite)
+    local item = Sprite:getParent(sprite)
+    local index = List:getItemIndex(item)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	if index==0 then 
+	Reg:setInteger(reg,'currentFlag',0)
+	setNodeState(listNode,1) --电台point数据list
+	setNodeState(listNovelNode,0)--小说point数据list
+	setNodeState(listPodcastNode,0)--播客point数据list	
+	setNodeState(mainRecPanorama,1)--电台头部Panorama数据
+	setNodeState(mainRecNovelPanorama,0)--小说头部Panorama数据
+	setNodeState(mainRecPodcastPanorama,0)--播客头部Panorama数据
+	setNodeState(mainListviewRadioNode,1)--电台ListView数据
+	setNodeState(mainListviewNovelNode,0)--小说ListView数据
+	setNodeState(mainListviewPodcastNode,0)--播客ListView数据
+	-- Sprite:setEnable(sprite, 0)
+	elseif index==1 then
+	Reg:setInteger(reg,'currentFlag',1)
+	setNodeState(listNode,0)
+	setNodeState(listNovelNode,1)
+	setNodeState(listPodcastNode,0)
+	setNodeState(mainRecPanorama,0)
+	setNodeState(mainRecNovelPanorama,1)
+	setNodeState(mainRecPodcastPanorama,0)
+	setNodeState(mainListviewRadioNode,0)
+	setNodeState(mainListviewNovelNode,1)
+	setNodeState(mainListviewPodcastNode,0)
+	elseif index==2 then
+	Reg:setInteger(reg,'currentFlag',2)
+	setNodeState(listNode,0)
+	setNodeState(listNovelNode,0)
+	setNodeState(listPodcastNode,1)
+	setNodeState(mainRecPanorama,0)
+	setNodeState(mainRecNovelPanorama,0)
+	setNodeState(mainRecPodcastPanorama,1)
+	setNodeState(mainListviewRadioNode,0)
+	setNodeState(mainListviewNovelNode,0)
+	setNodeState(mainListviewPodcastNode,1)
+	end
+	
+	local n= List:getCurItem(mainBottomList)
+    for i=0,2 do
+    local item =List:getItem(mainBottomList,i)
+    local functionBtn=Sprite:findChild(item,'functionBtn')
+        if i==n then
+            Sprite:setEnable(functionBtn,0)
+            curIndex=i
+        else
+            Sprite:setEnable(functionBtn,1)
+        end
+    end
+end
+
+--MainListView的Item点击事件
+function contentOnSelect(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	local flag = Reg:getInteger(reg,'currentFlag')
+	if flag == 1 then
+		--小说跳转
+		local data = Sprite:getData(sprite)
+		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		Reg:setString(reg,'novelItemId',data)
+		-- Reg:setInteger(reg, 'novelIsUrl',2) 
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+	elseif flag == 0 then
+		--电台跳转
+		local data = Sprite:getData(sprite)
+		Log:write('godiantai',data)
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+		Reg:setString(reg,'audioplayData',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})
+	elseif flag == 2 then
+		--播客跳转
+		local data = Sprite:getData(sprite)
+		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+		Reg:setString(reg,'bokeItemData',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+	end
+end
+
+--leftRadio的ListView中的点击事件
+function leftRadioItemBtnOnSelect(sprite)
+  local item = Sprite:getParent(Sprite:getParent(sprite))
+  local index = ListView:getItemIndex(item)
+  local title = Sprite:findChild(item,'radioname')
+  local data=Sprite:getData(sprite) 
+  local titledata=Sprite:getText(title)
+  Log:write('leftRadioItemBtnOnSelect============',index,data,titledata)
+  local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+  Reg:setString(reg, 'radioData', data)
+  Reg:setString(reg, 'radioTitle', titledata)
+  Scene:go('MODULE:\\com_wondertek_mobileaudio\\radiolist.wdml',{freeDestScene=true})
+end
+
+
+
+--leftNovel的ListView中的点击事件
+function leftNovelRecMoreBtnOnSelect(sprite)
+    local item = Sprite:getParent(Sprite:getParent(sprite))
+	local title = Sprite:findChild(item,'leftNovelRecTitle')
+    local index = ListView:getItemIndex(item)
+	local data=Sprite:getData(sprite) 
+	local titledata=Sprite:getText(title)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+    Reg:setString(reg, 'ListViewData', data)
+	Reg:setString(reg, 'ListViewDataTitle', titledata)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelList.wdml',{freeDestScene = true})
+end
+
+function leftNovelListViewChildListOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+    Reg:setString(reg,'novelItemId',data)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+end
+
+--leftNovel的ListView中的点击事件
+function leftPodcastRecMoreBtnOnSelect(sprite)
+    -- local item = Sprite:getParent(Sprite:getParent(sprite))
+	-- local index = ListView:getItemIndex(item)
+	local data=Sprite:getData(sprite) 
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	Reg:setString(reg,'podcastRecMoreData',data)
+    Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastMoreList.wdml',{freeDestScene=true})
+end
+
+function leftPodcastListViewChildListOnSelect(sprite)
+    local data = Sprite:getData(sprite)
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	Reg:setString(reg,'bokeItemData',data)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+end
+ 
+function contentListOnOverTrail(sprite, x)
+    if x ~= 0  then
+       return 
+    end
+    if pageIndex and _channelParam and pageIndex ~= -1 then
+        if Sprite:getData(sprite) == "" then
+            pageIndex = pageIndex + 1
+            --insertLoading(sprite)
+            Sprite:setProperty(sprite,"data","1")
+            local param = _channelParam .. "&pageIndex=" .. pageIndex
+            Http:request('channelData', Util:getServer() .. Alias.channelData .. "?" .. param ,105)
+        end
+    else
+        Tips:show('到底啦')
+    end
+end
+
+--首页左边菜单点击事件
+function leftBtnOnSelect(sprite)
+ local item = Sprite:getParent(sprite)
+ local index = ListView:getItemIndex(item)
+ if index == 0 then
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\search.wdml',{freeDestScene=true})
+ elseif index==1  then
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\mycollected.wdml',{freeDestScene=true})
+ elseif index==2 then
+    local n=0
+       for i=0,2 do
+       local item =List:getItem(mainBottomList,i)
+       local functionBtn=Sprite:findChild(item,'functionBtn')
+            if i==n then
+               Sprite:setEnable(functionBtn,0)
+               curIndex=i
+            else
+               Sprite:setEnable(functionBtn,1)
+            end
+        end
+    Sprite:setProperty(mainTitle,'text','首页精选')
+    local item = Panorama:getItem(mainPanorama,0)
+    Panorama:showNavigation(item, 0)
+	setNodeState(listNode,1)
+	setNodeState(listNovelNode,0)
+	setNodeState(listPodcastNode,0)
+	setNodeState(mainRecPanorama,1)
+	setNodeState(mainRecNovelPanorama,0)
+	setNodeState(mainRecPodcastPanorama,0)
+	setNodeState(mainListviewRadioNode,1)
+	setNodeState(mainListviewNovelNode,0)
+	setNodeState(mainListviewPodcastNode,0)
+	setNodeState(mainBottomNode,1)
+	-- left
+	--小说
+	setNodeState(leftNovelRecPanorama,0)
+	setNodeState(listleftNovelNode,0)
+	setNodeState(leftListviewNovelNode,0)
+	--电台
+	setNodeState(leftRadioRecPanorama,0)
+	setNodeState(leftlistRadioNode,0)
+	setNodeState(leftListviewRadioNode,0)
+	-- 播客
+	setNodeState(leftPodcastRecPanorama,0)
+	setNodeState(listleftPodcastNode,0)
+	setNodeState(leftListviewPodcastNode,0)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	Reg:setInteger(reg,'currentFlag',0)
+ elseif index==3 then
+    local vitem_video =ListView:getItem(leftListview,index)
+	local vitem_video_n =ListView:getItem(leftListview,index+1)
+	local vitem_video_n2 =ListView:getItem(leftListview,index+2)
+    radioList = Sprite:findChild(vitem_video,'radioList')
+	local tt = Sprite:findChild(radioList,'allRadioBtn')
+	local rimg = Sprite:findChild(vitem_video,'rimg')
+	leftRadioLineCount = math.ceil(leftRadioItemCount/2)
+	if Sprite:isVisible(radioList)==0 then	
+	   loadleftradioItem()
+	   Sprite:setRect(vitem_video,0,95,720,100*leftRadioLineCount+100+120)
+	   Sprite:setRect(radioList,5,100,300,100*leftRadioLineCount)
+	   Sprite:setRect(tt,0,100*leftRadioLineCount+17,720,100)
+	   Sprite:setVisible(radioList, 1) 
+	   Sprite:setRect(rimg,405,33,35,35)
+	   Sprite:setProperty(rimg,"src","file://image/left_radio_point.png")
+	   --Sprite:setVisible(vitem_video_morecontents, 1)
+	   --Sprite:setRect(leftListview,30,300,480,100*leftRadioItemCount+100)
+	   Log:write("======leftaa",100*leftRadioItemCount+100*leftRadioLineCount+100+120)
+	   ListView:adjust(radioList)
+	   ListView:adjust(leftListview)
+	 elseif Sprite:isVisible(radioList)==1 then
+	   Sprite:setRect(radioList,0,0,480,95)
+	   Sprite:setRect(vitem_video,0,95,720,100)
+	   Sprite:setRect(vitem_video_n,0,0,720,100)
+	   Sprite:setRect(vitem_video_n2,0,0,720,100)
+	   Sprite:setVisible(radioList, 0)
+	   --Sprite:setVisible(vitem_video_morecontents, 0)
+	   List:removeAllItems(radioList,1,1)
+	   Sprite:setRect(rimg,405,33,35,40)
+	   Sprite:setProperty(rimg,"src","file://image/left_radio_arrow.png")
+	   --Sprite:setRect(leftListview,30,300,480,100*leftRadioItemCount)
+	    Log:write("======leftaa",100*leftRadioItemCount)
+		ListView:adjust(radioList)
+	   ListView:adjust(leftListview)
+	 end
+	elseif index==4 then
+	Sprite:setProperty(mainTitle,'text','有声小说')
+	local item = Panorama:getItem(mainPanorama,0)
+    Panorama:showNavigation(item, 0)
+	setNodeState(listNode,0)
+	setNodeState(listNovelNode,0)
+	setNodeState(listPodcastNode,0)
+	setNodeState(mainRecPanorama,0)
+	setNodeState(mainRecNovelPanorama,0)
+	setNodeState(mainRecPodcastPanorama,0)
+	setNodeState(mainListviewRadioNode,0)
+	setNodeState(mainListviewNovelNode,0)
+	setNodeState(mainListviewPodcastNode,0)
+	setNodeState(mainBottomNode,0)
+	--left
+	--小说
+	setNodeState(leftNovelRecPanorama,1)
+	setNodeState(listleftNovelNode,1)
+	setNodeState(leftListviewNovelNode,1)
+	--电台
+	setNodeState(leftRadioRecPanorama,0)
+	setNodeState(leftlistRadioNode,0)
+	setNodeState(leftListviewRadioNode,0)
+	--播客
+	setNodeState(leftPodcastRecPanorama,0)
+	setNodeState(listleftPodcastNode,0)
+	setNodeState(leftListviewPodcastNode,0)
+	elseif index==5 then
+	Sprite:setProperty(mainTitle,'text','发现播客')
+	local item = Panorama:getItem(mainPanorama,0)
+    Panorama:showNavigation(item, 0)
+	setNodeState(listNode,0)
+	setNodeState(listNovelNode,0)
+	setNodeState(listPodcastNode,0)
+	setNodeState(mainRecPanorama,0)
+	setNodeState(mainRecNovelPanorama,0)
+	setNodeState(mainRecPodcastPanorama,0)
+	setNodeState(mainListviewRadioNode,0)
+	setNodeState(mainListviewNovelNode,0)
+	setNodeState(mainListviewPodcastNode,0)
+	setNodeState(mainBottomNode,0)
+	--left
+	--小说
+	setNodeState(leftNovelRecPanorama,0)
+	setNodeState(listleftNovelNode,0)
+	setNodeState(leftListviewNovelNode,0)
+	--电台
+	setNodeState(leftRadioRecPanorama,0)
+	setNodeState(leftlistRadioNode,0)
+	setNodeState(leftListviewRadioNode,0)
+	--播客
+	setNodeState(leftPodcastRecPanorama,1)
+	setNodeState(listleftPodcastNode,1)
+	setNodeState(leftListviewPodcastNode,1)
+	
+	
+ end
+
+end
+
+--加载左侧网络电台推荐数据
+function loadleftradioItem()
+   List:removeAllItems(radioList,1,1)
+   List:loadItem(radioList,leftRadioItem,leftRadioItemCount,'loadleftradioListItem')
+   Sprite:setProperty(radioList,"line",leftRadioLineCount)
+   List:adjust(radioList)
+end
+
+--左侧"查看完整电台分类"按钮的点击事件
+function allRadioBtnOnSelect(sprite)
+    Log:write('allRadioBtnOnSelect===============')
+    Sprite:setProperty(mainTitle,'text','网络电台')
+    local item = Panorama:getItem(mainPanorama,0)
+    Panorama:showNavigation(item, 0)
+	setNodeState(listNode,0)
+	setNodeState(listNovelNode,0)
+	setNodeState(listPodcastNode,0)
+	setNodeState(mainRecPanorama,0)
+	setNodeState(mainRecNovelPanorama,0)
+	setNodeState(mainRecPodcastPanorama,0)
+	setNodeState(mainListviewRadioNode,0)
+	setNodeState(mainListviewNovelNode,0)
+	setNodeState(mainListviewPodcastNode,0)
+	setNodeState(mainBottomNode,0)
+	-- left
+	setNodeState(leftNovelRecPanorama,0)
+	setNodeState(listleftNovelNode,0)
+	setNodeState(leftListviewNovelNode,0)
+	setNodeState(leftRadioRecPanorama,1)
+	setNodeState(leftlistRadioNode,1)
+	setNodeState(leftListviewRadioNode,1)
+	
+	
+end
+
+--加载左侧网络电台推荐数据LIST
+function loadleftradioListItem(list,item,index)
+    Log:write('leftdata============11',item)
+	Sprite:setRect(item,0,0,235,100)
+	local radioname = Sprite:findChild(item,'leftRadioName')
+    Sprite:setProperty(radioname,'text',homeData.radioSort[index].name)
+	local radiobtn = Sprite:findChild(item,'leftRadioBtn')
+	--local newnodeId ="nodeId="..radiorecommenddata.radioRecommendList[index].nodeId..";name="..radiorecommenddata.radioRecommendList[index].name
+	-- Log:write('leftdata============',radioname,homeData.radioSort[index].name)
+	Sprite:setProperty(radiobtn,'data',homeData.radioSort[index].link)
+end
+
+--点击右侧用户登录，进入用户登录界面
+function loginBtnOnSelect(sprite)
+   Log:write('====loginBtn===userBtn=====1')
+   Scene:go('MODULE:\\com_wondertek_mobileaudio\\myaccount.wdml',{freeDestScene = true})
+end
+
+--点击右侧用户头像，进入用户控件界面
+function userBtnOnSelect(sprite)
+   Log:write('====loginBtn===userBtn=====2')
+   Scene:go('MODULE:\\com_wondertek_mobileaudio\\personHomePage.wdml',{freeDestScene = true})
+end
+
+--点击右侧列表项
+function rightBtnOnSelect(sprite)
+ local item = Sprite:getParent(sprite)
+ local index =List:getItemIndex(item)
+ if index==0 then
+   -- Scene:go('MODULE:\\com_wondertek_mobileaudio\\myaccount.wdml',{freeDestScene = true})
+   local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+   local closeFlag = Reg:getInteger(closeTimeReg,'closeFlag')
+   if closeFlag~= nil then
+   setSwitchPos(60)
+   else
+   setSwitchPos(0)
+   end
+   Sprite:setVisible(timedCloseNode, 1) 
+   Sprite:setEnable(timedCloseNode, 1) 
+   --TimedCloseDialog:show()
+ elseif index==1 then
+   Scene:go('MODULE:\\com_wondertek_mobileaudio\\syssetting.wdml',{freeDestScene = true})
+ elseif index==2 then
+  Scene:go('MODULE:\\com_wondertek_mobileaudio\\advice.wdml',{freeDestScene = true}) 
+ elseif index==3 then
+ Scene:go('MODULE:\\com_wondertek_mobileaudio\\globe.wdml',{freeDestScene = true}) 
+ end
+end
+
+--小说推荐页面上面滑动图片点击事件
+function novelPanoramaItemBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+    Reg:setString(reg,'novelItemId',data)
+	-- Reg:setInteger(reg, 'novelIsUrl',2) 
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+end
+
+function podcastPanoramaItemBtnOnSelect(sprite)
+    local data = Sprite:getData(sprite)
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	Reg:setString(reg,'nodeId',data)
+	Reg:setInteger(reg,'isNodeId',1)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+end
+
+--首页小说上面滑动图片点击事件
+function novelRecommendBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+    Reg:setString(reg,'novelItemId',data)
+	-- Reg:setInteger(reg, 'novelIsUrl',2) 
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+end
+
+--首页播客上面滑动图片点击事件
+function podcastRecommendBtnOnSelect(sprite)
+    local data = Sprite:getData(sprite)
+	-- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+    Reg:setString(reg,'nodeId',data)
+	Reg:setInteger(reg,'isNodeId',1)
+	--Http:request('podcastUserData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'nodeId='..nodeId,108)
+    -- elseif msg==108 then
+        -- podcastUserData = Http:jsonDecode('podcastUserData')
+        -- Log:write('podcastRecommendBtnOnSelect=====',podcastData.anchor,podcastData.body,podcastData.contentId,podcastData.nodeId)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+end
+
+function leftradioRecommendBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+    Reg:setString(reg,'audioplayData',data)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})
+end
+
+function radioRecommendBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+    Reg:setString(reg,'audioplayData',data)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})
+end
+
+--底部按钮模块start
+function LoadBottomPlayerData()
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~='' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+		    Sprite:setProperty(bottomAudioName,'text','暂无节目')
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~='' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+		    Sprite:setProperty(bottomAudioName,'text','暂无节目')
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local data = Reg:getString(bottomReg,'tempParentId')
+		Reg:setInteger(reg,'fromFlag',1)
+		Reg:setString(reg,'novelItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=false})
+	elseif type == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('底部status',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	--local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+--底部按钮模块end
+
+
+--左侧网络电台（音乐、评书、交通、人文等按钮的点击事件）
+function leftRadioBtnOnSelect(sprite)
+    local item = Sprite:getParent(sprite)
+    local index = List:getItemIndex(item)
+	local data=Sprite:getData(sprite) 
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	local leftRadioName =Sprite:findChild(item, 'leftRadioName')
+    Reg:setString(reg,'radioData',data)
+	Reg:setString(reg, 'radioTitle',Sprite:getText(leftRadioName))
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\radiolist.wdml',{freeDestScene=true})
+    Log:write('leftRadioBtnOnSelect============',index,data)
+end
+
+
+function timedCloseBtnOnSelect(sprite)
+	local item = Sprite:getParent(sprite)
+    local index =List:getItemIndex(item)
+	local curTime = os.time()
+   
+	if index == 0 then
+	    setSwitchPos(0)
+		local closeTime = 1*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+5)
+	    Reg:setInteger(closeTimeReg,'timeValue',5)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Timer:cancel(4443)
+		Timer:set(4443,0,'getCloseTime')
+	elseif index == 1 then
+		setSwitchPos(0)
+		local closeTime = 20*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+		 Reg:setInteger(closeTimeReg,'timeValue',closeTime)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Timer:cancel(4443)
+		Timer:set(4443,0,'getCloseTime')
+	elseif index == 2 then
+		setSwitchPos(0)
+	    local closeTime = 30*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+		 Reg:setInteger(closeTimeReg,'timeValue',closeTime)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Timer:cancel(4443)
+		Timer:set(4443,0,'getCloseTime')
+	elseif index == 3 then
+		setSwitchPos(0)
+	    local closeTime = 60*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+		 Reg:setInteger(closeTimeReg,'timeValue',closeTime)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Timer:cancel(4443)
+		Timer:set(4443,0,'getCloseTime')
+	elseif index == 4 then
+		setSwitchPos(0)
+	    local closeTime = 90*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+		 Reg:setInteger(closeTimeReg,'timeValue',closeTime)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Timer:cancel(4443)
+		Timer:set(4443,0,'getCloseTime')
+	elseif index == 5 then
+		setSwitchPos(0)
+	    local closeTime = 120*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+		 Reg:setInteger(closeTimeReg,'timeValue',closeTime)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Timer:cancel(4443)
+		Timer:set(4443,0,'getCloseTime')
+	else
+	
+	end
+end
+
+function getCloseTime()
+    local curTime = os.time()
+	local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+	local closeTime = Reg:getInteger(closeTimeReg,'closeTime')
+	local timeValue = Reg:getInteger(closeTimeReg,'timeValue')
+	Reg:setInteger(closeTimeReg,'timeValue',timeValue-1)
+	Log:write('timedCloseBtnOnSelect===stop',curTime,closeTime)
+	if curTime == closeTime then
+	    Timer:cancel(4443)
+		Sprite:setProperty(closeTimeLbl,'text','')
+		setSwitchPos(60)
+		Log:write('timedCloseBtnOnSelect===stop')
+		Player:pause()
+	else
+	    Sprite:setProperty(closeTimeLbl,'text',timeFormat2(timeValue-1))
+		Timer:set(4443,1000,'getCloseTime')
+	end
+end
+
+-- @brief 格式化时间
+function timeFormat2(sec)
+    Log:write('@@@@@@ timeFormat @@@@@,sec=',sec)
+    if sec == nil then return '00:00' end
+    local mm = math.floor(sec / 60) < 10 and '0' .. math.floor(sec / 60) or math.floor(sec / 60)
+    local ss = math.mod(sec, 60) < 10 and '0' .. math.mod(sec, 60) or math.mod(sec, 60)
+    local time = mm .. ':' .. ss
+    return time
+end
+
+function switchOnMouseUp(sprite)
+    switchBtn = sprite
+	animate0()
+end
+
+function setSwitchPos(offset)
+    local x, y, w, h = Sprite:getRect(switchNode)
+    Sprite:setRect(switchNode, math.floor((120 - 60)*offset/60), y, w, h)
+    --Sprite:setRect(switchNode_s, math.floor((200 - 100)*offset/100), y, w, h)
+end
+
+
+function animate0()
+    if Sprite:getData(switchBtn) == 'on' then
+        setSwitchPos(60)
+        Timer:set(1, 1, 'animate1')
+    else
+        setSwitchPos(7)
+        Timer:set(1, 1, 'animate1')
+    end
+end
+
+function animate1()
+    if Sprite:getData(switchBtn) == 'on' then
+        setSwitchPos(60)
+        Timer:set(1, 1, 'animate2')
+    else
+        setSwitchPos(21)
+        Timer:set(1, 1, 'animate2')
+    end
+end
+
+function animate2()
+    if Sprite:getData(switchBtn) == 'on' then
+        setSwitchPos(52)
+        Timer:set(1, 1, 'animate3')
+    else
+        setSwitchPos(48)
+        Timer:set(1, 1, 'animate3')
+    end
+end
+
+function animate3()
+    local config_flag
+    local tx,ty,tw,th
+    local shadow,onlbl,offlbl = Sprite:findChild(switchBtn,"shadow"),Sprite:findChild(switchBtn,"on"),Sprite:findChild(switchBtn,"off")
+    if Sprite:getData(switchBtn) == 'on' then
+        Sprite:setProperty(switchBtn, 'data', 'off')
+		Timer:cancel(4443)
+		local curTime = os.time()
+		local closeTime = 1*60
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+	    Reg:setInteger(closeTimeReg,'timeValue',closeTime)
+		Reg:setInteger(closeTimeReg,'closeFlag',1)
+		Sprite:setProperty(closeTimeLbl,'text',closeTime)
+		Timer:set(4443,0,'getCloseTime')
+        setSwitchPos(0)
+    
+    else
+		Timer:cancel(4443)
+		Sprite:setProperty(closeTimeLbl,'text','')
+        Sprite:setProperty(switchBtn, 'data', 'on')
+        setSwitchPos(60)
+    end
+   
+end
+
+--检查更新方法
+
+function updateFunc()
+    local showText = ""
+    if mobileVideoVerTable.flags == '1' and Config:get('updateTips_setting') == '1' then -- 提示升级
+        if mobileVideoVerTable.desc and mobileVideoVerTable.desc ~= '' then
+            showText = mobileVideoVerTable.desc
+        else
+            showText = "检测到新的客户端版本，是否进行升级？"
+        end
+        bF2Disabled = 1
+        Sprite:setProperty(dtextShadow, "text", showText)
+        local _,_,_,adjustHeight = Sprite:getRect(dtextShadow)
+        local dl = Dialog.layout
+        DialogAdjust(adjustHeight)
+        Dialog:show('有新版本更新', showText, 'ok_cancel', 'downloadPackage1', 'cancelDownloadPackage', '升  级', '取  消','checkOnSet2', '不再提醒', false)
+        Dialog.layout = dl
+    elseif mobileVideoVerTable.flags == '2' then -- 强制升级
+        if mobileVideoVerTable.desc and mobileVideoVerTable.desc ~= '' then
+            showText = mobileVideoVerTable.desc
+        else
+            showText = "检测到新的客户端版本，若不升级将无法继续使用，是否进行升级？"
+        end
+        bF2Exit = 1
+        Sprite:setProperty(dtextShadow, "text", showText)
+        local _,_,_,adjustHeight = Sprite:getRect(dtextShadow)
+        local dl = Dialog.layout
+        DialogAdjust(adjustHeight)
+        Dialog:show('有新版本更新', showText, 'ok_cancel', 'downloadPackage2', 'commonlocal_UI_exit', '升  级', '取  消','checkOnSet2', '不再提醒', false)
+        Dialog.layout = dl
+    end
+end
+
+-- @brief 下载大升级安装包，提示升级
+function downloadPackage1()
+    local flashCard = System:getFlashCardName(1)
+    local innerCard = System:getFlashCardName(0)
+    if (flashCard and flashCard ~= "") or (innerCard and innerCard ~= "") then
+        if flashCard and flashCard ~= "" then
+            downloadPath = flashCard .. 'intallPackageName' .. Config:get('install_pkg_ext')
+        else
+            downloadPath = innerCard .. 'intallPackageName' .. Config:get('install_pkg_ext')
+        end
+        if Dialog:isChecked() then
+            Config:set('updateTips_setting', 0)
+        else
+            Config:set('updateTips_setting', 1)
+        end
+        downloadPackage()
+        DownloadDialog:show('升级包下载', '取  消', 'intallPackageName', 'downloadFinishCallback', 'downloadFailCallback', 'cancelDownloadPackage')
+    else
+        Tips:show("未找到存储卡")
+    end
+    bF2Disabled = nil
+    removeDialogNode()
+end
+
+-- @brief 下载大升级安装包，强制升级
+function downloadPackage2()
+    local flashCard = System:getFlashCardName(1)
+    local innerCard = System:getFlashCardName(0)
+    if (flashCard and flashCard ~= "") or (innerCard and innerCard ~= "") then
+        if flashCard and flashCard ~= "" then
+            downloadPath = flashCard .. 'intallPackageName' .. Config:get('install_pkg_ext')
+        else
+            downloadPath = innerCard .. 'intallPackageName' .. Config:get('install_pkg_ext')
+        end
+        downloadPackage()
+        DownloadDialog:show('升级包下载', '退  出', 'intallPackageName', 'downloadFinishCallback', 'downloadFailCallback', 'commonlocal_UI_exit')
+    else
+        Tips:show("未找到存储卡")
+        Timer:set(TimerId.once,2000,"commonlocal_UI_exit")
+    end
+end
+
+-- @brief 下载大升级安装包
+function downloadPackage()
+    -- 开始下载
+    if not downloadPath then return end
+    Log:write('mobileVideoVerTable.url============', mobileVideoVerTable.url)
+    Download:deleteByName('defaultSkin', 1, true)
+    Download:deleteByName('intallPackageName', 1, true)
+    Download:append(downloadPath, 'intallPackageName', mobileVideoVerTable.url, true)
+end
+
+function downloadFinishCallback()
+    -- 安装退出
+    if not downloadPath then return end
+    AppManager:installApp(downloadPath)
+    -- 安装成功，重启时引擎将干掉module
+    -- 清除cache
+    --Http:stopNetwork()
+    IO:dirRemove('CACHE:\\com_wondertek_mobilevideo3', 1)
+    IO:dirCreate('CACHE:\\com_wondertek_mobilevideo3')
+    IO:dirCreate('CACHE:\\com_wondertek_mobilevideo3\\image')
+end
+
+function downloadFailCallback()
+    Dialog:show('提示', '下载失败，请稍后再试', 'ok', 'failToDo')
+end
+
+function failToDo()
+    if mobileVideoVerTable.flags == '1' then
+        cancelDownloadPackage()
+    elseif mobileVideoVerTable.flags == '2' then
+        commonlocal_UI_exit()
+    end
+end
+
+function cancelDownloadPackage()
+    if Dialog:isChecked() then
+        Config:set('updateTips_setting', 0)
+    else
+        Config:set('updateTips_setting', 1)
+    end
+    requestOneHistoryData()
+    bF2Disabled = nil
+    removeDialogNode()
+end
+
+function commonlocal_UI_exit()
+    local dirPath = string.gsub('CACHE:\\com_wondertek_mobilevideo3', '(.*)([^\\])$', '%1%2\\')
+    local dir = OpenDirectory(dirPath..'*.*')
+    if dir then
+        for n = 0, table.maxn(dir) do
+            if (dir[n].filename == '.' or dir[n].filename == '..') and dir[n].attr == 1 then
+            else
+                os.remove(dirPath..dir[n].filename)
+            end
+        end
+    end
+    Scene:exit()
+end
+
+function getLoginUpdateData()
+    local loginData = Http:xmlDecode('index_login')
+    Log:write('loginData', loginData)
+    if 'table' ~= type(loginData) then
+        return
+    end
+    for i=1, #loginData.body.response do
+        if loginData.body.response[i].type == 'CheckVersionResult' then
+            local checkVersionTable = loginData.body.response[i].component
+            if 'table' == type(checkVersionTable) then
+                if #checkVersionTable > 0 then
+                    for j=1, #checkVersionTable do
+                        if checkVersionTable[j].id == 'MobileVideo' then
+                            return checkVersionTable[j]
+                        end
+                    end
+                elseif #checkVersionTable == 0 and checkVersionTable.id then
+                    if checkVersionTable.id == 'MobileVideo' then
+                        return checkVersionTable
+                    end
+                end
+            end
+        end
+    end
+    return
+end
+
+function DialogAdjust(adjustHeight)
+    local curScene = Sprite:getCurScene()
+    local dialogNode = Sprite:findChild(curScene, 'dialogNode')
+    local dframe = Sprite:findChild(dialogNode, 'dframe')
+    if adjustHeight > 150 then
+        local ychange = math.floor((adjustHeight - 150)/2)
+Dialog.layout = [[
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <header/>
+    <body>
+        <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
+        <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
+        <node name="dframe" rect="]] .. "50," .. 306-ychange ..",620," .. 410+ychange*2
+        .. [[" extendstyle="1010">
+            <node rect="0,0,620,35" extendstyle="0510">
+                <image rect="0,0,620,72" src="file://image/dialogShadow.png" style="autosize" extendstyle="1010" />
+            </node>
+            <image rect="0,0,620,410" src="file://image/orderDialog_border.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
+            <image rect="0,0,620,85" src="file://image/orderDig_head.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+            <label name="dtitle" rect="0,0,620,85" text="提示" color="#212121" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="40" v-align="center" h-align="center" extendstyle="1010"/>
+            <textarea name="dtext" text="" rect="70,110,480,150" extendstyle="1010" font-size="28" color="#7F7B7A" line-height="38" v-align="center" autoextend="true"/>
+            <node name="btnArea" rect="0,0,620,150" extendstyle="0510">
+                <button name="checkBtn" rect="140,0,400,50" extendstyle="1010" OnSelect="_checkboxCheckProc">
+                    <image name="checkBoxN" rect="0,10,37,37" style="sudoku-auto" sudoku="6,6,6,6" src="file://image/checkbg.png" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
+                    <image name="checkImg" rect="0,10,37,37" visible="0" style='sudoku-auto' sudoku="5,5,5,5" src="file://image/downloadcheck.png" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
+                    <label name="checkText" rect="80,0,400,58" extendstyle="0010" autoextend="true" text="不再提醒" color="#565656" v-align="center" font-size="30" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                </button>
+                <button name="okBtn" rect="73,75,200,100" style="autosize" OnSelect="_okProc" extendstyle="1010" normal="n" sel="s">
+                    <node name="n" rect="0,0,177,56" extendstyle="1010" >
+                        <image rect="0,0,177,56" src="file://image/button_bg_n.png" extendstyle="1010"  style="sudoku-auto" sudoku="7,7,7,7" BuildChildrenFinished="resChoose"><node/></image>
+                        <label name="textOkN" rect="0,0,177,56" extendstyle="1010" text="确定" font-size="30" color="#565656" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,177,56" extendstyle="1010" >
+                        <image rect="0,0,177,56" src="file://image/button_bg_s.png"  style="sudoku-auto" sudoku="7,7,7,7" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                        <label name="textOkF" rect="0,0,177,56" extendstyle="1010" text="确定" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+                <button name="cancelBtn" rect="372,75,200,100" style="autosize" OnSelect="_cancelProc" extendstyle="1010" normal="n" sel="s" disabled="d">
+                    <node name="n" rect="0,0,177,56" extendstyle="1010" >
+                        <image rect="0,0,177,56" src="file://image/button_bg_n.png" extendstyle="1010"  style="sudoku-auto" sudoku="7,7,7,7" BuildChildrenFinished="resChoose"><node/></image>
+                        <label name="textCancelN" rect="0,0,177,56" extendstyle="1010" text="取消" font-size="30" color="#565656" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,177,56" extendstyle="1010" >
+                        <image name="orderImgS" rect="0,0,177,56" src="file://image/button_bg_s.png"  style="sudoku-auto" sudoku="7,7,7,7" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                        <label name="textCancelF" rect="0,0,177,56" extendstyle="1010" text="取消" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+            </node>
+        </node>
+    </body>
+</root>
+]]
+    end
+end
+
+function removeDialogNode()
+    local curScene = Sprite:getCurScene()
+    local dialogNode = Sprite:findChild(curScene, 'dialogNode')
+    if dialogNode ~= 0 then
+        Sprite:removeChild(Sprite:getParent(dialogNode),dialogNode,1)
+    end
+end
+
+]]>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Author: wangweipeng <wangweipeng@wondertek.com.cn>
+ == ============================================================================
+ == | Desc: 社区
+ == ============================================================================
+-->
+<root>
+    <header/>
+    <body  BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280" OnGestureBegin="bodyOnGestureBegin" OnGestureMove="bodyOnGestureMove" OnGestureEnd="bodyOnGestureEnd">
+        <node name="mainNode" rect="0,0,720,1280" OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">
+        <shadow rect="0,0,720,1280" color="#000000" alpha="255" extendstyle="1111" />
+        <node rect="0,0,720,76" extendstyle="1010">
+            <shadow rect="0,0,720,76" color="#FFFFFF" alpha="255" extendstyle="1010" />
+            <shadow rect="0,0,720,4" color="#BADE9E" alpha="255" extendstyle="1510" />
+        </node>
+		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</button>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="封面设置" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+	    </node>
+		
+        <node rect="0,76,720,0" padding="0,0,111,0" extendstyle="1016" frame="true">
+            <image name="imagephoto" rect="0,0,0,0" extendstyle="4444" style="maxsize"/>
+            <node name="staticrect" rect="0,0,720,0" extendstyle="1017"/>
+            <node name="displaystyle1" rect="0,0,720,0" extendstyle="1017" visible="0">
+                <image rect="0,0,720,300" src="file://image/commonmask.png" extendstyle="1010" style="tile" />
+                <node name="imgFrame" rect="0,300,720,400" extendstyle="1010">
+                    <shadow rect="0,0,720,2" color="#96FF00" alpha="255" extendstyle="1014" />
+                    <shadow rect="0,0,2,400" color="#96FF00" alpha="255" extendstyle="1040" />
+                    <shadow rect="0,0,720,2" color="#96FF00" alpha="255" extendstyle="1514" />
+                    <shadow rect="0,0,2,400" color="#96FF00" alpha="255" extendstyle="5040" />
+                </node>
+                <image rect="0,0,720,300" src="file://image/commonmask.png" extendstyle="1817" style="tile" />
+            </node>
+            <node name="displaystyle2" rect="0,0,720,0" extendstyle="1017">
+                <shadow rect="0,0,720,350" color="0" alpha="130" extendstyle="1010"/>
+                <node rect="0,350,720,300" extendstyle="1010">
+                    <shadow rect="0,0,210,300" color="0" alpha="130" extendstyle="1010"/>
+                    <node name="imgFrame" rect="210,0,300,300" extendstyle="1010">
+                        <shadow rect="0,0,300,2" color="#96FF00" alpha="255" extendstyle="1014" />
+                        <shadow rect="0,0,2,300" color="#96FF00" alpha="255" extendstyle="1040" />
+                        <shadow rect="0,0,300,2" color="#96FF00" alpha="255" extendstyle="1514" />
+                        <shadow rect="0,0,2,300" color="#96FF00" alpha="255" extendstyle="5040" />
+                    </node>
+                    <shadow rect="0,0,220,300" color="0" alpha="130" extendstyle="8010"/>
+                </node>
+                <shadow rect="0,0,720,300" color="0" alpha="130" extendstyle="1817"/>
+            </node>
+            <button rect="0,0,720,300" OnMouseDown="pitemOMD" OnMouseMove="pitemOMM" OnMouseUp="pitemOMU" extendstyle="1017"/>
+        </node>
+        <node rect="0,0,720,111" extendstyle="0500">
+            <image rect="0,0,720,111" extendstyle="0000" style='autosize' src="file://image/bottompannel.png" />
+            <button rect="270,21,180,69" style="autosize" OnSelect="clipBtnOS" extendstyle="1010">
+                <image rect="0,0,180,69" src="file://image/navigation_s_bg.png" extendstyle="1010"  style="sudoku-auto" sudoku="33,0,33,0"/>
+                <label rect="0,0,180,69" extendstyle="1010" text="确定" font-size="25" color="#FFFFFF" v-align="center" h-align="center"/>
+            </button>
+        </node>
+        </node>
+    </body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+imgRatio = 1
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite=sprite
+    _curPhotoSprite = Sprite:findChild(sprite,"imagephoto")
+    _curStaticRectSprite = Sprite:findChild(sprite,"staticrect")
+    
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+    imgPath = Reg:getString(reg,"imgPath")
+    Sprite:setProperty(_curPhotoSprite,"src",imgPath)
+    _,staticY,staticW,staticH = Sprite:computeRect(_curStaticRectSprite)
+    srcW,srcH = Sprite:getProperty(_curPhotoSprite,"src_size")
+    staticDisplayH = srcH*staticW/srcW
+    local setY = (staticH - staticDisplayH)/2
+    Sprite:setRect(_curPhotoSprite,0,setY,staticW,staticDisplayH)
+    Sprite:setProperty(_curPhotoSprite,"extendstyle","4444")
+    
+    local displayNode = 0
+    displaystyle = Reg:getString(reg,"displaystyle")
+    local ds1,ds2 = Sprite:findChild(sprite,"displaystyle1"),Sprite:findChild(sprite,"displaystyle2")
+    setNodeState(ds1,0) setNodeState(ds2,0)
+    if displaystyle == "3" then
+        displayNode = ds2
+    else
+        displayNode = ds1
+    end
+    setNodeState(displayNode,1)
+    imgFrame = Sprite:findChild(displayNode,"imgFrame")
+    frameX,frameY,frameW,frameH = Sprite:computeRect(imgFrame)
+end
+
+function bodyOnSpriteEvent(msg, param)
+   if msg == MSG_ACTIVATE then
+        
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    elseif msg == MSG_STRINGEVENT then
+       
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+function bodyOnPluginEvent(msg, param)
+    Util:onPluginEvent(msg, param)
+end
+
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function backOnSelect(sprite)
+    Scene:back()
+end
+
+function bodyOnGestureBegin(sprite, x, y)
+    Timer:cancel(TimerId.once)
+    bMouseEventDisabled = 1
+    frmMidX,frmMidY = frameX+frameW/2,frameH+frameH/2
+end
+
+function bodyOnGestureMove(sprite, x, y)
+    if lastX and lastY and _curPhotoSprite then
+        lastDistance = math.sqrt(lastX^2 + lastY^2)
+        distance = math.sqrt(x^2 + y^2)
+        lastX, lastY = x, y
+        if lastDistance > distance then
+            local l,t,w,h = Sprite:computeRect(_curPhotoSprite)
+            local scale = lastDistance - distance
+            local setl,sett,setw,seth = l,t,w,h
+            if w > frameW and h > frameH then
+                imgRatio = imgRatio-scale/500
+                setw,seth = staticW*imgRatio,staticDisplayH*imgRatio
+            elseif w <= frameW then
+                setw,seth = frameW,frameW/staticW*staticDisplayH
+            elseif h <= frameH then
+                 setw,seth = frameH/staticDisplayH*staticW,frameH
+            end
+            setl,sett = getRatioXY(frmMidX,frmMidY,l,t,w,h,setw,seth)
+            setl,sett = getxy(setl,sett,setw,seth)
+            Sprite:setRect(_curPhotoSprite,setl,sett-staticY,setw,seth)
+            Log:write('smaller')
+        elseif lastDistance <= distance then
+            local l,t,w,h = Sprite:computeRect(_curPhotoSprite)
+            local scale = valueTrans(distance - lastDistance)
+            local setl,sett,setw,seth = l,t,w,h
+            if w <= 3*staticW then
+                imgRatio = imgRatio+scale/500
+                setw,seth = staticW*imgRatio,staticDisplayH*imgRatio
+            end
+            setl,sett = getRatioXY(frmMidX,frmMidY,l,t,w,h,setw,seth)
+            setl,sett = getxy(setl,sett,setw,seth)
+            Sprite:setRect(_curPhotoSprite,setl,sett-staticY,staticW*imgRatio,staticDisplayH*imgRatio)
+            Log:write('biger')
+        end
+    else
+        lastX, lastY = x, y
+    end
+end
+
+function bodyOnGestureEnd(sprite, x, y)
+    lastX, lastY = nil, nil
+    WriteLogs("-----------bodyOnGestureEnd--------------")
+    Timer:set(TimerId.once,200,"enableMouseEvent")
+end
+
+function photoSpriteRecoverery()
+    WriteLogs("-----------photoSpriteRecoverery--------------" .. recoverPace)
+    if recoverPace < 10 then
+        local prop = recoverPace/10
+        Sprite:setRect(_curPhotoSprite,-deltal*(1-prop),-deltat*(1-prop),oriw+deltaw*prop,orih+deltah*prop)
+        recoverPace = recoverPace + 1
+        Timer:set(TimerId.once2,1,"photoSpriteRecoverery")
+    else
+        recoverPace = nil
+        Sprite:setRect(_curPhotoSprite,0,0,720,1280)
+    end
+end
+
+function enableMouseEvent()
+    bMouseEventDisabled = nil
+end
+
+function pitemOMD(sprite,x,y)
+    if bMouseEventDisabled then return end
+    WriteLogs("-----------pitemOMD--------------" .. x .. "  " .. y)
+    OMDx,OMDy,OMDtick = x,y,GetTickTime()
+    pitemOMMx,pitemOMMy = x,y
+end
+
+function pitemOMM(sprite,x,y)
+    if bMouseEventDisabled then return end
+    WriteLogs("-----------pitemOMM--------------" .. x .. "  " .. y)
+    if pitemOMMx and pitemOMMy then
+        local l,t,w,h = Sprite:computeRect(_curPhotoSprite)
+        inertiax,inertiay = -x+pitemOMMx,-y+pitemOMMy
+        local setx,sety = getxy(l-valueTrans(inertiax),t-valueTrans(inertiay),w,h)
+        Sprite:setRect(_curPhotoSprite,setx,sety-staticY,w,h)
+        pitemOMMx,pitemOMMy = x,y
+    else
+        inertiax,inertiay = nil,nil
+        pitemOMMx,pitemOMMy = x,y
+    end
+end
+
+function pitemOMU(sprite,x,y)
+    if bMouseEventDisabled then return end
+    WriteLogs("-----------pitemOMU--------------" .. x .. "  " .. y)
+    if inertiax and inertiay then
+        local l1,t1,w1,h1 = Sprite:computeRect(_curPhotoSprite)
+        local inertiax_t,inertiay_t = valueTrans(inertiax),valueTrans(inertiay)
+        if math.abs(inertiax_t) >= 5 or math.abs(inertiay_t) >= 5 then
+            deltal,deltat,deltaw,deltah = inertiax_t*10,inertiay_t*10,w1,h1
+        else
+            deltal,deltat,deltaw,deltah = 0,0,w1,h1
+        end
+        oril,orit = l1,t1
+        recoverPace = 1
+        Timer:cancel(TimerId.once2)
+        Timer:set(TimerId.once2,1,"photoSpriteInertia")
+    end
+    pitemOMMx,pitemOMMy = nil,nil
+end
+
+function photoSpriteInertia()
+    WriteLogs("-----------photoSpriteInertia--------------" .. recoverPace)
+    if recoverPace < 20 then
+        local prop = math.log(recoverPace)/math.log(20)
+        local setx,sety = getxy(oril-deltal*prop,orit-deltat*prop,deltaw,deltah)
+        Sprite:setRect(_curPhotoSprite,setx,sety-staticY,deltaw,deltah)
+        recoverPace = recoverPace + 1
+        Timer:set(TimerId.once2,1,"photoSpriteInertia")
+    else
+        recoverPace = nil
+        inertiax,inertiay = nil,nil
+        local setx,sety = getxy(oril-deltal,orit-deltat,deltaw,deltah)
+        Sprite:setRect(_curPhotoSprite,setx,sety-staticY,deltaw,deltah)
+    end
+end
+
+function getxy(setx,sety,setw,seth)
+    if setx > frameX then setx = frameX end
+    if sety > frameY then sety = frameY end
+    if setx+setw < frameX+frameW then setx = frameX+frameW-setw end
+    if sety+seth < frameY+frameH then sety = frameY+frameH-seth end
+    return setx,sety
+end
+
+function clipBtnOS()
+    local flashCard = System:getFlashCardName(1)
+    local innerCard = System:getFlashCardName(0)
+    local outPath = ""
+    if flashCard and flashCard ~= "" then
+        outPath = flashCard .. "audiodownload/"
+    elseif innerCard and innerCard ~= "" then
+        outPath = innerCard .. "audiodownload/"
+    else
+        Tips:show("sd卡没插吧？")
+        return
+    end
+    if not IO:dirExist(outPath) then
+        IO:dirCreate(outPath)
+    end
+    local ct = Util:getServerTime()
+    local t = os.date('*t', math.floor(ct / 1000))
+    for i,v in pairs(t) do
+        local numv = tonumber(v)
+        if numv and numv < 10 then
+            t[i] = 0 .. v
+        end
+    end
+    local fileExt = string.lower(IO:fileExt(imgPath))
+    local outFilePath = outPath .. t["year"] .. t["month"] .. t["day"] .. t["hour"] .. t["min"] .. t["sec"] .. ".jpg"
+    WriteLogs("-----------------" .. outFilePath)
+    local x,y,w,h = ImgParamCaculate()
+    local p = 1
+    if displaystyle == "3" then
+        p = 130/w
+    else
+        p = SCREEN_WIDTH/w > 1 and 1 or SCREEN_WIDTH/w 
+    end
+    ClipImageSaveAsStretchFile(imgPath,outFilePath, 1, x, y, w, h, p, 0)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+    Reg:setString(reg,"imgpath",outFilePath)
+    Scene:back()
+end
+
+function ImgParamCaculate()
+    local src_w,src_h = Sprite:getProperty(_curPhotoSprite,"src_size")
+    local curimg_x,curimg_y,curimg_w,curimg_h = Sprite:computeRect(_curPhotoSprite)
+    local img_x,img_y,img_w,img_h = frameX-curimg_x,frameY-curimg_y,frameW,frameH
+    local p = src_w/curimg_w
+    local out_x,out_y,out_w,out_h = img_x*p,img_y*p,img_w*p,img_h*p
+    Log:write("out_x,out_y,out_w,out_h",out_x,out_y,out_w,out_h)
+    return math.floor(out_x),math.floor(out_y),math.floor(out_w),math.floor(out_h)
+end
+
+function valueTrans(num)
+    return num*staticW/720
+end
+
+function getRatioXY(frameMidX,frameMidY,curX,curY,curW,curH,expW,expH)
+    return frameMidX-(frameMidX-curX)*expW/curW,frameMidY-(frameMidY-curY)*expH/curH
+end
+]]>

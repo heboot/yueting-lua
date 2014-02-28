@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Author: wangweipeng <wangweipeng@mantis.com>
+ == ============================================================================
+ == | Desc: 登录页
+ == ============================================================================
+-->
+<root>
+    <header/>
+    <body PreBuildChildren="bodyPreBuildChildren" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
+        <node name="mainNode" rect="0,0,720,1280" OnKeyUp="mainNodeOnKeyUp" layouttype="1" enable="true" active="true" extendstyle="1111">
+            <shadow rect="0,0,720,1280" extendstyle="1111" color="#ffffff" alpha="255"/>
+            <node rect="0,220,720,840" extendstyle="1116" padding="0,0,167,0" BuildChildrenFinished="resAdjust">
+                <image name="imgcenter" rect="150,0,390,542" style="autosize" src="file://image/center.png" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
+                <image name="yuexiangChip" rect="285,640,134,179" style="autosize" src="file://image/yxchip.jpg" extendstyle="1811" BuildChildrenFinished="resChoose"><node/></image>
+            </node>
+            <image name="welcome" rect="0,0,720,1280" style="autosize" src="file://image/welcome.jpg" extendstyle="1111"/>
+            <image rect="251,75,217,82" style="autosize" src="file://image/loginlogo.png" extendstyle="1100" BuildChildrenFinished="resChoose"><node/></image>
+            <node rect="0,0,720,335" extendstyle="0510" BuildChildrenFinished="resAdjust2">
+                <node rect="0,0,720,0" extendstyle="0810" >
+                    <image name="logo360" rect="267,0,186,35" style="autosize" src="file://image/360.jpg" extendstyle="1010" visible="0" BuildChildrenFinished="resChoose"><node/></image>
+                    <image name="logotencent" rect="284,0,152,70" style="autosize" src="file://image/lenovo.png" extendstyle="1010" visible="0" BuildChildrenFinished="resChoose"><node/></image>
+                </node>
+                <animate rect="312,70,83,29" delay="5" loop="true" extendstyle="1000">
+                    <animate-frame rect="0,0,83,29" extendstyle="1010" start="$(start)" delay="1">
+                        <image rect="0,0,83,29" style="autosize" src="file://image/ripple$(index).png" extendstyle="1010"/>
+                    </animate-frame>
+                    <dataset>
+                        <set start="0" index="1"/><set start="1" index="2"/><set start="2" index="3"/><set start="3" index="4"/><set start="4" index="5"/>
+                    </dataset>
+                </animate>
+            </node>
+            <panorama name="mainPanorama" rect="0,0,720,0" extendstyle="0017" foreground="foreground" style="circle">
+                <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
+                    <node name="tipsNode" rect="0,0,720,150" extendstyle="0017"/>
+                </panoramaitem>
+            </panorama>
+            <!--panorama name="salePanorama" rect="0,0,720,1280" extendstyle="1111" enable="false" visible="false"/-->
+            <button name="saleBtn" rect="0,0,720,1280" OnSelect="saleBtnOnSelect" extendstyle="1111" enable="false"/>
+            <imagepaper name="saleImg" rect="0,0,720,1280" extendstyle="1111" back="" OnEnd="saleImgOnEnd"/>
+        </node>
+        <!--node name="salePanoramaItem" rect="0,0,720,1280" extendstyle="1111" visible="false" enable="false" active="false">
+            <button name="saleImg" rect="0,0,720,1280" extendstyle="1111" OnSelect="saleImgOnSelect" src="file://image/sale.jpg" style="autosize" />
+        </node-->
+    </body>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+local rootSprite -- 场景根节点
+local wlanGetTokenTimer = 1000 -- 获取token的timer ID号
+local firstTokenBack = true -- 标记是否是第一次获取token
+local firstTokenBack1 = true -- 标记是否是第一次获取token
+local loginResultTable = {} -- 登录结果表
+local mobileVideoVerTable = nil
+
+local sceneName = 'scene:index | '
+local dialogTitle = ''  --对话框标题  -- kevin0913
+local dialogContent = '' --对话框信息内容
+---------------------------------------callbacks--------------------------------
+-- @brief root开始创建子节点事件
+function bodyPreBuildChildren(root)
+    SetFontSize(30)
+    WLAN:setUrl(Config:get('wlan_serverandportal') .. 'echo.jsp', 'http://www.10086.cn')
+    -- 设置默认皮肤
+    Config:set('skin_adapter', 'default')
+    System:changeSkin('MODULE:\\com_wondertek_mobileaudio\\skin\\default.dat', 'MODULE:\\com_wondertek_mobileaudio\\image\\')
+    local regSceneModified = Reg:create("sceneModified")
+    Reg:load(regSceneModified, "WONDER:\\temp\\sceneModified.xml")
+    if Config:get('wlan_support') == '1' then
+        Net:changeSimCard()
+    end
+end
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+    System:startMonitor(120)
+    rootSprite = sprite
+    local observer = Plugin:getObserver() -- 获取index页面的监听器并保存
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+    Reg:setInteger(reg, 'observer', observer)
+    Reg:setInteger(reg, 'rootSprite', rootSprite)
+--    salePanorama = Sprite:findChild(sprite,'salePanorama')
+--    salePanoramaItem = Sprite:findChild(sprite,'salePanoramaItem')
+    saleImg = Sprite:findChild(sprite,'saleImg')
+    saleBtn = Sprite:findChild(sprite,'saleBtn')
+    Log:write('---------QOE time app started-------------',Util:getQOEtime())
+
+    local channelId = Util:getChannelId()
+    local logo360 = Sprite:findChild(sprite,'logo360')
+    local logotencent = Sprite:findChild(sprite,'logotencent')
+    if Config:get("show360") == "1" then
+        setNodeState(logo360,1) setNodeState(logotencent,0)
+    elseif Config:get("showtencent") == "1" then
+        setNodeState(logo360,0) setNodeState(logotencent,1)
+    elseif string.match(channelId,"200400300010000") then
+        setNodeState(logo360,1) setNodeState(logotencent,0)
+    elseif string.match(channelId,"200400300010013") then
+        setNodeState(logo360,0) setNodeState(logotencent,1)
+    end
+end
+
+-- @brief root节点消息方法
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+        --删除安装包
+        _bIndexDeactivated = nil
+        local downloadPath = ''
+        local flashCard = System:getFlashCardName(1) -- 判断外置存储卡存在性
+        local innerCard = System:getFlashCardName(0) -- 判断外置存储卡存在性
+        if flashCard and flashCard ~= '' then --设置在外置存储卡，并且存在外置存储卡
+            downloadPath = flashCard .. 'MobileVideoDownload/'
+        end
+        Log:write('删除下载的安装包')
+        if downloadPath and downloadPath ~= '' then
+            local delPath = downloadPath .. 'intallPackageName' .. Config:get('install_pkg_ext')
+            IO:fileRemove(delPath)
+            IO:fileRemove(delPath .. '~')
+            Log:write('删除外置存储卡下载的安装包', delPath)
+        end
+        if innerCard and innerCard ~= '' then
+            IO:fileRemove(innerCard .. 'intallPackageName' .. Config:get('install_pkg_ext'))
+            IO:fileRemove(innerCard .. 'intallPackageName' .. Config:get('install_pkg_ext') .. '~')
+            Log:write('删除内置存储卡下载的安装包', innerCard)
+        end
+        if (flashCard and flashCard ~= '') or (innerCard and innerCard ~= '')  then --设置在外置存储卡，并且存在外置存储卡
+            Log:write('有外置或内置存储卡')
+        else
+            Log:write('没有外置和内置存储卡')
+            Config:set('download_path', 0)
+        end
+        local videopath = Util:GetVideoMsg()
+        local lreg = Reg:create(Reg.com_wondertek_mobileaudio.playerlocal)
+        if videopath and Reg:getString(lreg, 'haveLogin') == '' then
+            local _, _, playName = string.find(videopath, '.+[/\\]([^/^\\].+)')
+            local playPath = string.gsub(videopath,'file://','')
+            if Util:goPlayerLocalByPlayparam(playPath,playName) == 1 then
+                Reg:setString(lreg, 'haveLogin', 'false')
+                return
+            end
+        else
+            Reg:setString(lreg, 'haveLogin', '')
+        end
+        -- 检查剩余空间，小于5M则要求退出
+        if Util:getFreeSpace(WDFIDL_APP) < 5120 then
+            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,11) --or '手机剩余空间不足，请保留大于5M空间后，再次尝试启动。','提示'
+            Dialog:show(dialogTitle, dialogContent, 'ok', 'UI_exit')
+            errorDispose(47,sceneName .. 'disk space is insufficient,less than 5 MegaBytes')
+            return
+        end
+        if (Config:get('wlan_serverandportal') == "" and Config:get('cmwap_serverandportal') == "") then
+            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,12) --or '检测到用户数据可能已经损坏，请重新启动客户端','提示'
+            Dialog:show(dialogTitle, dialogContent, 'ok', 'UI_exit')
+            IO:fileRemove('MODULE:\\com_wondertek_mobileaudio\\config.xml')
+            IO:fileRemove('MODULE:\\newToken.dat')
+            return
+        end
+        if Config:get('wlan_support') == '1' then
+            local isAirOn = System:getAirplaneMode()
+            if isAirOn == 1 then
+                dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,1) --or '飞行模式无法建立连接，是否进入本地媒体库？','提示'
+                --Dialog:show(dialogTitle, dialogContent, 'ok_cancel', '_gotoLocal', 'UI_exit')
+                errorDispose(8,sceneName .. 'airplane mode is on')
+                return
+            end
+        end
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        local notFirstTime = Config:get('notFirstTime')
+        if Config:get('wlan_support') == '0' then
+            login()
+            return
+        end
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        if Reg:getInteger(reg, 'indexHaveLogin') == 0 and Reg:getInteger(reg, 'isOfflineView') == 2 then -- 已连通网络但未登录
+            Log:write('MSG_ACTIVATE login')
+            login()
+            Reg:setInteger(reg, 'indexHaveLogin', 1)
+        else
+            Timer:set(TimerId.goToLocal, 5000, '_allowGotoLocal')
+        end
+    elseif msg == MSG_DEACTIVATE then
+        dofunction(5, "", "", 0, 0) --显示系统栏
+        commonDeactivate()
+        _bIndexDeactivated = 1
+    elseif msg == MSG_AIRPLANE then
+        local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        Reg:setInteger(regI, 'isOfflineView', 1)
+        Log:write('MSG_AIRPLANE')
+        --index 不弹出提示框
+    elseif msg == MSG_ID_RECEIVE_AUDIO then
+        Log:write('======================MSG_ID_RECEIVE_AUDIO ======================')
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+-- @brief 插件消息
+function bodyOnPluginEvent(msg, param)
+    Log:write('index bodyOnPluginEvent msg == ', msg)
+    if msg == Msg.scene then -- 响应场景请求，并跳转
+        if _bIndexDeactivated == 1 then return end
+        Log:write('---------QOE time Msg.scene scene skip message-------------',Util:getQOEtime())
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        local msgCounter = Reg:getInteger(reg, 'msgCounter')
+        local paramMsgCounter = Param:getInteger(param, 0)
+        Log:write('msgCounter===========================', msgCounter)
+        Log:write('paramMsgCounter===========================', paramMsgCounter)
+        Log:write('----------param-0----------', Param:getType(param, 0))
+        if 6 == Param:getType(param, 0) and paramMsgCounter == msgCounter then
+            Log:write('---------------cur----------', Sprite:getCurScene())
+            Log:write('---------------rootSprite----------', rootSprite)
+            if Loading:isShow() or Sprite:getCurScene() == rootSprite then
+                Loading:close()
+                local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                local destSceneName = Reg:getString(reg, 'destSceneName')
+                if string.find(destSceneName, 'home.jsp') and Sprite:getCurScene() == rootSprite and showSaleImg then -- 此时应显示营销页，屏蔽home跳转
+                    return
+                end
+                local setReturn = Reg:getInteger(reg, 'setReturn')
+                local setNext = Reg:getInteger(reg, 'setNext')
+                local freeCurScene = Reg:getInteger(reg, 'freeCurScene')
+                local freeDestScene = Reg:getInteger(reg, 'freeDestScene')
+                if freeCurScene == 1 then
+                    local returnFileName = Reg:getString(reg, 'returnFileName')
+                    Scene:freeByName(returnFileName)
+                end
+                Log:write('curScene', Sprite:getCurScene())
+                Log:write('curFile', destSceneName)
+                local effect = Reg:getInteger(reg, 'effect')
+                local effectTable = Reg:getTable(reg, 'effectTable')
+                Reg:setInteger(reg, 'effect', 0)
+                Reg:setTable(reg, 'effectTable', {})
+                local rtn, code = Scene:_go(destSceneName, freeDestScene == 1 and true or false, effect == 0 and nil or effect, Util:getServer(), rootSprite, nil, effectTable)
+                Log:write('setNext1', setNext)
+                Log:write('setReturn1', setReturn)
+                if rtn then
+                    if setNext == 1 then
+                        local returnFileName = Reg:getString(reg, 'returnFileName')
+                        if setReturn == 1 then
+                            Scene:setReturn(returnFileName, destSceneName)
+                        else
+                            Scene:setReturn(returnFileName, destSceneName, true)
+                        end
+                    end
+                else
+                    if code == 0 then
+                    elseif code == 2 then
+                        if string.find(destSceneName, 'index.jsp') then
+                            if 1 == Reg:getInteger(reg, 'notFirstLogin') then
+                                Loading:show()
+                            else
+                                Reg:setInteger(reg, 'notFirstLogin', 1)
+                            end
+                        else
+                            Loading:show()
+                        end
+                    end
+                end
+            end
+        end
+    elseif msg == Msg.scene + MSG_CACHEDATA_RELOAD then
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        local destSceneName = Reg:getString(reg, 'destSceneName')
+        local curSceneName = Scene:getNameByHandle(Sprite:getCurScene())
+        Log:write('Msg.scene + MSG_CACHEDATA_RELOAD', msg - MSG_CACHEDATA_RELOAD)
+        Log:write('destSceneName == ', destSceneName)
+        Log:write('curSceneName == ', curSceneName)
+        local msgCounter = Reg:getInteger(reg, 'msgCounter')
+        local paramMsgCounter = Param:getInteger(param, 0)
+        if destSceneName == curSceneName and msgCounter == paramMsgCounter then
+            Log:write('Reg:getInteger(reg, curSceneName)==========', Reg:getInteger(reg, curSceneName))
+            if 1 == Reg:getInteger(reg, curSceneName) then -- 锁住，待离开页面时释放场景
+                Util:setRefreshStatus(2, reg, curSceneName)
+            elseif 0 == Reg:getInteger(reg, curSceneName) then -- 当前场景未锁住（允许）刷新时
+                --Scene:refresh()
+                Sprite:sendEvent(Sprite:getCurScene(),Msg.refresh)
+            end
+        end
+    elseif msg == MSG_NETWORK_ERROR then
+        Timer:cancel(111) --取消index下载升级包和皮肤包的状态循环timer
+        deleteDownloadTasks() --删除下载队列中的任务
+    elseif msg == 266 then
+        Log:write('----------------------kevin0914--------------- msg == 266 -  get tips file')
+       -- Util:saveTipsMsgToFile(usrMsgFileName.uploadMsg, tipsData.uploadMsg)
+    elseif msg == 101 then -- 登录请求返回
+        Log:write('---------QOE time loginRequest have returned-------------',Util:getQOEtime())
+        local loginData = Http:xmlDecode('index_login')
+        Log:write('-------101---loginData1', #loginData.body.response)
+
+        if 'table' ~= type(loginData) then -- 若登录数据返回不正确，则重新验证是否为token失效返回结果
+            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,2) --'返回数据格式错误,提示'
+            Dialog:show(dialogTitle, dialogContent, 'ok_cancel', 'UI_exit', '_gotoLocal', '退出', '离线模式')
+            errorDispose(22,sceneName .. 'login xml data error')
+            return
+        end
+        for i=1, #loginData.body.response do
+            if loginData.body.response[i].type == 'Result' then
+                loginResultTable = loginData.body.response[i]
+            elseif loginData.body.response[i].type == 'CheckVersionResult' then
+                local checkVersionTable = loginData.body.response[i].component
+                if 'table' == type(checkVersionTable) then
+                    if #checkVersionTable > 0 then
+                        for j=1, #checkVersionTable do
+                            if checkVersionTable[j].id == 'MobileVideo' then
+                                mobileVideoVerTable = checkVersionTable[j]
+                            end
+                        end
+                    elseif #checkVersionTable == 0 and checkVersionTable.id then
+                        if checkVersionTable.id == 'MobileVideo' then
+                            mobileVideoVerTable = checkVersionTable
+                        end
+                    end
+                end
+            end
+        end
+        local resultCode = tonumber(loginResultTable.code)
+        if 0 ~= resultCode then -- 失败应答
+            Dialog:show('提示', loginResultTable.desc, 'ok_cancel', 'UI_exit', '_gotoLocal', '退出', '离线模式')
+            errorDispose(62,sceneName .. 'response failed')
+            return
+        else -- 成功
+            if mobileVideoVerTable then
+                local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                Reg:setTable(reg,"verTable",mobileVideoVerTable)
+            end
+            goHome()
+            errorUploadTiming()
+        end
+    elseif msg == 101 + MSG_CACHEDATA_RELOAD then
+        Log:write('---------QOE time login MSG_CACHEDATA_RELOAD-------------',Util:getQOEtime())
+        local loginData = Http:xmlDecode('index_login')
+        if 'table' ~= type(loginData) then -- 若登录数据返回不正确，则重新验证是否为token失效返回结果
+            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,2) --'返回数据格式错误,提示'
+            Dialog:show(dialogTitle, dialogContent, 'ok_cancel', 'UI_exit', '_gotoLocal', '退出', '离线模式')
+            errorDispose(22,sceneName .. 'login xml data format error ')
+            return
+        end
+        for i=1, #loginData.body.response do
+            if loginData.body.response[i].type == 'Result' then
+                loginResultTable = loginData.body.response[i]
+            end
+        end
+        if loginResultTable.phoneNum then
+            Config:set('phone_number', loginResultTable.phoneNum)
+        end
+        if loginResultTable.serverTime then
+            local sysTime = loginResultTable.serverTime
+            local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+            Reg:setString(reg, 'sysTime', sysTime)
+            local tickTime = System:getTickTime()
+            Reg:setString(reg, 'tickTime', tickTime)
+        end
+    elseif msg == 101 + MSG_NETWORK_ERROR then
+        dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,13) --'登录超时，是否进入本地媒体库？,提示'
+        Dialog:show(dialogTitle, dialogContent, 'ok_cancel', '_gotoLocal', 'UI_exit')
+        errorDispose(2,sceneName .. 'login timeout')
+    elseif msg > MSG_NETWORK_ERROR then
+        Loading:close()
+        if Sprite:getCurScene() == rootSprite then
+            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,14) --'网络超时，是否进入本地媒体库？,提示'
+            Dialog:show(dialogTitle, dialogContent, 'ok_cancel', '_gotoLocal', 'UI_exit')
+        else
+            Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,23)) --('网络超时')
+        end
+        errorDispose(55,sceneName .. 'Network is timeout')
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:exit()
+        return 1
+    end
+end
+
+-- @brief 营销页旋转完成
+function saleImgOnEnd()
+    Log:write('saleImgOnEnd')
+    Timer:set(2, 2500, 'doGoHome')
+    showSaleImg = false
+end
+
+-- @brief 营销页点击
+function saleBtnOnSelect(sprite)
+    if not showSaleImg and showSaleBtn then
+        showSaleBtn = false
+        Timer:cancel(2)
+        local saleImgParam = Config:get("saleImgParam")
+        if saleImgParam ~= "" then
+            if not Util:goDetail(saleImgParam) then
+                doGoHome()
+            end
+        else
+            doGoHome()
+        end
+    end
+end
+
+function _gotoLocal()
+    if _bIndexDeactivated == 1 then return end
+    if guideEnter then --引导页点击
+        Scene:go(Alias.downloadlocal, nil, 24)
+    else
+        Scene:go(Alias.downloadlocal)
+    end
+end
+
+-- @brief 登录
+function login()
+    Log:write('login')
+    Tips:show('启动中')
+    local postData = string.format('q=<?xml version="1.0" encoding="UTF-8"?><Root><header></header><body><request type="Login" serial="1"><channel>%s</channel></request><request type="CheckVersion" serial="1"><component id="MobileVideo" version="%s"/><dealer>%s</dealer></request></body></Root>', Util:getChannelId(), Config:get('sdk_version'), Util:getChannelId())
+    Log:write('postData', postData)
+    Http:request('index_login', Util:getServer() .. 'commonCommunication.msp', 101, {method = 'post', useCache = 1, postData = postData})
+    Http:setPackingUrl(Util:getServer() .. 'msp/imagesPacking.msp')
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+    Reg:setInteger(reg, 'useCacheHomeData', 1) --home或本地home使用homeData缓存
+    Http:request('homeData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/homeData.jsp')
+end
+
+-- @brief 删除下载队列中的任务
+function deleteDownloadTasks()
+    local count = Download:getCount(true)
+    for i = count,1,-1 do
+        Download:delete(i, false, true)
+    end
+end
+
+function goHome()
+    if loginResultTable.serverTime then
+        local sysTime = loginResultTable.serverTime
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        Reg:setString(reg, 'sysTime', sysTime)
+        local tickTime = System:getTickTime()
+        Reg:setString(reg, 'tickTime', tickTime)
+    end
+    local isAppPassiveStart, startType = Util:isAppPassiveStart()
+    if isAppPassiveStart then
+        if startType == 2 then -- 引擎相应widget，启动
+            Log:write('isWidgetPassiveStart==============================2=======')
+            -- Tips:show('正在获取节目数据')
+            local rtn1, rtn2 = Util:checkWidgetFile()
+            if not rtn1 then -- 跳转详情或搜索页失败
+                if not rtn2 then
+                    dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,15) --'Widget数据异常,提示'
+                    Dialog:show(dialogTitle, dialogContent,  'ok', 'doGoHome')
+                elseif rtn2 == 'widgetWait' then
+                    doGoHome()
+                elseif rtn2 == 'goDetail' then
+                    Timer:set(112, 1500, 'doGoHome')
+                end
+            end
+        elseif startType == 3 then -- 通知栏点击客户端推荐内容
+            Log:write('isNotificationPassiveStart=========================3======')
+            -- Tips:show('正在获取节目数据')
+            if not Util:checkNotificationFile() then
+                dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,16) --'通知数据异常,提示'
+                Dialog:show(dialogTitle, dialogContent,  'ok', 'doGoHome')
+            end
+        elseif startType == 4 then -- 通知栏下载完成任务点击
+            Log:write('isNotificationDownloadPassiveStart=========================4======')
+            local str = GetAppStartParamString()
+            Log:write('str',str)
+            if str and str ~= 'download' then
+                local strTable = Util:split(str, '|')
+                local playName = strTable[1]
+                local playPath = strTable[2]
+                if Util:goPlayerLocalByPlayparam(playPath,playName) == 1 then
+                    local lreg = Reg:create(Reg.com_wondertek_mobileaudio.playerlocal)
+                    if loginResultTable.defaultDataUrl and loginResultTable.defaultDataUrl ~= '' then
+                        Reg:setString(lreg, 'defaultDataUrl', loginResultTable.defaultDataUrl)
+                    end
+                else
+                    Scene:go(Alias.download, {setReturn = false})
+                end
+            else
+                Scene:go(Alias.download, {setReturn = false})
+            end
+        elseif startType == 6 then  --直播预约通知启动
+            Log:write('isLiveReserveNotificationPassiveStart================6============')
+            -- Tips:show('正在获取节目数据')
+            local rtn1, rtn2 = Util:checkAppointmentFile()
+            if not rtn1 then
+                if rtn2 == 'nil' then
+                    Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,24)) --('获取本地预约数据异常')
+                end
+                Timer:set(112, 1500, 'doGoHome')
+            end
+        elseif startType == 17 then -- 分享链接点击启动客户端
+            local str = GetAppStartParamString()
+            Log:write('strstrstr',str)
+            local str2 = string.gsub(str,"&",";") .. ';'
+            Log:write('strstrstr2',str2)
+            if not Util:goDetail(str2) then
+                Timer:set(112, 1500, 'doGoHome')
+            end
+        else
+            doGoHome()
+        end
+    else -- 人为启动
+        doGoHome()
+    end
+end
+
+function doGoHome()
+    if not loginResultTable then
+        Log:write('not loginResultTable')
+        return
+    end
+    local effect = nil
+    if guideEnter then --引导页点击
+        effect = 24
+    end
+    if _bIndexDeactivated == 1 then return end
+    Log:write('---------QOE time skip to homeScene-------------',Util:getQOEtime())
+    Tips:show('正在获取首页数据')
+    if loginResultTable.phoneNum then
+        Config:set('phone_number', loginResultTable.phoneNum)
+    end
+    if loginResultTable.defaultDataUrl and loginResultTable.defaultDataUrl ~= '' then
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        if Reg:getString(reg, 'postData') == '' then
+            if not haveShownSaleImg then -- 展示营销页
+                haveShownSaleImg = true
+                saleImgTable = {}
+                local imgTable = IO:openDir('MODULE:\\com_wondertek_mobileaudio\\image\\*.jpg')
+                if imgTable then
+                    for i = 0, #imgTable do
+                        if string.find(imgTable[i].filename, 'saleImg') then
+                            table.insert(saleImgTable, imgTable[i].filename)
+                        end
+                    end
+                    Log:write('saleImgTable', saleImgTable)
+                    if #saleImgTable > 0 then
+                        Sprite:setProperty(saleImg, 'back', 'file://image/' .. saleImgTable[1])
+                        showSaleBtn = true
+                        Sprite:setEnable(saleBtn, 1)
+                        TurnImagePaper(saleImg, 1000)
+                        showSaleImg = true
+                    end
+                end
+            end
+            Scene:go(Alias.home, {setReturn = false}, effect) --先请求home模板并不会做跳转
+			-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\home.wdml',{freeDestScene=true})
+        else -- 本地视频启动客户端播放完后进入本地搜索，点击搜索登录后进入网络搜索
+            Scene:go(Alias.search, {setReturn = false}, effect)
+        end
+    end
+end
+
+function UI_exit()
+    local dirPath = string.gsub('CACHE:\\com_wondertek_mobileaudio', '(.*)([^\\])$', '%1%2\\')
+    local dir = IO:openDir(dirPath..'*.*')
+    if dir then
+        for n = 0, table.maxn(dir) do
+            if (dir[n].filename == '.' or dir[n].filename == '..') and dir[n].attr == 1 then
+            else
+                os.remove(dirPath..dir[n].filename)
+            end
+        end
+    end
+    Scene:exit()
+end
+
+function resAdjust(sprite)
+    Sprite:setProperty(sprite,"padding","0,0," .. getAdjustH() .. ",0")
+    local _,_,_,h = Sprite:getRect(sprite)
+    ----- 1280x720 ------ 1.78 -- 646 840
+    ----- 320x480  ------ 1.5  -- 580
+    ----- 480x640  ------ 1.33 -- 530
+    local imgcenter = Sprite:findChild(sprite,"imgcenter")
+    local imgversion = Sprite:findChild(sprite,"imgversion")
+    local yuexiangChip = Sprite:findChild(sprite,"yuexiangChip")
+    local p = h/840
+    p = p > 0 and p or 0
+    Sprite:setRect(imgcenter,150+20*p,0,431-40*p,600-58*p)
+    Sprite:setRect(imgversion,341+1.5*p,605-58*p,24-3*p,49-5*p)
+    Sprite:setRect(yuexiangChip,285+1.5*p,650-58*p,134-3*p,179-5*p)
+    -- rect="341,605,24,49"
+end
+
+function resAdjust2(sprite)
+    Sprite:setRect(sprite,0,0,720,getAdjustH())
+end
+
+function getAdjustH()
+    ----- 1280x720 ------ 1.78 --335
+    ----- 320x480  ------ 1.5
+    ----- 480x640  ------ 1.33 --260
+    local p = SCREEN_HEIGHT/SCREEN_WIDTH
+    local c = 75*(p-1.33)/0.45
+    local setH = c > 0 and c + 220 or 220
+    Log:write("login setHeight",setH)
+    return setH
+end
+]]>
+</root>

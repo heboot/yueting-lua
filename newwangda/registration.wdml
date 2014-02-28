@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2013, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Desc: 注册/找回密码
+ == ============================================================================
+-->
+<root>
+    <header/>
+    <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
+    <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
+        <image rect="0,0,720,1280" src="file://image/background.png"   alpha="255" extendstyle="1177" />
+        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		    <button name="backBtn" rect="10,15,104,61" normal="n" sel="s" extendstyle="1111" OnSelect="backOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+            <label name="title" rect="0,0,720,77" extendstyle="1110" text="账号注册" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+			<button name="confirmBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="registerBtnOS" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="确定" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+		</node>
+        <panorama name="mainPanorama" rect="0,90,720,0" extendstyle="0017" foreground="foreground">
+            <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
+                <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+            </panoramaitem>
+            <panoramaitem rect="0,0,720,0" extendstyle="0017">
+                <listview name="mainListview" rect="0,0,720,0" extendstyle="1017">
+                    <list-item  rect="0,0,720,105" extendstyle="1010">
+                        <node rect="30,17,660,85" extendstyle="1010">
+						    <image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
+							<image rect="40,15,50,55" extendstyle="1010" style="autosize" src="file://image/user_head.png"/>
+                            <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入移动手机号码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                            <edit name="accountName" option="numeric" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged" font-size="28"/>
+                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                        </node>
+                    </list-item>
+                    
+                    <list-item  rect="0,0,720,105" extendstyle="1010">
+                        <node rect="30,10,660,85" extendstyle="1010">
+						<image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
+                            <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
+							<label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入新密码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                            <edit name="passWord" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged" font-size="28"/>
+                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                        </node>
+                    </list-item>
+                    <list-item  rect="0,0,720,105" extendstyle="1010">
+                        <node rect="30,10,660,85" extendstyle="1010">
+						<image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
+                            <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
+							<label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入确认密码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                            <edit name="passWordConfirm" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged" font-size="28"/>
+                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                        </node>
+                    </list-item>
+					<list-item  rect="0,0,720,105" extendstyle="1010">
+                        <node rect="30,10,660,85" extendstyle="1010">
+						<image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
+                            <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/checkkey.png"/>
+							<label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入验证码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                            <edit name="dynamicCode" rect="130,0,450,80" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged"/> 
+                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+					   </node>
+                    </list-item>
+					<list-item  rect="0,0,720,105" extendstyle="1010">
+                        <node rect="30,10,660,85" extendstyle="1010">
+						<button name="getDynamicCodeBtn" rect="0,0,660,85" normal="n" sel="s" disabled="d" style="autosize" data="" OnSelect="getDynamicCodeBtnOS" extendstyle="1010">
+                                <image name="n" rect="0,0,660,85" style='autosize' src="file://image/settingsend_bg.png"  extendstyle="1010">
+                                    <label name="normalLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#FFFFFF" v-align="center" h-align="center" />
+                                </image>
+                                <image name="s" rect="0,0,660,85" style='autosize' src="file://image/settingsend_bg.png"  extendstyle="1010">
+                                    <label name="selectLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#FFFFFF" v-align="center" h-align="center" />
+                                </image>
+                                <image name="d" rect="0,0,660,85" style='autosize' src="file://image/register_bg.png" extendstyle="1010">
+                                    <label name="disableLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#ffffff" v-align="center" h-align="center" />
+                                </image>
+                            </button>
+						 </node>
+                    </list-item>
+                    <list-item name="acceptItem" rect="0,0,720,90" extendstyle="1010">
+                        <button name="acceptBtn" rect="30,15,660,60" style="autosize" OnSelect="acceptBtnOS" extendstyle="1010">
+                            <image name="checkBoxN" rect="0,0,58,58" extendstyle="1000" style="sudoku-tile" sudoku="6,6,6,6" src="file://image/checkbg.png" BuildChildrenFinished="resChoose"><node/></image>
+                            <image name="checkBoxF" rect="0,0,58,58" extendstyle="1000" visible="0" style='autosize' src="file://image/downloadcheck.png" BuildChildrenFinished="resChoose"><node/></image>
+                            <label rect="80,0,0,60" extendstyle="1010" text="已阅读并且接受" autoextend="true" font-size="28" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                            <button rect="0,0,250,60" extendstyle="8010" text="《中国移动服务条款》" autoextend="true" font-size="28" color="#C98204" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" OnSelect="treatyOnSelect"/>
+                        </button>
+                    </list-item>
+                    <!--<list-item  rect="0,0,720,110" extendstyle="1010" frame="false">
+                        <button name="confirmBtn" rect="30,50,660,85" normal="n" sel="s" style="autosize" data="" OnSelect="registerBtnOS" extendstyle="1010">
+                            <image name="n" rect="0,0,660,85" style='autosize' src="file://image/settingsend_bg.png" alpha="255" extendstyle="1010">
+                                <label name="confirmLblN" rect="0,0,660,85" extendstyle="1010" text="确定" font-size="28" color="#FFFFFF" v-align="center" h-align="center" />
+                            </image>
+                            <image name="s" rect="0,0,660,85" style='autosize' src="file://image/settingsend_bg.png" alpha="255" extendstyle="1010">
+                                <label name="confirmLblS" rect="0,0,660,85" extendstyle="1010" text="确定" font-size="28" color="#ffffff" v-align="center" h-align="center" />
+                            </image>
+                        </button>
+                    </list-item>-->
+                </listview>
+            </panoramaitem>
+        </panorama>
+		
+		<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		    <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
+			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111" OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/paly.png" extendstyle="1077"/>
+			 </button>
+             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
+			 <label rect="150,15,720,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+        </node>  
+		
+        <node name="treatyDialog" rect="0,0,720,1280" extendstyle="1111" visible="false" enable="false">
+            <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
+            <shadow rect="0,0,720,1280" color="#000000" alpha="128" extendstyle="1111"/>
+            <node rect="50,170,620,0" padding="0,0,170,0" extendstyle="1016">
+                <node rect="0,0,620,35" extendstyle="0510">
+                    <image rect="0,0,620,72" src="file://image/dialogShadow.png" style="autosize" extendstyle="1010" />
+                </node>
+                <image rect="0,0,620,0" src="file://image/orderDialog_border.png" style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
+                <image rect="0,0,620,86" src="file://image/orderDig_head.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                <label rect="0,0,620,86" text="手机视频服务协议" color="#212121" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="36" v-align="center" h-align="center" extendstyle="1010"/>
+                <panorama rect="0,91,620,625" padding="0,0,90,0" extendstyle="1016">
+                    <panoramaitem rect="0,0,620,625" extendstyle="1017">
+                        <listview name="textareaListview" rect="0,0,620,0" extendstyle="1017">
+                            <list-item name="textareaItem" rect="0,0,620,0" extendstyle="1010" frame="false">
+                                <textarea name="treatyInfo" rect="40,0,530,620" extendstyle="1010" color="#817b7b" shadow="true" shadow-color="#ffffff" shadow-offset="0,1" font-size="22" text="" autoextend="true" />
+                            </list-item>
+                        </listview>
+                    </panoramaitem>
+                </panorama>
+                <node rect="0,720,620,90" extendstyle="1510">
+                    <button name="announceBtnOk" rect="210,12,200,100" style="autosize" OnSelect="treatyBtnOkOnSelect" extendstyle="1010" normal="n" sel="s">
+                        <node name="n" rect="0,0,177,56" extendstyle="1010" >
+                            <image rect="0,0,177,56" src="file://image/button_bg_n.png" extendstyle="1010"  style="sudoku-auto" sudoku="6,2,6,2" BuildChildrenFinished="resChoose"><node/></image>
+                            <label rect="0,0,177,56" extendstyle="0000" text="知道了" font-size="30" color="#565656" v-align="center" h-align="center"/>
+                        </node>
+                        <node name="s" rect="0,0,177,56" extendstyle="1010" >
+                            <image rect="0,0,177,56" src="file://image/button_bg_s.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                            <label rect="0,0,177,56" extendstyle="0000" text="知道了" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                        </node>
+                    </button>
+                </node>
+            </node>
+        </node>
+    </node>
+    </body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+local treatyText = ''
+matchTable = {
+    '^13[4-9]%d%d%d%d%d%d%d%d$',
+    '^15[0-27-9]%d%d%d%d%d%d%d%d$',
+    '^18[2378]%d%d%d%d%d%d%d%d$',
+    '^147%d%d%d%d%d%d%d%d$'
+}
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite= sprite
+    title = Sprite:findChild(sprite, "title")
+    mainListview = Sprite:findChild(sprite, "mainListview")
+    acceptItem = Sprite:findChild(sprite, "acceptItem")
+    accountName = Sprite:findChild(sprite, "accountName")
+    dynamicCode = Sprite:findChild(sprite, "dynamicCode")
+    passWord = Sprite:findChild(sprite, "passWord")
+    passWordConfirm = Sprite:findChild(sprite, "passWordConfirm")
+    pwdLbl = Sprite:findChild(sprite, "pwdLbl")
+    getDynamicCodeBtn = Sprite:findChild(sprite, "getDynamicCodeBtn")
+    normalLbl = Sprite:findChild(sprite, "normalLbl")
+    selectLbl = Sprite:findChild(sprite, "selectLbl")
+    disableLbl = Sprite:findChild(sprite, "disableLbl")
+    confirmBtn = Sprite:findChild(sprite, "confirmBtn")
+    confirmLblN = Sprite:findChild(sprite, "confirmLblN")
+    confirmLblS = Sprite:findChild(sprite, "confirmLblS")
+    treatyDialog = Sprite:findChild(sprite, 'treatyDialog')
+    textareaListview = Sprite:findChild(sprite, 'textareaListview')
+    textareaItem = Sprite:findChild(sprite, 'textareaItem')
+    treatyInfo = Sprite:findChild(sprite, 'treatyInfo')
+    Sprite:setProperty(treatyInfo, 'text', treatyText)
+    local _,_,_,h = Sprite:getRect(treatyInfo)
+    Sprite:setRect(textareaItem,0,0,620,h)
+    ListView:adjust(textareaListview)
+	
+end
+
+function backOnSelect(sprite)
+    Scene:back()
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+    if msg == Msg.dynPwd then
+        local dynPwdResult = Http:jsonDecode('dynPwdResult')
+        Log:write('dynPwdResult', dynPwdResult)
+        if type(dynPwdResult) == 'table' then
+            Tips:show(dynPwdResult.desc)
+        else
+            Dialog:show('提示', '亲，好像出了点状况', 'ok')
+        end
+    elseif msg == Msg.register then
+        Loading:close()
+        local registerResult = Http:jsonDecode('registerResult')
+        Log:write('registerResult', registerResult)
+        if type(registerResult) == 'table' then
+            if registerResult.success == 'true' and registerResult.code == '017' then
+                Dialog:show('提示', registerResult.desc, 'ok', 'backOnSelect', nil, '返回')
+            elseif registerResult.code == '007' then
+                Dialog:show('提示', '用户已存在，请使用找回密码功能', 'ok', 'backOnSelect')
+            else
+                Tips:show(registerResult.desc)
+            end
+        else
+            Dialog:show('提示', '亲，好像出了点状况', 'ok')
+        end
+    elseif msg == Msg.reset then
+        Loading:close()
+        local resetResult = Http:jsonDecode('resetResult')
+        Log:write('resetResult', resetResult)
+        if type(resetResult) == 'table' then
+            if resetResult.success == 'true' and resetResult.code == '015' then
+                lastPhoneNum = lastPhoneNum or ''
+                if lastPwd and lastPwd ~= '' then
+                    Log:write('sendResetMsg')
+                    local postData = 'phoneNumber=' .. lastPhoneNum .. '&message=您已成功使用手机视频客户端修改了登录密码，密码为' .. string.sub(lastPwd, 1, 1) .. '****' .. string.sub(lastPwd, string.len(lastPwd))
+                    Http:request('sendMsg', Util:getServer() .. 'msp/pushFriendRecommend.msp?', 111, {method = 'post', useCache = 0, postData = postData})
+                end
+                Dialog:show('提示', resetResult.desc, 'ok', 'backOnSelect', nil, '返回')
+            else
+                Tips:show(resetResult.desc)
+            end
+        else
+            Dialog:show('提示', '亲，好像出了点状况', 'ok')
+        end
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+        commonActivate()
+        init()
+    elseif msg == MSG_DEACTIVATE then
+        Timer:cancel(1)
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if Sprite:isVisible(treatyDialog) == 1 then
+            Sprite:setVisible(treatyDialog,0)
+            Sprite:setEnable(treatyDialog,0)
+        else
+            if commonF2KeyUp and commonF2KeyUp() then return end
+            Scene:back()
+        end
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function acceptBtnOS(sprite)
+    accepted = setCheck(sprite) == 1 -- true已接受，false未接受
+end
+
+function setCheck(sprite)
+    local checkBoxF = Sprite:findChild(sprite, "checkBoxF")
+    local isVisible = Sprite:isVisible(checkBoxF)
+    status = isVisible == 0 and 1 or  0
+    Sprite:setVisible(checkBoxF, status)
+    return status
+end
+
+function editOnTextChanged(sprite)
+    local p = Sprite:getParent(sprite)
+    local blankTip = Sprite:findChild(p,"blankTip")
+    if Sprite:getText(sprite) == "" then
+        setNodeState(blankTip,1)
+    else
+        setNodeState(blankTip,0)
+    end
+end
+
+function check()
+    local phoneNum = Sprite:getText(accountName)
+    local pwd = Sprite:getText(passWord)
+    local dynamicNum = Sprite:getText(dynamicCode)
+    local pwdConfirm = Sprite:getText(passWordConfirm)
+    if phoneNum == '' then
+        Dialog:show('提示', '请输入手机号', 'ok')
+        return
+    end
+    if pwd == '' then
+        Dialog:show('提示', '请输入密码', 'ok')
+        return
+    end
+    if dynamicNum == '' then
+        Dialog:show('提示', '请输入验证码', 'ok')
+        return
+    end
+    if pwd ~= pwdConfirm then
+        Dialog:show('提示', '两次密码输入不一致', 'ok')
+        return
+    end
+    lastPhoneNum = phoneNum
+    lastPwd = pwd
+    pwd = Net:pwdEncode(pwd)
+--    if not accepted then
+--        Dialog:show('提示', '请阅读并接受条款', 'ok')
+--        return
+--    end
+    return 'phoneNumber=' .. phoneNum .. '&password=' .. pwd .. '&dynamicCode=' .. dynamicNum
+end
+
+--[[  注册  ]]--
+function registerBtnOS(sprite)
+    local postData = check()
+    if not postData then
+        return
+    end
+    Log:write('url=', Util:getServer() .. 'msp/register.msp' .. postData)
+    Loading:show()
+    Http:request('registerResult', Util:getServer() .. 'msp/register.msp', Msg.register, {method = 'post', useCache = 0, postData = postData})
+end
+
+--[[  找回密码  ]]--
+function resetBtnOS(sprite)
+    local postData = check()
+    if not postData then
+        return
+    end
+    Log:write('url=', Util:getServer() .. 'msp/resetPwd.msp' .. postData)
+    Loading:show()
+    Http:request('resetResult', Util:getServer() .. 'msp/resetPwd.msp', Msg.reset, {method = 'post', useCache = 0, postData = postData})
+end
+
+--[[  获取验证码  ]]--
+function getDynamicCodeBtnOS(sprite)
+    Log:write('getDynamicCodeBtnOS')
+    local phoneNum = Sprite:getText(accountName)
+    if phoneNum == '' then
+        Dialog:show('提示', '请输入手机号', 'ok')
+        return
+    elseif not matchPhoneNum(phoneNum) then
+        Tips:show("注册仅支持中国移动手机号码")
+        return
+    end
+    Log:write('url=', Util:getServer() .. 'msp/sendDynPwd.msp?phoneNumber=' .. phoneNum)
+    Http:request('dynPwdResult', Util:getServer() .. 'msp/sendDynPwd.msp?phoneNumber=' .. phoneNum, Msg.dynPwd, {useCache = 0})
+    disableTimer()
+end
+
+function disableTimer()
+    remainSecond = 30
+    Sprite:setProperty(disableLbl, 'text', remainSecond .. '秒后重新获取')
+    Sprite:setEnable(getDynamicCodeBtn, 0)
+    Timer:set(1, 1000, 'changeTime')
+end
+
+function changeTime()
+    if remainSecond <= 1 then
+        remainSecond = 30
+        Sprite:setProperty(normalLbl, 'text', '重新获取验证码')
+        Sprite:setProperty(selectLbl, 'text', '重新获取验证码')
+        Sprite:setEnable(getDynamicCodeBtn, 1)
+    else
+        remainSecond = remainSecond - 1
+        Sprite:setProperty(disableLbl, 'text', remainSecond .. '秒后重新获取')
+        Timer:set(1, 1000, 'changeTime')
+    end
+end
+
+--[[  协议"知道了"按钮点击  ]]--
+function treatyBtnOkOnSelect()
+    Sprite:setVisible(treatyDialog,0)
+    Sprite:setEnable(treatyDialog,0)
+end
+
+--[[  阅读协议  ]]--
+function treatyOnSelect(sprite)
+    Sprite:setVisible(treatyDialog,1)
+    Sprite:setEnable(treatyDialog,1)
+end
+
+--[[  初始化注册/找回密码  ]]--
+function init()
+    --暂时在注册时页屏蔽协议选项
+    local x, y, w = Sprite:getRect(acceptItem)
+    Sprite:setRect(acceptItem, x, y, w, 0)
+    Sprite:setEnable(acceptItem, 0)
+    ListView:adjust(mainListview)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+    if Reg:getInteger(reg, 'isRegister') ~= 1 then
+        Sprite:setProperty(title, 'text', '找回密码')
+        local p = Sprite:getParent(pwdLbl)
+        local blankTip = Sprite:findChild(p, "blankTip")
+        local passWord = Sprite:findChild(p, "passWord")
+        Sprite:setRect(pwdLbl, 20, 0, 145, 85)
+        Sprite:setRect(blankTip, 165, 0, 480, 85)
+        Sprite:setRect(passWord, 165, 0, 480, 85)
+        Sprite:setProperty(confirmBtn, 'OnSelect', 'resetBtnOS')
+        Sprite:setProperty(confirmLblN, 'text', '确定')
+        Sprite:setProperty(confirmLblS, 'text', '确定')
+    end
+end
+
+--[[ 移动手机号码正则 ]]--
+function matchPhoneNum(str)
+    for i, v in ipairs(matchTable) do
+        if string.match(str, v) then
+            return str
+        end
+    end
+    return nil
+end
+]]>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Author: wangweipeng <wangweipeng@mantis.com>
+ == ============================================================================
+ == | Desc: 首页
+ == ============================================================================
+-->
+<root>
+    <header/>
+	<body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		<button name="backBtn" rect="10,15,104,61" normal="n" sel="s" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</button>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+	    <button name="rightNavigationBtn" rect="600,12,104,61" extendstyle="1111" OnSelect="rightNavigationBtnOnSelect" visible="1" enable="1">	
+		</button>
+	    </node>
+		
+		<node name="contentNode" rect="0,90,0,460" extendstyle="1171">			
+		<image name="novelTopImg" rect="0,0,720,300" style="autosize" src="file://image/defaultbg.png"/>
+		<button name="novelInfoBtn" OnSelect="novelInfoBtnOnSelect" rect="0,300,0,100" extendstyle="1871">
+		    <textarea name="novelInfo" rect="10,10,650,100"  color="#999999" line-height="50" maxlines="2" font-size="28"/>		
+		    <image name="rimg" rect="670,35,30,30" style="autosize"  extendstyle="1111" src="file://image/play_go.png"/>					
+		</button>
+		</node>
+		
+		<node name="authorNode" rect="0,0,0,100" extendstyle="1871">
+		    <image name="authorImg" rect="20,0,96,96" style="maxsize" extendstyle="1111" src="file://image/novel_test2.png">	
+			<image rect="0,0,96,96" style="maxsize" extendstyle="1111" src="file://image/authorfliter.png"/>	
+		    </image>
+		    <label name="authorName" rect="140,0,200,100"  v-align="center" font-size="25" color="#999999" postfix=".."  extendstyle="1111"/>
+		    <label name="playCount" rect="0,0,200,100"  v-align="center" color="#999999" font-size="25" postfix=".."  extendstyle="5111" />
+		</node>
+		
+		<node name="listNode" rect="0,0,0,0" extendstyle="1877">
+		<image  src="file://image/leftlistview_line.png" style="autosize" rect="0,0,0,5," extendstyle="1171"/>
+		<listview name="noveslListview" rect="0,5,0,0" extendstyle="1177">	
+		</listview>	
+		</node>		
+		
+	</node>
+	
+	<!--数据item-->
+	<node name="novelItem" rect="0,0,0,100" extendstyle="1070"  visible="0" enable="0" active="0">
+			<button name="novelItemBtn" normal="n"  sel="s" OnSelect="novelItemBtnOnSelect" rect="0,0,720,0" extendstyle="1117">	
+			<image name="n" rect="0,0,720,0" style="autosize" extendstyle="1117" src="file://image/novel_item_nbg.png"/>
+			<node name="s" rect="0,0,720,0"  extendstyle="1117">
+			   <shadow  rect="0,0,720,0" color="#000000" alpha="75"  extendstyle="1117"/>
+			   <shadow  rect="0,0,20,0" color="#fb6c03"  alpha="255" extendstyle="1117"/>
+			</node>
+			<label name="novelChildName" rect="30,20,400,50" v-align="center" postfix=".."  extendstyle="1111" color="#999999"  font-size="30"/>
+			<image name="rimg" rect="650,25,40,40" style="autosize"  extendstyle="1111" src="file://image/play_go.png"/>					
+			</button>
+	</node>
+	
+	<!--底部区域-->
+	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
+			
+			 
+			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+		 
+             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+    </node>
+	</node>
+	</body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+local mainTitle
+local noveslListview
+local novelItem
+local novelInfo
+local novelInfoBtn
+local novelTopImg
+local authorName
+local playCount
+local tempNodeId
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+--底部所需变量end
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	 noveslListview = Sprite:findChild(sprite, 'noveslListview')
+	 novelItem = Sprite:findChild(rootSprite, 'novelItem')
+	 novelInfo  = Sprite:findChild(rootSprite, 'novelInfo')
+	 novelTopImg = Sprite:findChild(rootSprite, 'novelTopImg')
+	 authorName = Sprite:findChild(rootSprite, 'authorName')
+	 playCount = Sprite:findChild(rootSprite, 'playCount')
+	 authorImg = Sprite:findChild(rootSprite, 'authorImg')
+	 Log:write('huoqu..',novelInfo)
+	 
+	 
+	  
+	playBtn=Sprite:findChild(sprite,'playBtn')
+	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Loading:show()
+	  Timer:cancel(4444)
+	  Timer:set(4444,500,'getStatusa')
+	  LoadBottomPlayerData()
+      --LoadNovelData()
+	  requestNovelData()
+    elseif msg == MSG_DEACTIVATE then
+        
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 101 then
+	    Loading:close()
+		novelData = Http:jsonDecode('novelData')
+		Log:write('LoadNovelData===000',novelData==nil,novelData.name)
+		LoadNovelData()
+	elseif msg == 103 then
+		--Loading:close()
+		--novelListData = Http:jsonDecode('novelListData')
+		--if novelListData and novelListData~='' then
+		   --local reg = Reg:create('com_wondertek_mobileaudio_novel')
+           --Reg:setTable(reg,'novelContList',novelListData.contList)
+		--end
+		--Log:write('fanhui.......',novelListData.contList.name)
+		--LoadnoveslListviewData()
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function LoadnoveslListviewData()
+	ListView:removeAllItems(noveslListview,1,1)
+    ListView:loadItem(noveslListview,novelItem,math.ceil(#novelData.contList+1),'loadNovelItem')
+	ListView:adjust(noveslListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadNovelItem(list,item,index)
+    
+	 --Sprite:setProperty(item,"extendstyle","1070")
+     --Sprite:setRect(item,0,0,720,255)
+	 Sprite:setProperty(Sprite:findChild(item,'novelChildName'),'text',novelData.contList[index].name)
+	 Sprite:setProperty(Sprite:findChild(item,'novelItemBtn'),'data',novelData.contList[index].param)
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+--[[  新增OMS读取小说数据方法  ]]--
+function requestNovelData()
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+    local data = Reg:getString(reg,'novelItemId')	
+	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	if nodeId and nodeId ~= '' then
+	   tempNodeId = nodeId
+       Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelItemData.jsp?nodeId='..nodeId..'&objType=0',101)
+    end
+end
+
+--[[  读取小说数据方法  ]]--
+function LoadNovelData()
+	Log:write('LoadNovelData======44',novelData.name==nil)
+	Log:write('LoadNovelData======55',novelData.desc==nil)
+	Sprite:setProperty(mainTitle,'text',novelData.name)
+	Sprite:setProperty(novelInfo,'text',novelData.desc)
+	Log:write('LoadNovelData======',novelData.timg)
+	if novelData.timg~= nil then
+	Sprite:setProperty(novelTopImg,'src',novelData.timg)
+	else
+	-- Sprite:setProperty(novelTopImg,'src',novelData.cimg)
+	end	
+	Log:write('LoadNovelData======22',novelData.anchor)
+	Sprite:setProperty(authorName,'text',novelData.anchor)
+	
+	Sprite:setProperty(playCount,'extendstyle','5111')
+	
+	Log:write('LoadNovelData======33',novelData.count)
+	
+	Sprite:setProperty(playCount,'text',novelData.count..'人收听')
+	if novelData.aimg and novelData.aimg ~= nil and novelData.aimg ~= '' then
+	Sprite:setProperty(authorImg,'src',novelData.aimg)
+	end
+	LoadnoveslListviewData()
+	if novelData.contList and novelData.contList~='' then
+		   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+           Reg:setTable(reg,'novelContList',novelData.contList)
+    end
+	
+	if novelData.limg and novelData.contList and tempNodeId then
+	Log:write('LoadNovelData======66',novelData.limg)
+        count = #novelData.contList+1
+        saveNodeInfo(novelData.name,{img=GetLocalFilename(novelData.limg),count=count,nodeId=tempNodeId,anchor=novelData.anchor})
+    end
+end
+
+function saveNodeInfo(nodeName,propTable)
+    local reg = Reg:create("tmp")
+    Reg:load(reg, "WONDER:\\temp\\nodeInfo.xml")
+    Reg:setTable(reg,Util:md5(nodeName),propTable)
+    Reg:save(reg, "WONDER:\\temp\\nodeInfo.xml")
+    Reg:release("tmp")
+end
+
+--[[  点击小说简介  ]]--
+function novelInfoBtnOnSelect()
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	Log:write('aluha',novelData.name,novelData.desc)
+	Reg:setString(reg,'title',novelData.name)
+	Reg:setString(reg,'desc',novelData.desc)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelInfo.wdml',{freeDestScene=true})
+end
+
+
+function novelItemBtnOnSelect(sprite)
+local item=Sprite:getParent(sprite) 
+local index=ListView:getItemIndex(item)
+local data=Sprite:getData(sprite) 
+local reg = Reg:create('com_wondertek_mobileaudio_novel')
+Reg:setString(reg,'novelItemParam',data)
+Reg:setString(reg,'novelItemIndex',index)
+Reg:setString(reg,'novelItemTitle',Sprite:getText(mainTitle))
+Reg:setString(reg,'novelAuthor',Sprite:getText(authorName))
+Reg:setInteger(reg, 'novelIsFirst',1) 
+
+
+local data2 = Reg:getString(reg,'novelItemId')	
+local _,_,parentId=string.find(data2,'parentId=(%d+);')
+Log:write('===============audioplayCollect parentId',parentId)
+if parentId==nil or parentId == '' then
+	Reg:setString(reg,'audioplayCollect','2')
+	Reg:setTable(reg,'audioplayCollectTable',novelData.contList)
+end
+
+
+Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=true, setReturn = false})
+--Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{setReturn=false})
+
+end
+
+--底部按钮模块start
+function LoadBottomPlayerData()
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local data = Reg:getString(bottomReg,'tempParentId')
+		Reg:setInteger(reg,'fromFlag',1)
+		Reg:setString(reg,'novelItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=false})
+	elseif type == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('底部status',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	--local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+--底部按钮模块end
+
+]]>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Desc: 首页
+ == ============================================================================
+-->
+<root>
+    <header/>       
+    <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+	<!--main -->
+	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</button>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+	    </node>
+		<!--背景、头像以及相关资料 node-->
+		<node rect="0,0,720,270"  extendstyle="1810">
+		<image name="spaceBg" rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
+		<button name="spaceBgEdit" rect="0,0,720,270" extendstyle="1010" OnSelect="spaceBgEditOS"/>
+		<image name="msgImg" rect="10,10,176,176" style="maxsize" src="file://image/personalhomepageimg.png" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>
+		<label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
+		<label rect="220,110,150,50" text="粉丝数:" font-size="36"  v-align="center" color="#ffffff" extendstyle="1010"/>
+		<label name="fansTotal" rect="0,110,120,50" text="" v-align="center" font-size="36" color="#ffffff" extendstyle="8010"/>	
+		<node rect="480,0,240,84"  extendstyle="1510">
+		<button name="informationBtn" normal="n" sel="s" rect="0,0,240,84" OnSelect="informationBtnOnSelect" color="#000000" extendstyle="1010">
+		<node name="n" rect="0,0,240,84"  extendstyle="1010">
+		<shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
+		<label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
+		</node>
+		<node name="s" rect="0,0,240,84"  extendstyle="1010">
+		<shadow name="s" rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
+		<label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
+		</node>	
+		</button>
+		</node>	 
+		</node>
+		<node  rect="0,0,720,140"  extendstyle="1810">
+		<label name="msgMood" rect="45,0,720,140" text=""  v-align="center" font-size="28" color="#999999" extendstyle="1010"/>
+		<image name="rimg" rect="650,50,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>
+		<image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
+		</node>
+		<node name="contentNode" rect="0,0,720,0"   extendstyle="1817"  >
+	    <listview name="personHomeListview" rect="0,0,720,0"  extendstyle="1117" limit="false">
+		</listview>
+	    </node>
+	</node>
+	
+	<node name="personHomeItem" rect="0,0,720,90" extendstyle="1010"  visible="0" enable="0" active="0">
+		    <button name="personHomeItemBtn" normal="n" sel="s" OnSelect="personHomeItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">								
+			<shadow name="s" rect="0,0,720,0" alpha="50" color="#000000" extendstyle="1117"/>
+            <image name="personHomeWorksimg" rect="45,27,33,35" style="autosize" extendstyle="1010"/>			
+			<label name="personHomeName" rect="100,0,200,90" v-align="center"  postfix=".."  extendstyle="1010" color="#999999"  font-size="28"/>
+			<image name="rimg" rect="650,25,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>	
+            <image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>			
+			</button>
+	</node>	
+	<!--底部区域-->
+	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/> 
+			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+		 
+             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+    </node>
+    </node>	
+</body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+local rootSprite
+local personHomeListview
+local personHomeItem
+local mainTitle
+local parentId
+
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+--底部所需变量end
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 personHomeListview = Sprite:findChild(sprite, 'personHomeListview')
+	 personHomeItem = Sprite:findChild(rootSprite, 'personHomeItem')
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	 playBtn=Sprite:findChild(sprite,'playBtn')
+	 pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	 refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	 bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	 playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+	 bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	 spaceBg = Sprite:findChild(sprite,'spaceBg')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	    commonActivate()
+        local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+        local imgpath = Reg:getString(reg,"imgpath")
+        Log:write("imgpath",imgpath)
+        if imgpath ~= "" then
+            Reg:setString(reg,"imgpath","")
+            if IO:fileExist(imgpath) then
+                local fext = IO:fileExt(imgpath)
+                local desPath = "MODULE:\\com_wondertek_mobileaudio\\spaceBg." .. fext
+                Log:write("desPath",desPath)
+                IO:fileCopy(imgpath,desPath,true)
+                IO:fileRemove(imgpath)
+                Config:set("spaceBg",desPath)
+            end
+        end
+	  Timer:cancel(4444)
+	  Timer:set(4444,500,'getStatusa')
+	  commonDeactivate()
+	  local imgBg = Config:get("spaceBg")
+        if imgBg ~= "" then
+            Sprite:setProperty(spaceBg,"src",imgBg)
+        end
+	   local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+       local userId = Reg:getString(regCommunity ,'userId')
+       _userId = userId
+	   requestUserinfoData()
+    elseif msg == MSG_DEACTIVATE then
+    elseif msg == MSG_STRINGEVENT then 
+	local paramEventID = Param:getInteger(param, 0)
+        if paramEventID == 9 then
+            local imgPath = Param:getString(param, 1)
+            if not string.find(imgPath, 'error=') then
+                clipImg(imgPath)
+            end
+            return
+        end
+    Util:onSpriteEvent(msg, param)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 103 then
+	     Loading:close()
+		 personHomeListData = Http:jsonDecode('personHomeListData')
+		 LoadpersonHomeListviewData()
+	elseif msg == 110 then
+	    userinfoData = Http:jsonDecode('userinfoData')
+        Log:write('userinfoData 110',userinfoData)
+	    Loading:close()
+        if userinfoData.code =='1014' then
+            setNodeState(contentList1,0)
+            Net:goToMyAccount()
+        else
+            LoadUserInfo()
+			LoadpersonHomeListviewData()
+        end
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function LoadpersonHomeListviewData()
+	ListView:removeAllItems(personHomeListview, 1, 1)
+    ListView:loadItem(personHomeListview,personHomeItem,3,'loadpersonHomeItem')
+	ListView:adjust(personHomeListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadpersonHomeItem(list,item,index)
+    Sprite:setRect(item, 0,0,720,90)
+    Sprite:setProperty(item,'extendstyle','1010')
+	local personHomeName=Sprite:findChild(item,'personHomeName')
+	local personHomeWorksimg=Sprite:findChild(item,'personHomeWorksimg')	
+	if index==0 then
+	Sprite:setProperty(personHomeName,'text','本地文件/30')
+	Sprite:setProperty(personHomeWorksimg,'src','file://image/localworks.png')
+	elseif index==1 then
+	Sprite:setProperty(personHomeName,'text','作品/'..userinfoData.worksCount)
+	Sprite:setProperty(personHomeWorksimg,'src','file://image/works.png')
+	elseif index==2 then
+	Sprite:setProperty(personHomeName,'text','专辑/20')
+	Sprite:setProperty(personHomeWorksimg,'src','file://image/specialworks.png')
+	end	
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function personHomeItemBtnOnSelect(sprite)
+	local item= Sprite:getParent(sprite)
+    local index=ListView:getItemIndex(item) 
+	-- local data = Sprite:getData(sprite)
+	-- local reg = Reg:create('com_wondertek_mobileaudio_novel')
+    -- Reg:setString(reg,'personHomeItemId',data)	
+	if index==0 then
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\recording.wdml',{freeDestScene=true})
+	end
+end
+
+--底部按钮模块start
+function LoadBottomPlayerData()
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local data = Reg:getString(bottomReg,'tempParentId')
+		Reg:setInteger(reg,'fromFlag',1)
+		Reg:setString(reg,'personHomeItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=false})
+	elseif type == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('底部status',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	--local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+--底部按钮模块end
+
+
+function requestUserinfoData()
+    local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+	-- _userId='21551616'
+    local useCache = getRequestState("userinfoDataState" .. _userId, regCommunity)
+    Loading:show()
+    Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = useCache})
+end
+
+function LoadUserInfo()
+    Sprite:setProperty(mainTitle,'text',userinfoData.sname)
+    local msgImg = Sprite:findChild(rootSprite,'msgImg')
+    local msgMood = Sprite:findChild(rootSprite,'msgMood')
+	local fansTotal = Sprite:findChild(rootSprite,'fansTotal')
+    local mypicurl =userinfoData.picture or ''
+    if mypicurl~='' then
+        mypicurl =Util:getWeiBoServer() .. 'publish/clt' .. mypicurl
+        Sprite:setProperty(msgImg,'src', mypicurl)
+        SpriteImage_RefreshImage(msgImg)
+    end
+    Sprite:setProperty(msgMood,'text',userinfoData.perDesc == "" and "简介:这个人很懒，啥都没填写" or "简介:" .. userinfoData.perDesc)
+	Sprite:setProperty(fansTotal,'text',userinfoData.followerCount)
+   
+   -- Sprite:setVisible(sexImg, 1)
+    -- if userinfoData.sex=='0' then
+        -- Sprite:setProperty(sexImg,'src','file://image/man.png')
+    -- elseif userinfoData.sex=='1' then
+        -- Sprite:setProperty(sexImg,'src','file://image/woman.png')
+    -- else
+        -- Sprite:setVisible(sexImg, 0)
+    -- end
+    -- local x, y, w, h = Sprite:getRect(sexImg)
+    -- local a,b,c,d = Sprite:getRect(msgName)
+    -- Sprite:setRect(sexImg,a+c+10,y,w,h)
+    -- myUserId = userinfoData.userId
+    -- ListView:removeAllItems(contentList1,1,1)
+    -- ListView:loadItem(contentList1,itemNode4, 7,'onloadItem4')
+    -- ListView:adjust(contentList1)
+    -- setTimes(1,userinfoData.worksCount)
+    -- setTimes(2,userinfoData.noticerCount)
+    -- setTimes(3,userinfoData.followerCount)
+end
+
+
+--点击资料按钮
+function informationBtnOnSelect(sprite)
+    Scene:go('MODULE:\\com_wondertek_mobileaudio\\information.wdml',{freeDestScene=false})
+end
+
+function spaceBgEditOS()
+    dofunction(4, "", "", 0, 0)
+end
+
+function clipImg(imgPath)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+    Reg:setString(reg,"imgPath",imgPath)
+    Reg:setString(reg,"displaystyle","2")
+    Scene:go(Alias.uploadimgedit)
+end
+
+function getRequestState(requestTag,requestReg)
+    if not requestReg then return 0 end
+    local requestState = Reg:getString(requestReg,requestTag)
+    if requestState == "" or requestState == "1" then
+        Reg:setString(requestReg,requestTag,"2")
+        return 0
+    else
+        return 2
+    end
+end
+
+]]>

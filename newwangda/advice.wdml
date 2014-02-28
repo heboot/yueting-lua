@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2013, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Desc: 帮助
+ == ============================================================================
+-->
+<root>
+    <header/>
+    <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
+    <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
+        <image rect="0,0,720,1280" src="file://image/background.png"   alpha="255" extendstyle="1177" />
+        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="用户反馈" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		</node> 
+		<node rect="38,120,644,541"  extendstyle="1111">
+			<image rect="0,0,0,0" style="autosize" src="file://image/settingcontentdesc_bg.png" extendstyle="1077"/>
+            <label name="blankTip" rect="0,0,0,80" extendstyle="1070" text="请在此写下您的宝贵意见" v-align="center" h-align="center" font-size="32" alpha="50"color="#BBC0B9"/>
+            <edit name="contentDesc" option="numeric" rect="0,0,0,0" extendstyle="1077" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="35" multiline="true" max-size="120"/>
+		</node>
+		<node rect="38,720,644,120"  extendstyle="1111">
+		<button style="autosize" OnSelect="sendAdviceOnSelect" extendstyle="0077">
+		   <image rect="0,0,0,0" src="file://image/settingsend_bg.png"  style="autosize" extendstyle="1177" />
+		   <label rect="0,0,0,0" extendstyle="1177"  text="发送"  color="#D2691E"  v-align="center" h-align="center" font-size="30"/>
+	    </button>
+		</node>
+		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		<!--底部区域-->
+	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
+			
+			 
+			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="autosize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="autosize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+		 
+             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+    </node>
+    </node>
+    </body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+--底部所需变量end
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite = sprite
+    contentDesc = Sprite:findChild(sprite,"contentDesc")
+		playBtn=Sprite:findChild(sprite,'playBtn')
+	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
+	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+    if msg == 101 then
+        Loading:close()
+        Tips:show('谢谢您的宝贵反馈意见')
+        Timer:set(TimerId.once,1000,"backBtnOnSelect")
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+		Timer:cancel(4444)
+	    Timer:set(4444,500,'getStatusa')
+        commonActivate()
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function backBtnOnSelect(sprite)
+    Scene:back()
+end
+
+function editOnTextChanged(sprite)
+    local p = Sprite:getParent(sprite)
+    local blankTip = Sprite:findChild(p,"blankTip")
+    if Sprite:getText(sprite) == "" then
+        setNodeState(blankTip,1)
+    else
+        setNodeState(blankTip,0)
+    end
+end
+
+function sendAdviceOnSelect(sprite)
+    local t = Sprite:getText(contentDesc)
+    if t == "" then
+        Tips:show('忘了填写内容吧?')
+        return
+    end
+    local postData = "意见:" .. Sprite:getText(contentDesc)
+    -- Log:write("postData="..postData)
+    postData = 'suggestTitle=手机悦听3.0用户意见反馈&suggestContent='..postData
+    -- Loading:show()
+    Http:request('help_advise', Util:getServer().. 'msp/suggest.msp', 101, {useCache = 0, method='post', postData=postData})
+end
+
+--底部按钮模块start
+function LoadBottomPlayerData()
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local data = Reg:getString(bottomReg,'tempParentId')
+		Reg:setInteger(reg,'fromFlag',1)
+		Reg:setString(reg,'novelItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=false})
+	elseif type == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('底部status',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	--local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+--底部按钮模块end
+
+]]>

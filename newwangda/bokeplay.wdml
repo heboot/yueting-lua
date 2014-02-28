@@ -1,0 +1,1150 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2013, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Desc: 帮助
+ == ============================================================================
+-->
+<root>
+    <header/>
+    <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
+    <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
+        <shadow rect="0,0,720,1280" color="#FFFFFF" alpha="255" extendstyle="1111" />
+        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		   <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		   <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0"  style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		    <button name="selectedWorksBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="selectedWorksBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
+			<label rect="0,0,0,0" extendstyle="0077" text="评论" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+			<button name="moreContentsBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="moreContentsBtnOnSelect" visible="1" enable="1">
+			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/morecontents.png" extendstyle="1077"/>
+			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/morecontents_s.png" extendstyle="1077"/>
+			</button>
+        </node> 
+        <node rect="0,0,0,508"  extendstyle="1871">
+		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
+		  <node rect="0,0,0,150"  extendstyle="1071">
+		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
+			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511"/>
+			  <label  name="audioCurTime"  rect="300,0,245,80" color="#f06a06" text="00:00:00" font-size="55" extendstyle="1511"/>
+		  </node>
+		  <node rect="0,0,0,170"  extendstyle="1877">
+			<node name="playingAnimation" rect="0,0,170,170" extendstyle="1010" visible="0" enable="0">
+			 <animate rect="0,0,170,170" delay="15" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="$(delay)">
+             <image rect="$(rect)"  alpha="50" style="autosize" src="file://image/playing_1.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set rect="53,38,150,150" start="0" delay="8" src="file://image/playing_1.png" />
+			 <set rect="42,29,170,170" start="4" delay="4" src="file://image/playing_2.png" />
+             </dataset>
+             </animate>	
+			 </node>
+			 <button name="playBtn" rect="58,44,138,138" extendstyle="1010"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="autosize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn" rect="58,44,138,138" extendstyle="1010"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="autosize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="58,44,138,138" extendstyle="1010"  visible="0" enable="0">
+			 <animate rect="0,0,138,138" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,138,138" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+			 <node rect="0,0,520,0" extendstyle="8017">
+             <scrolltext  name="audioname" rect="90,70,0,95" step="2" scroll="true" color="#f06a06" text="暂无数据"  font-size="40" extendstyle="1171"/>
+			 <node rect="90,200,0,90" extendstyle="1171">
+			 <label name="anchor" rect="0,0,120,90" color="#f06a06" text="佚名"  font-size="35" v-align="center" h-align="center"  postfix=".." extendstyle="1111"/>
+			 <label rect="0,0,60,90" color="#f06a06" text="主播"  font-size="25" v-align="center" h-align="center" extendstyle="8111"/>
+			 </node>
+			 </node>
+		  </node>
+		</node>
+		
+
+		
+    <node rect="0,0,0,93"  extendstyle="1871">
+	    <image rect="0,0,0,0" style="minsize" src="file://image/progressbg.png" extendstyle="1077"/>
+		<node rect="20,20,120,80"  extendstyle="1111">
+		  <button rect="0,0,90,60"   extendstyle="1011">
+			<image rect="0,0,0,0"  src="file://image/ondemandbg.png" extendstyle="1077" style="maxsize"/>
+		    <label rect="0,0,0,0" color="#FFFFFF" text="点播" v-align="center" h-align="center"  font-size="25"  extendstyle="1177"/>
+		  </button>
+		</node>
+		<!--<button name="progressBtn" rect="0,30,480,50" extendstyle="8111" OnMouseDown="progressOnMouseDown" OnMouseMove="progressOnMouseMove" OnMouseUp="progressOnMouseUp">
+			<image name="progressBarImg" rect="0,6,0,18" extendstyle="0010"  src="file://image/progress_barimg.png" />	
+			<image name="progressBgImg" rect="0,5,480,20" extendstyle="0070"  src="file://image/panoramaItemname_bg.png" />
+			<image name="progressPointImg" rect="0,0,30,30" bodyalpha="255" extendstyle="1111" style="sudoku-auto" sudoku="0,0,0,0" src="file://image/progress_point.png"/>
+        </button>-->
+		<button name="progressBtn" rect="0,30,480,50" extendstyle="8111" OnMouseDown="progressOnMouseDown" OnMouseMove="progressOnMouseMove" OnMouseUp="progressOnMouseUp">
+			<image name="progressBarImg" rect="5,8,0,16" style="autosize"  extendstyle="0010"  src="file://image/progress_barimg.png" />	
+			<image name="progressBgImg" rect="-10,4,0,26" style="autosize" extendstyle="0070"  src="file://image/progress_bg1.png" />
+			<image name="progressPointImg" rect="0,0,20,34"  bodyalpha="255" extendstyle="1111" style="sudoku-auto" sudoku="0,0,0,0" src="file://image/progress_point.png"/>
+        </button>
+        
+		<label name="lblCurtime" color="#FF6600" extendstyle="5111" rect="0,0,90,93" v-align="center" h-align="center"  font-size="28" text="00:00"/>		
+   </node>
+	
+	
+
+	<node rect="0,0,720,0" extendstyle="1817">    
+		<image rect="0,0,0,0" src="file://image/gallerbg.png" style="autosize" extendstyle="1177"/>          
+		<gallery name="gallery" rect="0,22,0,0" extendstyle="1077" spacing="10" middle-size="720,200" sort="vertical" normal-size="720,200" focus-size="720,176" OnSelect="galleryOnSelect"/>
+		<node rect="0,248,143,170" extendstyle="1010">
+		<!--<shadow rect="0,0,0,0" color="#8470FF" extendstyle="1077"/>-->
+		<button name="collectionBtn" rect="0,0,143,176" extendstyle="1177" OnSelect="collectionBtnOnSelect"/>
+		</node>		
+	</node>
+		 
+    <node name="galleryItem" rect="0,0,720,250" normal="sNormal" focus="sFocus" middle="sMiddle" data="" visible="0" enable="0">
+		<node name="sNormal" rect="0,0,720,200" extendstyle="1111">
+        <label name="lblNormal" rect="67,5,585,100" extendstyle="1111" h-align="center"   text="" color="#606060" font-size="35"/>			 
+        </node>               
+		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
+		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
+		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
+        <label name="lblFocus" rect="67,4,585,88" extendstyle="1111" h-align="center"   text="" color="#FFFFFF" font-size="40"/>	
+		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
+		<node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
+		<image  name="collection_n" rect="40,14,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
+		<image  name="collection_s" rect="40,14,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
+		<label  name="click2collect" rect="13,88,130,88" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
+        </node>
+        </node>				  
+        <node name="sMiddle" rect="0,0,720,200" extendstyle="1111">
+        <label name="lblMiddle" rect="67,5,585,200" extendstyle="1111" h-align="center" v-align="center" text="" color="#606060" font-size="35"/>	  
+        </node>				  
+    </node>
+		
+		
+		<node name="progressOption" rect="0,400,380,180" extendstyle="1111" visible="0" enable="0">
+			<image rect="0,0,0,0" extendstyle="1177" style="autosize" src="file://image/progressopbg.png"/>
+			
+			<button name="progressbackBtn" OnSelect="progressbackBtnOnSelect" rect="10,15,180,130" extendstyle="1111">
+			<image rect="0,0,70,70" extendstyle="1177"  style="autosize"  src="file://image/progressop_btnbg.png"/>
+			<image rect="50,10,50,50" style="autosize" extendstyle="1111" src="file://image/progress_back.png"/>
+			<label text="回退30秒" rect="20,60,0,0" extendstyle="1577" color="#FFFFFF"/>
+			</button>
+			
+			<button name="progressforwardBtn"  OnSelect="progressforwardBtnOnSelect" rect="200,15,180,130" extendstyle="8111">
+			<image rect="0,0,70,70" extendstyle="1177" style="autosize" src="file://image/progressop_btnbg.png"/>
+			<image rect="50,10,50,50"  style="autosize" extendstyle="1111" src="file://image/progress_forward.png"/>
+			<label text="前进30秒" rect="20,60,0,0" extendstyle="1577" color="#FFFFFF" />
+			</button>
+			
+		</node>	  
+		 <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>  
+    </node>
+    </body>
+</root>
+
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+require('framework.player')
+
+local mainTitle--当前页面播放的名字
+local status -- 播放器状态
+local lastStatus -- 播放器上次的状态
+local isPlayerCreate = false
+local playBtn
+local pauseBtn
+local refreshAnimation
+local playingAnimation
+local audioname
+local anchor
+local audioCurTime
+local wifiFlag
+local galleryItem
+local progressBtn
+local progressBgImg
+local progressBarFlag = 0
+local progressPointImg
+local progressBarImg
+local movex
+local progressOption
+local leftx
+local progressy
+local tempNodeId
+local tempContentId
+local sNodeId
+local sContentId
+local testCurTime
+local subListTable = {}
+--为了底部功能增加的临时变量
+local cindex
+local bindex
+local tempParentId
+--收藏存放的数据
+local bokeCollectTable={}
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite = sprite
+	mainTitle=Sprite:findChild(sprite,'mainTitle')
+	playBtn=Sprite:findChild(sprite,'playBtn')
+	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
+	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
+	playingAnimation=Sprite:findChild(sprite,'playingAnimation')
+	audioname=Sprite:findChild(sprite,'audioname')
+	anchor=Sprite:findChild(sprite,'anchor')
+	audioCurTime=Sprite:findChild(sprite,'audioCurTime')
+	wifiFlag=Sprite:findChild(sprite,'wifiFlag')
+	-------暂时使用gallery------
+	galleryItem = Sprite:findChild(sprite, 'galleryItem')
+	gallery = Sprite:findChild(sprite, 'gallery')
+	---进度条相关
+	progressBtn =  Sprite:findChild(sprite, 'progressBtn')
+	leftx,_, _,left_h = Sprite:getRect(progressBtn)
+	progressBgImg = Sprite:findChild(sprite, 'progressBgImg')
+	progressPointImg = Sprite:findChild(sprite, 'progressPointImg')
+	--progressx,progressy,_,progress_h =  Sprite:getRect(progressBtn)
+    progressBarImg = Sprite:findChild(sprite, 'progressBarImg')
+	progressOption = Sprite:findChild(sprite, 'progressOption')
+	lblCurtime = Sprite:findChild(sprite, 'lblCurtime')
+	--首先读取收藏数据
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+    local regFile = 'MODULE:\\com_wondertek_mobileaudio\\bokecollectionlistlocal.xml'
+    Reg:load(reg,regFile)
+    g_collectionIdsStr = Reg:getString(reg, 'bokecollectionIds')
+    setGalleryData()	
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+   if msg == Msg.getJsonPlayer then
+        local playerData = Http:jsonDecode('playerData')
+        if playerData and playerData.code == '1014' then
+            Net:goToMyAccount()
+        elseif playerData and playerData.orderList then
+            OrderNode:show(playerData)
+        elseif playerData and playerData.errordesc then
+            Tips:show(playerData.errordesc)
+        elseif playerData and 'table' == type(playerData) then
+            --获取本次数据内容
+            playerJson = Http:jsonDecode('playerData')
+            gContparam = playerJson ~=nil and playerJson.param or ''
+            _,_,contentId = string.find(gContparam , 'contentId=(%d+);')
+            if playerJson and playerJson~='' and gContparam and gContparam ~='' then
+                if string.match(gContparam,'objType=live') or string.match(gContparam,'objType=review') then
+                    -- donothing
+                elseif string.match(gContparam,'objType=community') or string.match(gContparam,'objType=0') or string.match(gContparam,'objType=content') then
+                    --判断是否音频正在播放，如在播放则停止
+					if getAudioPlayFlag then
+                        if getAudioPlayFlag() ~= 0 then
+                            --停止定时器，防止视频停止后音频点播自动播放下一集，取悦听场景句柄
+                            if getAudioScene then
+                                local curAudioScene = getAudioScene()
+                                Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
+                                resetAudioScene()
+                                Sprite:setProperty(audioname,'text',playerJson.titleName)
+								if playerJson.anchor=='' then
+								Sprite:setProperty(anchor,'text','佚名')
+								else
+								Sprite:setProperty(anchor,'text',playerJson.anchor)
+								end								
+                            end							    
+                            --Player:stop()
+                            --Player:show(0)
+                            --isPlayerCreate = false
+                            --resetAudioPlayFlag()                        
+						else
+						        Sprite:setProperty(audioname,'text',playerJson.titleName)
+								if playerJson.anchor=='' then
+								Sprite:setProperty(anchor,'text','佚名')
+								else
+								Sprite:setProperty(anchor,'text',playerJson.anchor)
+								end	
+						end
+                    end
+                    initPlayer()
+                end
+            -- end
+			end
+        else
+            Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,7)) --('无法获取数据，请稍后再试')
+        end		
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+    local curConnect = Http:getCurConnect()
+    if curConnect == 'WLAN' then
+	Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
+	else
+	Sprite:setProperty(wifiFlag, 'src', '') 
+	end
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+    key=Reg:getNumber(reg, 'key')
+	if key and key~=0 then
+	    Reg:setNumber(reg, 'key', 0)
+	    selectedworksparam =Reg:getString(reg,'selectedworksparam')
+	    -- local contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
+        local contparam = string.gsub(selectedworksparam,'nodeId=;','nodeId=10230800;')
+	    Log:write("contparam========",contparam)
+        Util:_goPlay(contparam)
+	end
+    elseif msg == MSG_DEACTIVATE then
+    elseif msg == MSG_MAXIMIZED then
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    else
+        -- Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+-- @brief 初始化播放器
+function initPlayer()
+    objType = playerJson.objType
+    -- symbian手机请求的播放地址不知为何会带&amp;字符串 导致open后play死机 在这里统一替换
+    playUrl = string.gsub(playerJson.playUrl,"&amp;","&")
+
+    local regplayer = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    Reg:setInteger(regplayer, 'minFlag',0) --客户端状态，0表示在应用里，1表示在后台,2表示重复后台 由于可能在后台切换player界面 所以用reg记录
+    if Reg:getInteger(regplayer, 'isScreenLock') == 0 then  -- 是否为锁屏状态
+        isScreenLock = false
+    else
+        isScreenLock = true
+    end
+    createPlayer()
+end
+
+
+
+-- @brief 创建播放器区域
+function createPlayer()
+    Player:create(0, -1, 1, 1)
+    isPlayerCreate = true
+    --旋屏操作放在openUrl里
+    openUrl()
+
+    ----设置音频播放标志,在此处加是解决loading数据时快速点返回，当前场景以及切换而本场景不释放仍然能收到音频数据产生播放，单播放标志不对的情况
+    if isPlayerCreate then
+        setAudioPlayFlag(2)
+
+        --增加音频通知消息
+        if SendNotification then
+            if objType == '0' or objType=='content' then --音频点播
+                if gContparam and gContparam ~= '' then
+                    if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
+                    local reg = Reg:create('Reg.com_wondertek_mobileaudio.personalBoke') --保存当前播放节目名称
+                    -- Reg:setString(reg, 'audioCurPlayingTitle',title)
+                end
+            end
+        end
+    else
+        resetAudioPlayFlag()
+    end
+end
+
+-- @brief 打开url
+function openUrl()
+    --取断点
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    local breakPoint = Reg:getInteger(reg, 'breakPoint')
+    if breakPoint ~= 0 then
+        Reg:remove(reg, 'breakPoint')
+    end
+    if Http:getCurConnect() == 'WLAN' then
+        System:setBufferTime(1)
+    else
+        System:setBufferTime(3)
+    end
+    Player:open(playUrl,Http:getCurConnect(), breakPoint)
+	pluginInvoke(Player:_getHandle(),'StartPlayer')    	
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	Reg:setString(bottomReg,'audioName',playerJson.titleName)
+	Reg:setString(bottomReg,'type',1)	
+	Player:setFullScreen(0)
+    Timer:cancel(TimerId.status)
+    Timer:set(TimerId.status, 1000, 'getStatus')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.detail)
+    Reg:setString(reg,'audioResource','')
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+  
+  if not isPlayerCreate and subListTable then
+        local contList = subListTable
+		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+		local index=Reg:getString(reg,'bokeItemIndex')
+        if contList and '' ~= contList[tonumber(index)] then
+            local contparam = contList[tonumber(index)].param
+
+			local a=Reg:create(Reg.com_wondertek_mobileaudio.player)
+			Reg:setString(a,'tempData',contparam)
+	
+            contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
+            contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
+			
+            Util:_goPlay(contparam)
+        else
+            Tips:show('播放器压力有点大…')
+        end
+    else
+        if status == Player.status.Finished or status == Player.status.Stopped then
+            createPlayer()
+        elseif status == Player.status.Ready
+            or status == Player.status.Idle
+            or status == Player.status.Paused then
+            uiPause()
+            Player:play()
+        end
+    end
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+end
+
+--@brief mode 0- 循环 1-顺序 2-随机
+function getNextPlayParam(mode)
+   if subListTable then
+        local count = #subListTable
+        local curPlayName = Sprite:getProperty(audioname,'text')
+        local iFound = -1       
+        if subListTable and subListTable~='' and curPlayName ~='' then        
+            for i=1,count  do
+			  Log:write('curPlayName=',curPlayName,count,subListTable[i].title)
+                if subListTable[i].title == curPlayName then
+                    if mode == 0 then
+                        if (i+1 > count) then iFound = 0
+                        else iFound = i+1 end
+                        break
+                    elseif mode == 1 then
+                        if (i+1 > count) then iFound = -1
+                        else iFound = i+1 end
+                        break
+                    elseif mode == 2 then
+                        math.randomseed(os.time())
+                        math.random()
+                        iFound = math.random(0,count)
+                        break
+                    end                
+                end
+            end
+        end
+        Log:write('iFound=,mode=',iFound,mode)
+        return iFound
+    end     
+end
+
+--播放下一首
+function doPlaynext(data)
+    if data ~= '' then -- 如果数据存在在跳转，否则提示没有下一条节目
+        if status ~= Player.status.Buffering and status ~= Player.status.Connecting then -- #0032993
+            pausePlayer()
+            Util:_goPlay(data)
+        end
+    else
+        Tips:show(Util:getTipsMsg(usrMsgFileName.floatMsg,61)) --('没有下一条节目')
+    end
+end
+
+-- @brief 播放器暂停处理
+function pausePlayer(pauseParam)
+    if isPlayerCreate and status ~= Player.status.Connecting then
+        Player:pause(pauseParam)
+    end
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatus()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('bushi',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		refreshDemandProgress()	
+		end
+	local CurTime = timeFormat(Player:getCurTime())
+	Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
+            if status == Player.status.Finished then
+                local pIndex = getNextPlayParam(1)
+                if subListTable and subListTable ~= '' and pIndex ~= -1 then
+                    Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
+                    doPlaynext(subListTable[pIndex].param)
+                else
+                    resetAudioPlayFlag()           
+                    Player:stop()
+                    Player:show(0)
+                    Timer:cancel(TimerId.status)
+                end
+            else
+                Player:stop()
+                Player:show(0)
+                Timer:cancel(TimerId.status)
+            end
+        end
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(TimerId.status, 500, 'getStatus')
+end
+
+
+--播放
+function Util:_goPlay(contparam, param)
+    Log:write('_goPlay=====',contparam, param)
+    local _,_,contentId = string.find(contparam, 'contentId=(%d+);')
+    if contentId == nil then contentId = "null" end
+    local _,_,nodeId = string.find(contparam, 'nodeId=(%d+);')
+    local _,_,objType = string.find(contparam, 'objType=([%a%d]+);')
+    if not objType then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+        return
+    end
+    if not nodeId and objType ~= 'community' then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+        return
+    end
+    nodeId = nodeId or ''
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    if param and param.breakPoint then 
+	Reg:setInteger(reg, 'breakPoint', param.breakPoint) 
+	else Reg:setInteger(reg, 'breakPoint', 0) 
+	end
+    Reg:setString(reg, 'contparam', contparam)
+    if param and param.multiDownload then Reg:setString(reg, 'multiDownload', param.multiDownload) else Reg:setString(reg, 'multiDownload', 'false') end
+    if param and param.isAudio and param.isAudio == "true" then Reg:setString(reg, 'isAudio', param.isAudio) else Reg:setString(reg, 'isAudio', 'false') end
+    if param and not param.withoutLoading then uiRefresh()end
+    initCodeRateRule(Util:getNetworkType())  --初始化码率适配规则
+    local codeRate = Config:get('rate') --默认读取码率设置，home页里根据网络状况设置初始值,2G流畅，3G和wlan默认是高清
+    if param and param.codeRate then codeRate = param.codeRate end --手动码率切换时从参数读取coderate
+    local url = Util:getServer() .. Alias.playerData .. '?contentId=' .. contentId .. '&nodeId=' .. nodeId .. '&objType=community' .. '&rate=' .. codeRate
+    url = string.find(contparam, 'live=true') and url .. '&live=true' or url
+	uiRefresh()
+    Http:request('playerData', url, Msg.getJsonPlayer, {useCache = 0})
+end
+
+
+-- @brief 格式化时间
+function timeFormat(sec)
+    if sec == nil then return '00:00:00' end
+	local  hh = math.floor(sec / 3600) < 10 and '0' .. math.floor(sec / 3600) or math.floor(sec / 3600)
+    local mm = math.floor(sec / 60) < 10 and '0' .. math.floor(sec / 60) or math.floor(sec / 60)
+    local ss = math.mod(sec, 60) < 10 and '0' .. math.mod(sec, 60) or math.mod(sec, 60)
+    local time = hh..':'..mm .. ':' .. ss
+    return time
+end
+-- @brief 格式化时间
+function timeFormat2(sec)
+    Log:write('@@@@@@ timeFormat @@@@@,sec=',sec)
+    if sec == nil then return '00:00' end
+    local mm = math.floor(sec / 60) < 10 and '0' .. math.floor(sec / 60) or math.floor(sec / 60)
+    local ss = math.mod(sec, 60) < 10 and '0' .. math.mod(sec, 60) or math.mod(sec, 60)
+    local time = mm .. ':' .. ss
+    return time
+end
+
+
+--三个。。。点击事件
+function moreContentsBtnOnSelect(sprite)
+   local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+   Reg:setTable(reg,'selectedworks',subListTable)
+   local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+   Reg:setString(reg,'selectedworkstitle', Sprite:getText(mainTitle))
+   Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastdownload.wdml',{freeDestScene=true})
+end
+
+--选集按钮
+function selectedWorksBtnOnSelect(sprite)
+   local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+   Reg:setTable(reg,'selectedworks',subListTable)
+   Reg:setString(reg,'selectedworkstitle', Sprite:getText(mainTitle))
+   Scene:go('MODULE:\\com_wondertek_mobileaudio\\selectedworks.wdml',{freeDestScene=true})
+end
+
+function backBtnOnSelect(sprite)
+ Scene:back()
+end
+
+--------------------暂时使用---Gallery-------------------------------
+function setGalleryData()
+    local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local data = Reg:getString(reg,'bokeItemId')
+	bokeCollectTable=Reg:getTable(reg,'bokeCollectTable')
+	contList=bokeCollectTable
+	if #bokeCollectTable>1 then
+	local _,_,nodeId1=string.find(data,'nodeId=(%d+);')
+	local temptable
+    local j=0	
+	for i=1,#bokeCollectTable do
+    local _,_, nodeId = string.find(bokeCollectTable[i].param,'nodeId=(%d+);')
+    if nodeId1 == nodeId then
+	j=i
+	temptable=bokeCollectTable[i]
+    end
+	end
+	if j~=0 or j~=''then
+	table.remove(bokeCollectTable, j)
+	table.insert(bokeCollectTable, 1, temptable)
+	end
+	end
+	gallarydata=bokeCollectTable
+	subListTable=bokeCollectTable
+	Gallery:removeAllItems(gallery, 1) 
+	Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
+    Gallery:adjust(gallery) 
+end
+
+function onLoadGalleryItem(gallery, item, index)
+    local lblNormal = Sprite:findChild(item,'lblNormal')
+    local lblFocus = Sprite:findChild(item,'lblFocus')
+    local lblMiddle = Sprite:findChild(item,'lblMiddle')
+    Sprite:setProperty(item, 'extendstyle', '0000')
+    Sprite:setProperty(item, 'normal', 'sNormal')
+    Sprite:setProperty(item, 'focus', 'sFocus')
+    Sprite:setProperty(item, 'middle', 'sMiddle')
+	Gallery:setCurItem(gallery,index+1)
+	-- if bokeplayCollect=='1'  then
+	-- local _,_,title = string.find(bokeCollectTable[index+1], 'title=([^;]+);')
+	-- Sprite:setProperty(lblNormal, 'text', title)
+    -- Sprite:setProperty(lblFocus, 'text',  title)
+    -- Sprite:setProperty(lblMiddle, 'text', title)
+	-- elseif bokeplayCollect=='2' then
+		-- local title = bokeCollectTable[index+1].title
+		-- Sprite:setProperty(lblNormal, 'text', title)
+		-- Sprite:setProperty(lblFocus, 'text',  title)
+		-- Sprite:setProperty(lblMiddle, 'text', title)
+	-- else
+	Sprite:setProperty(lblNormal, 'text', gallarydata[index+1].title)
+    Sprite:setProperty(lblFocus, 'text',  gallarydata[index+1].title)
+    Sprite:setProperty(lblMiddle, 'text', gallarydata[index+1].title)
+	-- end	
+end
+
+function galleryOnSelect(sprite)
+   local tempnodeId
+   local index = Gallery:getCurItem(gallery)
+   local item=Gallery:getItem(gallery, index)
+   local collection_n=Sprite:findChild(item,'collection_n')
+   local collection_s=Sprite:findChild(item,'collection_s')
+   local click2collect=Sprite:findChild(item,'click2collect')
+   local data=bokeCollectTable[index+1]  
+   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
+   local contparam=data.param
+   Sprite:setProperty(mainTitle,'text',data.title)
+   if contparam~='' and contparam~=nil then 
+   contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
+   Util:_goPlay(contparam)
+   else
+   Tips:show('播放器压力有点大…')
+   end	
+   local _,_,contentId=string.find(data.param,'contentId=(%d+);')   
+   tempnodeId=contentId
+   -- elseif bokeplayCollect=='2' then
+		-- local data=bokeCollectTable[index+1]
+		-- local name = data.name
+		-- local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
+		-- Sprite:setProperty(mainTitle,'text',name)
+		-- tempnodeId=nodeId
+   -- else
+   -- local data=gallarydata[index+1].param
+   -- Sprite:setProperty(mainTitle,'text',gallarydata[index+1].name)
+   -- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+   -- tempnodeId=nodeId
+   -- end  
+   --更新收藏UI
+   Log:write('galleryOnSelect=======',tempnodeId,g_collectionIdsStr)
+	if hasBokeCollected(tempnodeId, g_collectionIdsStr) then
+        Sprite:setVisible(collection_s,1)
+		Sprite:setVisible(collection_n,0)
+		Sprite:setProperty(click2collect, 'text', '点击取消') 
+	else
+		Sprite:setVisible(collection_s,0)
+		Sprite:setVisible(collection_n,1)
+		Sprite:setProperty(click2collect, 'text', '点击收藏') 
+    end
+   -- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+   -- local isFirst=Reg:getInteger(reg, 'novelIsFirst') 
+   -- Log:write('isFirst=======',isFirst)
+   -- if isFirst==1  then
+    -- Reg:setInteger(reg, 'novelIsFirst',0) 
+   -- else
+    -- Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/audioplay/audioplayData.jsp?nodeId='..tempnodeId..'&objType=0',103)
+   -- end
+end
+--------------------暂时使用---Gallery-------------------------------
+-- @brief 刷新点播进度条
+function refreshDemandProgress(bForceRefresh)
+    local _, _, bg_w = Sprite:getRect(progressBgImg)
+	--bg_w = bg_w+120
+    local totalTime
+    local curTime
+    local bufTime -- 新增播放缓冲时间
+    Log:write('测试2',objType)
+    --if objType == 'content' or objType == '0' or objType == '20' then
+        Log:write('3333 refreshDemandProgress()')
+        totalTime = Player:getTotalTime()
+		if useTempCurTimeFlag and status == Player.status.Playing then
+            curTime = tempCurTime
+            useTempCurTimeFlag = false
+			testCurTime = tempCurTime
+        else
+            curTime = Player:getCurTime()
+			testCurTime = curTime
+        end
+        --curTime = Player:getCurTime()
+		
+		Log:write('测试时间',curTime,totalTime)
+		
+    --end
+
+    --获取当前缓冲时间(ms)
+    bufTime =  System:getAlreadyBufferTime()/1000
+    Log:write('4444 refreshDemandProgress(),bufTime=',bufTime)
+    Log:write('refreshDemandProgress--totalTime', totalTime)
+    Log:write('refreshDemandProgress--curTime', curTime)
+    if status == Player.status.Idle or
+        status == Player.status.Connecting then
+    else
+		--if objType == 'content' or objType == '0' or objType== '20' then
+            Log:write('4445555 refreshDemandProgress(),totalTimeLbl=,curTimeLbl=',timeFormat(totalTime),timeFormat(curTime))
+            --Sprite:setProperty(totalTimel, 'text',  timeFormat(totalTime))
+            Sprite:setProperty(lblCurtime,'text',timeFormat2(curTime))
+        --end
+    end
+
+    --if status == Player.status.Playing or bForceRefresh == 1 then
+        Log:write('6666 refreshDemandProgress(),bufTime=',bufTime)
+        if totalTime and totalTime ~= 0 and curTime then
+            local pct = curTime / totalTime
+            --local pctBuf = (curTime + bufTime) / totalTime
+			local x 
+			--if movex == nil then 
+			x = math.floor(pct * bg_w)
+			--else
+            --x = math.floor(pct * bg_w)
+			--movex = nil
+			--end
+			
+			
+		
+            --local xbuf = math.floor(pctBuf * bg_w)
+            Log:write('refreshDemandProgress--pct=,x=卧槽啊111',bg_w, pct,x)
+			Log:write('shuchu',pct,x,progressBarFlag)
+            if progressBarFlag == 0 then  --进度条被拖动过程中不按时间片调整进度条长度
+			    --if movex ~= nil then
+	           setProgressBarPos(progressBtn, x)
+               --setBufferingBarPos(progressBtn, xbuf)  --新增播放缓存进度条
+            else
+			   --Timer:cancel(TimerId.status)
+			end
+        end
+    --end
+end
+
+-- @brief 设置进度条
+function setProgressBarPos(sprite,x,seek,flag)
+    Log:write('状态111',x)
+    Log:write('------setProgressBarPos--1--,x=',x)
+    local bg_w
+    if objType ~= 'live' then
+        _, _, bg_w = Sprite:getRect(progressBgImg)
+    else
+        _, _, bg_w = Sprite:getRect(bufferingBarImg)
+    end
+    --local bg_w = bg_w + 120
+	
+	--x = x +120
+    if x > bg_w then
+        x = bg_w
+    end
+	if x<0 then
+     	x=0
+	end
+    Log:write('------setProgressBarPos--2--,x=',x)
+    local bar_x, bar_y, _, bar_h = Sprite:getRect(progressBarImg)
+    local p_x,p_y,p_w,p_h = Sprite:getRect(progressPointImg)
+	Log:write('testbb',x,bar_x,movex)
+	
+    Sprite:setRect(progressBarImg,bar_x,bar_y,x,bar_h)
+	Sprite:setRect(progressPointImg,x-p_w/2,p_y,p_w, p_h)
+	Log:write('状态222',x,bg_w)
+
+	
+    
+    if objType ~= 'live' and objType ~= 'review' then
+        local totalTime = Player:getTotalTime()
+        local pct = x / bg_w
+        local curTime = math.floor(totalTime * pct)
+		Log:write('ccurentTime1',curTime,totalTime,pct)
+		Log:write('时间格式11',curTime,status)
+    end
+    if seek then
+        local statusBeforeSeek = status
+        status = Player.status.Buffering
+        _, _, bg_w = Sprite:getRect(progressBgImg)
+		--bg_w = bg_w+120
+        local pct = movex / bg_w
+        if objType ~= 'live' then
+            --local bar_x, bar_y, _, bar_h = Sprite:getRect(bufferingBarImg)
+            --Sprite:setRect(bufferingBarImg, bar_x, bar_y, x, bar_h)
+        end
+        Log:write('------setProgressBarPos--3--,x=',movex)
+        local totalTime = Player:getTotalTime()
+        if totalTime then
+            local curTime = math.floor(totalTime * pct)
+			Log:write('ccurentTime2',curTime,totalTime,pct)
+            if statusBeforeSeek == Player.status.Paused then
+                Player:show(1)
+                Player:play()
+                Timer:set(curTime, 80, 'seekOnTimer')
+                Timer:cancel(TimerId.status)
+                curTime = tempCurTime
+                useTempCurTimeFlag = false
+                Log:write('------setProgressBarPos--4--,curTime=',curTime)
+				Log:write('时间格式pos4',curTime,status)
+            else
+				--local ct = Player:getCurTime()
+                Player:seek(curTime)
+				tempCurTime = curTime
+                useTempCurTimeFlag = true
+                Log:write('------setProgressBarPos--5--,curTime=',curTime)
+				movex = nil
+                Log:write('时间格式pos5',curTime,status)
+                --Timer:set(TimerId.status,80,"getStatus")
+            end
+        end
+    end
+end
+
+function setBufferingBarPos(sprite, x)
+    Log:write('setBufferingBarPos ---')
+    local _, _, bg_w = Sprite:getRect(progressBgImg)
+    if x > bg_w then
+        x = bg_w
+    elseif x < 0 then
+        x = 0
+    end
+    local bar_x, bar_y, bar_w, bar_h = Sprite:getRect(bufferingBarImg)
+    if x>bar_w then
+        Sprite:setRect(bufferingBarImg, bar_x, bar_y, x, bar_h)
+    end
+end
+
+-- @brief 进度条OnMouseDown事件
+function progressOnMouseDown(sprite, x, y)
+    Log:write('状态DOWN',status)
+    --if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
+        --resetFSTimer(1)
+        --setPointImgStatus(progressPointImg,1)
+        --setProgressBarPos(sprite, x)
+        --progressBarFlag = 1
+       
+    --end
+	
+	 return 0
+end
+
+-- @brief 进度条OnMouseUp事件
+function progressOnMouseUp(sprite, x, y)
+    Sprite:releaseCapture(progressBtn)
+    --resetFSTimer()
+	 Log:write('状态UP',status,x,progressy)
+    --setPointImgStatus(progressPointImg,0)
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
+        Timer:cancel(TimerId.status)
+        Timer:set(TimerId.status, 500, 'getStatus')
+        setProgressBarPos(sprite, x,1)
+        progressBarFlag = 0
+		
+	local bar_x, bar_y, bay_w, bar_h = Sprite:getRect(progressOption)
+	Sprite:setVisible(progressOption,1)
+	Sprite:setRect(progressOption,x,bar_y,bay_w, bar_h)
+	Sprite:setEnable(progressOption,1)
+	Timer:set(1099, 3000, 'closeProgressOption')
+    return 0
+    end
+end
+
+function closeProgressOption()
+	Sprite:setVisible(progressOption,0)
+	Sprite:setEnable(progressOption,0)
+end
+
+-- @brief 进度条OnMouseMove事件
+function progressOnMouseMove(sprite, x, y)
+	Log:write('状态move',x)
+	movex = x
+	moveflag = x
+	progressBarFlag = 1
+	if movex <= leftx then
+		x = leftx
+		progressBarFlag = 0
+		--movex = 0
+	end
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused  then
+        if progressBarFlag == 1 then -- 在OnMouseDown时设置此标识量，表明需要响应OnMouseMove事件，否则不响应
+		    --Timer:cancel(TimerId.status)
+            setProgressBarPos(sprite,x)
+			--Timer:set(TimerId.status, 500, 'getStatus')
+		else
+            return 0
+        end
+    end
+end
+
+function progressbackBtnOnSelect(sprite)
+	local ct = Player:getCurTime()
+	Timer:cancel(1099)
+	Log:write('bala1',ct)
+	if status == Player.status.Playing or status == Player.status.Ready  then
+		if ct <= 30 then
+			Player:seek(0)
+			Timer:set(1099, 3000, 'closeProgressOption')
+		else
+			Player:seek(ct-30)
+			Timer:set(1099, 3000, 'closeProgressOption')
+		end
+	end
+end
+
+function progressforwardBtnOnSelect(sprite)
+	local ct = Player:getCurTime()
+	local tt = Player:getTotalTime() 
+	Timer:cancel(1099)
+	Log:write('bala2',ct,tt,Player:getStatus())
+	if status == Player.status.Playing or status == Player.status.Ready then
+		if ct+30 >= tt then
+			Player:seek(tt)
+			Log:write('bala22',ct,tt,Player:getStatus())
+			Timer:set(1099, 3000, 'closeProgressOption')
+		else
+			local aaa = ct + 30
+			Player:seek(aaa)
+			Log:write('bala22',ct,tt,Player:getStatus())
+			Timer:set(1099, 3000, 'closeProgressOption')
+		end
+    end
+end
+
+function collectionBtnOnSelect(sprite)
+ CollectionType=1
+ local progParam,tempnodeId
+ local index = Gallery:getCurItem(gallery)
+ local item=Gallery:getItem(gallery, index)
+ local collection_n=Sprite:findChild(item,'collection_n')
+ local collection_s=Sprite:findChild(item,'collection_s')
+ local click2collect=Sprite:findChild(item,'click2collect')
+ local data=bokeCollectTable[index+1]
+ local sname = data.sname
+ local title = data.title 
+ local videoImg = data.videoImg 
+ local _,_,objType = string.find(data.param, 'objType=([^;]+);')
+ local _,_,contentId = string.find(data.param, 'contentId=([^;]+);')
+ local _,_,nodeId = string.find(data.param, 'nodeId=([^;]+);')
+ tempcontentId=contentId
+ progParam = sname..'|'..title..'|'.. videoImg..'|'..contentId..'|'..nodeId
+ if Sprite:isVisible(collection_n)==1 then
+    Sprite:setVisible(collection_n, 0) 
+    Sprite:setVisible(collection_s, 1) 
+    addOneAudioCollectionProg(tempcontentId,progParam,CollectionType)
+	Sprite:setProperty(click2collect, 'text', '点击取消') 
+	Tips:show('收藏成功')
+ else
+    deleteOneAudioCollectionProg(tempcontentId,CollectionType)
+    Sprite:setVisible(collection_n, 1) 
+    Sprite:setVisible(collection_s, 0) 
+	Sprite:setProperty(click2collect, 'text', '点击收藏') 
+ end
+
+end
+
+------------------------------------------------------------
+ -- @function addOneCollectionProg()
+ ------------------------------------------------------------
+ -- @brief 添加一个收藏节目
+ ------------------------------------------------------------
+ -- @access public
+ ------------------------------------------------------------
+ -- @param contentId -- 内容ID作为保存的键值关键字
+ -- @param CollectionParam -- 预约的保存参数
+                        -- 老版本:节目起始时间
+                        -- 新版本:节目起始时间|时间段|内容名|栏目名|contentId|nodeId
+ -- @param CollectionType         -- 预约文件类型, 0 - 平台预约 ,1-本地预约
+ ------------------------------------------------------------
+ -- @return
+ ------------------------------------------------------------
+ --]]
+function addOneAudioCollectionProg(contentId,CollectionParam,CollectionType)
+    local _,_,CollectionParamStartTime= string.find(CollectionParam,'(.-)|')
+    Log:write('addOneCollectionProg', contentId, CollectionParam,CollectionType)
+    local tempIdsStr = ''
+    local reg = 0
+    local regFile = ''
+    if CollectionType == 0 or CollectionType == nil then
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+        regFile = 'MODULE:\\com_wondertek_mobileaudio\\bokecollectionlist.xml'
+    else
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+        regFile =  'MODULE:\\com_wondertek_mobileaudio\\bokecollectionlistlocal.xml'
+    end
+    Reg:load(reg,regFile)
+    local collectionIdsStr = Reg:getString(reg, 'bokecollectionIds')
+    if collectionIdsStr and '' ~= collectionIdsStr then
+        --按照时间排序插入
+        local collectionIdsTable = Util:split(collectionIdsStr, '|')
+        local count = #collectionIdsTable - 1
+        Log:write('addOnecollectionProg',collectionIdsStr,collectionIdsTable,count)
+        for i=count,1,-1 do
+            local collectionValueStr = Reg:getString(reg, collectionIdsTable[i])
+            Log:write('addOneCollectionProg collectionValueStr',collectionValueStr)
+            local _,_,valueStartTime= string.find(collectionValueStr,'(.-)|')
+            Log:write('addOneCollectionProg() valueStartTime',valueStartTime,CollectionParamStartTime)
+            if CollectionParamStartTime >= valueStartTime then  --比较日期，大的插入最后面
+                 for j=1,i do
+                    if tempIdsStr == '' then
+                        tempIdsStr = collectionIdsTable[j] .. '|'
+                    else
+                        tempIdsStr = tempIdsStr .. collectionIdsTable[j] .. '|'
+                    end
+                 end
+                 tempIdsStr = tempIdsStr .. contentId.. '|'
+                 for k=i+1,count do
+                    tempIdsStr = tempIdsStr ..collectionIdsTable[k].. '|'
+                 end
+                 break
+            end
+        end
+        if tempIdsStr == '' then --表明没找到合适的位子，说明该时间最小,插入到最前面
+            tempIdsStr = contentId ..'|'.. collectionIdsStr
+        end
+        Reg:setString(reg, 'bokecollectionIds', tempIdsStr)
+    else
+        Reg:setString(reg, 'bokecollectionIds', contentId .. '|')
+    end
+    Reg:setString(reg, contentId, CollectionParam)
+    Reg:save(reg, regFile)
+    Reg:release(Reg.com_wondertek_mobileaudio.personalBoke)
+end
+
+
+ ------------------------------------------------------------
+ -- @function deleteOneCollectionProg()
+ ------------------------------------------------------------
+ -- @brief 删除一个收藏节目
+ ------------------------------------------------------------
+ -- @access public
+ ------------------------------------------------------------
+ -- @param nodeId            -- 内容ID作为保存的键值关键字
+ -- @param collectionType          -- 预约文件类型, 0 - 平台预约 ,1-本地预约
+ ------------------------------------------------------------
+ -- @return
+ ------------------------------------------------------------
+function deleteOneAudioCollectionProg(contentId,collectionType)
+    Log:write('deleteOneCollectionProg', contentId, collectionType)
+    local reg = 0
+    local regFile = ''
+    if collectionType == 0 or collectionType == nil then
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+        regFile = 'MODULE:\\com_wondertek_mobileaudio\\bokecollectionlist.xml'
+    else
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+        regFile =  'MODULE:\\com_wondertek_mobileaudio\\bokecollectionlistlocal.xml'
+    end
+    Reg:load(reg,regFile)
+
+    local collectionIdsStr = Reg:getString(reg, 'bokecollectionIds')
+    if hasBokeCollected(contentId,collectionIdsStr) then
+        collectionIdsStr = string.gsub(collectionIdsStr,contentId..'|' ,'')
+        Reg:setString(reg,'bokecollectionIds',collectionIdsStr)
+        Reg:remove(reg,contentId)
+        Reg:save(reg, regFile)
+    end
+    Reg:release(Reg.com_wondertek_mobileaudio.personalBoke)
+	Tips:show('取消成功')
+end
+
+-- @brief 判断节目是否在收藏列表中
+function hasBokeCollected(contentId, collectionIdsStr)
+    if collectionIdsStr and '' ~= collectionIdsStr then
+        local collectionIdsTable = Util:split(collectionIdsStr, '|')
+        local count = #collectionIdsTable - 1
+        for i=1,count do
+            if tonumber(collectionIdsTable[i]) == tonumber(contentId) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+]]>
