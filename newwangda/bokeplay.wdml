@@ -297,16 +297,7 @@ function bodyOnSpriteEvent(msg, param)
 	else
 	Sprite:setProperty(wifiFlag, 'src', '') 
 	end
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-    key=Reg:getNumber(reg, 'key')
-	if key and key~=0 then
-	    Reg:setNumber(reg, 'key', 0)
-	    selectedworksparam =Reg:getString(reg,'selectedworksparam')
-	    -- local contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
-        local contparam = string.gsub(selectedworksparam,'nodeId=;','nodeId=10230800;')
-	    Log:write("contparam========",contparam)
-        Util:_goPlay(contparam)
-	end
+
     elseif msg == MSG_DEACTIVATE then
     elseif msg == MSG_MAXIMIZED then
     else
@@ -329,7 +320,6 @@ function initPlayer()
     objType = playerJson.objType
     -- symbian手机请求的播放地址不知为何会带&amp;字符串 导致open后play死机 在这里统一替换
     playUrl = string.gsub(playerJson.playUrl,"&amp;","&")
-
     local regplayer = Reg:create(Reg.com_wondertek_mobileaudio.player)
     Reg:setInteger(regplayer, 'minFlag',0) --客户端状态，0表示在应用里，1表示在后台,2表示重复后台 由于可能在后台切换player界面 所以用reg记录
     if Reg:getInteger(regplayer, 'isScreenLock') == 0 then  -- 是否为锁屏状态
@@ -348,11 +338,9 @@ function createPlayer()
     isPlayerCreate = true
     --旋屏操作放在openUrl里
     openUrl()
-
     ----设置音频播放标志,在此处加是解决loading数据时快速点返回，当前场景以及切换而本场景不释放仍然能收到音频数据产生播放，单播放标志不对的情况
     if isPlayerCreate then
         setAudioPlayFlag(2)
-
         --增加音频通知消息
         if SendNotification then
             if objType == '0' or objType=='content' then --音频点播
@@ -385,7 +373,7 @@ function openUrl()
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    	
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
-	Reg:setString(bottomReg,'type',1)	
+	Reg:setString(bottomReg,'type',2)	
 	Player:setFullScreen(0)
     Timer:cancel(TimerId.status)
     Timer:set(TimerId.status, 1000, 'getStatus')
@@ -637,7 +625,33 @@ end
 --------------------暂时使用---Gallery-------------------------------
 function setGalleryData()
     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-	local data = Reg:getString(reg,'bokeItemId')
+	local data = Reg:getString(reg,'bokeItemId')	
+	bokeCollect =Reg:getString(reg,'bokeCollect')
+	if bokeCollect=='1' then
+	--收藏进来的数据
+	bokeCollectTable1=Reg:getTable(reg,'bokeCollectTable1')	
+	Reg:setString(reg,'bokeCollect','0')
+	if #bokeCollectTable1>1 then
+	local _,_,nodeId1=string.find(data,'contentId=(%d+);')
+	local temptable
+    local j=0	
+	for i=1,#bokeCollectTable1 do
+    local _,_, nodeId = string.find(bokeCollectTable1[i],'contentId=(%d+);')
+    if nodeId1 == nodeId then
+	j=i
+	temptable=bokeCollectTable1[i]
+    end
+	end
+	if j~=0 or j~=''then
+	table.remove(bokeCollectTable1, j)
+	table.insert(bokeCollectTable1, 1, temptable)
+	end
+	end
+	-- gallarydata=bokeCollectTable1
+	Gallery:removeAllItems(gallery, 1) 
+	Gallery:loadItem(gallery, galleryItem, #bokeCollectTable1, 'onLoadGalleryItem')
+    Gallery:adjust(gallery) 
+	else
 	bokeCollectTable=Reg:getTable(reg,'bokeCollectTable')
 	contList=bokeCollectTable
 	if #bokeCollectTable>1 then
@@ -661,6 +675,7 @@ function setGalleryData()
 	Gallery:removeAllItems(gallery, 1) 
 	Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
     Gallery:adjust(gallery) 
+	end	
 end
 
 function onLoadGalleryItem(gallery, item, index)
@@ -672,21 +687,16 @@ function onLoadGalleryItem(gallery, item, index)
     Sprite:setProperty(item, 'focus', 'sFocus')
     Sprite:setProperty(item, 'middle', 'sMiddle')
 	Gallery:setCurItem(gallery,index+1)
-	-- if bokeplayCollect=='1'  then
-	-- local _,_,title = string.find(bokeCollectTable[index+1], 'title=([^;]+);')
-	-- Sprite:setProperty(lblNormal, 'text', title)
-    -- Sprite:setProperty(lblFocus, 'text',  title)
-    -- Sprite:setProperty(lblMiddle, 'text', title)
-	-- elseif bokeplayCollect=='2' then
-		-- local title = bokeCollectTable[index+1].title
-		-- Sprite:setProperty(lblNormal, 'text', title)
-		-- Sprite:setProperty(lblFocus, 'text',  title)
-		-- Sprite:setProperty(lblMiddle, 'text', title)
-	-- else
+	if bokeCollect=='1'   then
+	local _,_,title = string.find(bokeCollectTable1[index+1], 'title=([^;]+);')
+	Sprite:setProperty(lblNormal, 'text', title)
+    Sprite:setProperty(lblFocus, 'text',  title)
+    Sprite:setProperty(lblMiddle, 'text', title)
+	else
 	Sprite:setProperty(lblNormal, 'text', gallarydata[index+1].title)
     Sprite:setProperty(lblFocus, 'text',  gallarydata[index+1].title)
     Sprite:setProperty(lblMiddle, 'text', gallarydata[index+1].title)
-	-- end	
+	end	
 end
 
 function galleryOnSelect(sprite)
@@ -695,32 +705,59 @@ function galleryOnSelect(sprite)
    local collection_n=Sprite:findChild(item,'collection_n')
    local collection_s=Sprite:findChild(item,'collection_s')
    local click2collect=Sprite:findChild(item,'click2collect')
-   local data=bokeCollectTable[index+1]  
-   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
-   local contparam=data.param
-   Sprite:setProperty(mainTitle,'text',data.title)
-   if contparam~='' and contparam~=nil then 
-   contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
-   Util:_goPlay(contparam)
-   else
-   Tips:show('播放器压力有点大…')
-   end	
-   local _,_,contentId=string.find(data.param,'contentId=(%d+);')   
-   tempnodeId=contentId
-   -- elseif bokeplayCollect=='2' then
-		-- local data=bokeCollectTable[index+1]
-		-- local name = data.name
-		-- local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
-		-- Sprite:setProperty(mainTitle,'text',name)
-		-- tempnodeId=nodeId
-   -- else
-   -- local data=gallarydata[index+1].param
-   -- Sprite:setProperty(mainTitle,'text',gallarydata[index+1].name)
-   -- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
-   -- tempnodeId=nodeId
-   -- end  
+   if  bokeCollect=='1' then
+   
+   -- bokeCollectTable1
+   -- table.insert(collectiondata,sname..title..videoImg..contentId..nodeId)
+    local data=bokeCollectTable1[index+1] 
+	local _,_,title=string.find(data, 'title=([^;]+);')
+	local _,_,contentId=string.find(data,'contentId=(%d+);')
+	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+     Sprite:setProperty(mainTitle,'text',title)	
+	 local contparam='objType=20;'..';contentId='..contentId..';nodeId='..nodeId..';'
+	 if contparam~='' and contparam~=nil then 
+     contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
+     Util:_goPlay(contparam)
+     else
+     Tips:show('播放器压力有点大…')
+     end	
+     tempnodeId=contentId	
+   else 
+		
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local flag = Reg:getInteger(bottomReg,'bottomFlag')
+	Log:write('bottomflag',flag)
+	if flag == 1 then
+	   local data=bokeCollectTable[index+1]  
+	   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
+	   local contparam=data.param
+	   Sprite:setProperty(mainTitle,'text',data.title)
+	   Sprite:setProperty(audioname,'text',data.title)
+		if data.sname=='' then
+			Sprite:setProperty(anchor,'text','佚名')
+		else
+			Sprite:setProperty(anchor,'text',data.sname)
+		end								
+	   local _,_,contentId=string.find(data.param,'contentId=(%d+);')   
+	   tempnodeId=contentId
+	   Timer:set(TimerId.status, 500, 'getStatus')
+	else
+	   local data=bokeCollectTable[index+1]  
+	   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
+	   local contparam=data.param
+	   Sprite:setProperty(mainTitle,'text',data.title)
+	   if contparam~='' and contparam~=nil then 
+	   contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
+	   Util:_goPlay(contparam)
+	   else
+	   Tips:show('播放器压力有点大…')
+	   end	
+	   local _,_,contentId=string.find(data.param,'contentId=(%d+);')   
+	   tempnodeId=contentId
+	end
+   end
+   
    --更新收藏UI
-   Log:write('galleryOnSelect=======',tempnodeId,g_collectionIdsStr)
 	if hasBokeCollected(tempnodeId, g_collectionIdsStr) then
         Sprite:setVisible(collection_s,1)
 		Sprite:setVisible(collection_n,0)
@@ -730,14 +767,6 @@ function galleryOnSelect(sprite)
 		Sprite:setVisible(collection_n,1)
 		Sprite:setProperty(click2collect, 'text', '点击收藏') 
     end
-   -- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-   -- local isFirst=Reg:getInteger(reg, 'novelIsFirst') 
-   -- Log:write('isFirst=======',isFirst)
-   -- if isFirst==1  then
-    -- Reg:setInteger(reg, 'novelIsFirst',0) 
-   -- else
-    -- Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/audioplay/audioplayData.jsp?nodeId='..tempnodeId..'&objType=0',103)
-   -- end
 end
 --------------------暂时使用---Gallery-------------------------------
 -- @brief 刷新点播进度条
@@ -1002,6 +1031,19 @@ function collectionBtnOnSelect(sprite)
  local collection_n=Sprite:findChild(item,'collection_n')
  local collection_s=Sprite:findChild(item,'collection_s')
  local click2collect=Sprite:findChild(item,'click2collect')
+ if  bokeCollect=='1' then
+ local data=bokeCollectTable1[index+1]
+ local sname = data.sname
+ local title = data.title 
+ local videoImg = data.videoImg 
+ local _,_,sname = string.find(data, 'sname=([^;]+);')
+ local _,_,title = string.find(data, 'title=([^;]+);')
+  local _,_,videoImg = string.find(data, 'videoImg=([^;]+);')
+ local _,_,contentId = string.find(data, 'contentId=([^;]+);')
+ local _,_,nodeId = string.find(data, 'nodeId=([^;]+);')
+ tempcontentId=contentId
+ progParam = sname..'|'..title..'|'.. videoImg..'|'..contentId..'|'..nodeId
+ else
  local data=bokeCollectTable[index+1]
  local sname = data.sname
  local title = data.title 
@@ -1011,6 +1053,7 @@ function collectionBtnOnSelect(sprite)
  local _,_,nodeId = string.find(data.param, 'nodeId=([^;]+);')
  tempcontentId=contentId
  progParam = sname..'|'..title..'|'.. videoImg..'|'..contentId..'|'..nodeId
+ end
  if Sprite:isVisible(collection_n)==1 then
     Sprite:setVisible(collection_n, 0) 
     Sprite:setVisible(collection_s, 1) 

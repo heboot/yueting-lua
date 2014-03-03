@@ -251,8 +251,8 @@
                     <set lsrc="file://image/timing.png" lsrc_s="file://image/timing_s.png" txt="定时关闭"/>	
                     <set lsrc="file://image/set.png" lsrc_s="file://image/set_s.png"  txt="系统设置"/>	
                     <set lsrc="file://image/opinion.png" lsrc_s="file://image/opinion_s.png"  txt="意见反馈"/>	
-                    <set lsrc="file://image/question.png" lsrc_s="file://image/question_s.png"  txt="常见问题"/>	
-                    <set lsrc="file://image/about.png" lsrc_s="file://image/about_s.png"  txt="关于悦听"/>						
+                   <!-- <set lsrc="file://image/question.png" lsrc_s="file://image/question_s.png"  txt="常见问题"/>	
+                    <set lsrc="file://image/about.png" lsrc_s="file://image/about_s.png"  txt="关于悦听"/>-->						
 					</dataset>
 					</list>
                 </node>             
@@ -294,36 +294,6 @@
 				</list>
 			</node>
         </node>		
-    <!--底部区域-->
-	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
-		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/> 
-			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
-			 </button>
-			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
-			 </button>
-			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
-			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
-             <animate-frame start="$(start)" delay="1">
-             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
-             </animate-frame>
-             <dataset>  			
-			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
-			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
-			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
-			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
-			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
-			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
-             </dataset>
-             </animate>	
-			 </node>		 
-             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
-			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
-			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
-			 </button>
-    </node>
 		<!-- panorama电台的item-->
        <node name="mainPanoramaItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
             <button name="radioRecommendBtn"  OnSelect="radioRecommendBtnOnSelect" rect="0,0,686,300" extendstyle="1110">
@@ -733,12 +703,6 @@ local userPic
 local userName
 local userBtn 
 
---底部所需变量start
-local bottomAudioName
-local playBtn
-local pauseBtn
-local refreshAnimation
---底部所需变量end
 
 local timedCloseNode
 local closeTimeLbl
@@ -814,12 +778,7 @@ function bodyBuildChildrenFinished(sprite)
     -- Loading:show()
 	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
 	Reg:setInteger(reg,'currentFlag',0)
-	
-	playBtn=Sprite:findChild(sprite,'playBtn')
-	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
-	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
-	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
-	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+
 	
 	timedCloseNode = Sprite:findChild(sprite,'timedCloseNode')
     closeTimeLbl = Sprite:findChild(sprite,'closeTimeLbl')
@@ -1248,8 +1207,7 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	    commonDeactivate()
-		Timer:cancel(4444)
-		Timer:set(4444,500,'getStatusa')
+		Bottom:show()
         -- Http:request('homeData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/homeData2.jsp',103)
 		-- Http:request('leftData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/home/leftData.jsp',102)
 		Http:request('sceneModifiedData', Util:getServer() .. Alias.sceneModifiedData, 101, {useCache=0})
@@ -2184,7 +2142,9 @@ function allRadioBtnOnSelect(sprite)
 	setNodeState(leftRadioRecPanorama,1)
 	setNodeState(leftlistRadioNode,1)
 	setNodeState(leftListviewRadioNode,1)
-	
+	setNodeState(leftPodcastRecPanorama,0)
+	setNodeState(listleftPodcastNode,0)
+	setNodeState(leftListviewPodcastNode,0)
 	
 end
 
@@ -2290,114 +2250,6 @@ function radioRecommendBtnOnSelect(sprite)
     Reg:setString(reg,'audioplayData',data)
 	Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})
 end
-
---底部按钮模块start
-function LoadBottomPlayerData()
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
-	local type = Reg:getInteger(bottomReg,'type')
-	if type == 1 then
-		local audioName = Reg:getString(bottomReg,'audioName')
-		if audioName ~= nil and audioName ~='' then
-			Sprite:setProperty(bottomAudioName,'text',audioName)
-		else
-		    Sprite:setProperty(bottomAudioName,'text','暂无节目')
-		end	
-	elseif type == 0 then
-		local audioName = Reg:getString(bottomReg,'audioName')
-		if audioName ~= nil and audioName ~='' then
-			Sprite:setProperty(bottomAudioName,'text',audioName)
-		else
-		    Sprite:setProperty(bottomAudioName,'text','暂无节目')
-		end	
-	end
-end
-
-function playgoBtnOnSelect(sprite)
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
-	local type = Reg:getInteger(bottomReg,'type')
-	if type == 1 then
-		local data = Reg:getString(bottomReg,'tempParentId')
-		Reg:setInteger(reg,'fromFlag',1)
-		Reg:setString(reg,'novelItemId',data)
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=false})
-	elseif type == 0 then
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
-	end
-end
-
--- @brief 刷新播放与暂停按钮状态
-function getStatusa()
-	LoadBottomPlayerData()
-    lastStatus = status
-    status, errorCode = Player:getStatus()  
-	Log:write('底部status',objType,status,errorCode)
-    if  status == Player.status.Connecting or
-        status == Player.status.Buffering or status == Player.status.Idle then
-	    uiRefresh()
-		if objType ~= 'live' then 
-		--refreshDemandProgress()	
-		end
-	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
-        uiPause()
-		if objType ~= 'live' then 
-		--refreshDemandProgress()	
-		end
-	--local CurTime = timeFormat(Player:getCurTime())
-	--Sprite:setProperty(audioCurTime,'text',CurTime)
-        -- if objType ~= 'live' then refreshDemandProgress() end
-    elseif status == Player.status.Paused or status == Player.status.Ready then
-        uiPlay()
-        -- if objType == 'live' then refreshLiveProgress() end
-    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
-        uiPlay()
-    end
-	 if objType ~= 'live' and objType ~= 'review' then
-            --local totalTime = timeFormat(Player:getTotalTime())
-            --Sprite:setProperty(lblCurtime,'text',totalTime)
-     end
-    Timer:set(4444, 500, 'getStatusa')
-end
-
---播放UI更新
-function uiPlay()
-    setSpriteStatus(playBtn,1)
-	--setSpriteStatus(playingAnimation,0)
-    setSpriteStatus(pauseBtn,0)
-	setSpriteStatus(refreshAnimation,0)
-end
-
---刷新UI更新
-function uiRefresh()
-    setSpriteStatus(playBtn,0)
-	--setSpriteStatus(playingAnimation,0)
-    setSpriteStatus(pauseBtn,0)
-	setSpriteStatus(refreshAnimation,1)
-end
-
---暂停UI更新
-function uiPause()
-    setSpriteStatus(playBtn,0)
-	--setSpriteStatus(playingAnimation,1)
-    setSpriteStatus(pauseBtn,1)
-	setSpriteStatus(refreshAnimation,0)
-end
-
--- 播放
-function playBtnOnSelect(sprite)
-	uiPause()
-	Player:play()
-end
-
---暂停
-function pauseBtnOnSelect()
-    if status == Player.status.Playing then
-        uiPlay()
-        Player:pause()
-    end
-end
---底部按钮模块end
-
 
 --左侧网络电台（音乐、评书、交通、人文等按钮的点击事件）
 function leftRadioBtnOnSelect(sprite)

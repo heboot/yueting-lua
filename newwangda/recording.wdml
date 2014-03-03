@@ -13,35 +13,39 @@
     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
         <image rect="0,0,720,1280" src="file://image/background.png"   alpha="255" extendstyle="1111" />
-        <node name="mianTopNode" rect="0,0,720,122"  extendstyle="1111">
-		    <button name="cameraBtn" normal="n" sel="s" rect="10,15,164,92" extendstyle="1010" OnSelect="cameraBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,164,90" style="autosize" src="file://image/navigation_bg.png" extendstyle="1010"/>
-			<image name="s" rect="0,0,164,90" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1010"/>
-		    <image name="cameraImg" rect="50,25,65,42" style="autosize" src="file://image/camera.png" extendstyle="1010"/>
+        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-            <node rect="180,15,450,92"  extendstyle="1111">
-			<image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
-			<label name="blankTip" rect="0,0,450,92" extendstyle="1010" text="请输入作品标题(限10个字)" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-			<edit name="titleName" option="numeric" rect="0,0,450,92" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
-			</node>
-			<node rect="650,15,70,92"  extendstyle="1111">
-			<button name="clearBtn"  rect="0,0,70,92" extendstyle="1010" OnSelect="clearBtnOnSelect" visible="1" enable="1">
-			<image rect="11,21,47,50" extendstyle="1010" style="autosize" src="file://image/clear.png"/>
-			</button>
-			</node>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>	    
 		</node> 
-	    <node  rect="0,0,720,430"  extendstyle="1511">
-		<button name="reRecordingBtn" nornal="n" sel="s" rect="0,167,130,95" extendstyle="1010"  OnSelect="reRecordingBtnOnSelect" visible="1" enable="1">
+		<label  name="audioCurTime"  rect="0,320,720,80" color="#FFFFFF" text="00:00:00" font-size="70" v-align="center" h-align="center" extendstyle="1010"/>
+	    <node  rect="0,0,720,600"  extendstyle="1511">
+		<label name="recordingLabel" rect="0,80,720,50" text="录音"  font-size="35" h-align="center" color="#FFFFFF" extendstyle="1010"/>
+		<button name="tryListenBtn" nornal="n" sel="s" rect="0,30,130,95" extendstyle="1010"  OnSelect="tryListenBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010"/>
+		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010"/>
+		<label rect="0,0,130,95" text="试听"  v-align="center" h-align="center" font-size="28" color="#000000" extendstyle="1010"/>
+		</button>	
+		<button name="reRecordingBtn" nornal="n" sel="s" rect="0,340,130,95" extendstyle="1010"  OnSelect="reRecordingBtnOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010"/>
 		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010"/>
 		<label rect="0,0,130,95" text="重录"  v-align="center" h-align="center" font-size="28" color="#000000" extendstyle="1010"/>
 		</button>
-		<button name="recordingBtn" nornal="n" sel="s" rect="156,0,407,413" extendstyle="1010"  OnSelect="recordingBtnOnSelect" visible="1" enable="1">
+		<button name="recordingBtn" nornal="n" sel="s" rect="156,0,407,413" extendstyle="1510"  OnSelect="recordingBtnOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,407,413" style="maxsize" src="file://image/recording_n.png" extendstyle="1010"/>
 		<image name="s" rect="0,0,407,413" style="maxsize" src="file://image/recording_s.png" extendstyle="1010"/>
-
+		</button>
+		<button name="uploadBtn" nornal="n" sel="s" rect="0,340,130,95" extendstyle="5010"  OnSelect="uploadBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/uploadrecording_n.png" extendstyle="1010"/>
+		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/uploadrecording_s.png" extendstyle="1010"/>
+		<label rect="0,0,130,95" text="上传"  v-align="center" h-align="center" font-size="28" color="#000000" extendstyle="1010"/>
 		</button>
 		</node>
+
 		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
 		<!--底部区域-->
 	         <!--<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
@@ -78,7 +82,7 @@
 </root>
 <![CDATA[
 require('com_wondertek_mobileaudio.commonlocal')
-
+require('framework.player')
 --底部所需变量start
 local bottomAudioName
 local playBtn
@@ -86,17 +90,23 @@ local pauseBtn
 local refreshAnimation
 local titleName
 local blankTip
+local audioCurTime
+local tryListenBtn
+local reRecordingBtn
+local uploadBtn
+local recordingLabel
+local isrecording=0
 --底部所需变量end
 
 function bodyBuildChildrenFinished(sprite)
     rootSprite = sprite
 	titleName=Sprite:findChild(sprite,'titleName')
 	blankTip = Sprite:findChild(sprite,"blankTip")
-	-- playBtn=Sprite:findChild(sprite,'playBtn')
-	-- pauseBtn=Sprite:findChild(sprite,'pauseBtn')
-	-- refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
-	-- bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
-	-- playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+    audioCurTime=Sprite:findChild(sprite,'audioCurTime')
+    tryListenBtn=Sprite:findChild(sprite,'tryListenBtn')
+    reRecordingBtn=Sprite:findChild(sprite,'reRecordingBtn')
+    uploadBtn=Sprite:findChild(sprite,'uploadBtn')
+	recordingLabel=Sprite:findChild(sprite,'recordingLabel')
 end
 
 --[[  插件消息方法  ]]--
@@ -111,9 +121,12 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
-		-- Timer:cancel(4444)
-	    -- Timer:set(4444,500,'getStatusa')
         commonActivate()
+	    setNodeState(audioCurTime, 0) 
+	    setNodeState(tryListenBtn,0) 
+	    setNodeState(reRecordingBtn, 0) 
+	    setNodeState(uploadBtn, 0)	
+        setNodeState(recordingLabel, 1)			
     elseif msg == MSG_DEACTIVATE then
         commonDeactivate()
         Scene:freeByHandle(rootSprite)
@@ -135,10 +148,6 @@ end
 function backBtnOnSelect(sprite)
     Scene:back()
 end
-
- 
-
-
 
 --底部按钮模块start
 function LoadBottomPlayerData()
@@ -172,36 +181,28 @@ function playgoBtnOnSelect(sprite)
 end
 
 -- @brief 刷新播放与暂停按钮状态
-function getStatusa()
-	LoadBottomPlayerData()
+function getStatus()
     lastStatus = status
-    status, errorCode = Player:getStatus()  
-	Log:write('底部status',objType,status,errorCode)
-    if  status == Player.status.Connecting or
-        status == Player.status.Buffering or status == Player.status.Idle then
-	    uiRefresh()
-		if objType ~= 'live' then 
-		--refreshDemandProgress()	
-		end
-	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
-        uiPause()
-		if objType ~= 'live' then 
-		--refreshDemandProgress()	
-		end
-	--local CurTime = timeFormat(Player:getCurTime())
-	--Sprite:setProperty(audioCurTime,'text',CurTime)
-        -- if objType ~= 'live' then refreshDemandProgress() end
+    status, errorCode = Player:getStatus()
+    Log:write("status, errorCode",status, errorCode)
+    if status == Player.status.Idle or
+        status == Player.status.Connecting or
+        status == Player.status.Buffering or
+        status == Player.status.Playing then
+        -- uiPause()
+        Sprite:setProperty(audioCurTime,"text",'00:'..Util:timeFormat(Player:getCurTime()))
     elseif status == Player.status.Paused or status == Player.status.Ready then
-        uiPlay()
-        -- if objType == 'live' then refreshLiveProgress() end
-    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
-        uiPlay()
+        -- uiPlay()
+    elseif status == Player.status.Paused then
+        -- uiPlay()
+    elseif status == Player.status.Stopped or status == Player.status.Finished then
+        -- uiPlay()
+        Player:stop()
+        Player:show(0)
+        isPlayerCreate = nil
+        return
     end
-	 if objType ~= 'live' and objType ~= 'review' then
-            --local totalTime = timeFormat(Player:getTotalTime())
-            --Sprite:setProperty(lblCurtime,'text',totalTime)
-     end
-    Timer:set(4444, 500, 'getStatusa')
+    Timer:set(TimerId.status, 500, 'getStatus')
 end
 
 --播放UI更新
@@ -253,22 +254,108 @@ function editOnTextChanged(sprite)
     end
 end
 
---点击照相按钮
-function cameraBtnOnSelect(sprite)
-end
-
 --录音点击按钮
 function recordingBtnOnSelect(sprite)
+	setNodeState(audioCurTime, 1) 
+	setNodeState(tryListenBtn,1) 
+	setNodeState(reRecordingBtn, 1) 
+	setNodeState(uploadBtn, 1)
+    if isrecording==0 then 
+    setNodeState(recordingLabel, 0)		
+	local flashCard = System:getFlashCardName(1)
+    local innerCard = System:getFlashCardName(0)
+    local desPath = ""
+    if flashCard and flashCard ~= "" then
+        desPath = flashCard .. "audiodownload/"
+    elseif innerCard and innerCard ~= "" then
+        desPath = innerCard .. "audiodownload/"
+    else
+        Tips:show("sd卡没插吧？")
+        return
+    end
+    if not IO:dirExist(desPath) then
+        IO:dirCreate(desPath)
+    end
+    local ct = Util:getServerTime()
+    local t = os.date('*t', math.floor(ct / 1000))
+    for i,v in pairs(t) do
+        local numv = tonumber(v)
+        if numv and numv < 10 then
+            t[i] = 0 .. v
+        end
+    end
+    desFilePath = desPath .. t["year"] .. t["month"] .. t["day"] .. t["hour"] .. t["min"] .. t["sec"] .. ".mp3"
+    dofunction(8, desFilePath, "", 1, 0)
+    timeTickingStart = GetTickTime()
+    Timer:set(TimerId.once,500,"OnTimeTicking")
+	isrecording=1
+	elseif isrecording==1 then 
+	if not desFilePath then return end
+    dofunction(8, "", "", 0, 0)
+    setNodeState(recordingLabel, 1)		
+    Sprite:setProperty(recordingLabel,"text","结束")
+    Timer:cancel(TimerId.once)
+	isrecording=0
+	end
+	
+end
+
+function OnTimeTicking()
+    local tick = math.floor((GetTickTime() - timeTickingStart)/1000)
+    local t = Util:timeFormat(tick)
+    WriteLogs("-----------------" .. t)
+    Sprite:setProperty(audioCurTime,"text",'00:'..t)
+    Timer:cancel(TimerId.once)
+    Timer:set(TimerId.once,500,"OnTimeTicking")
 end
 
 --重录按钮
 function reRecordingBtnOnSelect(sprite)
+    deleteRecordingFile()
+    Sprite:setProperty(audioCurTime,"text","00:00:00")
+	isrecording=0
+    recordingBtnOnSelect()
 end
 
 
---点击clear按钮
-function clearBtnOnSelect(sprite)
-   Sprite:setProperty(titleName,'text','')
-   setNodeState(blankTip,1)
+--点击上传按钮
+function uploadBtnOnSelect(sprite)
+    Scene:go('MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml',{freeDestScene=true})
+end
+
+--点击试听按钮
+function tryListenBtnOnSelect(sprite)
+    if getAudioPlayFlag() ~= 0 then
+        local curAudioScene = getAudioScene()
+        Log:write('Msg.getJsonPlayer CurScene =',curAudioScene )
+        Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
+        Player:stop()
+        Player:show(0)
+        resetAudioPlayFlag() 
+    end
+    if not isPlayerCreate then
+        Player:create(0, -1, 1, 1)
+        isPlayerCreate = true
+        openUrl()
+    else
+        Player:play()
+        uiPause()
+    end
+end
+
+function openUrl()
+    -- desFilePath='/mnt/sdcard/audiodownload/20140303141219.mp3'
+    Player:open(desFilePath)
+	pluginInvoke(Player:_getHandle(),'StartPlayer')
+    Timer:cancel(TimerId.status)
+    Timer:set(TimerId.status, 500, 'getStatus')
+end
+
+
+
+function deleteRecordingFile()
+    if desFilePath and IO:fileExist(desFilePath) then
+        IO:fileRemove(desFilePath)
+    end
 end
 ]]>

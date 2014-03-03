@@ -107,18 +107,7 @@
             </panoramaitem>
         </panorama>
 		
-		<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
-		    <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
-			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111" OnSelect="playBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/paly.png" extendstyle="1077"/>
-			 </button>
-             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
-			 <label rect="150,15,720,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
-			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
-			 </button>
-        </node>  
-		
+	
         <node name="treatyDialog" rect="0,0,720,1280" extendstyle="1111" visible="false" enable="false">
             <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
             <shadow rect="0,0,720,1280" color="#000000" alpha="128" extendstyle="1111"/>
@@ -250,6 +239,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
+		Bottom:show()
         commonActivate()
         init()
     elseif msg == MSG_DEACTIVATE then

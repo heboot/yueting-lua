@@ -20,21 +20,20 @@
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="用户反馈" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="本地文件" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		    <button name="scanBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="scanBtnOnSelect" visible="1" enable="1">
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
+			<label rect="0,0,0,0" extendstyle="0077" text="扫描" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
+			<button name="goRecordingBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="goRecordingBtnOnSelect" visible="1" enable="1">
+			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_s.png" extendstyle="1077"/>
+			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_n.png" extendstyle="1077"/>
+			<label rect="0,0,0,0" extendstyle="0077" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>
 		</node> 
-		<node rect="38,120,644,541"  extendstyle="1111">
-			<image rect="0,0,0,0" style="autosize" src="file://image/settingcontentdesc_bg.png" extendstyle="1077"/>
-            <label name="blankTip" rect="0,0,0,80" extendstyle="1070" text="请在此写下您的宝贵意见" v-align="center" h-align="center" font-size="32" alpha="50"color="#BBC0B9"/>
-            <edit name="contentDesc" option="numeric" rect="0,0,0,0" extendstyle="1077" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="35" multiline="true" max-size="120"/>
-		</node>
-		<node rect="38,720,644,120"  extendstyle="1111">
-		<button style="autosize" OnSelect="sendAdviceOnSelect" extendstyle="0077">
-		   <image rect="0,0,0,0" src="file://image/settingsend_bg.png"  style="autosize" extendstyle="1177" />
-		   <label rect="0,0,0,0" extendstyle="1177"  text="发送"  color="#D2691E"  v-align="center" h-align="center" font-size="30"/>
-	    </button>
-		</node>
 		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
+	
     </node>
     </body>
 </root>
@@ -42,10 +41,8 @@
 require('com_wondertek_mobileaudio.commonlocal')
 
 
-
 function bodyBuildChildrenFinished(sprite)
     rootSprite = sprite
-    contentDesc = Sprite:findChild(sprite,"contentDesc")
 	
 end
 
@@ -53,7 +50,7 @@ end
 function bodyOnPluginEvent(msg, param)
     if msg == 101 then
         Loading:close()
-        Tips:show('谢谢您的宝贵反馈意见')
+     
         Timer:set(TimerId.once,1000,"backBtnOnSelect")
     else
         Util:onPluginEvent(msg, param)
@@ -63,7 +60,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
-		 Bottom:show()
+		Bottom:show()
         commonActivate()
     elseif msg == MSG_DEACTIVATE then
         commonDeactivate()
@@ -87,27 +84,14 @@ function backBtnOnSelect(sprite)
     Scene:back()
 end
 
-function editOnTextChanged(sprite)
-    local p = Sprite:getParent(sprite)
-    local blankTip = Sprite:findChild(p,"blankTip")
-    if Sprite:getText(sprite) == "" then
-        setNodeState(blankTip,1)
-    else
-        setNodeState(blankTip,0)
-    end
+--录音按钮
+function goRecordingBtnOnSelect(sprite)
+    Scene:go('MODULE:\\com_wondertek_mobileaudio\\recording.wdml',{freeDestScene=true})
 end
 
-function sendAdviceOnSelect(sprite)
-    local t = Sprite:getText(contentDesc)
-    if t == "" then
-        Tips:show('忘了填写内容吧?')
-        return
-    end
-    local postData = "意见:" .. Sprite:getText(contentDesc)
-    -- Log:write("postData="..postData)
-    postData = 'suggestTitle=手机悦听3.0用户意见反馈&suggestContent='..postData
-    -- Loading:show()
-    Http:request('help_advise', Util:getServer().. 'msp/suggest.msp', 101, {useCache = 0, method='post', postData=postData})
+--扫描按钮
+function scanBtnOnSelect(sprite)
+
 end
 
 

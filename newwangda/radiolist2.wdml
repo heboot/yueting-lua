@@ -119,40 +119,7 @@
             </button>
     </node>
 		
-		
-	  <!--底部区域-->
-	<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
-		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
-			
-			 
-			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
-			 </button>
-			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
-			 </button>
-			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
-			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
-             <animate-frame start="$(start)" delay="1">
-             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
-             </animate-frame>
-             <dataset>  			
-			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
-			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
-			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
-			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
-			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
-			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
-             </dataset>
-             </animate>	
-			 </node>
-		 
-             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
-			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
-			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
-			 </button>
-    </node>
+	
     </node>	
 </body>
 </root>
@@ -172,13 +139,6 @@ local isHaveProgramYesterday
 local isHaveProgramToday
 local isHaveProgramTommorrow
 
---底部所需变量start
-local bottomAudioName
-local playBtn
-local pauseBtn
-local refreshAnimation
---底部所需变量end
-
 
 -- @brief root子节点创建完事件
 function bodyBuildChildrenFinished(sprite)
@@ -194,11 +154,7 @@ function bodyBuildChildrenFinished(sprite)
     isHaveProgramTommorrow= Sprite:findChild(sprite, 'isHaveProgramTommorrow')
 	mainPanorama= Sprite:findChild(sprite, 'mainPanorama')
 	catalogList= Sprite:findChild(sprite, 'catalogList')
-	playBtn=Sprite:findChild(sprite,'playBtn')
-	pauseBtn=Sprite:findChild(sprite,'pauseBtn')
-	refreshAnimation=Sprite:findChild(sprite,'refreshAnimation')
-	bottomAudioName = Sprite:findChild(sprite,'bottomAudioName')
-	playgoBtn = Sprite:findChild(sprite,'playgoBtn')
+	
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
 	local nodeId=Reg:getString(reg,'liveNodeId')
 	Http:request('radioLiveItemData', Util:getServer()..'/publish/clt/resource/mobileaudio3/radiolive/radioLiveItemData2.jsp?nodeId='..nodeId..'&objType=live',142)
@@ -208,8 +164,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
-		Timer:cancel(4444)
-		Timer:set(4444,500,'getStatusa')
+		 Bottom:show()
     elseif msg == MSG_DEACTIVATE then
         
     elseif msg == Msg.login then

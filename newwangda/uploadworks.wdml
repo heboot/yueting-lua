@@ -20,18 +20,19 @@
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="用户反馈" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="作品上传" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		</node> 
-		<node rect="38,120,644,541"  extendstyle="1111">
-			<image rect="0,0,0,0" style="autosize" src="file://image/settingcontentdesc_bg.png" extendstyle="1077"/>
-            <label name="blankTip" rect="0,0,0,80" extendstyle="1070" text="请在此写下您的宝贵意见" v-align="center" h-align="center" font-size="32" alpha="50"color="#BBC0B9"/>
-            <edit name="contentDesc" option="numeric" rect="0,0,0,0" extendstyle="1077" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="35" multiline="true" max-size="120"/>
+		<node rect="0,90,720,0" padding="0,0,100,0"  extendstyle="1016">
+		<node rect="0,0,720,100" padding="0,0,100,0"  extendstyle="1010">
+		<image rect="120,12,580,85" extendstyle="1010" style="autosize" src="file://image/loginedit_bg.png"/>
+		<label rect="20,12,100,85" extendstyle="1111" text="标题" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		<label name="blankTip" rect="120,12,580,85"extendstyle="1010" text="为你的作品配上响亮的标题吧" font-size="30" color="#525252" v-align="center"/>
+		<edit rect="120,12,580,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="30"/>
 		</node>
-		<node rect="38,720,644,120"  extendstyle="1111">
-		<button style="autosize" OnSelect="sendAdviceOnSelect" extendstyle="0077">
-		   <image rect="0,0,0,0" src="file://image/settingsend_bg.png"  style="autosize" extendstyle="1177" />
-		   <label rect="0,0,0,0" extendstyle="1177"  text="发送"  color="#D2691E"  v-align="center" h-align="center" font-size="30"/>
-	    </button>
+		<node rect="0,0,720,337"  extendstyle="1810">
+		<label rect="20,12,100,85" extendstyle="1111" text="标题" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</node>
+		<label rect="20,125,100,85" extendstyle="1111" text="封面" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 		</node>
 		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
 		
@@ -45,16 +46,14 @@ require('com_wondertek_mobileaudio.commonlocal')
 
 function bodyBuildChildrenFinished(sprite)
     rootSprite = sprite
-    contentDesc = Sprite:findChild(sprite,"contentDesc")
-	
+  
 end
 
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
     if msg == 101 then
         Loading:close()
-        Tips:show('谢谢您的宝贵反馈意见')
-        Timer:set(TimerId.once,1000,"backBtnOnSelect")
+
     else
         Util:onPluginEvent(msg, param)
     end
@@ -63,7 +62,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
-		 Bottom:show()
+		Bottom:show()
         commonActivate()
     elseif msg == MSG_DEACTIVATE then
         commonDeactivate()
@@ -87,6 +86,7 @@ function backBtnOnSelect(sprite)
     Scene:back()
 end
 
+
 function editOnTextChanged(sprite)
     local p = Sprite:getParent(sprite)
     local blankTip = Sprite:findChild(p,"blankTip")
@@ -96,20 +96,6 @@ function editOnTextChanged(sprite)
         setNodeState(blankTip,0)
     end
 end
-
-function sendAdviceOnSelect(sprite)
-    local t = Sprite:getText(contentDesc)
-    if t == "" then
-        Tips:show('忘了填写内容吧?')
-        return
-    end
-    local postData = "意见:" .. Sprite:getText(contentDesc)
-    -- Log:write("postData="..postData)
-    postData = 'suggestTitle=手机悦听3.0用户意见反馈&suggestContent='..postData
-    -- Loading:show()
-    Http:request('help_advise', Util:getServer().. 'msp/suggest.msp', 101, {useCache = 0, method='post', postData=postData})
-end
-
 
 
 ]]>

@@ -911,6 +911,222 @@ function Http:connectWLAN(...)
     Http:setPreResourceUrl(Util:getServer())
 end
 
+-- -------------------------------------------------------
+-- |底部区域测试S
+-- -------------------------------------------------------
+Bottom = {}
+
+Bottom.layout = [[
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <header/>
+    <body>
+	<!--底部区域-->
+	<node name="bottomFrame" rect="0,0,720,112"  extendstyle="1511">
+		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
+			 <animate name="bottomRateAnimation" rect="120,0,0,50" extendstyle="1571" delay="25" loop="true" visible="0">
+				<animate-frame start="0" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate1.png" />
+				</animate-frame>
+				<animate-frame start="5" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate2.png" />
+				</animate-frame>
+				<animate-frame start="10" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate3.png" />
+				</animate-frame>
+				<animate-frame start="15" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate4.png" />
+				</animate-frame>
+				<animate-frame start="20" delay="5">
+					<image rect="0,0,720,50" src="file://image/bottom_rate5.png" />
+				</animate-frame>
+			</animate>
+			
+			 <button name="playBtn" rect="10,10,90,90" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/playbackground.png" extendstyle="1177"/>
+			 </button>
+			 <button name="pauseBtn"  rect="10,10,90,90" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			 </button>
+			 <node name="refreshAnimation" rect="10,10,90,90" extendstyle="1111"  visible="0" enable="0">
+			 <animate rect="0,0,90,90" delay="24" loop="true" extendstyle="0000">
+             <animate-frame start="$(start)" delay="1">
+             <image rect="0,0,90,90" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+             </animate-frame>
+             <dataset>  			
+			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+             </dataset>
+             </animate>	
+			 </node>
+		 
+             
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="120,15,450,112" extendstyle="1111"   color="#D2691E"  font-size="50"/>
+			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
+			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
+			 </button>
+    </node>
+    </body>
+</root>
+]]
+
+function Bottom:show()
+    local curScene = Sprite:getCurScene()
+	Log:write('commonbottom====1',curScene)
+    --Sprite:sendEvent(curScene, Msg.dialogShow)
+    local mainNode = Sprite:findChild(curScene, 'mainNode')
+	Log:write('commonbottom====2',mainNode)
+    local bottomNode = Sprite:findChild(curScene, 'bottomNode')
+	Log:write('commonbottom====3',bottomNode)
+    if bottomNode ~= 0 then
+        setNodeState(bottomNode, 1)
+    else
+		Log:write('commonbottom====4getstatusa2')
+        bottomNode = Sprite:create('node', Sprite:findChild(curScene, 'mainNode'))
+		Log:write('commonbottom====4getstatusa3')
+        Sprite:setProperty(bottomNode, 'name', 'bottomNode')
+		Sprite:setRect(bottomNode,0,0,720,112)
+		Sprite:setProperty(bottomNode, 'extendstyle', '1511')
+		Log:write('commonbottom====4getstatusa4')
+        Sprite:loadFromString(bottomNode, Bottom.layout)
+		Log:write('commonbottom====4getstatusa5')
+    end
+	
+	playBtn=Sprite:findChild(bottomNode,'playBtn')
+	pauseBtn=Sprite:findChild(bottomNode,'pauseBtn')
+	refreshAnimation=Sprite:findChild(bottomNode,'refreshAnimation')
+	bottomAudioName = Sprite:findChild(bottomNode,'bottomAudioName')
+	playgoBtn = Sprite:findChild(bottomNode,'playgoBtn')
+	bottomRateAnimation = Sprite:findChild(bottomNode,'bottomRateAnimation')
+	Log:write('commonbottom====4getstatusa1')
+	Timer:cancel(4444)
+	Timer:set(4444,500,'getStatusa')
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatusa()
+	Log:write('commonbottom====4getstatusa')
+	LoadBottomPlayerData()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 	
+		end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        uiPlay()
+    end
+    Timer:set(4444, 500, 'getStatusa')
+end
+
+function LoadBottomPlayerData()
+	Log:write('commonbottom====5LoadBottomPlayerData')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local type = Reg:getInteger(bottomReg,'type')
+	if type == 1 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		Log:write('commonbottom====6LoadBottomPlayerData',bottomAudioName)
+		if audioName ~= nil and audioName ~= '' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+			Sprite:setEnable(playBtn,0)
+			Sprite:setEnable(pauseBtn,0)
+		end	
+	elseif type == 0 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~= '' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+			Sprite:setEnable(playBtn,0)
+			Sprite:setEnable(pauseBtn,0)
+		end	
+	elseif type ==2 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~= '' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+			Sprite:setEnable(playBtn,0)
+			Sprite:setEnable(pauseBtn,0)
+		end	
+	end
+end
+
+function playgoBtnOnSelect(sprite)
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local gtype = Reg:getInteger(bottomReg,'type')
+	Log:write('playgoBtnOnSelect=====',gtype)
+	if gtype == 1 then
+		--local data = Reg:getString(bottomReg,'tempParentId')
+		--Reg:setInteger(reg,'fromFlag',1)
+		--Reg:setString(reg,'novelItemId',data)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+	elseif gtype == 0 then
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+	elseif gtype == 2 then
+		Reg:setInteger(bottomReg,'bottomFlag',1)
+		Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+	end
+end
+
+--播放UI更新
+function uiPlay()
+    setSpriteStatus(playBtn,1)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,0)
+	Sprite:setActive(bottomRateAnimation, 0) 
+	--Sprite:setVisible(bottomRateAnimation,0)
+	
+end
+
+--刷新UI更新
+function uiRefresh()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,0)
+    setSpriteStatus(pauseBtn,0)
+	setSpriteStatus(refreshAnimation,1)
+end
+
+--暂停UI更新
+function uiPause()
+    setSpriteStatus(playBtn,0)
+	--setSpriteStatus(playingAnimation,1)
+    setSpriteStatus(pauseBtn,1)
+	setSpriteStatus(refreshAnimation,0)
+	
+	Sprite:setActive(bottomRateAnimation, 1) 
+	Sprite:setVisible(bottomRateAnimation,1)
+end
+
+-- 播放
+function playBtnOnSelect(sprite)
+	uiPause()
+	Player:play()
+end
+
+--暂停
+function pauseBtnOnSelect()
+    if status == Player.status.Playing then
+        uiPlay()
+        Player:pause()
+    end
+end
+-- -------------------------------------------------------
+-- |底部区域测试E
+-- -------------------------------------------------------
+
+
+
 -- -----------------------------------------------------------------------------
 -- | Desc: 对话框
 -- -----------------------------------------------------------------------------
