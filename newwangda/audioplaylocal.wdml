@@ -23,7 +23,7 @@
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		  
         </node> 
-        <node rect="0,0,0,508"  extendstyle="1871">
+        <node rect="0,0,0,508"  extendstyle="1871" font-family="TianyiDigital"> 
 		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
 		  <node rect="0,0,0,150"  extendstyle="1071">
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
@@ -75,7 +75,7 @@
 		
 
 		
-    <node rect="0,0,0,93"  extendstyle="1871">
+    <node rect="0,0,0,93"  extendstyle="1871" >
 	    <image rect="0,0,0,0" style="minsize" src="file://image/progressbg.png" extendstyle="1077"/>
 		<node rect="20,20,120,80"  extendstyle="1111">
 		  <button rect="0,0,90,60"   extendstyle="1011">
@@ -227,6 +227,9 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
+		Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
     local curConnect = Http:getCurConnect()
 		if curConnect == 'WLAN' then
 		Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 

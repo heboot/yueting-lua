@@ -33,7 +33,7 @@
         </node> 
         <node rect="0,0,0,508"  extendstyle="1871">
 		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
-		  <node rect="0,0,0,150"  extendstyle="1071">
+		  <node rect="0,0,0,150"  extendstyle="1071" font-family="TianyiDigital">
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
 			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511"/>
 			  <label  name="audioCurTime"  rect="300,0,245,80" color="#f06a06" text="00:00:00" font-size="55" extendstyle="1511"/>
@@ -337,6 +337,8 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml') 
     local curConnect = Http:getCurConnect()
     if curConnect == 'WLAN' then
 	Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 

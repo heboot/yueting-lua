@@ -31,7 +31,7 @@
 			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/morecontents_s.png" extendstyle="1077"/>
 			</button>
         </node> 
-        <node rect="0,0,0,508"  extendstyle="1871">
+        <node rect="0,0,0,508"  extendstyle="1871" font-family="TianyiDigital">
 		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
 		  <node rect="0,0,0,150"  extendstyle="1071">
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
@@ -292,7 +292,9 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
-	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml') 
+ 
     local curConnect = Http:getCurConnect()
     if curConnect == 'WLAN' then
 	Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
@@ -385,34 +387,50 @@ end
 
 -- 播放
 function playBtnOnSelect(sprite)
-  
-  if not isPlayerCreate and subListTable then
-        local contList = subListTable
-		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-		local index=Reg:getString(reg,'bokeItemIndex')
-        if contList and '' ~= contList[tonumber(index)] then
-            local contparam = contList[tonumber(index)].param
-
-			local a=Reg:create(Reg.com_wondertek_mobileaudio.player)
-			Reg:setString(a,'tempData',contparam)
+  local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+  local flag = Reg:getInteger(bottomReg,'bottomPlayFlag')
+  if flag == 1 then
 	
-            contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
-            contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
-			
-            Util:_goPlay(contparam)
-        else
-            Tips:show('播放器压力有点大…')
-        end
-    else
-        if status == Player.status.Finished or status == Player.status.Stopped then
-            createPlayer()
-        elseif status == Player.status.Ready
-            or status == Player.status.Idle
-            or status == Player.status.Paused then
-            uiPause()
-            Player:play()
-        end
-    end
+			if status == Player.status.Finished or status == Player.status.Stopped then
+				createPlayer()
+				Reg:setInteger(bottomReg,'bottomPlayFlag',0)
+			elseif status == Player.status.Ready
+				or status == Player.status.Idle
+				or status == Player.status.Paused then
+				uiPause()
+				Player:play()
+			end
+	
+  else
+	  if not isPlayerCreate and subListTable then
+			local contList = subListTable
+			local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+			local index=Reg:getString(reg,'bokeItemIndex')
+			Log:write('getpindex111111',index)
+			if contList and '' ~= contList[tonumber(index)] then
+				local contparam = contList[tonumber(index)].param
+
+				local a=Reg:create(Reg.com_wondertek_mobileaudio.player)
+				Reg:setString(a,'tempData',contparam)
+		
+				contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
+				contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
+				
+				Util:_goPlay(contparam)
+			else
+				Tips:show('播放器压力有点大…')
+			end
+		else
+			if status == Player.status.Finished or status == Player.status.Stopped then
+				createPlayer()
+			elseif status == Player.status.Ready
+				or status == Player.status.Idle
+				or status == Player.status.Paused then
+				uiPause()
+				Player:play()
+			end
+		end
+	end
 end
 
 --暂停
@@ -673,7 +691,9 @@ function setGalleryData()
 	end
 	end
 	gallarydata=bokeCollectTable
+	
 	subListTable=bokeCollectTable
+	Log:write('getpindex3333',#subListTable)
 	Gallery:removeAllItems(gallery, 1) 
 	Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
     Gallery:adjust(gallery) 
@@ -727,8 +747,8 @@ function galleryOnSelect(sprite)
    else 
 		
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
-	local flag = Reg:getInteger(bottomReg,'bottomFlag')
-	Log:write('bottomflag',flag)
+	local flag = Reg:getInteger(bottomReg,'bottomSelectFlag')
+	Log:write('bottomSelectFlag',flag)
 	if flag == 1 then
 	   local data=bokeCollectTable[index+1]  
 	   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
@@ -743,6 +763,7 @@ function galleryOnSelect(sprite)
 	   local _,_,contentId=string.find(data.param,'contentId=(%d+);')   
 	   tempnodeId=contentId
 	   Timer:set(TimerId.status, 500, 'getStatus')
+	   Reg:setInteger(bottomReg,'bottomSelectFlag',0)
 	else
 	   local data=bokeCollectTable[index+1]  
 	   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')

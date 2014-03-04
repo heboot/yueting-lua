@@ -1089,8 +1089,9 @@ function playgoBtnOnSelect(sprite)
 		elseif gtype == 0 then
 			Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
 		elseif gtype == 2 then
-			Reg:setInteger(bottomReg,'bottomFlag',1)
-			Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+			Reg:setInteger(bottomReg,'bottomPlayFlag',1)
+			Reg:setInteger(bottomReg,'bottomSelectFlag',1)
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml',{freeDestScene=true})
 		elseif gtype == 3 then
 			Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml')
 		else

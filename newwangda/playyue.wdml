@@ -28,7 +28,7 @@
 		
 		  
 		
-        <node rect="0,90,0,508"  extendstyle="1171">
+        <node rect="0,90,0,508"  extendstyle="1171" font-family="TianyiDigital">
 		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
 		  <node rect="0,0,0,150"  extendstyle="1071">
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
@@ -355,6 +355,9 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
+		Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml') 
 	PELiveFinishFlag = false  --该变量用于判断华为播放器直播回放节目是否播放结束
     local curConnect = Http:getCurConnect()
     if curConnect == 'WLAN' then
