@@ -60,6 +60,9 @@
 		<label name="downloadBuffer" visible="0" text="1111" rect="0,0,0,30" v-align="center" h-align="center"  extendstyle="1871" color="#FFFFFF"  font-size="25"/>
 		</button>
 	</node>
+	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>  
+
 	</node>
 	</body>
 </root>

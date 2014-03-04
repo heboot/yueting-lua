@@ -223,7 +223,7 @@
 					</node>   
 					<node name="userNode" rect="30,20,480,100" extendstyle="1111" visible="0" enable="0">
 					   <button name="userBtn" normal="n" OnSelect="userBtnOnSelect" rect="0,0,480,100" extendstyle="1010">					
-					   <image name="n" rect="0,0,480,100" style="maxsize" extendstyle="1010" src="file://image/right_item_background.png"/>
+					   <image name="n" rect="0,0,480,100" style="autosize" extendstyle="1010" src="file://image/right_item_background.png"/>
 				       <image name="userPic" rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/dft_headimg_mid.jpg" BuildChildrenFinished="resChoose"><node/></image>
                        <image rect="18,27,52,52" style="minsize" src="file://image/sg_spacemask.png" extendstyle="0000" />					  
 					   <label name="userName" rect="80,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="欢迎你" color="#D2691E"  font-size="28"/>
@@ -258,7 +258,9 @@
                 </node>             
             </panoramaitem>
         </panorama>
-        <node name="timedCloseNode" rect="100,306,620,410" extendstyle="1010" visible="0" enable="0">        
+		<node name="timedCloseNode" rect="0,0,0,0" extendstyle="1177" visible="0" enable="0"> 
+		<button rect="0,0,0,0" extendstyle="1177" OnSelect="closeBgBtnOnSelect"/>
+        <node  rect="100,306,620,410" extendstyle="1010">        
             <image rect="0,0,500,410" src="file://image/commonbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
             <image rect="0,0,500,85" src="file://image/orderDig_head.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
             <label name="dtitle" rect="15,0,200,85" text="定时关闭" color="#4F6852" font-size="30" v-align="center"  extendstyle="1010"/>
@@ -293,7 +295,8 @@
 					</dataset>
 				</list>
 			</node>
-        </node>		
+        </node>	
+		</node>
 		<!-- panorama电台的item-->
        <node name="mainPanoramaItem" rect="0,0,686,300" visible="false" enable="false" active="false" >
             <button name="radioRecommendBtn"  OnSelect="radioRecommendBtnOnSelect" rect="0,0,686,300" extendstyle="1110">
@@ -1263,8 +1266,8 @@ function LoginStatusChange(isLogin)
     if isLogin then
         setNodeState(loginNode,0)
         setNodeState(userNode,1)
-		-- Sprite:setRect(loginBtn, 30,20,480,100) 
-		-- Sprite:setProperty(loginBtn, 'extendstyle', '1111') 
+		-- Sprite:setRect(userNode, 30,20,480,100) 
+		-- Sprite:setProperty(userNode, 'extendstyle', '1111') 
         Http:request('loginPhoneNum', Util:getWeiBoServer() .. Alias.phonenumber, Msg.phoneNumber, {useCache = 0})
     else
 	    -- Sprite:setRect(loginBtn, 30,20,480,100) 
@@ -1893,6 +1896,7 @@ function contentOnSelect(sprite)
 		local data = Sprite:getData(sprite)
 		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 		Reg:setString(reg,'bokeItemData',data)
+		Reg:setInteger(reg,'isNodeId','1')
 		Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
 	end
 end
@@ -1947,6 +1951,7 @@ function leftPodcastListViewChildListOnSelect(sprite)
     local data = Sprite:getData(sprite)
 	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	Reg:setString(reg,'bokeItemData',data)
+	Reg:setInteger(reg,'isNodeId','1')
 	Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
 end
  
@@ -2264,6 +2269,12 @@ function leftRadioBtnOnSelect(sprite)
     Log:write('leftRadioBtnOnSelect============',index,data)
 end
 
+function closeBgBtnOnSelect(sprite)
+	Log:write('closeBgBtnOnSelect====')
+	Sprite:setVisible(timedCloseNode, 0) 
+    Sprite:setEnable(timedCloseNode, 0) 
+end
+
 
 function timedCloseBtnOnSelect(sprite)
 	local item = Sprite:getParent(sprite)
@@ -2272,10 +2283,10 @@ function timedCloseBtnOnSelect(sprite)
    
 	if index == 0 then
 	    setSwitchPos(0)
-		local closeTime = 1*60
+		local closeTime = 10*60
 		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
-		Reg:setInteger(closeTimeReg,'closeTime',curTime+5)
-	    Reg:setInteger(closeTimeReg,'timeValue',5)
+		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
+	    Reg:setInteger(closeTimeReg,'timeValue',closeTime)
 		Sprite:setProperty(closeTimeLbl,'text',closeTime)
 		Reg:setInteger(closeTimeReg,'closeFlag',1)
 		Timer:cancel(4443)
@@ -2414,7 +2425,7 @@ function animate3()
         Sprite:setProperty(switchBtn, 'data', 'off')
 		Timer:cancel(4443)
 		local curTime = os.time()
-		local closeTime = 1*60
+		local closeTime = 10*60
 		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
 		Reg:setInteger(closeTimeReg,'closeTime',curTime+closeTime)
 	    Reg:setInteger(closeTimeReg,'timeValue',closeTime)

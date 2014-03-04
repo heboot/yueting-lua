@@ -317,7 +317,7 @@ function openUrl()
 	
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
 	Reg:setString(bottomReg,'audioName',title)
-	Reg:setString(bottomReg,'type',1)
+	Reg:setString(bottomReg,'type',3)
 	
 	Player:setFullScreen(0)
     Timer:cancel(TimerId.status)

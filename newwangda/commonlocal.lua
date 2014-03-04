@@ -170,9 +170,11 @@ TimerId = {
     once         = 1,
     once2        = 2,
     status       = 10,
+	
     timeBattery  = 11,
     screenHide   = 12,
     wlanStrength = 13,
+	radiostatus  = 14,
     tipsshow     = 100,
     tipsclose    = 101,
     goToLocal    = 102,
@@ -964,8 +966,9 @@ Bottom.layout = [[
              </animate>	
 			 </node>
 		 
+			<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>  
              
-			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="120,15,450,112" extendstyle="1111"   color="#D2691E"  font-size="50"/>
+			 <scrolltext step="5" scroll="true" name="bottomAudioName" text="暂无节目" rect="120,15,450,112" extendstyle="1111"   color="#D2691E"  font-size="50"/>
 			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
 			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
 			 </button>
@@ -1002,6 +1005,7 @@ function Bottom:show()
 	bottomAudioName = Sprite:findChild(bottomNode,'bottomAudioName')
 	playgoBtn = Sprite:findChild(bottomNode,'playgoBtn')
 	bottomRateAnimation = Sprite:findChild(bottomNode,'bottomRateAnimation')
+	tipsNode  = Sprite:findChild(bottomNode,'tipsNode')
 	Log:write('commonbottom====4getstatusa1')
 	Timer:cancel(4444)
 	Timer:set(4444,500,'getStatusa')
@@ -1057,6 +1061,14 @@ function LoadBottomPlayerData()
 			Sprite:setEnable(playBtn,0)
 			Sprite:setEnable(pauseBtn,0)
 		end	
+	elseif type ==3 then
+		local audioName = Reg:getString(bottomReg,'audioName')
+		if audioName ~= nil and audioName ~= '' then
+			Sprite:setProperty(bottomAudioName,'text',audioName)
+		else
+			Sprite:setEnable(playBtn,0)
+			Sprite:setEnable(pauseBtn,0)
+		end	
 	end
 end
 
@@ -1064,17 +1076,27 @@ function playgoBtnOnSelect(sprite)
 	local reg = Reg:create('com_wondertek_mobileaudio_novel')
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
 	local gtype = Reg:getInteger(bottomReg,'type')
-	Log:write('playgoBtnOnSelect=====',gtype)
-	if gtype == 1 then
-		--local data = Reg:getString(bottomReg,'tempParentId')
-		--Reg:setInteger(reg,'fromFlag',1)
-		--Reg:setString(reg,'novelItemId',data)
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
-	elseif gtype == 0 then
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
-	elseif gtype == 2 then
-		Reg:setInteger(bottomReg,'bottomFlag',1)
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+	local ttext = Sprite:getText(bottomAudioName) 
+	if ttext == '暂无节目' then
+		--暂无节目
+		Tips:show('暂无节目')
+	else
+		if gtype == 1 then
+			--local data = Reg:getString(bottomReg,'tempParentId')
+			--Reg:setInteger(reg,'fromFlag',1)
+			--Reg:setString(reg,'novelItemId',data)
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+		elseif gtype == 0 then
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+		elseif gtype == 2 then
+			Reg:setInteger(bottomReg,'bottomFlag',1)
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+		elseif gtype == 3 then
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml')
+		else
+			--暂无节目
+			Tips:show('暂无节目')
+		end
 	end
 end
 

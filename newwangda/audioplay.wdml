@@ -335,8 +335,8 @@ end
 
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
-
     if msg == MSG_ACTIVATE then
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
     local curConnect = Http:getCurConnect()
     if curConnect == 'WLAN' then
 	Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
@@ -613,7 +613,11 @@ end
 function getStatus()
     lastStatus = status
     status, errorCode = Player:getStatus()  
-	Log:write('bushi',objType,status,errorCode)
+	
+	
+	Log:write('getStatus===',status,aaa)
+	
+	Timer:cancel(TimerId.radiostatus)
     if  status == Player.status.Connecting or
         status == Player.status.Buffering or status == Player.status.Idle then
 	    uiRefresh()
@@ -650,7 +654,7 @@ function getStatus()
                 Timer:cancel(TimerId.status)
             end
         end
-        uiPlay()
+        --uiPlay()
     end
 	 if objType ~= 'live' and objType ~= 'review' then
             --local totalTime = timeFormat(Player:getTotalTime())

@@ -302,7 +302,7 @@ function bodyOnPluginEvent(msg, param)
 				 setProgressBarPos(progressBtn,0)
 				 Sprite:setProperty(lblCurtime, 'text','00:00')
 				 uiStop()
-				 Timer:cancel(TimerId.status)
+				 Timer:cancel(TimerId.radiostatus)
 			  end
 			  end              			  
 		   end	 
@@ -473,8 +473,8 @@ Log:write('playUrl====================2', playUrl)
     Player:open(playUrl,Http:getCurConnect(), breakPoint)
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    
 	Player:setFullScreen(0)
-    Timer:cancel(TimerId.status)
-    Timer:set(TimerId.status, 1000, 'getStatus')
+    Timer:cancel(TimerId.radiostatus)
+    Timer:set(TimerId.radiostatus, 1000, 'getRadioStatus')
 	local reg = Reg:create(Reg.com_wondertek_mobileaudio.detail)
     Reg:setString(reg,'audioResource','')
 end
@@ -597,7 +597,7 @@ function pausePlayer(pauseParam)
 end
 
 -- @brief 刷新播放与暂停按钮状态
-function getStatus()
+function getRadioStatus()
     lastStatus = status
     status, errorCode = Player:getStatus() 
    Log:write('getStatus=====',status,Player.status.Connecting,Player.status.Buffering,Player.status.Idle,Player.status.Playing)	
@@ -645,22 +645,22 @@ function getStatus()
                     resetAudioPlayFlag()           
                     Player:stop()
                     Player:show(0)
-                    Timer:cancel(TimerId.status)
+                    Timer:cancel(TimerId.radiostatus)
                 end
 			  end
             else
                 Player:stop()
                 Player:show(0)
-                Timer:cancel(TimerId.status)
+                Timer:cancel(TimerId.radiostatus)
             -- end
         -- end
-        uiPlay()
+        --uiPlay()
     end
 	 if objType ~= 'live' and objType ~= 'review' then
             --local totalTime = timeFormat(Player:getTotalTime())
             --Sprite:setProperty(lblCurtime,'text',totalTime)
      end
-    Timer:set(TimerId.status, 1000, 'getStatus')
+    Timer:set(TimerId.radiostatus, 1000, 'getRadioStatus')
 end
 
 
@@ -920,7 +920,7 @@ function setProgressBarPos(sprite,x,seek)
                         playUrl = playUrl.."&playbackbegin="..playTime.."&playbackend="..endTime
                     end
             end
-            Timer:cancel(TimerId.status)
+            Timer:cancel(TimerId.radiostatus)
             createPlayer()	
 		elseif objType == 'review' then
 		    local ct = Util:getServerTime()
@@ -939,7 +939,7 @@ function setProgressBarPos(sprite,x,seek)
                     playUrl = playUrl.."&playbackbegin="..playTime.."&playbackend="..endTime
                 end
             Log:write('playUrl====================review', playUrl)
-            Timer:cancel(TimerId.status)
+            Timer:cancel(TimerId.radiostatus)
             createPlayer()	
 	end		
     end
@@ -1003,8 +1003,8 @@ end
 function progressOnMouseUp(sprite, x, y)
     -- Sprite:releaseCapture(progressBtn)
     if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
-        Timer:cancel(TimerId.status)
-        Timer:set(TimerId.status, 500, 'getStatus')
+        Timer:cancel(TimerId.radiostatus)
+        Timer:set(TimerId.radiostatus, 500, 'getRadioStatus')
         setProgressBarPos(sprite, x,1)
         progressBarFlag = 0	
 	    local bar_x, bar_y, bay_w, bar_h = Sprite:getRect(progressOption)
@@ -1034,9 +1034,9 @@ function progressOnMouseMove(sprite, x, y)
 	end
     if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
         if progressBarFlag == 1 then -- 在OnMouseDown时设置此标识量，表明需要响应OnMouseMove事件，否则不响应
-		    Timer:cancel(TimerId.status)
+		    Timer:cancel(TimerId.radiostatus)
             setProgressBarPos(sprite,x)
-			Timer:set(TimerId.status, 500, 'getStatus')
+			Timer:set(TimerId.radiostatus, 500, 'getRadioStatus')
 		else
             return 0
         end

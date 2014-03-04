@@ -263,10 +263,10 @@ function bodyOnPluginEvent(msg, param)
 								Sprite:setProperty(anchor,'text',playerJson.anchor)
 								end								
                             end							    
-                            --Player:stop()
-                            --Player:show(0)
-                            --isPlayerCreate = false
-                            --resetAudioPlayFlag()                        
+                            Player:stop()
+                            Player:show(0)
+                            isPlayerCreate = false
+                            resetAudioPlayFlag()                        
 						else
 						        Sprite:setProperty(audioname,'text',playerJson.titleName)
 								if playerJson.anchor=='' then
@@ -291,6 +291,8 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
     local curConnect = Http:getCurConnect()
     if curConnect == 'WLAN' then
 	Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 

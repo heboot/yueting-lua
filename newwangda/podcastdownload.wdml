@@ -24,7 +24,7 @@
 		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="电台收藏" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="播客下载" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 	    </node>
 	
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,100,0"   extendstyle="1016" />
@@ -53,15 +53,16 @@
 	   <image name="checkBoxN"  visible="1" rect="10,10,58,59" style="autosize" src="file://image/tick_58x59.png" extendstyle="1011"/>
 	   <image name="checkBoxF" rect="10,10,58,59" extendstyle="1011" visible="0" style='autosize' src="file://image/tick_f.png"/>
 	   </button>	
-	   <label name="radioName" rect="80,10,500,45" extendstyle="1111"  text=""  color="#FFFFFF"  font-size="30"/>
-	  
-	  
+	   <label name="radioName" rect="80,15,500,45" extendstyle="1111"  text=""  color="#FFFFFF"  font-size="30"/>
+	   
+	   <image name="progressBarBg"  visible="1" enable="1" rect="80,65,200,10" style="maxsize" extendstyle="1111"  src="file://image/progress_bg1.png" />
+	   <image name="progressBarImg"  visible="1" enable="1" rect="80,65,400,10" style="maxsize"  extendstyle="1111"  src="file://image/progress_barimg.png" />	
 	   
 	   <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1570"/>
 	  			
 	</node>
 	
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>  
     </node>	
 </body>
 </root>
@@ -81,6 +82,8 @@ local downbtns
 local downbtnlbl
 local downtable
 local title
+local flagTable = {}
+
 
 -- @brief root子节点创建完事件
 function bodyBuildChildrenFinished(sprite)
@@ -105,14 +108,14 @@ function bodyBuildChildrenFinished(sprite)
 		 Sprite:setProperty(mainTitle,'text',subListTable.sname..'脱口秀')
 	end
 	
-	 downloadBtn = Sprite:findChild(sprite,'downloadBtn')
-	 downbtnn = Sprite:findChild(downloadBtn,'downbtnn')
-	 downbtns = Sprite:findChild(downloadBtn,'downbtns')
-	 downbtnlbl =  Sprite:findChild(downloadBtn,'downbtnlbl')
-	 mainTitle = Sprite:findChild(sprite,'mainTitle')
+	downloadBtn = Sprite:findChild(sprite,'downloadBtn')
+	downbtnn = Sprite:findChild(downloadBtn,'downbtnn')
+	downbtns = Sprite:findChild(downloadBtn,'downbtns')
+	downbtnlbl =  Sprite:findChild(downloadBtn,'downbtnlbl')
+	mainTitle = Sprite:findChild(sprite,'mainTitle')
+
 	 
-	 
-	 local filterStr = Config:get('video_type')
+	local filterStr = Config:get('video_type')
     local filterArr = Util:split(filterStr, '|')
     videoType = filterArr[1] or '.cmtv'
     if '.cmtv' ~= videoType then
@@ -123,15 +126,24 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
 	if msg == MSG_ACTIVATE then
-	 Bottom:show()
-	  searchDownloadedFiles()
-	  LoadDownloadQuene()
-	  loadListviewData()
+	Bottom:show()
+	--Timer:set(4445,500,"getDownloadStatus")
+	searchDownloadedFiles()
+	LoadDownloadQuene()
+	loadListviewData()
+	
     elseif msg == MSG_DEACTIVATE then
       
     else
         Util:onSpriteEvent(msg, param)
     end
+end
+
+function getDownloadStatus()
+	searchDownloadedFiles()
+	LoadDownloadQuene()
+	loadListviewData()
+	Timer:set(4445,1000,"getDownloadStatus")
 end
 
 --[[  插件消息方法  ]]--
@@ -289,20 +301,24 @@ function onLoadListviewItem(listview, item, index)
 	
 	checkBoxF = Sprite:findChild(Sprite:findChild(item,'radiolistBtn'), "checkBoxF")
 	checkBoxN = Sprite:findChild(Sprite:findChild(item,'radiolistBtn'), "checkBoxN")
-	
-	
+
+	local progressBarBg =Sprite:findChild(item, 'progressBarBg')	
+	local progressBarImg =Sprite:findChild(item, 'progressBarImg')
+
 	local aaa = checkDownloadByName(subListTable[index+1].title)
-	Log:write('lualualua',aaa)
+
 	if checkDownloadByName(subListTable[index+1].title) ~= '0' then
-		 Log:write('zhendeyou',subListTable[index+1].name)
+		 Sprite:setEnable(radiolistBtn, 0)
 		 Sprite:setVisible(checkBoxF, 0)
 		 Sprite:setVisible(checkBoxN,0)
-		 --Sprite:setVisible(downloadBuffer,1)
-		 --Sprite:setProperty(downloadBuffer,'text','已下载')
+	Sprite:setVisible(progressBarBg,0)
+		Sprite:setVisible(progressBarImg,0)
 		 
 	else
 		 Sprite:setVisible(checkBoxF, 0)
 		 Sprite:setVisible(checkBoxN,1)
+		 Sprite:setVisible(progressBarBg,0)
+		Sprite:setVisible(progressBarImg,0)
 		 --Sprite:setVisible(checkBoxW,0)
 		 --Sprite:setVisible(downloadBuffer,0)
 	end
@@ -311,12 +327,24 @@ function onLoadListviewItem(listview, item, index)
 		if subListTable[index].name == downtable[i].title then
 		 Sprite:setVisible(checkBoxF,0)
 		 Sprite:setVisible(checkBoxN,0)
-		 --Sprite:setVisible(checkBoxW,1)
-		 --Sprite:setVisible(downloadBuffer,1)
+		 Sprite:setEnable(radiolistBtn, 0)
+
+		local totalSize = downtable[i].maxsize
+		local curSize = downtable[i].size
+		local bili = math.floor(curSize/totalSize*100)
+		
+		local bar_x,bar_t,bar_w,bar_h = Sprite:getRect(progressBarBg)
+		Sprite:setRect(progressBarBg,bar_x,bar_t,bar_w*bili,bar_h)
+
+		Sprite:setVisible(progressBarBg,1)
+		Sprite:setVisible(progressBarImg,1)
+ 
 		 --Sprite:setProperty(downloadBuffer,'text','正在下载')
 		 Log:write('队列里的..',#downtable,subListTable[index].name,index)
 		end
 	end
+	
+	
 	
 end
 
@@ -483,18 +511,16 @@ function LoadDownloadQuene()
     downtable = {}
 	local status  = Download:getStatus(false)	
 	for i=1,#status do
-		Log:write('当前xx',subListTable[j].name,status[i].title)
 		for j=0,#subListTable do	
+			Log:write('LoadDownloadQuene======111',subListTable[j].name)
+			Log:write('LoadDownloadQuene======222',status[i].title)
 			if subListTable[j].name == status[i].title then
+				
 				table.insert(downtable,status[i])
 			end
 		end
 	end
-	Log:write('当前正在下载的有',#downtable,table.getn(downtable))
 end
-
-
-
 
 --读取xml数据，拼装成table
 function readCollections(collectionIdsStr)
