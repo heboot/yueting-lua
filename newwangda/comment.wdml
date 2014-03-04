@@ -12,7 +12,7 @@
     <header/>
     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
-        <image rect="0,0,720,1280" src="file://image/background.png"   alpha="255" extendstyle="1177" />
+        <image rect="0,0,720,1280" src="file://image/background.png"   style="autosize" alpha="255" extendstyle="1010" />
         <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
 		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
@@ -37,6 +37,7 @@
 		<label  rect="0,0,130,80" extendstyle="1010" v-align="center" h-align="center" text="发送" font-size="24" color="#c8c8c8" />
 		</button>
 		</node>
+		
 		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
 		
 		<node name="commentItem" rect="0,0,686,160"  visible="0" extendstyle="1010">

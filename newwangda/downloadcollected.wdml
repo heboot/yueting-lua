@@ -41,7 +41,7 @@
 	</node>
 	
 	
-	<node name="downloadItem" rect="0,50,686,180" extendstyle="1070"  visible="0" enable="0" active="0">
+	<node name="downloadItem" rect="0,50,686,160" extendstyle="1070"  visible="0" enable="0" active="0">
 		    <button name="downloadItemBtn" normal="n" sel="s" rect="0,0,686,0" extendstyle="1117">					
 			<image name="n" rect="0,0,686,0" style="autosize" extendstyle="1117" src="file://image/novel_listitem_bg.png"/>
 			<shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/> 
@@ -54,14 +54,15 @@
 			<image name="rimg" rect="600,70,50,50" style="autosize"  extendstyle="1111" src="file://image/arrow.png"/>
             <label rect="250,120,150,40" name="downloadStatus" v-align="center" h-align="center"  extendstyle="1111" color="#e15e00"   font-size="28"/>				
 				<button name="downloadoptionBtn" OnSelect="downloadoptionBtnOnSelect" rect="450,110,100,60" extendstyle="1111">
-					<image name="novelImage"  rect="0,0,0,0" src="file://image/navigation_bg.png" style="autosize" extendstyle="1177"/>
-				    <label rect="10,10,80,50" extendstyle="1111" name="downloadoptionLbl"/>					
+					<image name="novelImage"  rect="0,0,100,50" src="file://image/navigation_bg.png" style="maxsize" extendstyle="1010"/>
+				    <label rect="0,0,100,50" extendstyle="1010" h-align="center" v-align="center" font-size="25" name="downloadoptionLbl"/>					
 				</button>
 				<button name="deleteBtn" rect="560,110,89,52" visible="0" enable="0" style="maxsize" OnSelect="deleteBtnOnSelect" extendstyle="1011">
 					<image rect="0,0,89,52" style="maxsize" src="file://image/deletebtn.png"  extendstyle="1011"/>
 					<label rect="0,0,89,52" extendstyle="1111"  h-align="center" v-align="center"  text="删除"  color="#FFFFFF"  font-size="25"/>
 				</button>
 			</button>
+			<image rect="0,0,686,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />
 	</node>
 	
 	 <node name="nullItem" rect="0,50,686,180" extendstyle="1070" visible="0" enable="0">
@@ -223,15 +224,15 @@ end
 
 --读取下载队列
 function loadDownloadingList()
-	Log:write('loadDownloadingList======1')
+	Log:write('loadDownloadingList======1',Download:getCount())
     local returnTable = {}
-    for i=1,Download:getCount() do
+    for i=0,Download:getCount() do
 	    Log:write('loadDownloadingList',Download:getStatus(i).status)
 	    if Download:getStatus(i).status == 5 then
 			Download:delete(i, true,false) 
 		else
 		 Log:write('loadDownloadingList2',Download:getStatus(i).status)
-        returnTable[i-1] = Download:getStatus(i)
+        returnTable[i] = Download:getStatus(i)
 		end
     end
 	Log:write('dtest22c',#returnTable)
@@ -555,6 +556,9 @@ function loadDownloadItem(list,item,index)
 			Sprite:setProperty(Sprite:findChild(item,'downloadoptionLbl'),'text','下载'..downloadId)
 		elseif itemStatus ==5 then
 			Sprite:setProperty(Sprite:findChild(item,'downloadStatus'),'text','下载失败')
+		elseif itemStatus ==0 then
+			Sprite:setProperty(Sprite:findChild(item,'downloadStatus'),'text','等待下载')
+			Sprite:setProperty(Sprite:findChild(item,'downloadoptionLbl'),'text','等待')
 		elseif itemStatus == 2 then
 			local totalSize = tableLocalVideo[index+1].setList.maxsize
 			local curSize = tableLocalVideo[index+1].setList.size
@@ -624,8 +628,9 @@ function downloadoptionBtnOnSelect(sprite)
 		
 		Log:write('downloadoptionBtnOnSelect2====',aData)
 		Log:write('downloadoptionBtnOnSelect2====',tableLocalVideo[dindex+0].setList[1].path)
+		Log:write('downloadoptionBtnOnSelect2====',tableLocalVideo[dindex+0].setName)
 	
-	    local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	    local reg = Reg:create('com_wondertek_mobileaudio_localplay')
 		Reg:setString(reg,'audioplayCollect','3')
 		Reg:setTable(reg,'audioplayCollectTable',tableLocalVideo)
 		Reg:setString(reg,'novelItemIndex',dindex)

@@ -12,7 +12,7 @@
     <header/>
     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
-        <image rect="0,0,720,1280" src="file://image/background.png"   alpha="255" extendstyle="1111" />
+        <image rect="0,0,720,1280" src="file://image/background.png"   style="autosize"   alpha="255" extendstyle="1111" />
         <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
 		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
@@ -21,9 +21,12 @@
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>	    
-		</node> 
-		<label  name="audioCurTime"  rect="0,320,720,80" color="#FFFFFF" text="00:00:00" font-size="70" v-align="center" h-align="center" extendstyle="1010"/>
-	    <node  rect="0,0,720,600"  extendstyle="1511">
+		</node> 		
+		<node rect="0,320,720,150"  extendstyle="1010" font-family="TianyiDigital">
+		<label  name="audioCurTime"  rect="100,0,366,150" color="#FFFFFF" text="00:00" font-size="145" v-align="center" h-align="center" extendstyle="1010"/>
+		<label  name="audioCurTimeSS"  rect="0,0,254,85" color="#FFFFFF" text=":00" font-size="80" v-align="center" h-align="left" extendstyle="8510"/>
+	    </node>
+		<node  rect="0,0,720,600"  extendstyle="1511">
 		<label name="recordingLabel" rect="0,80,720,50" text="录音"  font-size="35" h-align="center" color="#FFFFFF" extendstyle="1010"/>
 		<button name="tryListenBtn" nornal="n" sel="s" rect="0,30,130,95" extendstyle="1010"  OnSelect="tryListenBtnOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010"/>
@@ -47,36 +50,6 @@
 		</node>
 
 		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		<!--底部区域-->
-	         <!--<node name="bottomNode" rect="0,0,720,112"  extendstyle="1511">
-		     <image rect="0,0,720,0" style="autosize" src="file://image/bottom_bg.png" extendstyle="1017"/>
-			 <button name="playBtn" rect="10,3,112,112" extendstyle="1111"  OnSelect="playBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="autosize" src="file://image/playbackground.png" extendstyle="1177"/>
-			 </button>
-			 <button name="pauseBtn"  rect="10,3,112,112" extendstyle="1111"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
-			 <image rect="0,0,0,0" style="autosize" src="file://image/pausebackground.png" extendstyle="1177"/>
-			 </button>
-			 <node name="refreshAnimation" rect="10,3,112,112" extendstyle="1111"  visible="0" enable="0">
-			 <animate rect="0,0,112,112" delay="24" loop="true" extendstyle="0000">
-             <animate-frame start="$(start)" delay="1">
-             <image rect="0,0,112,112" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
-             </animate-frame>
-             <dataset>  			
-			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
-			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
-			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
-			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
-			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
-			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
-             </dataset>
-             </animate>	
-			 </node>
-             <image rec="0,0,720,0" style="maxsize" src="file://image/play_bg.png" extendstyle="1577"/>
-			 <scrolltext step="5" scroll="true" name="bottomAudioName" rect="150,15,450,112" extendstyle="1111"  text="暂无节目"  color="#D2691E"  font-size="50"/>
-			 <button name="playgoBtn" rect="650,30,50,50" extendstyle="1111" OnSelect="playgoBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="maxsize" src="file://image/play_go.png" extendstyle="1077"/>
-			 </button>
-             </node>-->
     </node>
     </body>
 </root>
@@ -91,6 +64,7 @@ local refreshAnimation
 local titleName
 local blankTip
 local audioCurTime
+local audioCurTimeSS
 local tryListenBtn
 local reRecordingBtn
 local uploadBtn
@@ -103,6 +77,7 @@ function bodyBuildChildrenFinished(sprite)
 	titleName=Sprite:findChild(sprite,'titleName')
 	blankTip = Sprite:findChild(sprite,"blankTip")
     audioCurTime=Sprite:findChild(sprite,'audioCurTime')
+	audioCurTimeSS=Sprite:findChild(sprite,'audioCurTimeSS')
     tryListenBtn=Sprite:findChild(sprite,'tryListenBtn')
     reRecordingBtn=Sprite:findChild(sprite,'reRecordingBtn')
     uploadBtn=Sprite:findChild(sprite,'uploadBtn')
@@ -123,6 +98,7 @@ function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
         commonActivate()
 	    setNodeState(audioCurTime, 0) 
+		setNodeState(audioCurTimeSS, 0) 		
 	    setNodeState(tryListenBtn,0) 
 	    setNodeState(reRecordingBtn, 0) 
 	    setNodeState(uploadBtn, 0)	
@@ -190,7 +166,10 @@ function getStatus()
         status == Player.status.Buffering or
         status == Player.status.Playing then
         -- uiPause()
-        Sprite:setProperty(audioCurTime,"text",'00:'..Util:timeFormat(Player:getCurTime()))
+		 local t = Player:getCurTime()
+	     local s = Util:split(t, ':')
+         Sprite:setProperty(audioCurTime,"text",'00:'..s[1])
+		 Sprite:setProperty(audioCurTimeSS,"text",':'..s[2])		
     elseif status == Player.status.Paused or status == Player.status.Ready then
         -- uiPlay()
     elseif status == Player.status.Paused then
@@ -256,23 +235,28 @@ end
 
 --录音点击按钮
 function recordingBtnOnSelect(sprite)
-	setNodeState(audioCurTime, 1) 
-	setNodeState(tryListenBtn,1) 
-	setNodeState(reRecordingBtn, 1) 
-	setNodeState(uploadBtn, 1)
-    if isrecording==0 then 
-    setNodeState(recordingLabel, 0)		
-	local flashCard = System:getFlashCardName(1)
-    local innerCard = System:getFlashCardName(0)
-    local desPath = ""
-    if flashCard and flashCard ~= "" then
-        desPath = flashCard .. "audiodownload/"
-    elseif innerCard and innerCard ~= "" then
-        desPath = innerCard .. "audiodownload/"
-    else
-        Tips:show("sd卡没插吧？")
-        return
-    end
+    if getAudioPlayFlag then
+       if getAudioPlayFlag() ~= 0 then
+          Player:stop()
+	   end
+	   setNodeState(audioCurTime, 1) 
+	   setNodeState(audioCurTimeSS, 1) 	
+	   setNodeState(tryListenBtn,1) 
+	   setNodeState(reRecordingBtn, 1) 
+	   setNodeState(uploadBtn, 1)
+       if isrecording==0 then 
+          setNodeState(recordingLabel, 0)		
+      	  local flashCard = System:getFlashCardName(1)
+          local innerCard = System:getFlashCardName(0)
+      	  local desPath = ""
+      	  if flashCard and flashCard ~= "" then
+      	    desPath = flashCard .. "audiodownload/"
+      	  elseif innerCard and innerCard ~= "" then
+      	    desPath = innerCard .. "audiodownload/"
+      	  else
+            Tips:show("sd卡没插吧？")
+          return
+        end
     if not IO:dirExist(desPath) then
         IO:dirCreate(desPath)
     end
@@ -297,14 +281,15 @@ function recordingBtnOnSelect(sprite)
     Timer:cancel(TimerId.once)
 	isrecording=0
 	end
-	
+  end
 end
 
 function OnTimeTicking()
     local tick = math.floor((GetTickTime() - timeTickingStart)/1000)
     local t = Util:timeFormat(tick)
-    WriteLogs("-----------------" .. t)
-    Sprite:setProperty(audioCurTime,"text",'00:'..t)
+	local s = Util:split(t, ':')
+    Sprite:setProperty(audioCurTime,"text",'00:'..s[1])
+	Sprite:setProperty(audioCurTimeSS,"text",':'..s[2])	
     Timer:cancel(TimerId.once)
     Timer:set(TimerId.once,500,"OnTimeTicking")
 end
@@ -312,7 +297,8 @@ end
 --重录按钮
 function reRecordingBtnOnSelect(sprite)
     deleteRecordingFile()
-    Sprite:setProperty(audioCurTime,"text","00:00:00")
+    Sprite:setProperty(audioCurTime,"text","00:00")
+	Sprite:setProperty(audioCurTimeSS,"text",":00")	
 	isrecording=0
     recordingBtnOnSelect()
 end
@@ -320,7 +306,9 @@ end
 
 --点击上传按钮
 function uploadBtnOnSelect(sprite)
-    Scene:go('MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml',{freeDestScene=true})
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+    Reg:setString(reg,"filepath",desFilePath)
+    Scene:go('MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml',{setReturn=false})
 end
 
 --点击试听按钮
@@ -330,8 +318,10 @@ function tryListenBtnOnSelect(sprite)
         Log:write('Msg.getJsonPlayer CurScene =',curAudioScene )
         Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
         Player:stop()
-        Player:show(0)
+		pluginInvoke(Player:_getHandle(),'StartPlayer')   
         resetAudioPlayFlag() 
+		Timer:cancel(TimerId.status)
+        Timer:set(TimerId.status, 500, 'getStatus')
     end
     if not isPlayerCreate then
         Player:create(0, -1, 1, 1)
@@ -339,7 +329,7 @@ function tryListenBtnOnSelect(sprite)
         openUrl()
     else
         Player:play()
-        uiPause()
+        -- uiPause()
     end
 end
 

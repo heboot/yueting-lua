@@ -41,7 +41,7 @@
 	<!--左侧菜单推荐的电台数据item-->
 	<node name="contentItem" rect="0,0,686,90" extendstyle="1010"  visible="0" enable="0" active="0">		  				
 	   <button name="radiolistBtn"  rect="2,0,686,0"  sel="s"  OnSelect="radiolistBtnOnSelect" extendstyle="1017">
-	   <image name="s" rect="0,0,0,0" style="autosize" src="file://image/leftlistview_itembg_s.png"  extendstyle="1077"/>
+	   <shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/>
 	    </button>	
 	   <label name="radioName" rect="40,5,500,45" extendstyle="1111"  text=""  color="#FFFFFF"  font-size="30"/>
 	   <label name="radioFmName" rect="40,55,200,35" extendstyle="1111"  text="FM 101.1"  color="#a3a3a3"  font-size="25"/>
@@ -50,12 +50,8 @@
 	     <image rect="0,0,89,52" style="maxsize" src="file://image/deletebtn.png"  extendstyle="1011"/>
 	     <label rect="0,0,89,52" extendstyle="1111"  h-align="center" v-align="center"  text="删除"  color="#FFFFFF"  font-size="25"/>
 	   </button>
-	   <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1570"/>
-	  			
+	   <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1570"/>	  			
 	</node>
-	
-	
-	
     </node>	
 </body>
 </root>
@@ -81,6 +77,13 @@ end
 function bodyOnSpriteEvent(msg, param)
 	if msg == MSG_ACTIVATE then
 	  Bottom:show()
+	  --读取本地文件的xml文件
+	  local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+      local regFile = 'MODULE:\\com_wondertek_mobileaudio\\radiocollectionlistlocal.xml'
+      Reg:load(reg,regFile)
+      g_collectionIdsStr = Reg:getString(reg, 'radiocollectionIds')
+	  listviewdata=readCollections(g_collectionIdsStr)	 
+	  loadListviewData()
     elseif msg == MSG_DEACTIVATE then
       
     else

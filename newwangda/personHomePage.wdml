@@ -138,9 +138,7 @@ function bodyOnSpriteEvent(msg, param)
 	   local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
        local userId = Reg:getString(regCommunity ,'userId')
        _userId = userId
-	   requestUserinfoData()
-	   Timer:cancel(4444)
-	   Timer:set(4444,500,'getStatusa')
+	   requestUserinfoData()	  
 	   commonDeactivate()
     elseif msg == MSG_DEACTIVATE then
     elseif msg == MSG_STRINGEVENT then 
@@ -222,9 +220,6 @@ end
 function personHomeItemBtnOnSelect(sprite)
 	local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
-	-- local data = Sprite:getData(sprite)
-	-- local reg = Reg:create('com_wondertek_mobileaudio_novel')
-    -- Reg:setString(reg,'personHomeItemId',data)	
 	if index==0 then
 	Scene:go('MODULE:\\com_wondertek_mobileaudio\\localfile.wdml',{freeDestScene=true})
 	end
@@ -249,7 +244,6 @@ function LoadUserInfo()
     local msgMood = Sprite:findChild(rootSprite,'msgMood')
 	local fansTotal = Sprite:findChild(rootSprite,'fansTotal')
     mypicurl =userinfoData.picture or ''
-	Log:write('mypicurl======',mypicurl)
     if mypicurl~='' then
         mypicurl =Util:getWeiBoServer() .. 'publish/clt' .. mypicurl
         Sprite:setProperty(msgImg,'src', mypicurl)

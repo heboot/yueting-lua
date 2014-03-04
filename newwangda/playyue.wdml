@@ -34,7 +34,7 @@
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
 			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511"/>
 			  <node name="startTimeNode" rect="285,0,435,105" extendstyle="1510" visible="1" enable="0" >
-			  <label  name="audioStartTime"  rect="0,0,220,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
+			  <label  name="audioStartTime"  rect="0,0,200,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
 			  <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" extendstyle="8511"/>
 			  <label  rect="0,0,100,50" color="#f06a06" text="开始" font-size="30" extendstyle="8511"/>
 			  </node>
@@ -76,7 +76,7 @@
 			 <node rect="0,0,570,0" extendstyle="8017">
              <scrolltext name="audioname" rect="90,70,0,90" color="#f06a06" text="暂无数据"  step="2" scroll="true" font-size="40" extendstyle="1171"/>
 			 <node name="endTimeNode" rect="90,180,0,90" extendstyle="1171" visible="1" enable="0" >
-			 <label  name="audioEndTime" rect="0,0,220,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
+			 <label  name="audioEndTime" rect="0,0,200,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
 			 <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" extendstyle="8511"/>
 			 <label  rect="0,0,100,50" color="#f06a06" text="结束" font-size="30" extendstyle="8511"/>
 			 </node>
@@ -131,12 +131,12 @@
 	
 	<node name="galleryItem" rect="0,0,720,250" normal="sNormal" focus="sFocus" middle="sMiddle" data="" visible="0" enable="0">
 		<node name="sNormal" rect="0,0,720,200" extendstyle="1111">
-        <label name="lblNormal" rect="67,5,585,100" extendstyle="1111" h-align="center"   text="" color="#606060" font-size="35"/>			 
+        <label name="lblNormal" rect="67,5,585,100" extendstyle="1111" h-align="center"   v-align="center"  text="" color="#606060" font-size="35"/>			 
         </node>               
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
 		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
 		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
-        <label name="lblFocus" rect="67,4,585,86" extendstyle="1111" h-align="center"  text="" color="#FFFFFF" font-size="40"/>	
+        <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"   v-align="center" text="" color="#FFFFFF" font-size="40"/>	
         <node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
 		<image  name="collection_n" rect="40,14,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
 		<image  name="collection_s" rect="40,14,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>

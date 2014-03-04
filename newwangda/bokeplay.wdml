@@ -118,12 +118,12 @@
 		 
     <node name="galleryItem" rect="0,0,720,250" normal="sNormal" focus="sFocus" middle="sMiddle" data="" visible="0" enable="0">
 		<node name="sNormal" rect="0,0,720,200" extendstyle="1111">
-        <label name="lblNormal" rect="67,5,585,100" extendstyle="1111" h-align="center"   text="" color="#606060" font-size="35"/>			 
+        <label name="lblNormal" rect="67,5,585,100" extendstyle="1111" h-align="center"    v-align="center" text="" color="#606060" font-size="35"/>			 
         </node>               
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
 		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
 		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
-        <label name="lblFocus" rect="67,4,585,88" extendstyle="1111" h-align="center"   text="" color="#FFFFFF" font-size="40"/>	
+        <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"   v-align="center"  text="" color="#FFFFFF" font-size="40"/>	
 		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
 		<node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
 		<image  name="collection_n" rect="40,14,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
@@ -753,6 +753,7 @@ function galleryOnSelect(sprite)
 	   local data=bokeCollectTable[index+1]  
 	   local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
 	   local contparam=data.param
+	   Log:write('contparam======',contparam)
 	   Sprite:setProperty(mainTitle,'text',data.title)
 	   Sprite:setProperty(audioname,'text',data.title)
 		if data.sname=='' then

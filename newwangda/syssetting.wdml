@@ -27,11 +27,10 @@
         </node> 
         <panorama name="mainPanorama" rect="0,0,720,0" extendstyle="0817" foreground="foreground">
             <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
-            
             </panoramaitem>
             <panoramaitem rect="0,0,720,0" extendstyle="0017">
                 <listview name="settingArea" rect="0,0,720,0" extendstyle="1017" auto-adjust="true">
-                   <list-item rect="0,0,782,125" extendstyle="1010">
+                   <list-item rect="0,0,720,125" extendstyle="1010">
                         <label rect="15,0,100,125" extendstyle="1010" font-size="32" v-align="center" color="#FFFFFF" text="存储"/>
                         <node rect="120,15,550,110" extendstyle="0010">
                             <label rect="15,0,300,100" v-align="center" extendstyle="1010"  font-size="32" color="#A3A3A3" text="SD卡存储"/>
@@ -46,7 +45,7 @@
                                 <image rect="0,25,50,50" name="driverDirGroupchecked2" visible="0" style="autosize" src="file://image/setting_radiobox_f.png"  extendstyle="1010"></image>
                             </button>
                         </node>
-                        <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                        <image rect="0,0,720,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />
                     </list-item>
                     <list-item rect="0,0,720,125" extendstyle="1010">
                         <label rect="15,0,300,125" extendstyle="0010" v-align="center" autoextend="true" font-size="32" color="#FFFFFF" text="允许2G/3G环境下缓存与上传"/>
@@ -58,7 +57,7 @@
                                 <image name="shadow" rect="0,0,100,65" src="file://image/onoffbtn.png" style="autosize" extendstyle="1010" />
                             </node>
                         </button>
-                        <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                       <image rect="0,0,720,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />
                     </list-item>
                     <list-item rect="0,0,720,125" extendstyle="1010">
                         <label rect="15,0,300,125" extendstyle="1010" v-align="center" autoextend="true" font-size="32" color="#FFFFFF" text="睡眠模式" />
@@ -70,7 +69,7 @@
                                <image name="shadow" rect="0,0,100,65" src="file://image/onoffbtn.png" style="autosize" extendstyle="1010" />
                             </node>
                         </button>
-                        <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                        <image rect="0,0,720,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />
                     </list-item>
                     <list-item rect="0,0,720,125"  extendstyle="1010">
                         <label rect="15,0,300,125" extendstyle="1010" font-size="32" v-align="center" color="#FFFFFF" text="版本更新"/>
@@ -80,7 +79,7 @@
                             <label  name="n" rect="0,0,200,65" extendstyle="1010" text="版本检测" font-size="30" color="#FFFFFF" v-align="center" h-align="center" />
 							<label  name="s" rect="0,0,200,65" extendstyle="1010" text="版本检测" font-size="30" color="#e15e00" v-align="center" h-align="center" />	
                         </button>
-                        <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                        <image rect="0,0,720,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />
                     </list-item>
                     <list-item rect="0,0,720,125"  extendstyle="1010">
                         <label rect="15,0,250,125" extendstyle="1010" v-align="center" font-size="32" color="#FFFFFF" text="清除缓存碎片"/>
@@ -90,7 +89,7 @@
                             <label  name="n" rect="0,0,200,65" extendstyle="1010" text="清除碎片" font-size="30" color="#FFFFFF" v-align="center" h-align="center" />
 							<label  name="s" rect="0,0,200,65" extendstyle="1010" text="清除碎片" font-size="30" color="#e15e00" v-align="center" h-align="center" />    
                         </button>
-                        <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                        <image rect="0,0,720,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />
                     </list-item>
 					<list-item rect="0,0,720,125"  extendstyle="1010">
 					    <button name="replaceAccountBtn" normal="n" sel="s"  rect="16,18,688,89"  data="" OnSelect="replaceAccountBtnOnSelect" extendstyle="1010">
@@ -105,6 +104,7 @@
                 </listview>
             </panoramaitem>
         </panorama>
+		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
     </node>
     </body>
 </root>

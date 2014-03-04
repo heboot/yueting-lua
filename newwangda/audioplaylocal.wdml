@@ -251,7 +251,7 @@ end
 
 function setData()
 	Log:write('shuixian....setdata')
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create('com_wondertek_mobileaudio_localplay')
     title= Reg:getString(reg,'novelItemTitle')
     local novelAuthor=Reg:getString(reg,'novelAuthor')  
 	local index=Reg:getString(reg,'novelItemIndex')
@@ -530,12 +530,17 @@ end
 
 --------------------暂时使用---Gallery-------------------------------
 function setGalleryData()
-    Log:write('audioplayCollectTable===1')
-    local reg = Reg:create('com_wondertek_mobileaudio_novel')
-	 audioplayCollectTable = Reg:getTable(reg,'audioplayCollectTable')
+    local reg = Reg:create('com_wondertek_mobileaudio_localplay')
+	audioplayCollectTable = Reg:getTable(reg,'audioplayCollectTable')
 	gallarydata={}	
+		
+	local index=Reg:getString(reg,'novelItemIndex')
+	Log:write('audioplayCollectTable======000',index,#audioplayCollectTable)
+	table.insert(gallarydata,audioplayCollectTable[tonumber(index)])
+	Log:write('audioplayCollectTable===111',audioplayCollectTable[tonumber(index)].setName)
+	table.remove(audioplayCollectTable,index)
 	
-	Log:write('audioplayCollectTable===',#audioplayCollectTable)
+	Log:write('audioplayCollectTable===222',#audioplayCollectTable)
 	for i=0,#audioplayCollectTable do
        table.insert(gallarydata,audioplayCollectTable[i])
 	end

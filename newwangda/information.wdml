@@ -39,7 +39,7 @@
                     <label name="nickName" rect="15,0,585,100" v-align="center" extendstyle="1010"  font-size="32" color="#A3A3A3" text=""/>
 					<edit name="nickNameEdit" rect="15,0,585,100" v-align="center" extendstyle="1010"  OnLostFocus="nameLostFocus" max-size="10" font-size="32" color="#A3A3A3" text="" enable="0" visible="0"/>
                     </node>
-                     <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                     <image rect="0,0,0,4" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1571" />
                 </list-item>
 				<list-item rect="0,0,720,125" extendstyle="1010">
                     <label rect="15,0,100,125" extendstyle="1010" font-size="32" v-align="center" color="#FFFFFF" text="年龄"/>
@@ -48,7 +48,7 @@
                     <label name="ageName" rect="15,0,585,100" v-align="center" extendstyle="1010"  font-size="32" color="#A3A3A3" text=""/>
                     <edit name="ageNameEdit" rect="15,0,585,100" v-align="center" extendstyle="1010"  font-size="32" color="#A3A3A3" text="" enable="0" visible="0"/>
 					</node>
-                     <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                     <image rect="0,0,0,4" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1571" />
                 </list-item>
 				<list-item rect="0,0,720,125" extendstyle="1010">
                     <label rect="15,0,100,125" extendstyle="1010" font-size="32" v-align="center" color="#FFFFFF" text="性别"/>
@@ -70,7 +70,7 @@
                     </button>
 					<label rect="480,0,70,100" v-align="center" extendstyle="1010" font-size="32" color="#A3A3A3" text="保密"/>
                     </node>
-                    <image rect="0,0,0,4" src="file://image/leftlistview_line.png" extendstyle="1571" />
+                    <image rect="0,0,0,4" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1571" />
                 </list-item>
             </listview>
         </panoramaitem>

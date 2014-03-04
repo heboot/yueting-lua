@@ -25,12 +25,12 @@
 		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回1" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 		</button>
         <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 	    </node>
 		
-        <node rect="0,76,720,0" padding="0,0,111,0" extendstyle="1016" frame="true">
+        <node rect="0,76,720,0"  extendstyle="1017" frame="true">
             <image name="imagephoto" rect="0,0,0,0" extendstyle="4444" style="maxsize"/>
             <node name="staticrect" rect="0,0,720,0" extendstyle="1017"/>
             <node name="displaystyle1" rect="0,0,720,0" extendstyle="1017" visible="0">
