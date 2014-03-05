@@ -86,7 +86,9 @@
                 </node>
 				<image rect="0,0,686,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1514" />
             </button>
-        </node>		
+        </node>	
+<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+				
     </node>
     </body>
 </root>

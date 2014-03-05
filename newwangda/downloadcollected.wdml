@@ -68,7 +68,8 @@
 	 <node name="nullItem" rect="0,50,686,180" extendstyle="1070" visible="0" enable="0">
         </node>
 	
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>	
 </body>
 </root>
@@ -129,6 +130,7 @@ function bodyOnSpriteEvent(msg, param)
       Reg:load(regNodeInfo, "WONDER:\\temp\\nodeInfo.xml")
 	  createDownloadingList()
 	  createLocalList()
+	  Timer:cancel(30)
 	  Timer:set(30,1000,"getDownloadStatus")
     elseif msg == MSG_DEACTIVATE then
        
@@ -185,6 +187,7 @@ function mainNodeOnKeyUp(sprite, kc)
     if kc == Key.F2 then
         if commonF2KeyUp and commonF2KeyUp() then return end
 		Timer:cancel(30)
+		Timer:cancel(30)
         Scene:back()
     end
 end
@@ -211,6 +214,7 @@ function createDownloadingList()
      
     else
 		downloadMember.m_tblDownloading = nil
+		Timer:cancel(30)
 		Timer:set(30,1000,"getDownloadStatus")
 		ListView:removeAllItems(downloadListview, 1, 1)
 		ListView:loadItem(downloadListview, nullItem, 1, 'loadNullItem')
@@ -226,13 +230,13 @@ end
 function loadDownloadingList()
 	Log:write('loadDownloadingList======1',Download:getCount())
     local returnTable = {}
-    for i=0,Download:getCount() do
+    for i=1,Download:getCount() do
 	    Log:write('loadDownloadingList',Download:getStatus(i).status)
 	    if Download:getStatus(i).status == 5 then
 			Download:delete(i, true,false) 
 		else
 		 Log:write('loadDownloadingList2',Download:getStatus(i).status)
-        returnTable[i] = Download:getStatus(i)
+        returnTable[i-1] = Download:getStatus(i)
 		end
     end
 	Log:write('dtest22c',#returnTable)
@@ -568,7 +572,7 @@ function loadDownloadItem(list,item,index)
 			
 			Sprite:setProperty(Sprite:findChild(item,'deleteBtn'),'data','op=d;id='..downloadId..';')  --op=d 表示在下载队列里
 			
-			Sprite:setProperty(Sprite:findChild(item,'downloadoptionLbl'),'text','暂停'..downloadId)
+			Sprite:setProperty(Sprite:findChild(item,'downloadoptionLbl'),'text','暂停')
 		end
 	else
 		 Sprite:setProperty(Sprite:findChild(item,'downloadStatus'),'text','已下载'..'100%')
@@ -621,6 +625,8 @@ function downloadoptionBtnOnSelect(sprite)
 	Log:write('downloadoptionBtnOnSelect====',op,did)
 	
 	if op~=nil and op == 'play' then	--go播放
+		Timer:cancel(30)
+		Timer:cancel(30)
 	    local anchorLbl = Sprite:findChild(item, 'novelAnchor') 
 		local aData = Sprite:getProperty(anchorLbl, 'text') 
 		local _,_,dindex = string.find(data,'index=(%d-);')

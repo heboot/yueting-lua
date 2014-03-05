@@ -90,6 +90,8 @@
 			<label name="audioendtime" rect="0,50,100,40" extendstyle="8010"  text="23:00" color="#a3a3a3"  font-size="28"/>
             </button>
     </node>
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>	
 </body>
 </root>

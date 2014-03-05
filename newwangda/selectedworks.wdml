@@ -47,7 +47,8 @@
         <shadow name="d" rect="0,0,0,0" alpha="50" color="#000000" extendstyle="0077"/>		
 		</button>
 	</node>		
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>	
 </body>
 </root>

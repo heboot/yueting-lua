@@ -630,6 +630,8 @@
 			<label name="leftRadioName" rect="60,0,200,100" extendstyle="1111" text="$(text)" h-align="left" color="#999999" v-align="center" font-size="30"/>
 			</button>
 		 </node>
+		 <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>
 </body>
 </root>

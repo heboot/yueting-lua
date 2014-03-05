@@ -50,6 +50,8 @@
             <label name="beforeTime" rect="538,25,150,32" text="" font-size="22" color="#a4aba2" h-align="left" v-align="center" extendstyle="1010" />
             <shadow name="lineNode" rect="10,0,666,1" color="#CCCCCC" alpha="255" extendstyle="1514"/>       	
 		</node>
+		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>
     </body>
 </root>

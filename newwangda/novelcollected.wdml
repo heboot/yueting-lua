@@ -54,7 +54,8 @@
 	    <label rect="0,0,89,52" extendstyle="1111"  h-align="center" v-align="center"  text="删除"  color="#FFFFFF"  font-size="25"/>
 	    </button>						
 	</node>
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
 	
     </node>	
 </body>

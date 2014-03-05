@@ -104,7 +104,7 @@ function bodyBuildChildrenFinished(sprite)
 	 downbtns = Sprite:findChild(downloadBtn,'downbtns')
 	 downbtnlbl =  Sprite:findChild(downloadBtn,'downbtnlbl')
 	 mainTitle = Sprite:findChild(sprite,'mainTitle')
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	 local reg = Reg:create('com_wondertek_mobileaudio_novel')
      title= Reg:getString(reg,'novelItemTitle')
 	 Sprite:setProperty(mainTitle,'text',title)
 	
@@ -143,7 +143,6 @@ function bodyOnPluginEvent(msg, param)
 		local downloadData = Http:jsonDecode('multiDownload')
         Log:write('mutidownloadData',downloadData.success)
 		if downloadData and downloadData.code == '1014' then
-			Log:write('101410141014')
             Net:goToMyAccount()
 			Tips:show('授权失败需要登陆')
         elseif downloadData and downloadData.success == 'true' then
@@ -224,10 +223,11 @@ function bodyOnPluginEvent(msg, param)
              requestProduct(orderParam)
 			 --OrderNode:show(downloadData)
 			 Tips:show('授权失败需要订购')
-			 Log:write('授权失败需要订购')
         elseif not downloadData then
             Tips:show('返回数据为空')
         end
+		--Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+		 Scene:back()
 	elseif msg==102 then
 		 Loading:close()
         local productData = Http:jsonDecode('productData')
@@ -424,7 +424,6 @@ function downloadBtnOnSelect(sprite)
 			local _,_,contentId = string.find(contentListData[i].param, "contentId=(%d+);")
             ids = ids .. contentId .. ","
             downloadcount = downloadcount + 1
-			Log:write('vvvvvvvvvvv',contentId,nodeId)
 		end
 	end
 	

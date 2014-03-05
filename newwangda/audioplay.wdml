@@ -820,21 +820,30 @@ function galleryOnSelect(sprite)
    local collection_n=Sprite:findChild(item,'collection_n')
    local collection_s=Sprite:findChild(item,'collection_s')
    local click2collect=Sprite:findChild(item,'click2collect')
+   
+   
+  
    if audioplayCollect=='1' then
    local data=audioplayCollectTable[index+1]
    local _,_,name = string.find(data, 'name=([^;]+);')
    local _,_,nodeId=string.find(data,'nodeId=(%d+);')
    Sprite:setProperty(mainTitle,'text',name)
+   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   Reg:setString(reg,'novelItemTitle',name)
    tempnodeId=nodeId
    elseif audioplayCollect=='2' then
 		local data=audioplayCollectTable[index+1]
 		local name = data.name
 		local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
 		Sprite:setProperty(mainTitle,'text',name)
+		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		Reg:setString(reg,'novelItemTitle',name)
 		tempnodeId=nodeId
    else
    local data=gallarydata[index+1].param
    Sprite:setProperty(mainTitle,'text',gallarydata[index+1].name)
+   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   Reg:setString(reg,'novelItemTitle',gallarydata[index+1].name)
    local _,_,nodeId=string.find(data,'nodeId=(%d+);')
    tempnodeId=nodeId
    end  
@@ -969,7 +978,6 @@ function setProgressBarPos(sprite,x,seek,flag)
         local statusBeforeSeek = status
         status = Player.status.Buffering
         _, _, bg_w = Sprite:getRect(progressBgImg)
-		--bg_w = bg_w+120
         local pct = movex / bg_w
         if objType ~= 'live' then
             --local bar_x, bar_y, _, bar_h = Sprite:getRect(bufferingBarImg)
@@ -1020,15 +1028,24 @@ end
 -- @brief 进度条OnMouseDown事件
 function progressOnMouseDown(sprite, x, y)
     Log:write('状态DOWN',status)
-    --if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
+	movex = x
+		moveflag = x
+		progressBarFlag = 1
+		if movex <= leftx then
+		x = leftx
+		progressBarFlag = 0
+		--movex = 0
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering  then
         --resetFSTimer(1)
         --setPointImgStatus(progressPointImg,1)
-        --setProgressBarPos(sprite, x)
-        --progressBarFlag = 1
+        setProgressBarPos(sprite, x,1)
+        progressBarFlag = 1
+		
+	end
        
-    --end
+    end
 	
-	 return 0
+	return 0
 end
 
 -- @brief 进度条OnMouseUp事件

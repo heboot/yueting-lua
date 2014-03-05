@@ -42,6 +42,8 @@
 	   <image rect="0,0,0,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1570"/>
 	   </button>
 	</node>
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
 	</node>
 </body>
 </root>

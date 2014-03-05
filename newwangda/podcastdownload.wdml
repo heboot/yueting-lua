@@ -50,7 +50,7 @@
 	<node name="contentItem" rect="0,0,686,90" extendstyle="1010"  visible="0" enable="0" active="0">		  				
 	   <button name="radiolistBtn"  rect="2,0,686,0"  sel="s"  OnSelect="radiolistBtnOnSelect" extendstyle="1017">
 	   <image name="s" rect="0,0,0,0" style="autosize" src="file://image/leftlistview_itembg_s.png"  extendstyle="1077"/>
-	   <image name="checkBoxN"  visible="1" rect="10,10,58,59" style="autosize" src="file://image/tick_58x59.png" extendstyle="1011"/>
+	   <image name="checkBoxN"  visible="1" rect="10,10,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1011"/>
 	   <image name="checkBoxF" rect="10,10,58,59" extendstyle="1011" visible="0" style='autosize' src="file://image/tick_f.png"/>
 	   </button>	
 	   <label name="radioName" rect="80,15,500,45" extendstyle="1111"  text=""  color="#FFFFFF"  font-size="30"/>
@@ -238,6 +238,7 @@ function bodyOnPluginEvent(msg, param)
         elseif not downloadData then
             Tips:show('返回数据为空')
         end
+		 Scene:back()
 	elseif msg==102 then
 		 Loading:close()
         local productData = Http:jsonDecode('productData')
@@ -311,14 +312,14 @@ function onLoadListviewItem(listview, item, index)
 		 Sprite:setEnable(radiolistBtn, 0)
 		 Sprite:setVisible(checkBoxF, 0)
 		 Sprite:setVisible(checkBoxN,0)
-	Sprite:setVisible(progressBarBg,0)
+		Sprite:setVisible(progressBarBg,0)
 		Sprite:setVisible(progressBarImg,0)
 		 
 	else
 		 Sprite:setVisible(checkBoxF, 0)
 		 Sprite:setVisible(checkBoxN,1)
 		 Sprite:setVisible(progressBarBg,0)
-		Sprite:setVisible(progressBarImg,0)
+		 Sprite:setVisible(progressBarImg,0)
 		 --Sprite:setVisible(checkBoxW,0)
 		 --Sprite:setVisible(downloadBuffer,0)
 	end
@@ -511,8 +512,8 @@ function LoadDownloadQuene()
     downtable = {}
 	local status  = Download:getStatus(false)	
 	for i=1,#status do
-		for j=0,#subListTable do	
-			Log:write('LoadDownloadQuene======111',subListTable[j].name)
+		for j=1,#subListTable do	
+			--Log:write('LoadDownloadQuene======111',subListTable[j].name)
 			Log:write('LoadDownloadQuene======222',status[i].title)
 			if subListTable[j].name == status[i].title then
 				

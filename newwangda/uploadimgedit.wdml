@@ -66,6 +66,8 @@
                 <label rect="0,0,180,69" extendstyle="1010" text="确定" font-size="25" color="#FFFFFF" v-align="center" h-align="center"/>
             </button>
         </node>
+		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
         </node>
     </body>
 </root>

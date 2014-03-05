@@ -20,13 +20,13 @@
 		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		
 		
-		<node name="searchNode" rect="20,20,450,70" extendstyle="1111">
+		<node name="searchNode" rect="20,20,450,70" extendstyle="1011">
 			<image src="file://image/loginedit_bg.png" extendstyle="1177" style="autosize"/>
-			<button name="searchTypeBtn" rect="0,0,120,70" extendstyle="1111">
+			<!--<button name="searchTypeBtn" rect="0,0,120,70" extendstyle="1111">
 				<image src="file://image/radiotopbtn_bg.png" rect="0,0,100,0" extendstyle="1117" style="autosize"/>
 				<label name="searchTypeName" rect="0,0,80,70" v-align="center" h-align="center" text="内容" extendstyle="1111" color="#FFFFFF"/>
-			</button>		
-			<edit name="searchText" font-size="50"  rect="0,0,350,70" color="#CCCCCC" extendstyle="8111">	
+			</button>-->
+			<edit name="searchText" font-size="50"  rect="0,0,350,70" color="#CCCCCC" extendstyle="1111">	
 			</edit>			
 		</node>
 		
@@ -53,7 +53,7 @@
 	    <listview name="searchDataListview" rect="0,0,686,0"  extendstyle="1117" limit="false">
 		</listview>
 		
-		<label name="noHaveResult" rect="0,300,686,100" extendstyle="1111" h-align="center" v-align="center" text="抱歉没有找到相关内容"/>
+		<label name="noHaveResult" rect="0,300,686,100" extendstyle="1111" h-align="center" v-align="center" text="请输入搜索关键字"/>
 		
 	    </node>
 	</node>
@@ -76,6 +76,8 @@
 			<image name="rimg" rect="600,70,50,50" style="autosize"  extendstyle="1111" src="file://image/arrow.png"/>					
 			</button>
 	</node>	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>	
 </body>
 </root>
@@ -105,6 +107,7 @@ function bodyBuildChildrenFinished(sprite)
 	searchDataListview = Sprite:findChild(sprite, 'searchDataListview')
 	searchDataItem = Sprite:findChild(sprite, 'searchDataItem')
 	noHaveResult = Sprite:findChild(sprite, 'noHaveResult')
+	Sprite:setProperty(noHaveResult,"texgt","请输入搜索关键字")
 end
 
 --[[  节点消息方法  ]]--
@@ -140,6 +143,7 @@ function bodyOnPluginEvent(msg, param)
 		else
 			Sprite:setVisible(searchDataListview, 0) 
 			Sprite:setVisible(noHaveResult, 1) 
+			Sprite:setProperty(noHaveResult,"texgt","抱歉没有找到相关内容")
 			showFlag = false
 		end		
 		
@@ -164,6 +168,7 @@ function bodyOnPluginEvent(msg, param)
 			else
 			Sprite:setVisible(searchDataListview, 0) 
 			Sprite:setVisible(noHaveResult, 1) 
+			Sprite:setProperty(noHaveResult,"texgt","抱歉没有找到相关内容")
 			end
 		end
 	end

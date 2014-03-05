@@ -82,6 +82,7 @@
                 </listview>
             </panoramaitem>
         </panorama>
+		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
 		
     </node>
     </body>

@@ -55,7 +55,8 @@
 		</list>
 	    </node>
 	</node>
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
 
 	
 	

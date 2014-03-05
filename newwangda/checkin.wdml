@@ -62,7 +62,8 @@
 		<label name="checkinTime" rect="490,0,230,90" v-align="center"  postfix=".."  extendstyle="1010" color="#999999"  font-size="28"/>				
 		</button>
 	</node>	
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>	
 </body>
 </root>

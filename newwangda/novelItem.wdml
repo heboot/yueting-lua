@@ -46,7 +46,7 @@
 		
 		<node name="listNode" rect="0,0,0,0" extendstyle="1877">
 		<image  src="file://image/leftlistview_line.png" style="autosize" rect="0,0,0,5," extendstyle="1171"/>
-		<listview name="noveslListview" rect="0,5,0,0" extendstyle="1177">	
+		<listview name="noveslListview" rect="0,5,0,0" extendstyle="1177" scroll="auto"  OnOverTrail="contentListOnOverTrail">	
 		</listview>	
 		</node>		
 		
@@ -64,6 +64,8 @@
 			<image name="rimg" rect="650,25,40,40" style="autosize"  extendstyle="1111" src="file://image/play_go.png"/>					
 			</button>
 	</node>
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
 	</node>
 	</body>
 </root>
@@ -78,6 +80,10 @@ local novelTopImg
 local authorName
 local playCount
 local tempNodeId
+
+local contentPageIndex = 1
+local contentPageSize = 30
+local isLoadingMore = 0
 
 
 -- @brief root子节点创建完事件
@@ -114,9 +120,26 @@ end
 function bodyOnPluginEvent(msg, param)
 	if msg == 101 then
 	    Loading:close()
+		isLoadingMore = 0
 		novelData = Http:jsonDecode('novelData')
 		Log:write('LoadNovelData===000',novelData==nil,novelData.name)
 		LoadNovelData()
+		local lvitemcount = ListView:getItemCount(noveslListview)
+		if lvitemcount > 0 then
+			local lastItem = ListView:getItem(noveslListview,ListView:getItemCount(noveslListview)-1)
+			ListView:removeItem(noveslListview,lastItem,1,1)
+		end
+		if novelData.contList then
+			local count = #novelData.contList+1
+			ListView:loadItem(noveslListview,novelItem,count,"loadNovelItem")
+			ListView:adjust(noveslListview)
+			--if ListView:getItemCount(noveslListview) >= tonumber(novelData.commentCount) then
+		else
+			contentPageIndex = -1
+		end
+		
+		
+		
 	elseif msg == 103 then
 		--Loading:close()
 		--novelListData = Http:jsonDecode('novelListData')
@@ -158,6 +181,49 @@ function mainNodeOnKeyUp(sprite, kc)
     end
 end
 
+function contentListOnOverTrail(sprite , x)
+	Log:write('contentListOnOverTrail=====',x)
+    if x ~= 0 or isLoadingMore > 0 then
+        return
+    end
+    if contentPageIndex ~= -1 and contentPageIndex < 200 then
+        contentPageIndex = contentPageIndex + 1
+        if contentPageIndex< 1 then --2013.10.24
+            return
+        end
+        insertLoading(sprite)
+        Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelItemData.jsp?nodeId='..tempNodeId..'&objType=0&pageIndex='..contentPageIndex..'&pageSize='..contentPageSize,101)
+
+    else
+        Tips:show('到底啦')
+    end
+end
+
+function insertLoading(sprite)
+    isLoadingMore = 1
+    local item = Sprite:create("listitem",0)
+    local node = Sprite:create("node",item)
+   
+    local spriteRect = {Sprite:getRect(sprite)}
+    local xoffset = math.floor( (spriteRect[3] - 60) / 2)
+    local label = Sprite:create('label',node)
+    Sprite:setProperty( label,'text','加载中...')
+    Sprite:setProperty( label,'rect',xoffset .. ',0,120,50')
+    Sprite:setProperty( label,'h-align','center')
+    Sprite:setProperty( label,'font-size',26)
+    Sprite:setProperty( label,'color','#262626')
+    Sprite:setProperty( label,'extendstyle','1010')
+
+    Sprite:setRect(node,0,20,800,50)
+    Sprite:setProperty(node, 'extendstyle', '1010')
+
+    Sprite:setRect(item,0,0,800,90)
+    Sprite:setProperty(item, 'extendstyle', '1010')
+    Sprite:setProperty(sprite,"data","1")
+    ListView:insertItem(sprite, ListView:getItemCount(sprite)+1, item)
+end
+
+
 --[[  新增OMS读取小说数据方法  ]]--
 function requestNovelData()
 	local reg = Reg:create('com_wondertek_mobileaudio_novel')
@@ -165,7 +231,7 @@ function requestNovelData()
 	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
 	if nodeId and nodeId ~= '' then
 	   tempNodeId = nodeId
-       Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelItemData.jsp?nodeId='..nodeId..'&objType=0',101)
+       Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelItemData.jsp?nodeId='..nodeId..'&objType=0&pageIndex='..contentPageIndex..'&pageSize='..contentPageSize,101)
     end
 end
 
@@ -192,7 +258,7 @@ function LoadNovelData()
 	if novelData.aimg and novelData.aimg ~= nil and novelData.aimg ~= '' then
 	Sprite:setProperty(authorImg,'src',novelData.aimg)
 	end
-	LoadnoveslListviewData()
+	--LoadnoveslListviewData()
 	if novelData.contList and novelData.contList~='' then
 		   local reg = Reg:create('com_wondertek_mobileaudio_novel')
            Reg:setTable(reg,'novelContList',novelData.contList)

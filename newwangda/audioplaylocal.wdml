@@ -80,7 +80,7 @@
 		<node rect="20,20,120,80"  extendstyle="1111">
 		  <button rect="0,0,90,60"   extendstyle="1011">
 			<image rect="0,0,0,0"  src="file://image/ondemandbg.png" extendstyle="1077" style="maxsize"/>
-		    <label rect="0,0,0,0" color="#FFFFFF" text="点播" v-align="center" h-align="center"  font-size="25"  extendstyle="1177"/>
+		    <label rect="0,0,0,0" color="#FFFFFF" text="本地" v-align="center" h-align="center"  font-size="25"  extendstyle="1177"/>
 		  </button>
 		</node>
 		<!--<button name="progressBtn" rect="0,30,480,50" extendstyle="8111" OnMouseDown="progressOnMouseDown" OnMouseMove="progressOnMouseMove" OnMouseUp="progressOnMouseUp">
@@ -330,10 +330,10 @@ end
 
 -- 播放
 function playBtnOnSelect(sprite)
-  Log:write('playBtnOnSelect=======')
+  Log:write('playBtnOnSelect=======',playUrl)
   if not isPlayerCreate then
       Player:open(playUrl)
-	   Player:show(1)
+	  Player:show(1)
   else
         if status == Player.status.Finished or status == Player.status.Stopped then
             createPlayer()
@@ -625,17 +625,20 @@ function galleryOnSelect(sprite)
 			Log:write('onLoadGalleryItem===4',setName22)
 			Sprite:setProperty(audioname,'text',setName22)
 			Sprite:setProperty(mainTitle,'text',setName22)
+			title = setName22
 		else
 			Sprite:setProperty(audioname,'text',setName2)
 			Sprite:setProperty(lblFocus, 'text',setName2)
 			Sprite:setProperty(lblMiddle, 'text',setName2)
 			Sprite:setProperty(mainTitle,'text',setName2)
+			title = setName2
 		end
 	else
 		Sprite:setProperty(audioname,'text',setName)
 		Sprite:setProperty(lblFocus, 'text',setName)
 		Sprite:setProperty(lblMiddle, 'text',setName)
 		Sprite:setProperty(mainTitle,'text',setName)
+		title = setName
 	end
    
    --Player:open(playUrl)

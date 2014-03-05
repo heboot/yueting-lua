@@ -53,7 +53,8 @@
 			 <label rect="0,0,120,52" extendstyle="1111"  h-align="center" v-align="center"  text="取消关注"  color="#FFFFFF"  font-size="25"/>
 		    </button>
 	</node>	
-	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
     </node>	
 </body>
 </root>
