@@ -184,7 +184,8 @@ function bodyOnSpriteEvent(msg, param)
 	 
 	  -- Loading:show()
     elseif msg == MSG_DEACTIVATE then
-        
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else

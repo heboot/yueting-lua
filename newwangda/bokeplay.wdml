@@ -20,7 +20,7 @@
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <scrolltext name="mainTitle" rect="114,0,400,77"  step="2" scroll="true" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		    <button name="commentBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="commentBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
@@ -123,12 +123,12 @@
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
 		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
 		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
-        <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"   v-align="center"  text="" color="#FFFFFF" font-size="40"/>	
+        <scrolltext name="lblFocus" rect="125,0,470,176" step="2" scroll="true" extendstyle="1111" h-align="center"   v-align="center"  text="" color="#FFFFFF" font-size="40"/>	
 		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
 		<node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
-		<image  name="collection_n" rect="40,14,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
-		<image  name="collection_s" rect="40,14,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
-		<label  name="click2collect" rect="13,88,130,88" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
+		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
+		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
+		    <label  name="click2collect" rect="13,115,130,60" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
         </node>
         </node>				  
         <node name="sMiddle" rect="0,0,720,200" extendstyle="1111">
@@ -303,6 +303,8 @@ function bodyOnSpriteEvent(msg, param)
 	end
 
     elseif msg == MSG_DEACTIVATE then
+	    commonDeactivate()
+        Scene:freeByHandle(rootSprite)
     elseif msg == MSG_MAXIMIZED then
     else
         Util:onSpriteEvent(msg, param)

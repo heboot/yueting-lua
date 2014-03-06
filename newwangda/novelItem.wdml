@@ -85,6 +85,7 @@ local contentPageIndex = 1
 local contentPageSize = 30
 local isLoadingMore = 0
 
+local tempTable = {}
 
 -- @brief root子节点创建完事件
 function bodyBuildChildrenFinished(sprite)
@@ -108,7 +109,8 @@ function bodyOnSpriteEvent(msg, param)
       --LoadNovelData()
 	  requestNovelData()
     elseif msg == MSG_DEACTIVATE then
-        
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else
@@ -237,22 +239,20 @@ end
 
 --[[  读取小说数据方法  ]]--
 function LoadNovelData()
-	Log:write('LoadNovelData======44',novelData.name==nil)
-	Log:write('LoadNovelData======55',novelData.desc==nil)
+
 	Sprite:setProperty(mainTitle,'text',novelData.name)
 	Sprite:setProperty(novelInfo,'text',novelData.desc)
-	Log:write('LoadNovelData======',novelData.timg)
+
 	if novelData.timg~= nil then
 	Sprite:setProperty(novelTopImg,'src',novelData.timg)
 	else
 	-- Sprite:setProperty(novelTopImg,'src',novelData.cimg)
 	end	
-	Log:write('LoadNovelData======22',novelData.anchor)
+
 	Sprite:setProperty(authorName,'text',novelData.anchor)
 	
 	Sprite:setProperty(playCount,'extendstyle','5111')
-	
-	Log:write('LoadNovelData======33',novelData.count)
+
 	
 	Sprite:setProperty(playCount,'text',novelData.count..'人收听')
 	if novelData.aimg and novelData.aimg ~= nil and novelData.aimg ~= '' then
@@ -260,12 +260,16 @@ function LoadNovelData()
 	end
 	--LoadnoveslListviewData()
 	if novelData.contList and novelData.contList~='' then
+		    for i=0,#novelData.contList do
+				table.insert(tempTable,novelData.contList[i])
+			end
+		   Log:write('LoadNovelData==============',#tempTable)
 		   local reg = Reg:create('com_wondertek_mobileaudio_novel')
-           Reg:setTable(reg,'novelContList',novelData.contList)
+           --Reg:setTable(reg,'novelContList',novelData.contList)
+		   Reg:setTable(reg,'novelContList',tempTable)
     end
 	
 	if novelData.limg and novelData.contList and tempNodeId then
-	Log:write('LoadNovelData======66',novelData.limg)
         count = #novelData.contList+1
         saveNodeInfo(novelData.name,{img=GetLocalFilename(novelData.limg),count=count,nodeId=tempNodeId,anchor=novelData.anchor})
     end
@@ -290,28 +294,37 @@ end
 
 
 function novelItemBtnOnSelect(sprite)
-local item=Sprite:getParent(sprite) 
-local index=ListView:getItemIndex(item)
-local data=Sprite:getData(sprite) 
-local reg = Reg:create('com_wondertek_mobileaudio_novel')
-Reg:setString(reg,'novelItemParam',data)
-Reg:setString(reg,'novelItemIndex',index)
-Reg:setString(reg,'novelItemTitle',Sprite:getText(mainTitle))
-Reg:setString(reg,'novelAuthor',Sprite:getText(authorName))
-Reg:setInteger(reg, 'novelIsFirst',1) 
+	local item=Sprite:getParent(sprite) 
+	local index=ListView:getItemIndex(item)
+	Log:write('novelItemBtnOnSelect111==============',index)
+	local data=Sprite:getData(sprite) 
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	Reg:setString(reg,'novelItemParam',data)
+	Reg:setString(reg,'novelItemIndex',index+1)
+	Reg:setString(reg,'novelItemTitle',Sprite:getText(mainTitle))
+	Reg:setString(reg,'novelAuthor',Sprite:getText(authorName))
+	Reg:setInteger(reg, 'novelIsFirst',1) 
 
 
-local data2 = Reg:getString(reg,'novelItemId')	
-local _,_,parentId=string.find(data2,'parentId=(%d+);')
-Log:write('===============audioplayCollect parentId',parentId)
-if parentId==nil or parentId == '' then
-	Reg:setString(reg,'audioplayCollect','2')
-	Reg:setTable(reg,'audioplayCollectTable',novelData.contList)
-end
+	local data2 = Reg:getString(reg,'novelItemId')	
+	local _,_,parentId=string.find(data2,'parentId=(%d+);')
+	Log:write('===============audioplayCollect parentId',parentId)
+	if parentId==nil or parentId == '' then
+		Log:write('===============novelItemBtnOnSelect',data,Sprite:getText(mainTitle))
+		Reg:setString(reg,'audioplayCollect','2')
+		--{img=GetLocalFilename(novelData.limg),count=count,nodeId=tempNodeId,anchor=novelData.anchor}
+		local ttt = Sprite:getText(mainTitle)
+		local atable = {}
+		local stable = {name=ttt,param=data}
+		table.insert(atable,stable)
+		Log:write('===============novelItemBtnOnSelect2',atable[1])
+		Reg:setTable(reg,'audioplayCollectTable',atable)
+		--Reg:setTable(reg,'audioplayCollectTable',novelData.contList)
+	end
 
 
-Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=true, setReturn = false})
---Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{setReturn=false})
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=true, setReturn = false})
+	--Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{setReturn=false})
 
 end
 

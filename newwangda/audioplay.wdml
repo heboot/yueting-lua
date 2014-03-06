@@ -20,7 +20,7 @@
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <scrolltext name="mainTitle" step="2" scroll="true"  rect="0,0,400,77" extendstyle="8110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		    <button name="selectedWorksBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="selectedWorksBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
@@ -126,9 +126,9 @@
         <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"  v-align="center" text="" color="#FFFFFF" font-size="40"/>	
 		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
 		<node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
-		<image  name="collection_n" rect="40,14,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
-		<image  name="collection_s" rect="40,14,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
-		<label  name="click2collect" rect="13,88,130,88" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
+		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
+		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
+		    <label  name="click2collect" rect="13,115,130,60" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
         </node>
         </node>				  
         <node name="sMiddle" rect="0,0,720,200" extendstyle="1111">
@@ -225,9 +225,12 @@ function bodyBuildChildrenFinished(sprite)
     local regFile = 'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlistlocal.xml'
     Reg:load(reg,regFile)
     g_collectionIdsStr = Reg:getString(reg, 'audiocollectionIds')
+	setData()
     setGalleryData()	
-    setData()
-	testPlay() --进入播放页后直接播放
+    
+	
+	
+	
 end
 
 
@@ -236,10 +239,15 @@ function bodyOnPluginEvent(msg, param)
     if msg==103 then
 	 novelData= Http:jsonDecode('novelData')
 	 subListTable=novelData.contList
+	 
+	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local index=Reg:getString(reg,'novelItemIndex')
+	 
+	Log:write('subListTable==================111',#subListTable,index)
 	 if novelData then
         local contList = novelData.contList
-        if contList and '' ~= contList[0] then
-            local contparam = contList[0].param
+        if contList and '' ~= contList[tonumber(index-1)] then
+            local contparam = contList[tonumber(index-1)].param
             -- contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
             contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
             Util:_goPlay(contparam)
@@ -255,6 +263,7 @@ function bodyOnPluginEvent(msg, param)
 			setData(nindex)
 		end
 	elseif msg==105 then
+	
 	novelListData2= Http:jsonDecode('novelListData2')
 	local reg = Reg:create('com_wondertek_mobileaudio_novel')	
 	local novelItemParam=Reg:getString(reg,'novelItemId')
@@ -285,6 +294,7 @@ function bodyOnPluginEvent(msg, param)
         if playerData and playerData.code == '1014' then
             Net:goToMyAccount()
         elseif playerData and playerData.orderList then
+			Log:write('audioplay================orderlist',playerData)
             OrderNode:show(playerData)
         elseif playerData and playerData.errordesc then
             Tips:show(playerData.errordesc)
@@ -334,7 +344,10 @@ function bodyOnPluginEvent(msg, param)
 end
 
 --[[  节点消息方法  ]]--
-function bodyOnSpriteEvent(msg, param)
+function bodyOnSpriteEvent(msg, param)  
+	if Loading:isShow() then
+        Loading:close()
+    end
     if msg == MSG_ACTIVATE then
 	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
 	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
@@ -355,8 +368,6 @@ function bodyOnSpriteEvent(msg, param)
 	    Log:write("contparam========",contparam)
         Util:_goPlay(contparam)
 	end
-    elseif msg == MSG_DEACTIVATE then
-    elseif msg == MSG_MAXIMIZED then
     else
         Util:onSpriteEvent(msg, param)
     end
@@ -496,37 +507,7 @@ function playBtnOnSelect(sprite)
     end
 end
 
-function testPlay()
-    Log:write('testPlay--------')
-	if not isPlayerCreate and subListTable then
-        local contList = subListTable
-		local reg = Reg:create('com_wondertek_mobileaudio_novel')
-		local index=Reg:getString(reg,'novelItemIndex')
-		Log:write("index===========",tonumber(index))
-        if contList and '' ~= contList[tonumber(index)] then
-            local contparam = contList[tonumber(index)].param
 
-			local a=Reg:create(Reg.com_wondertek_mobileaudio.player)
-			Reg:setString(a,'tempData',contparam)
-	
-            contparam = string.gsub(contparam,'nodeId=1;','nodeId=10230800;')
-            contparam = string.gsub(contparam,'nodeId=;','nodeId=10230800;')
-		
-            Util:_goPlay(contparam)
-        else
-            Tips:show('播放器压力有点大…')
-        end
-    else
-        if status == Player.status.Finished or status == Player.status.Stopped then
-            createPlayer()
-        elseif status == Player.status.Ready
-            or status == Player.status.Idle
-            or status == Player.status.Paused then
-            uiPause()
-            Player:play()
-        end
-    end
-end
 
 --暂停
 function pauseBtnOnSelect()
@@ -724,6 +705,7 @@ end
 --三个。。。点击事件
 function moreContentsBtnOnSelect(sprite)
    local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   Log:write('moreContentsBtnOnSelect======',#subListTable)
    Reg:setTable(reg,'selectedworks',subListTable)
    local reg = Reg:create('com_wondertek_mobileaudio_novel')
    Reg:setString(reg,'selectedworkstitle', Sprite:getText(mainTitle))
@@ -750,38 +732,39 @@ function setGalleryData()
 	audioplayCollect=Reg:getString(reg,'audioplayCollect')
 	Log:write('===============audioplayCollect',audioplayCollect)
     if audioplayCollect=='1' then
-	Reg:setString(reg,'audioplayCollect','0')
-	audioplayCollectTable=Reg:getTable(reg,'audioplayCollectTable')
-	Log:write('audioplayCollectTable=====',#audioplayCollectTable)
-	local _,_,nodeId1=string.find(data,'nodeId=(%d+);')
-	local temptable
-    local j=0	
-	for i=1,#audioplayCollectTable do
-    local _,_, nodeId = string.find(audioplayCollectTable[i],'nodeId=(%d+);')
-    if nodeId1 == nodeId then
-	j=i
-	temptable=audioplayCollectTable[i]
-    end
-	end
-	if j~=0 or j~=''then
-	table.remove(audioplayCollectTable, j)
-	table.insert(audioplayCollectTable, 1, temptable)
-	Gallery:removeAllItems(gallery, 1) 
-	Gallery:loadItem(gallery, galleryItem, #audioplayCollectTable, 'onLoadGalleryItem')
-    Gallery:adjust(gallery) 
-	end
+		Reg:setString(reg,'audioplayCollect','0')
+		audioplayCollectTable=Reg:getTable(reg,'audioplayCollectTable')
+		Log:write('audioplayCollectTable=====',#audioplayCollectTable)
+		local _,_,nodeId1=string.find(data,'nodeId=(%d+);')
+		local temptable
+		local j=0	
+		for i=1,#audioplayCollectTable do
+		local _,_, nodeId = string.find(audioplayCollectTable[i],'nodeId=(%d+);')
+		if nodeId1 == nodeId then
+		j=i
+		temptable=audioplayCollectTable[i]
+		end
+		end
+		if j~=0 or j~=''then
+		table.remove(audioplayCollectTable, j)
+		table.insert(audioplayCollectTable, 1, temptable)
+		Gallery:removeAllItems(gallery, 1) 
+		Gallery:loadItem(gallery, galleryItem, #audioplayCollectTable, 'onLoadGalleryItem')
+		Gallery:adjust(gallery) 
+		end
 	elseif audioplayCollect=='2' then
-	Reg:setString(reg,'audioplayCollect','0')
-	audioplayCollectTable=Reg:getTable(reg,'audioplayCollectTable')
-	Gallery:removeAllItems(gallery, 1) 
-	Gallery:loadItem(gallery, galleryItem, #audioplayCollectTable, 'onLoadGalleryItem')
-    Gallery:adjust(gallery) 
+		Reg:setString(reg,'audioplayCollect','0')
+		audioplayCollectTable=Reg:getTable(reg,'audioplayCollectTable')
+		Gallery:removeAllItems(gallery, 1) 
+		Gallery:loadItem(gallery, galleryItem, #audioplayCollectTable+1, 'onLoadGalleryItem')
+		Gallery:adjust(gallery) 
 	--end
 	else
-	tempParentId = data
-	local _,_,parentId=string.find(data,'parentId=(%d+);')
-	newParentId=parentId
-	Http:request('novelListData2', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelListData2.jsp?nodeId='..parentId..'&objType=live',105)
+		tempParentId = data
+		local _,_,parentId=string.find(data,'parentId=(%d-);')
+		Log:write('==============parentId',parentId)
+		newParentId=parentId
+		Http:request('novelListData2', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelListData2.jsp?nodeId='..parentId..'&objType=live',105)
 	end	 	
 end
 
@@ -814,6 +797,7 @@ function onLoadGalleryItem(gallery, item, index)
 end
 
 function galleryOnSelect(sprite)
+   Log:write('galleryOnSelect====================1')
    local tempnodeId
    local index = Gallery:getCurItem(gallery)
    local item=Gallery:getItem(gallery, index)
@@ -852,7 +836,7 @@ function galleryOnSelect(sprite)
 	if hasAudioCollected(tempnodeId, g_collectionIdsStr) then
         Sprite:setVisible(collection_s,1)
 		Sprite:setVisible(collection_n,0)
-		Sprite:setProperty(click2collect, 'text', '点击取消') 
+		Sprite:setProperty(click2collect, 'text', '已收藏') 
 	else
 		Sprite:setVisible(collection_s,0)
 		Sprite:setVisible(collection_n,1)
@@ -861,11 +845,12 @@ function galleryOnSelect(sprite)
    local reg = Reg:create('com_wondertek_mobileaudio_novel')
    local isFirst=Reg:getInteger(reg, 'novelIsFirst') 
    Log:write('isFirst=======',isFirst)
-   if isFirst==1  then
-    Reg:setInteger(reg, 'novelIsFirst',0) 
-   else
-    Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/audioplay/audioplayData.jsp?nodeId='..tempnodeId..'&objType=0',103)
-   end
+   --if isFirst==1  then
+    --Reg:setInteger(reg, 'novelIsFirst',0) 
+   --else
+   Log:write('start103')
+    Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/audioplay/novelplayData.jsp?nodeId='..tempnodeId..'&objType=0',103)
+   --end
 end
 --------------------暂时使用---Gallery-------------------------------
 -- @brief 刷新点播进度条
@@ -1168,7 +1153,7 @@ function collectionBtnOnSelect(sprite)
     Sprite:setVisible(collection_n, 0) 
     Sprite:setVisible(collection_s, 1) 
     addOneAudioCollectionProg(tempnodeId,progParam,CollectionType)
-	Sprite:setProperty(click2collect, 'text', '点击取消') 
+	Sprite:setProperty(click2collect, 'text', '已收藏') 
 	Tips:show('收藏成功')
  else
     deleteOneAudioCollectionProg(tempnodeId,CollectionType)

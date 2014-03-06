@@ -870,7 +870,7 @@ function Http:request(tag, url, num, params)
     else
         res = "SDPI"
     end
-	res = "HDPI"
+	--res = "HDPI"
     url = url .. (string.find(url, '?') and '&' or '?')
     local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
     filterType = Reg:getInteger(regI, 'accountLogin') == 1 and '0' or (Reg:getInteger(regI, 'useAccount') == 1 and '0' or filterType)
@@ -1163,50 +1163,28 @@ Dialog.layout = [[
     <body>
         <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
         <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
-        <node name="dframe" rect="50,306,620,410" extendstyle="1010">
-            <node rect="0,0,620,35" extendstyle="0510">
-                <image rect="0,0,620,72" src="file://image/dialogShadow.png" style="autosize" extendstyle="1010" />
-            </node>
-            <image rect="0,0,620,410" src="file://image/commonbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
-            <image rect="0,0,620,85" src="file://image/orderDig_head.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
-            <label name="dtitle" rect="0,0,620,85" text="提示" color="#4F6852" font-size="30" v-align="center" h-align="center" extendstyle="1010"/>
-            <shadow rect="0,85,620,4" color="#B2DB93" alpha="255" extendstyle="1010"/>
-            <textarea name="dtext" text="" rect="80,110,460,150" extendstyle="1010" font-size="28" color="#7F7B7A" line-height="38" h-align="center" v-align="center" loop="true" step="1"/>
-            <node name="btnArea" rect="0,0,620,150" extendstyle="0510">
-                <node name="btnArea" rect="0,0,620,100" extendstyle="0510">
-                    <shadow rect="0,0,620,2" color="#B2DB93" alpha="255" extendstyle="0014"/>
-                    <shadow rect="310,0,1,100" color="#B2DB93" alpha="255" extendstyle="1040"/>
-                </node>
-                <button name="checkBtn" rect="140,0,400,50" extendstyle="1010" OnSelect="_checkboxCheckProc">
-                    <image name="checkBoxN" rect="0,10,37,37" style="sudoku-auto" sudoku="6,6,6,6" src="file://image/checkbg.png" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
-                    <image name="checkImg" rect="0,10,37,37" visible="0" style='sudoku-auto' sudoku="5,5,5,5" src="file://image/downloadcheck.png" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
-                    <label name="checkText" rect="80,0,400,58" extendstyle="0010" autoextend="true" text="不再提醒" color="#565656" v-align="center" font-size="30" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                </button>
-                <button name="okBtn" rect="0,50,310,100" style="autosize" OnSelect="_okProc" extendstyle="1510" normal="n" sel="s">
-                    <node name="n" rect="0,0,310,100" extendstyle="1010" >
-                        <label name="textOkN" rect="0,0,310,100" extendstyle="1010" text="确定" font-size="30" color="#4F6852" v-align="center" h-align="center"/>
+        <node name="dframe" rect="50,475,612,230" extendstyle="1010">
+            <image rect="0,0,612,230" src="file://image/dialogbg.png"  style="sudoku-auto" sudoku="5,5,5,5" />        
+            <textarea name="dtext" text="" rect="80,10,460,100" extendstyle="1010" font-size="28" color="#7F7B7A" line-height="35" h-align="center" v-align="center" loop="true" step="1"/>
+            <node name="btnArea" rect="34,120,544,77" extendstyle="0010">
+                <button name="okBtn" rect="0,0,255,77" style="autosize" OnSelect="_okProc" extendstyle="1510" normal="n" sel="s">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070" />
+                        <label name="textOkN" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
                     </node>
-                    <node name="s" rect="0,0,310,100" extendstyle="1010" frame="true">
-                        <image rect="0,0,315,100" src="file://image/bluebg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
-                        <label name="textOkF" rect="0,0,310,100" extendstyle="1010" text="确定" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                    <node name="s" rect="0,0,255,77" extendstyle="1010" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkF" rect="0,0,255,77" extendstyle="1010" text="确定" alpha="200" font-size="30" color="#000000" v-align="center" h-align="center"/>
                     </node>
                 </button>
-                <button name="cancelBtn" rect="310,50,310,100" OnSelect="_cancelProc" extendstyle="1570" normal="n" sel="s" disabled="d">
-                    <node name="n" rect="0,0,310,100" extendstyle="1010" >
-                        <label name="textCancelN" rect="0,0,310,100" extendstyle="1010" text="取消" font-size="30" color="#4F6852" v-align="center" h-align="center"/>
+                <button name="cancelBtn" rect="289,50,255,77" OnSelect="_cancelProc" extendstyle="1570" normal="n" sel="s" disabled="d">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070" />
+                        <label name="textCancelN" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
                     </node>
-                    <node name="s" rect="0,0,310,100" extendstyle="1070" frame="true">
-                        <image rect="-5,0,310,100" src="file://image/bluebg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070" BuildChildrenFinished="resChoose"><node/></image>
-                        <label name="textCancelF" rect="0,0,310,100" extendstyle="1010" text="取消" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
-                    </node>
-                </button>
-                <button name="singleBtn" rect="0,50,620,100" OnSelect="" extendstyle="1510" normal="n" sel="s" disabled="d" visible="0" enable="0">
-                    <node name="n" rect="0,0,620,100" extendstyle="1010" >
-                        <label name="textCancelN" rect="0,0,620,100" extendstyle="1010" text="" font-size="30" color="#4F6852" v-align="center" h-align="center"/>
-                    </node>
-                    <node name="s" rect="0,0,620,100" extendstyle="1010" >
-                        <image rect="0,0,620,100" src="file://image/bluebg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
-                        <label name="textCancelF" rect="0,0,620,100" extendstyle="1010" text="" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                    <node name="s" rect="0,0,255,77" extendstyle="1070" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070" />
+                        <label name="textCancelF" rect="0,0,255,77" extendstyle="1010" text="取消" alpha="200" font-size="30" color="#000000" v-align="center" h-align="center"/>
                     </node>
                 </button>
             </node>
@@ -1311,24 +1289,24 @@ function Dialog:show(title, message, typeStr, okCallback, cancelCallback, okText
     else
         dialogNode = Sprite:create('node', Sprite:findChild(curScene, 'mainNode'))
         Sprite:setProperty(dialogNode, 'name', 'dialogNode')
-        if layoutType == "1" then
-            Sprite:loadFromString(dialogNode, Dialog.layout1)
-        else
-            Sprite:loadFromString(dialogNode, Dialog.layout)
-        end
+        -- if layoutType == "1" then
+            -- Sprite:loadFromString(dialogNode, Dialog.layout1)
+        -- else
+        Sprite:loadFromString(dialogNode, Dialog.layout)
+        -- end
     end
-    local dtitle = Sprite:findChild(dialogNode, 'dtitle')
-    Sprite:setProperty(dtitle, 'text', title)
+    -- local dtitle = Sprite:findChild(dialogNode, 'dtitle')
+    -- Sprite:setProperty(dtitle, 'text', title)
     local dtext = Sprite:findChild(dialogNode, 'dtext')
     Sprite:setProperty(dtext, 'text', message)
     local okBtn,cancelBtn = Sprite:findChild(dialogNode, 'okBtn'),Sprite:findChild(dialogNode, 'cancelBtn')
-    local singleBtn = Sprite:findChild(dialogNode, 'singleBtn')
+    -- local singleBtn = Sprite:findChild(dialogNode, 'singleBtn')
     if typeStr == 'cancel' then
         setNodeState(okBtn,0) setNodeState(cancelBtn,0)
-        setBtnCancel(singleBtn,cancelText or '取消')
+        -- setBtnCancel(singleBtn,cancelText or '取消')
     elseif typeStr == 'ok' then
         setNodeState(okBtn,0) setNodeState(cancelBtn,0)
-        setBtnOK(singleBtn,okText or '确定')
+        -- setBtnOK(singleBtn,okText or '确定')
     else
         setNodeState(okBtn,1) setNodeState(cancelBtn,1)
         if GetPlatformVersion and Config:get("samsung_is_watching_over_u") == "" then
@@ -1342,22 +1320,22 @@ function Dialog:show(title, message, typeStr, okCallback, cancelCallback, okText
             end
         end
     end
-    local checkBtn = Sprite:findChild(dialogNode, 'checkBtn')
-    if checkBoxCallback then
-        setNodeState(checkBtn,1)
-        if isChecked ~= nil then
-            local checkBtn = Sprite:findChild(dialogNode, 'checkBtn')
-            UI_setCheckbox(checkBtn, isChecked)
-        end
-        local reg = Reg:create(Reg.com_wondertek_mobileaudio.dialog)
-        Reg:setString(reg, '_checkboxCheckCallback', checkBoxCallback)
-        local checkText = Sprite:findChild(dialogNode, 'checkText')
-        if checkBoxText then
-            Sprite:setProperty(checkText, 'text', checkBoxText)
-        end
-    else
-        setNodeState(checkBtn,0)
-    end
+    -- local checkBtn = Sprite:findChild(dialogNode, 'checkBtn')
+    -- if checkBoxCallback then
+        -- setNodeState(checkBtn,1)
+        -- if isChecked ~= nil then
+            -- local checkBtn = Sprite:findChild(dialogNode, 'checkBtn')
+            -- UI_setCheckbox(checkBtn, isChecked)
+        -- end
+        -- local reg = Reg:create(Reg.com_wondertek_mobileaudio.dialog)
+        -- Reg:setString(reg, '_checkboxCheckCallback', checkBoxCallback)
+        -- local checkText = Sprite:findChild(dialogNode, 'checkText')
+        -- if checkBoxText then
+            -- Sprite:setProperty(checkText, 'text', checkBoxText)
+        -- end
+    -- else
+        -- setNodeState(checkBtn,0)
+    -- end
 end
 
 function setBtnOK(sprite,txt)
@@ -1555,6 +1533,7 @@ end
 
 -- @brief 对各个页面OnSpriteEvent统一处理
 function Util:onSpriteEvent(msg, param)
+	Log:write('onSpriteEvent====luha',msg,MSG_APPOINTMENT)
     local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
     if msg == MSG_WLAN then
         local param1 = Param:getInteger(param, 0)
@@ -1834,6 +1813,7 @@ end
 
 --4.1修改过的函数 在common中需要重写
 function Util:onPluginEvent(msg, param)
+	Log:write('onPluginEvent=========',msg)
     local sceneName = 'scene:' .. Scene:getNameByHandle() .. ' | '
     if msg == Msg.scene then
         if not Loading:isShow() then return end
@@ -2337,6 +2317,8 @@ function Util:checkWidgetFile()
 end
 
 function Util:checkNotificationFile()
+	Log:write('checkNotificationFile=====')
+
     -- 判断是否存在Notification文件，如存在则分析其中数据
     --[[notify文件格式，有多条
     {
@@ -2425,6 +2407,7 @@ function Util:checkAppointmentFile()
     --[[ 文件格式，有且仅有一条
         objType=live;contentId=;nodeId=79044;
     --]]
+	Log:write('checkAppointmentFile==============')
     local appointmentFilePath = Util:getDefaultFolder(WDFIDL_MMS) .. 'msgpush.txt'
     if IO:fileExist(appointmentFilePath) then
         local appointmentTable = IO:fileReadToTable(appointmentFilePath)
@@ -2438,6 +2421,7 @@ end
 
 function Util:goDetail(param, liveTab)
     Log:write('param==', param)
+	Log:write('goDetail==============')
     local _,_,contentId = string.find(param, 'contentId=(%d+);')
     local _,_,nodeId = string.find(param, 'nodeId=(%d+);')
     local _,_,liveId = string.find(param, 'liveId=(%d+);')
@@ -3738,60 +3722,54 @@ OrderNode.layout = [[
         <node name="orderDialog" rect="0,0,720,1280" extendstyle="1111">
             <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
             <shadow name="orderShadow" rect="0,0,720,1280" color="#000000" alpha="128" extendstyle="1010"/>
-            <node name="uichange" rect="50,170,620,0" padding="0,0,170,0" extendstyle="1016">
-                <node name="bottomshadow" rect="0,0,620,35" extendstyle="0510">
-                    <image rect="0,0,620,72" src="file://image/dialogShadow.png" style="autosize" extendstyle="1010" />
+            <node name="uichange" rect="50,220,620,0" padding="0,0,335,0" extendstyle="1116">
+                <image name="orderBg" rect="0,0,620,678" src="file://image/commonbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
+                <node name="titleArea" rect="0,0,620,67" padding="0,0,170,0" extendstyle="1016">
+                    <image rect="0,0,620,67" src="file://image/ordertopbg.png" alpha="255" extendstyle="1010"/>
+					<label rect="0,0,620,67" text="订购详情" color="#212121" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="35" v-align="center" h-align="center" extendstyle="1010"/>                    
                 </node>
-                <image name="orderBg" rect="0,0,620,910" src="file://image/commonbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
-                <node name="titleArea" rect="0,0,620,100" padding="0,0,170,0" extendstyle="1016">
-                    <label rect="0,0,620,86" text="订购详情" color="#212121" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="40" v-align="center" h-align="center" extendstyle="1010"/>
-                    <shadow rect="5,90,610,4" color="#B2DB93" alpha="255" extendstyle="1010"/>
-                </node>
-                <listview name="_orderListView" rect="0,91,620,500" padding="0,0,100,0" extendstyle="1016"/>
-                <node name="btnArea" rect="0,720,620,100" extendstyle="1510">
-                    <node rect="0,0,620,100" extendstyle="0510">
-                        <shadow rect="0,0,620,2" color="#B2DB93" alpha="255" extendstyle="0014"/>
-                        <shadow rect="310,0,1,100" color="#B2DB93" alpha="255" extendstyle="1040"/>
-                    </node>
-                    <button name="btnOrderCancel" rect="0,50,310,100" style="autosize" OnSelect="_btnOrderCancelOnSelect" extendstyle="1510" normal="n" sel="s">
-                        <node name="n" rect="0,0,310,100" extendstyle="1010" >
-                            <label name="textOkN" rect="0,0,310,100" extendstyle="1010" text="取消" font-size="30" color="#4F6852" v-align="center" h-align="center"/>
+                <listview name="_orderListView" rect="0,70,620,0" padding="0,0,85,0" extendstyle="1116"/>
+                <node name="btnArea" rect="0,585,620,100" extendstyle="1510">
+                    <button name="btnOrderCancel" rect="100,50,250,100" style="autosize" OnSelect="_btnOrderCancelOnSelect" extendstyle="1510" normal="n" sel="s">
+                      <image rect="8,16,233,63" src="file://image/orderebtn.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+					  <node name="n" rect="0,0,250,100" extendstyle="1010" >						
+                            <label name="textOkN" rect="0,0,250,100" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
                         </node>
-                        <node name="s" rect="0,0,310,100" extendstyle="1010" frame="true">
-                            <image rect="0,0,315,100" src="file://image/bluebg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
-                            <label name="textOkF" rect="0,0,310,100" extendstyle="1010" text="取消" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                        <node name="s" rect="0,0,250,100" extendstyle="1010" frame="true">                           
+                            <label name="textOkF" rect="0,0,250,100" extendstyle="1010" text="取消" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
                         </node>
                     </button>
-                    <button name="btnOrderOk" rect="310,50,310,100" OnSelect="_btnOrderOkOnSelect" extendstyle="1570" normal="n" sel="s" disabled="d">
-                        <node name="n" rect="0,0,310,100" extendstyle="1010" >
-                            <label name="textCancelN" rect="0,0,310,100" extendstyle="1010" text="订购" font-size="30" color="#4F6852" v-align="center" h-align="center"/>
+                    <button name="btnOrderOk" rect="350,50,250,100" OnSelect="_btnOrderOkOnSelect" extendstyle="1570" normal="n" sel="s" disabled="d">
+                        <image rect="8,16,233,63" src="file://image/orderebtn.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+						<node name="n" rect="0,0,250,100" extendstyle="1010" >
+                            <label name="textCancelN" rect="0,0,250,100" extendstyle="1010" text="订购" font-size="30" color="#000000" v-align="center" h-align="center"/>
                         </node>
-                        <node name="s" rect="0,0,310,100" extendstyle="1070" frame="true">
-                            <image rect="-5,0,310,100" src="file://image/bluebg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070" BuildChildrenFinished="resChoose"><node/></image>
-                            <label name="textCancelF" rect="0,0,310,100" extendstyle="1010" text="订购" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
+                        <node name="s" rect="0,0,250,100" extendstyle="1070" frame="true">
+                            <image rect="-5,0,250,100" src="file://image/bluebg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070" BuildChildrenFinished="resChoose"><node/></image>
+                            <label name="textCancelF" rect="0,0,250,100" extendstyle="1010" text="订购" font-size="30" color="#FFFFFF" v-align="center" h-align="center"/>
                         </node>
                     </button>
                 </node>
             </node>
         </node>
         <node name="_orderItem" rect="0,0,620,80" extendstyle="0010" visible="false" enable="false">
-            <button name="btnOrderOpt" rect="0,0,620,80" OnSelect="orderOptionOnSelect" extendstyle="1010" normal="n" disabled="d" >
-                <image name="imgbg" rect="58,10,540,60" src="file://image/orderOption_bg.png"  style="sudoku-auto" sudoku="14,22,6,6" extendstyle="1010" />
-                <image name="orderOption" rect="11,20,40,40" src="file://image/orderOption.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1010" />
-                <node name="n" rect="0,0,530,60" extendstyle="1010" >
-                    <label name="titleN" rect="75,10,530,60" text="" color="#817b7b" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="30" v-align="center" h-align="left" extendstyle="1010"/>
+            <button name="btnOrderOpt" rect="0,0,620,80" OnSelect="orderOptionOnSelect" extendstyle="1010" normal="n" disabled="d" >                      
+			   <node name="n" rect="0,0,620,80" extendstyle="1010" >
+			        <image rect="10,6,66,67" src="file://image/setting_radiobox_n.png"  style="autosize"extendstyle="1010" />			        
+                    <label name="titleN" rect="90,10,520,60" text="" color="#817b7b" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="30" v-align="center" h-align="left" extendstyle="1010"/>
                 </node>
-                <node name="d" rect="0,0,530,60" extendstyle="1010" >
-                    <image name="orderOptionD" rect="11,20,40,40" src="file://image/orderOption_d.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1010" ><node/></image>
-                    <label name="titleD" rect="75,10,530,60" text="" color="#565656" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="30" v-align="center" h-align="left" extendstyle="1010"/>
+                <node name="d" rect="0,0,620,80" extendstyle="1010" >
+				    <image rect="10,6,66,67" src="file://image/setting_radiobox_f.png"  style="autosize"extendstyle="1010" />
+                    <image rect="90,10,520,60" src="file://image/orderedit1.png"  style="sudoku-auto" sudoku="14,22,6,6" extendstyle="1010" />					
+                    <label name="titleD" rect="90,10,520,60" text="" color="#565656" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="30" v-align="center" h-align="left" extendstyle="1010"/>
                 </node>
-                <textarea name="orderInfo" rect="75,70,520,60" extendstyle="1010" color="#817b7b" shadow="true" shadow-color="#ffffff" shadow-offset="0,1" font-size="28" text="" autoextend="true" visible="0"/>
+                <textarea name="orderInfo" rect="90,70,520,60" extendstyle="1010" color="#817b7b" shadow="true" shadow-color="#ffffff" shadow-offset="0,1" font-size="28" text="" autoextend="true" visible="0"/>
             </button>
         </node>
     </body>
 </root>
 ]]
-
+  -- <-- <image name="orderOptionD" rect="11,20,40,40" src="file://image/orderOption_d.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1010" ><node/></image>-->
 function OrderNode:show(playerData)
     local rootSprite = Sprite:getCurScene()
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
@@ -3875,7 +3853,7 @@ function onLoadOrderItem(listview, item, index)
     Sprite:setProperty(orderInfo, 'text', _orderData.orderList[index].desc)
     resChoose(Sprite:findChild(item, 'imgbg'))
     resChoose(Sprite:findChild(item, 'orderOption'))
-    resChoose(Sprite:findChild(item, 'orderOptionD'))
+    -- resChoose(Sprite:findChild(item, 'orderOptionD'))
 end
 
 --订购套餐选择
@@ -3893,7 +3871,7 @@ function orderOptionOnSelect(sprite)
         local x1,y1,w1,_ = Sprite:getRect(imgbg)
         Sprite:setRect(imgbg, x1, y1, w1, 60)
         Sprite:setVisible(Sprite:findChild(listitem, 'orderInfo'),0)
-        Sprite:setProperty(imgbg, 'src', 'file://image/orderOption_bg.png')
+        Sprite:setProperty(imgbg, 'src', 'file://image/orderedit1.png')
         resChoose(imgbg)
     end
 
@@ -3906,7 +3884,7 @@ function orderOptionOnSelect(sprite)
     local imgbg = Sprite:findChild(sprite, 'imgbg')
     local x1,y1,w1,_ = Sprite:getRect(imgbg)
     Sprite:setRect(imgbg, x1, y1, w1, h1+80)
-    Sprite:setProperty(imgbg, 'src', 'file://image/orderOption_bg_f.png')
+    Sprite:setProperty(imgbg, 'src', 'file://image/orderedit1.png')
     resChoose(imgbg)
     Log:write('orderOptionOnSelect h1=='..h1)
     ListView:adjust(listview)

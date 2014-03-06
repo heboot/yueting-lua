@@ -28,7 +28,7 @@
 		
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,100,0"   extendstyle="1016" />
 		<node name="contentNode" rect="20,120,686,0" padding="0,0,20,0" extendstyle="1116" >
-	    <listview name="datalListView" rect="0,0,686,0" padding="0,0,100,0"  extendstyle="1116" >	
+	    <listview name="datalListView" rect="0,0,686,0" padding="0,0,100,0"  extendstyle="1116" limit="true" >	
 		</listview>
 		
 		<node rect="0,0,0,80" extendstyle="1571">
@@ -86,6 +86,7 @@ local downtable
 
 local mainTitle
 local title
+local count
 
 
 
@@ -98,7 +99,7 @@ function bodyBuildChildrenFinished(sprite)
 	 local reg = Reg:create('com_wondertek_mobileaudio_novel')
 	 subListTable =Reg:getTable(reg,'selectedworks')
 	 contentListData = subListTable
-	
+	 count=#subListTable+1
 	 downloadBtn = Sprite:findChild(sprite,'downloadBtn')
 	 downbtnn = Sprite:findChild(downloadBtn,'downbtnn')
 	 downbtns = Sprite:findChild(downloadBtn,'downbtns')
@@ -216,12 +217,11 @@ function bodyOnPluginEvent(msg, param)
                 else
                     Tips:show('已开始缓存')
                 end
-                Timer:set(1,2000,"backOnSelect")
             end
 		
 		elseif downloadData and downloadData.success == 'false' then -- 授权失败时，跳转到订购页
              requestProduct(orderParam)
-			 --OrderNode:show(downloadData)
+			 OrderNode:show(downloadData)
 			 Tips:show('授权失败需要订购')
         elseif not downloadData then
             Tips:show('返回数据为空')
@@ -298,13 +298,15 @@ end
 
 
 function loadDataItem(list,item,index)
-	Sprite:setRect(item,0,0,689,0)
-	Sprite:setProperty(item, 'extendstyle', '1117')
+	--Sprite:setRect(item,0,0,689,0)
+	Sprite:setProperty(item, 'extendstyle', '1111')
+	local line =  math.ceil(count/5)
+	Sprite:setRect(item,0,0,686,line*135)
 	datalList = Sprite:findChild(item, 'datalList')
-	Sprite:setProperty(datalList, 'line',math.ceil(#subListTable+1/5))
+	Sprite:setProperty(datalList, 'line',math.ceil(count/5))
 	Sprite:setProperty(datalList, 'col', '5')
 	List:removeAllItems(datalList, 1, 1)
-    List:loadItem(datalList,dataItem,#subListTable+1,'loadDataListItem')
+    List:loadItem(datalList,dataItem,count,'loadDataListItem')
 	List:adjust(datalList) 
    
 end
@@ -517,7 +519,7 @@ function LoadDownloadQuene()
 	local status  = Download:getStatus()	
 	for i=1,#status do
 		Log:write('当前xx',i,#status,status[i].title)
-		for j=0,#subListTable do	
+		for j=1,#subListTable do	
 			if subListTable[j].name == status[i].title then
 				Log:write('LoadDownloadQuene1111',subListTable[j].name,#status,status[i].title)
 				

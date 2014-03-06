@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ == ============================================================================
+ == | WonderTek [ 网络无处不在，沟通及时到达 ]
+ == ============================================================================
+ == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
+ == ============================================================================
+ == | Desc: 首页
+ == ============================================================================
+-->
+<root>
+    <header/>       
+    <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+	<!--main -->
+	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</button>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+	    <button name="editBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="editBtnOnSelect" visible="1" enable="1">
+		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		<label name="editBtnLabel" rect="0,0,104,61" extendstyle="1111" text="编辑" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		</button>
+	   </node>
+		<node name="contentNode" rect="0,90,720,0" padding="0,0,20,0"   extendstyle="1116" >
+		   <panorama name="mainPanorama" rect="0,0,720,0" extendstyle="1017" style="circle" foreground="panoramaItem1">
+		   <panoramaitem name="panoramaItem1" rect="0,0,720,0" extendstyle="1017">
+		   <image rect="270,200,173,135" style="maxsize" alpha="155" extendstyle="1014" src="file://image/nothingbg.png"/>
+		   <label rect="0,380,720,50" text="空空如也" v-align="center" alpha="75" h-align="center" postfix=".."  extendstyle="1010" color="#CCCCCC"  font-size="35"/>
+		   <label rect="0,460,720,50" text="您可以添加作品到本专辑" v-align="center" alpha="255" h-align="center" postfix=".."  extendstyle="1010" color="#000000"  font-size="30"/>
+           </panoramaitem>
+		   <panoramaitem name="panoramaItem2" rect="0,0,720,0" extendstyle="1017" visible="1">
+		   <listview name="podcastListview" rect="0,0,720,0"  extendstyle="1117" limit="false">
+		   </listview>
+           </panoramaitem>
+		   </panorama>	    
+	    </node>
+	</node>
+	
+	<!--左侧菜单推荐的电台数据item-->
+	<node name="podcastItem" rect="0,0,720,172" extendstyle="1010"  visible="0" enable="0" active="0">
+		    <button name="podcastItemBtn" normal="n" sel="s" OnSelect="podcastItemBtnOnSelect" rect="0,0,720,0" extendstyle="1117">								
+			<shadow name="s" rect="0,0,720,0" alpha="50" color="#000000" extendstyle="1117"/> 
+			</button>
+			<image rect="20,19,237,133" src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>	
+			<image name="podcastImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/>
+			<label name="podcastName" rect="270,0,400,172" v-align="center" h-align="center" postfix=".."  extendstyle="1111" color="#FFFFFF"  font-size="35"/>	
+			<button name="deleteBtn" rect="610,64,89,52" style="maxsize" visible="0" enable="0" OnSelect="deleteBtnOnSelect" extendstyle="1011">
+	        <image rect="0,0,89,52" style="maxsize" src="file://image/deletebtn.png"  extendstyle="1011"/>
+	        <label rect="0,0,89,52" extendstyle="1111"  h-align="center" v-align="center"  text="移除"  color="#FFFFFF"  font-size="25"/>
+	        </button>
+			<image name="arrowGo" rect="670,78,31,34" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>	
+            <image rect="0,0,720,2" style="autosize" extendstyle="1514" src="file://image/leftlistview_line.png"/>			
+	</node>	
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+		
+    </node>	
+</body>
+</root>
+<![CDATA[
+require('com_wondertek_mobileaudio.commonlocal')
+
+local rootSprite
+local podcastListview
+local podcastItem
+local mainTitle
+local parentId
+local panoramaItem1
+local IfDelete=false --判断是否移除除
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 podcastListview = Sprite:findChild(sprite, 'podcastListview')
+	 podcastItem = Sprite:findChild(rootSprite, 'podcastItem')
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	 panoramaItem1= Sprite:findChild(rootSprite, 'panoramaItem1')
+	 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 local data=Reg:getString(reg,'albumIndex')
+	 local _,_,Index=string.find(data, 'albumIndex=(%d+);')
+	 albumIndex=Index
+	 Log:write('albumIndex=========',data)
+	 if albumIndex=='1'then 
+	    Sprite:setProperty(mainTitle,'text','我的娱乐')
+	 elseif albumIndex=='2'then 
+	    Sprite:setProperty(mainTitle,'text','我的音乐')
+	 elseif albumIndex=='3'then 
+	    Sprite:setProperty(mainTitle,'text','我的情感')
+	 elseif albumIndex=='4'then 
+	    Sprite:setProperty(mainTitle,'text','我的脱口秀')
+	 end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	   Bottom:show()
+       requestPodcastUserData()
+	  Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求小说列表数据方法  ]]--
+function requestPodcastUserData()
+	-- local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+    -- local userId = Reg:getString(regCommunity ,'userId')
+        -- _userId = userId
+	-- if _userId and _userId ~= '' then
+	local userId='99999838'
+       Http:request('podcastUserData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,103)
+    -- end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 103 then
+	     Loading:close()
+		 podcastUserData = Http:jsonDecode('podcastUserData')
+		 loadpodcastListviewData()
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function loadpodcastListviewData()
+    if albumIndex=='1' then 
+	  if podcastUserData.list1~=''  and podcastUserData.list1~=nil then	  
+	     setNodeState(panoramaItem1,0)
+	     ListView:removeAllItems(podcastListview, 1, 1)
+         ListView:loadItem(podcastListview,podcastItem,#podcastUserData.list1+1,'loadpodcastItem')
+	     ListView:adjust(podcastListview)
+	  end	  
+	elseif albumIndex=='2' then
+	  if podcastUserData.list2~=''  and podcastUserData.list2~=nil then
+	     setNodeState(panoramaItem1,0)
+	     ListView:removeAllItems(podcastListview, 1, 1)
+         ListView:loadItem(podcastListview,podcastItem,#podcastUserData.list2+1,'loadpodcastItem')
+	     ListView:adjust(podcastListview)
+	  end	
+	elseif albumIndex=='3' then
+	  if podcastUserData.list3~=''  and podcastUserData.list3~=nil then
+	     setNodeState(panoramaItem1,0)
+	     ListView:removeAllItems(podcastListview, 1, 1)
+         ListView:loadItem(podcastListview,podcastItem,#podcastUserData.list3+1,'loadpodcastItem')
+	     ListView:adjust(podcastListview)
+	  end	
+	elseif albumIndex=='4' then
+	  if podcastUserData.list4~=''  and podcastUserData.list4~=nil then
+	     setNodeState(panoramaItem1,0)
+	     ListView:removeAllItems(podcastListview, 1, 1)
+         ListView:loadItem(podcastListview,podcastItem,#podcastUserData.list4+1,'loadpodcastItem')
+	     ListView:adjust(podcastListview)
+	  end	
+   end	
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadpodcastItem(list,item,index)
+    Sprite:setRect(item, 0,0,720,172)
+    Sprite:setProperty(item,'extendstyle','1010')
+	local podcastImage=Sprite:findChild(item,'podcastImage')
+	local podcastName=Sprite:findChild(item,'podcastName')
+	local arrowGo =Sprite:findChild(item, 'arrowGo')
+	local deleteBtn =Sprite:findChild(item, 'deleteBtn')
+	local podcastItemBtn=Sprite:findChild(item,'podcastItemBtn')
+	if albumIndex=='1' then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list1[index].videoImg)
+	   Sprite:setProperty(podcastName,'text',podcastUserData.list1[index].title)
+	elseif albumIndex=='2' then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list2[index].videoImg)
+	   Sprite:setProperty(podcastName,'text',podcastUserData.list2[index].title)
+	elseif albumIndex=='3' then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list3[index].videoImg)
+	   Sprite:setProperty(podcastName,'text',podcastUserData.list3[index].title)
+	elseif albumIndex=='4' then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list4[index].videoImg)
+	   Sprite:setProperty(podcastName,'text',podcastUserData.list4[index].title)
+	end
+	if not IfDelete then
+       Sprite:setVisible(arrowGo, 1)
+       Sprite:setVisible(deleteBtn, 0)
+	   Sprite:setEnable(deleteBtn, 0)  
+       Sprite:setEnable(podcastItemBtn, 1)  	  	   
+	else 
+	   Sprite:setVisible(arrowGo, 0)
+       Sprite:setVisible(deleteBtn, 1)
+	   Sprite:setEnable(deleteBtn, 1)  
+       Sprite:setEnable(podcastItemBtn, 0)  		   
+	end
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function podcastItemBtnOnSelect(sprite)
+	-- local data = Sprite:getData(sprite)
+	-- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	-- Reg:setString(reg,'albumIndex',data)
+	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+end
+
+function editBtnOnSelect(sprite)
+    local editBtnLabel=Sprite:findChild(rootSprite,'editBtnLabel')
+	if Sprite:getText(editBtnLabel) =='编辑' then
+       Sprite:setProperty(editBtnLabel,'text','完成')
+	   IfDelete=true
+	elseif  Sprite:getText(editBtnLabel) =='完成' then
+	   Sprite:setProperty(editBtnLabel,'text','编辑')
+	   IfDelete=false
+	end
+	loadpodcastListviewData()
+end
+
+function deleteBtnOnSelect(sprite)
+    -- Log:write('deleteBtnOnSelect=====')
+	-- local data=Sprite:getData(sprite)
+	-- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	-- deleteNodeId=nodeId
+	-- dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
+    Dialog:show('', '要将该作品从专辑总转移到作品中吗？', 'ok_cancel', 'Delete_cancel')
+end
+
+
+--[[
+ ------------------------------------------------------------
+ -- @function Dialog:show(title, message, typeStr, okCallback, cancelCallback, okText, cancelText, checkBoxCallback, checkBoxText, isChecked)
+ ------------------------------------------------------------
+ -- @brief 显示对话框
+ ------------------------------------------------------------
+ -- @param string title 对话框标题
+ -- @param string message 对话框内容
+ -- @param string typeStr 对话框类型，'ok'、'cancle'、'ok_cancel'
+ -- @param string okCallback 确定回调函数名，可空
+ ------------------------------------------------------------
+ -- @return void
+ ------------------------------------------------------------
+ --]]
+function Dialog:show(title, message, typeStr, okCallback)
+    local curScene = Sprite:getCurScene()
+    Sprite:sendEvent(curScene, Msg.dialogShow)
+    local mainNode = Sprite:findChild(curScene, 'mainNode')
+    local dialogNode = Sprite:findChild(curScene, 'dialogNode')
+    if dialogNode ~= 0 then
+        setNodeState(dialogNode, 1)
+    else
+        dialogNode = Sprite:create('node', Sprite:findChild(curScene, 'mainNode'))
+        Sprite:setProperty(dialogNode, 'name', 'dialogNode')
+		Sprite:loadFromString(dialogNode, Dialog.layout)
+    end
+	local dtext = Sprite:findChild(dialogNode, 'dtext')
+	local okBtn = Sprite:findChild(dialogNode, 'okBtn')
+	local cancelBtn = Sprite:findChild(dialogNode, 'cancelBtn')
+    Sprite:setProperty(dtext, 'text', message)
+end
+
+--Dialog确定按钮
+function _okProc()
+CollectionType=1
+deleteOneCollectionProg(deleteNodeId,CollectionType)
+local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+local regFile = 'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlistlocal.xml'
+Reg:load(reg,regFile)
+g_collectionIdsStr = Reg:getString(reg, 'audiocollectionIds')
+listviewdata=readCollections(g_collectionIdsStr)	
+loadListviewData()
+Dialog:close()
+end
+
+--Dialog取消按钮
+function _cancelProc()
+Dialog:close()
+end
+
+Dialog.layout = [[
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <header/>
+    <body>
+        <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
+        <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
+        <node name="dframe" rect="54,475,612,230" extendstyle="1010">
+            <image rect="0,0,612,230" src="file://image/dialogbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" />
+            <textarea name="dtext" text="" rect="0,0,612,100" extendstyle="1010" font-size="28" color="#7F7B7A" line-height="25" h-align="center" v-align="center" loop="true" step="1"/>
+            <node name="btnArea" rect="34,120,544,77" extendstyle="0010">
+                <button name="okBtn" rect="0,0,255,77" style="autosize" OnSelect="_okProc" extendstyle="1510" normal="n" sel="s">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkN" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,255,77" extendstyle="1010" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkF" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+                <button name="cancelBtn" rect="289,50,255,77" OnSelect="_cancelProc" extendstyle="1570" normal="n" sel="s" disabled="d">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070"/>
+                        <label name="textCancelN" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,255,77" extendstyle="1070" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070"/>
+                        <label name="textCancelF" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+            </node>
+        </node>
+    </body>
+</root>
+]]
+
+]]>

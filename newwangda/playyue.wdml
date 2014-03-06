@@ -42,67 +42,48 @@
 		  <node rect="0,0,0,170"  extendstyle="1870">
 		     <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
 			 <node name="playingAnimation" rect="0,0,170,170" extendstyle="1010" visible="0" enable="0">
-			 <animate rect="0,0,170,170" delay="15" loop="true" extendstyle="0000">
-             <animate-frame start="$(start)" delay="$(delay)">
-             <image rect="$(rect)"  alpha="50" style="autosize" src="file://image/playing_1.png" extendstyle="0000"/>
-             </animate-frame>
-             <dataset>  			
-			 <set rect="53,38,150,150" start="0" delay="8" src="file://image/playing_1.png" />
-			 <set rect="42,29,170,170" start="4" delay="4" src="file://image/playing_2.png" />
-             </dataset>
-             </animate>	
+			    <animate rect="0,0,170,170" delay="15" loop="true" extendstyle="0000">
+                <animate-frame start="$(start)" delay="$(delay)">
+                <image rect="$(rect)"  alpha="50" style="autosize" src="file://image/playing_1.png" extendstyle="0000"/>
+                </animate-frame>
+                <dataset>  			
+			    <set rect="53,38,150,150" start="0" delay="8" src="file://image/playing_1.png" />
+			    <set rect="42,29,170,170" start="4" delay="4" src="file://image/playing_2.png" />
+                </dataset>
+                </animate>	
 			 </node>
 			 <button name="playBtn" rect="58,44,138,138" extendstyle="1010"  OnSelect="playBtnOnSelect" visible="1" enable="1">
-			 <image rect="0,0,0,0" style="autosize" src="file://image/playbackground.png" extendstyle="1177"/>
+			    <image rect="0,0,0,0" style="autosize" src="file://image/playbackground.png" extendstyle="1177"/>
 			 </button>
 			 <button name="pauseBtn" rect="58,44,138,138" extendstyle="1010"  OnSelect="pauseBtnOnSelect" visible="0" enable="0">
-			 <image rect="0,0,0,0" style="autosize" src="file://image/pausebackground.png" extendstyle="1177"/>
+			    <image rect="0,0,0,0" style="autosize" src="file://image/pausebackground.png" extendstyle="1177"/>
 			 </button>
 			 <node name="refreshAnimation" rect="58,44,138,138" extendstyle="1010"  visible="0" enable="0">
-			 <animate rect="0,0,138,138" delay="24" loop="true" extendstyle="0000">
-             <animate-frame start="$(start)" delay="1">
-             <image rect="0,0,138,138" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
+			    <animate rect="0,0,138,138" delay="24" loop="true" extendstyle="0000">
+                <animate-frame start="$(start)" delay="1">
+                <image rect="0,0,138,138" rotate="$(rotate)" style="autosize" src="file://image/refreshbackgroung.png" extendstyle="0000"/>
              </animate-frame>
-             <dataset>  			
-			 <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
-			 <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
-			 <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
-			 <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
-			 <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
-			 <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
-             </dataset>
-             </animate>	
+              <dataset>  			
+			    <set start="0" rotate="345"/><set start="1" rotate="330"/><set start="2" rotate="315"/><set start="3" rotate="300"/>
+			    <set start="4" rotate="285"/><set start="5" rotate="270"/><set start="6" rotate="255"/><set start="7" rotate="240"/>
+			    <set start="8" rotate="225"/><set start="9" rotate="210"/><set start="10" rotate="195"/><set start="11" rotate="180"/>
+			    <set start="12" rotate="165"/><set start="13" rotate="150"/><set start="14" rotate="135"/><set start="15" rotate="120"/>
+			    <set start="16" rotate="105"/><set start="17" rotate="90"/><set start="18" rotate="75"/><set start="19" rotate="60"/>
+			    <set start="20" rotate="45"/><set start="21" rotate="30"/><set start="22" rotate="15"/><set start="23" rotate="360"/>
+              </dataset>
+                </animate>	
 			 </node>
 			 <node rect="0,0,570,0" extendstyle="8017">
-             <scrolltext name="audioname" rect="90,70,0,90" color="#f06a06" text="暂无数据"  step="2" scroll="true" font-size="40" extendstyle="1171"/>
-			 <node name="endTimeNode" rect="90,180,0,90" extendstyle="1171" visible="1" enable="0" >
-			 <label  name="audioEndTime" rect="0,0,200,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
-			 <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" extendstyle="8511"/>
-			 <label  rect="0,0,100,50" color="#f06a06" text="结束" font-size="30" extendstyle="8511"/>
-			 </node>
+               <scrolltext name="audioname" rect="90,70,0,90" color="#f06a06" text="暂无数据"  step="2" scroll="true" font-size="40" extendstyle="1171"/>
+			   <node name="endTimeNode" rect="90,180,0,90" extendstyle="1171" visible="1" enable="0" >
+			    <label  name="audioEndTime" rect="0,0,200,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
+			    <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" extendstyle="8511"/>
+			    <label  rect="0,0,100,50" color="#f06a06" text="结束" font-size="30" extendstyle="8511"/>
+			  </node>
 			 </node>
 		  </node>
 		</node>
-		
-    <node name="moreContentsNode" rect="350,80,348,418"  visible="0"  enable="0" extendstyle="1010">
-	    <image rect="0,0,0,0" style="autosize" src="file://image/radiomore_bg.png"  extendstyle="1077">
-	    </image>
-		<list name="radioMoreList" rect="20,60,0,0"  col="1" line="3" extendstyle="1077">
-		<list-item name="item1" rect="0,0,301,114" extendstyle="1010">
-		<button name="radioMoreItemBtn" rect="0,0,0,104" normal="n" sel="s" OnSelect="radioMoreItemBtnOnSelect" extendstyle="1070">
-		   <image rect="0,0,0,0" name="n" src="file://image/radiomorebt.png" style="autosize" extendstyle="1077"/>
-		   <image rect="0,0,0,0" name="s" src="file://image/radiomorebt_s.png" style="autosize" extendstyle="1077"/>
-		   <image rect="30,36,33,34" name="s" src="$(src)" style="autosize" extendstyle="1010"/>k
-		   <label rect="0,0,0,0" name="s" text="$(text)" v-align="center" h-align="center" color="#ffffff" extendstyle="1077"/>
-		</button>
-        </list-item>
-		<dataset>
-		<set src="file://image/radiorelisten.png"  text="回听节目"/>
-        <set src="file://image/radioappoint.png" text="预约节目"/>	
-        <set src="file://image/radiolist.png"  text="节目单"/>	 
-		</dataset>
-    </list>
-	</node>
+	
 		
     <node rect="0,0,0,93"  extendstyle="1871">
 	    <image rect="0,0,0,0" style="minsize" src="file://image/progressbg.png" extendstyle="1077"/>
@@ -138,9 +119,9 @@
 		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
         <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"   v-align="center" text="" color="#FFFFFF" font-size="40"/>	
         <node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
-		<image  name="collection_n" rect="40,14,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
-		<image  name="collection_s" rect="40,14,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
-		<label  name="click2collect" rect="13,88,130,88" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
+		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
+		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
+		    <label  name="click2collect" rect="13,115,130,60" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
         </node>
 		</node>				  
         <node name="sMiddle" rect="0,0,720,200" extendstyle="1111">
@@ -160,7 +141,30 @@
 			<image rect="50,10,50,50"  style="autosize" extendstyle="1111" src="file://image/progress_forward.png"/>
 			<label text="前进30秒" rect="20,60,0,0" extendstyle="1577" color="#FFFFFF" />
 			</button>			
-	</node>	  
+	</node>	 
+
+<node name="closeNode" rect="0,0,0,0" extendstyle="1177" visible="0" enable="0"> 
+		<button rect="0,0,0,0" extendstyle="1177" OnSelect="closeNodeOnSelect"/>	
+        <node name="moreContentsNode" rect="350,80,348,418"  visible="0"  enable="0" extendstyle="1010">
+	    <image rect="0,0,0,0" style="autosize" src="file://image/radiomore_bg.png"  extendstyle="1077">
+	    </image>
+		<list name="radioMoreList" rect="20,60,0,0"  col="1" line="3" extendstyle="1077">
+		<list-item name="item1" rect="0,0,301,114" extendstyle="1010">
+		<button name="radioMoreItemBtn" rect="0,0,0,104" normal="n" sel="s" OnSelect="radioMoreItemBtnOnSelect" extendstyle="1070">
+		   <image rect="0,0,0,0" name="n" src="file://image/radiomorebt.png" style="autosize" extendstyle="1077"/>
+		   <image rect="0,0,0,0" name="s" src="file://image/radiomorebt_s.png" style="autosize" extendstyle="1077"/>
+		   <image rect="30,36,33,34" name="s" src="$(src)" style="autosize" extendstyle="1010"/>k
+		   <label rect="0,0,0,0" name="s" text="$(text)" v-align="center" h-align="center" color="#ffffff" extendstyle="1077"/>
+		</button>
+        </list-item>
+		<dataset>
+		<set src="file://image/radiorelisten.png"  text="回听节目"/>
+        <set src="file://image/radioappoint.png" text="预约节目"/>	
+        <set src="file://image/radiolist.png"  text="节目单"/>	 
+		</dataset>
+        </list>
+	    </node>
+	</node>		
     <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>  
     </node>
     </body>
@@ -192,6 +196,7 @@ local movex
 local progressOption
 local leftx
 local moreContentsNode
+local closeNode
 -----------播放器进度条
 local totalTime
 local startTime
@@ -222,6 +227,7 @@ function bodyBuildChildrenFinished(sprite)
     endTimeNode=Sprite:findChild(sprite,'endTimeNode')
 	wifiFlag=Sprite:findChild(sprite,'wifiFlag')
 	moreContentsNode=Sprite:findChild(sprite,'moreContentsNode')
+	closeNode=Sprite:findChild(sprite,'closeNode')
 	-------暂时使用gallery------
 	galleryItem = Sprite:findChild(sprite, 'galleryItem')
 	gallery = Sprite:findChild(sprite, 'gallery')
@@ -355,7 +361,8 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
-		Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
+	setNodeState(closeNode,0)
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
 	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
 	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml') 
 	PELiveFinishFlag = false  --该变量用于判断华为播放器直播回放节目是否播放结束
@@ -721,11 +728,19 @@ end
 
 --三个。。。点击事件
 function moreContentsBtnOnSelect(sprite)
-   if Sprite:isVisible(moreContentsNode)==0  then
-    setNodeState(moreContentsNode,1)
+   if Sprite:isVisible(moreContentsNode)==0  then  
+        setNodeState(closeNode,1)
+        setNodeState(moreContentsNode,1)
 	else
+	   setNodeState(closeNode,0) 
+       setNodeState(moreContentsNode, 0) 	
+    end
+end
+
+--全屏显示，点击button时，消失
+function closeNodeOnSelect(sprite)
+	setNodeState(closeNode, 0) 
 	setNodeState(moreContentsNode,0)
-  end
 end
 
 

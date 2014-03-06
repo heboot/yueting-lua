@@ -77,7 +77,8 @@ function bodyOnSpriteEvent(msg, param)
 	 Sprite:setProperty(mainTitle,"text",titledata)
 	 Http:request('radioLiveItemData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/radiolive/radioLiveItemData.jsp?'..'nodeId='..parentId..'&objType=item',108)
     elseif msg == MSG_DEACTIVATE then
-
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
     else
         Util:onSpriteEvent(msg, param)
     end

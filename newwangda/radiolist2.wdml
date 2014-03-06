@@ -86,7 +86,7 @@
 	<!--今日日节目Item-->
 	<node name="todaylistlvItem" rect="0,0,688,90" extendstyle="1010" visible="0" enable="0">
             <button name="audiotodayBtn" rect="0,0,0,0"  normal="n" sel="s" OnSelect="audiotodayBtnOnSelect" extendstyle="1077">
-			<label name="radioname" rect="40,0,0,40" extendstyle="1070"  text=""  color="#FFFFFF"  font-size="30"/>
+			<label name="radioname" rect="40,0,0,40" extendstyle="1070"  text=""  color="#a3a3a3"  font-size="30"/>
 			<shadow name="s" rect="0,0,0,0" color="#000000" alpha="75" extendstyle="0077"/>
             <image rect="0,0,0,2"  src="file://image/leftlistview_line.png" extendstyle="1571" />
 			<label rect="40,50,140,40" extendstyle="1010"  text="播出时间" v-align="center" color="#a3a3a3"  font-size="28"/>
@@ -239,6 +239,16 @@ function onLoadtodayItem(list, item, index)
 	if hasReserved(contentId, g_reserveIdsStr) then
         Sprite:setVisible(alreadyappoint,1)
     end
+	
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(radioLiveItemData.list2.programs[index].sCompleteTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')	
+    local startTimeToSec = os.time{year=cyear, month=cmonth, day=cday, hour=chour,min=cmin,sec=csec}
+    local curTime = math.floor(Util:getServerTime()/1000)
+    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)
+	if startTimeToSec>=curTime then
+	Sprite:setEnable(audiotodayBtn,0) 
+	Sprite:setProperty(radioname, 'color', '#FFFFFF')
+	end	
+	
     Sprite:setProperty(radioname, 'text', radioLiveItemData.list2.programs[index].name)
 	Sprite:setProperty(audiostarttime, 'text', radioLiveItemData.list2.programs[index].sTime)
 	Sprite:setProperty(audioendtime, 'text',radioLiveItemData.list2.programs[index].eTime)

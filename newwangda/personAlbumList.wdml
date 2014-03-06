@@ -22,7 +22,7 @@
 		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="加载中" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="专辑" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 	    </node>
 		
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,20,0"   extendstyle="1016" />
@@ -73,7 +73,8 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	   Bottom:show()
-      requestPodcastListData()
+      requestPodcastUserData()
+	  -- LoadpodcastListviewData()
 	  Loading:show()
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
@@ -86,43 +87,63 @@ function bodyOnSpriteEvent(msg, param)
 end
 
 --[[  请求小说列表数据方法  ]]--
-function requestPodcastListData()
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-	local data=Reg:getString(reg,'podcastRecMoreData')
-	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
-	local _,_,name=string.find(data,'name=([^;]+);')
-	Sprite:setProperty(mainTitle,'text',name)
-	if nodeId and nodeId ~= '' then
-       Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastListData.jsp?'..'nodeId='..nodeId,103)
-    end
+function requestPodcastUserData()
+	local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+    -- local userId = Reg:getString(regCommunity ,'userId')
+        -- _userId = userId
+	-- if _userId and _userId ~= '' then
+	local userId='99999838'
+       Http:request('podcastUserData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,103)
+    -- end
 end
 
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
 	if msg == 103 then
 	     Loading:close()
-		 podcastListData = Http:jsonDecode('podcastListData')
+		 podcastUserData = Http:jsonDecode('podcastUserData')
 		 LoadpodcastListviewData()
 	end
 end
 
 --[[  加载小说列表数据方法 ]]--
 function LoadpodcastListviewData()
-    if podcastListData.contentList~='' and podcastListData.contentList~=nil then 
+    -- if podcastUserData.contentList~='' and podcastUserData.contentList~=nil then 
 	ListView:removeAllItems(podcastListview, 1, 1)
-    ListView:loadItem(podcastListview,podcastItem,#podcastListData.contentList+1,'loadpodcastItem')
+    ListView:loadItem(podcastListview,podcastItem,4,'loadpodcastItem')
 	ListView:adjust(podcastListview)
-   end	
+   -- end	
 end
 
 --[[  加载小说列表ITEM数据方法 ]]--
 function loadpodcastItem(list,item,index)
     Sprite:setRect(item, 0,0,686,172)
     Sprite:setProperty(item,'extendstyle','1010')
-	Sprite:setProperty(Sprite:findChild(item,'podcastImage'),'src',podcastListData.contentList[index].limg)
-	Sprite:setProperty(Sprite:findChild(item,'podcastName'),'text',podcastListData.contentList[index].title)
-	Sprite:setProperty(Sprite:findChild(item,'podcastAnchor'),'text',podcastListData.contentList[index].userName)
-	Sprite:setProperty(Sprite:findChild(item,'podcastItemBtn'),'data',podcastListData.contentList[index].param)
+	local podcastImage=Sprite:findChild(item,'podcastImage')
+	local podcastName=Sprite:findChild(item,'podcastName')
+	local podcastAnchor=Sprite:findChild(item,'podcastAnchor')
+	local podcastItemBtn=Sprite:findChild(item,'podcastItemBtn')
+	if index==0 then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list1[#podcastUserData.list1].videoImg)
+	   Sprite:setProperty(podcastName,'text','娱乐/'..#podcastUserData.list1+1)
+	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list1[#podcastUserData.list1].sname)
+	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=1;')
+	elseif index==1 then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
+	   Sprite:setProperty(podcastName,'text','音乐/'..#podcastUserData.list2+1)
+	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list2[#podcastUserData.list2].sname)
+	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=2;')
+	elseif index==2 then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list3[#podcastUserData.list3].videoImg)
+	   Sprite:setProperty(podcastName,'text','情感/'..#podcastUserData.list3+1)
+	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list3[#podcastUserData.list3].sname)
+	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=3;')
+	elseif index==3 then
+	   Sprite:setProperty(podcastImage,'src',podcastUserData.list4[#podcastUserData.list4].videoImg)
+	   Sprite:setProperty(podcastName,'text','脱口秀/'..#podcastUserData.list4+1)
+	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list4[#podcastUserData.list4].sname)
+	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=4;')
+	end
 end
 
 --返回按钮方法
@@ -139,13 +160,11 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function podcastItemBtnOnSelect(sprite)
-	local item= Sprite:getParent(sprite)
-    local index=ListView:getItemIndex(item) 
 	local data = Sprite:getData(sprite)
 	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-	Reg:setInteger(reg,'isNodeId',1)
-	Reg:setString(reg,'bokeItemData',data)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+	Reg:setString(reg,'albumIndex',data)
+	Log:write('albumIndex=========1',data)
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\personAlbumList2.wdml',{freeDestScene=true})
 end
 
 

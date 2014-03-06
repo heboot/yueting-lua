@@ -72,8 +72,9 @@ function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	 Bottom:show()
 	 loadData()
-	 elseif msg == MSG_DEACTIVATE then
-
+	elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
     else
         Util:onSpriteEvent(msg, param)
     end

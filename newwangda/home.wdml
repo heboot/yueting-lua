@@ -890,6 +890,7 @@ if msg == 101 then
         Log:write("loginPhoneNumData",loginPhoneNumData)
         if loginPhoneNumData and loginPhoneNumData.userInfo then
             local img = Util:getWeiBoServer() ..'publish/clt' .. loginPhoneNumData.userInfo.picture
+			Log:write('img==========',img)
             Sprite:setProperty(userPic,"src",img)
             Sprite:setProperty(userBtn,"data",'')
 			local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
@@ -921,6 +922,8 @@ if msg == 101 then
         if type(sdcfg) == 'table' then --有配置信息
             Net:changeSdcfg(sdcfg)
         end
+	else
+        Util:onPluginEvent(msg, param)
   end
     
 end
@@ -1257,7 +1260,7 @@ function mainNodeOnKeyUp(sprite, kc)
 			Sprite:setEnable(timedCloseNode,0) 
 	   else
        dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
-       Dialog:show(dialogTitle, dialogContent, 'ok_cancel', 'UI_exit')
+       Dialog:show('', dialogContent, 'ok_cancel', 'UI_exit')
 	   end
     end
 end

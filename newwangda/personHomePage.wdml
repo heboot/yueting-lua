@@ -72,7 +72,6 @@
 			</button>
 	</node>	
 	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
 	<node name="popupNode" rect="0,0,720,1280" extendstyle="0017"/>
     </node>	
 </body>
@@ -106,52 +105,68 @@ function bodyOnSpriteEvent(msg, param)
 	    commonActivate()
         local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
         local imgpath = Reg:getString(reg,"imgpath")
+		Log:write('imgpath========1',imgpath)
         if imgpath ~= "" then
             Reg:setString(reg,"imgpath","")
             if IO:fileExist(imgpath) then
-                local fext = IO:fileExt(imgpath)
+                    local fext = IO:fileExt(imgpath)
 				if cameraIndex==1 then
-                local desPath = "MODULE:\\com_wondertek_mobileaudio\\spaceBg." .. fext
-                IO:fileCopy(imgpath,desPath,true)
-                IO:fileRemove(imgpath)
-                Config:set("spaceBg",desPath)
+                    local desPath = "MODULE:\\com_wondertek_mobileaudio\\spaceBg." .. fext
+                    IO:fileCopy(imgpath,desPath,true)
+                    IO:fileRemove(imgpath)
+                    Config:set("spaceBg",desPath)
 				elseif cameraIndex==2 then
-				local desPath = "MODULE:\\com_wondertek_mobileaudio\\userImg." .. fext              
-                IO:fileCopy(imgpath,desPath,true)
-                IO:fileRemove(imgpath)
-                Config:set("userImg",desPath)
-				local imgSrc=desPath
-                local imgData = IO:fileRead(imgSrc)				
-                imgData2 = Base64EncodeEX(imgData, IO:fileSize(imgSrc))
-                imgData3 = 'myFile=' .. imgData2
-                Http:request('settingData', Util:getWeiBoServer() .. 'sup/sup_infoEdit.msp?fileName=png', 102, {useCache=0, method='post', postData=imgData3})
+				    local desPath = "MODULE:\\com_wondertek_mobileaudio\\userImg." .. fext              
+                    IO:fileCopy(imgpath,desPath,true)
+                    IO:fileRemove(imgpath)
+                    Config:set("userImg",desPath)
+				    local imgCachePath = GetLocalFilename(userImg)
+					-- local imgCachePath="CACHE:\\com_wondertek_mobileaudio\\image\\604d0103ecaf44f51066f8bb9320701e.png"
+					Log:write('imgCachePath=======1',imgCachePath)
+					Log:write('imgCachePath=======2',IO:fileExist(imgCachePath))
+                    if IO:fileExist(imgCachePath) then
+                       local removeio=IO:fileRemove(imgCachePath)
+					   Log:write('imgCachePath=======3',removeio)
+                    end
+					Sprite:setProperty(msgImg,"src",desPath)
+                    local imgData = IO:fileRead(desPath)				
+                    imgData2 = Base64EncodeEX(imgData, IO:fileSize(desPath))
+                    imgData3 = 'myFile=' .. imgData2
+                    Http:request('settingData', Util:getWeiBoServer() .. 'sup/sup_infoEdit.msp?fileName=png', 102, {useCache=0, method='post', postData=imgData3})
+				    Loading:show()
 				end
             end
+			 local imgBg = Config:get("spaceBg")
+	            local userImgCig = Config:get("userImg")
+	            Log:write('imgpath========3',userImgCig)
+               if imgBg ~= "" then
+                  Sprite:setProperty(spaceBg,"src",imgBg)
+               end
+		       if userImgCig ~= "" then
+                  Sprite:setProperty(msgImg,"src",userImgCig)
+               end
+		else
+			   local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+               local userId = Reg:getString(regCommunity ,'userId')
+               _userId = userId
+	           requestUserinfoData()	  
+	           commonDeactivate()
         end
-	  local imgBg = Config:get("spaceBg")
-	  local userImg = Config:get("userImg")
-        if imgBg ~= "" then
-            Sprite:setProperty(spaceBg,"src",imgBg)
-        end
-		if userImg ~= "" then
-            Sprite:setProperty(msgImg,"src",userImg)
-        end
-	   local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
-       local userId = Reg:getString(regCommunity ,'userId')
-       _userId = userId
-	   requestUserinfoData()	  
-	   commonDeactivate()
+	           
+	           
     elseif msg == MSG_DEACTIVATE then
+	    commonDeactivate()
+        Scene:freeByHandle(rootSprite)
     elseif msg == MSG_STRINGEVENT then 
-	local paramEventID = Param:getInteger(param, 0)
-        if paramEventID == 9 then
-            local imgPath = Param:getString(param, 1)
-            if not string.find(imgPath, 'error=') then
-                clipImg(imgPath)
-            end
-            return
+	          local paramEventID = Param:getInteger(param, 0)
+              if paramEventID == 9 then
+                 local imgPath = Param:getString(param, 1)
+                 if not string.find(imgPath, 'error=') then
+                    clipImg(imgPath)
+                 end
+              return
         end
-    Util:onSpriteEvent(msg, param)
+        Util:onSpriteEvent(msg, param)
     elseif msg == Msg.login then
       
     else
@@ -166,6 +181,16 @@ function bodyOnPluginEvent(msg, param)
 	     Loading:close()
 		 personHomeListData = Http:jsonDecode('personHomeListData')
 		 LoadpersonHomeListviewData()
+    elseif  msg == 102 then
+        Loading:close()
+        local requestData = Http:jsonDecode('settingData')
+        if requestData then
+            if requestData.result == '0000' then
+                Tips:show('亲，修改成功啦')
+            else
+                Tips:show(requestData.description)
+            end
+        end
 	elseif msg == 110 then
 	    userinfoData = Http:jsonDecode('userinfoData')
         Log:write('userinfoData 110',userinfoData)
@@ -200,7 +225,7 @@ function loadpersonHomeItem(list,item,index)
 	Sprite:setProperty(personHomeName,'text','作品/'..userinfoData.worksCount)
 	Sprite:setProperty(personHomeWorksimg,'src','file://image/works.png')
 	elseif index==2 then
-	Sprite:setProperty(personHomeName,'text','专辑/20')
+	Sprite:setProperty(personHomeName,'text','专辑/4')
 	Sprite:setProperty(personHomeWorksimg,'src','file://image/specialworks.png')
 	end	
 end
@@ -223,6 +248,8 @@ function personHomeItemBtnOnSelect(sprite)
     local index=ListView:getItemIndex(item) 
 	if index==0 then
 	Scene:go('MODULE:\\com_wondertek_mobileaudio\\localfile.wdml',{freeDestScene=true})
+	elseif index==2 then
+	Scene:go('MODULE:\\com_wondertek_mobileaudio\\personAlbumList.wdml',{freeDestScene=true})
 	end
 end
 
@@ -244,10 +271,10 @@ function LoadUserInfo()
     local msgImg = Sprite:findChild(rootSprite,'msgImg')
     local msgMood = Sprite:findChild(rootSprite,'msgMood')
 	local fansTotal = Sprite:findChild(rootSprite,'fansTotal')
-    mypicurl =userinfoData.picture or ''
-    if mypicurl~='' then
-        mypicurl =Util:getWeiBoServer() .. 'publish/clt' .. mypicurl
-        Sprite:setProperty(msgImg,'src', mypicurl)
+    userImg =userinfoData.picture or ''
+    if userImg~='' then
+        userImg =Util:getWeiBoServer() .. 'publish/clt' .. userImg
+        Sprite:setProperty(msgImg,'src', userImg)
     end
     Sprite:setProperty(msgMood,'text',userinfoData.sign == "" and "简介:这个人很懒，啥都没填写" or "简介:" .. userinfoData.sign)
 	Sprite:setProperty(fansTotal,'text',userinfoData.followerCount)
@@ -294,7 +321,7 @@ function clipImg(imgPath)
 end
 
 function getAlbumImg(imgPath, imgType)
-    Log:write('imgPath', imgPath)
+    Log:write('imgPath============', imgPath)
     local fileExt = string.lower(IO:fileExt(imgPath))
     if imgPath and fileExt == "jpg" or fileExt == "png" then
         clipImg(imgPath)

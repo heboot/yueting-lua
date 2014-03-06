@@ -27,13 +27,13 @@
 		
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,20,0"   extendstyle="1016" />
 		<node name="contentNode" rect="20,120,686,0" padding="0,0,20,0"   extendstyle="1116" >
-	       <listview name="datalListView" rect="0,0,686,0" extendstyle="1117">
+	       <listview name="datalListView" rect="0,0,686,0" extendstyle="1117" limit="true" >
 		   </listview>
 	    </node>
 	</node>
 	
 	<node name="dataListviewItem" rect="0,0,686,0" extendstyle="1017"  visible="0" enable="0" active="0">
-	    <list name="datalList" rect="4,-5,678,0" col="5" extendstyle="1117">
+	    <list name="datalList" rect="4,-5,678,0" col="5" extendstyle="1111">
 		</list>
 	</node>
 	
@@ -85,7 +85,8 @@ function bodyOnSpriteEvent(msg, param)
 	  Bottom:show()
 	  LoadListData()
     elseif msg == MSG_DEACTIVATE then
-        
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else
@@ -110,15 +111,16 @@ end
 
 
 function loadDataItem(list,item,index)
-	Sprite:setRect(item,0,0,689,0)
-	Sprite:setProperty(item, 'extendstyle', '1117')
+	--Sprite:setRect(item,0,0,689,0)
+	Sprite:setProperty(item, 'extendstyle', '1111')
 	datalList = Sprite:findChild(item, 'datalList')
+	local line =  math.ceil(count/5)
+	Sprite:setRect(item,0,0,686,line*137)
 	Sprite:setProperty(datalList, 'line', math.ceil(count/5))
 	Sprite:setProperty(datalList, 'col', '5')
 	List:removeAllItems(datalList, 1, 1)
     List:loadItem(datalList,dataItem,count,'loadDataListItem')
-	List:adjust(datalList) 
-   
+	List:adjust(datalList)   
 end
 
 function loadDataListItem(list,item,index)

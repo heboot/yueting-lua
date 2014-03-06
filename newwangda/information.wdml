@@ -138,7 +138,8 @@ function bodyOnSpriteEvent(msg, param)
         _userId = userId
 		requestUserinfoData()		 	 
     elseif msg == MSG_DEACTIVATE then
-        
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else

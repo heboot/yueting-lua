@@ -44,7 +44,7 @@
 	   <shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/>
 	    </button>	
 	   <label name="radioName" rect="40,5,500,45" extendstyle="1111"  text=""  color="#FFFFFF"  font-size="30"/>
-	   <label name="radioFmName" rect="40,55,200,35" extendstyle="1111"  text="FM 101.1"  color="#a3a3a3"  font-size="25"/>
+	   <!--<label name="radioFmName" rect="40,55,200,35" extendstyle="1111"  text="FM 101.1"  color="#a3a3a3"  font-size="25"/>-->
 	   <image name="arrowGo" rect="570,20,55,55" style="maxsize" src="file://image/arrow.png"  extendstyle="1011"/>
 	   <button name="deleteBtn" rect="560,20,89,52" style="maxsize" OnSelect="deleteBtnOnSelect" extendstyle="1011">
 	     <image rect="0,0,89,52" style="maxsize" src="file://image/deletebtn.png"  extendstyle="1011"/>
@@ -87,7 +87,8 @@ function bodyOnSpriteEvent(msg, param)
 	  listviewdata=readCollections(g_collectionIdsStr)	 
 	  loadListviewData()
     elseif msg == MSG_DEACTIVATE then
-      
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
     else
         Util:onSpriteEvent(msg, param)
     end
