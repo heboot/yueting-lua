@@ -149,7 +149,9 @@ function bodyOnPluginEvent(msg, param)
 	-- Log:write('radioLiveItemData=======',#radioLiveItemData.list1.programs)
 	LoadyesterdayData()
 	LoadtodayData()
-   end
+	else
+      Util:onPluginEvent(msg, param)	
+    end
 end
 
 --昨日节目加载

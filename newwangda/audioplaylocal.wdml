@@ -228,15 +228,17 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 		Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
-	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
-	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
-    local curConnect = Http:getCurConnect()
+	    Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
+	    Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
+        local curConnect = Http:getCurConnect()
 		if curConnect == 'WLAN' then
-		Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
+		   Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
 		else
-		Sprite:setProperty(wifiFlag, 'src', '') 
+		   Sprite:setProperty(wifiFlag, 'src', '') 
 		end
-	end
+	else
+        Util:onSpriteEvent(msg, param)
+    end
 end
 
 --[[  按键事件响应  ]]--

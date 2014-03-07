@@ -13,7 +13,7 @@
     <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
     <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
 	<!--main -->
-	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+	<node name="mainNode1" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
 		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
 		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
@@ -47,8 +47,7 @@
         <shadow name="d" rect="0,0,0,0" alpha="50" color="#000000" extendstyle="0077"/>		
 		</button>
 	</node>		
-	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>		
     </node>	
 </body>
 </root>
@@ -90,7 +89,7 @@ function bodyOnSpriteEvent(msg, param)
     elseif msg == Msg.login then
       
     else
-        Util:onSpriteEvent(msg, param)
+        Util:onSpriteEvent(msg, param)		
     end
 end
 
@@ -98,7 +97,8 @@ end
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
 	if msg == 103 then
-		
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

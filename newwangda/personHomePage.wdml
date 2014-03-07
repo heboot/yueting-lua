@@ -155,8 +155,8 @@ function bodyOnSpriteEvent(msg, param)
 	           
 	           
     elseif msg == MSG_DEACTIVATE then
-	    commonDeactivate()
-        Scene:freeByHandle(rootSprite)
+	    -- commonDeactivate()
+        -- Scene:freeByHandle(rootSprite)
     elseif msg == MSG_STRINGEVENT then 
 	          local paramEventID = Param:getInteger(param, 0)
               if paramEventID == 9 then
@@ -202,6 +202,8 @@ function bodyOnPluginEvent(msg, param)
             LoadUserInfo()
 			LoadpersonHomeListviewData()
         end
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

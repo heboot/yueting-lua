@@ -2017,14 +2017,16 @@ function Util:onPluginEvent(msg, param)
                             Scene:go(Alias.communityDetail, {freeDestScene=true})
                         else -- player页码率切换
                             Scene:go(Alias.player, {useCache = 1, setNext = false, freeDestScene = true})
+							 -- Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml', {useCache = 1, setNext = false, freeDestScene = true})							
                         end
                     end
                     return
                 end
                 -- 播放页跳转
-                Scene:go(Alias.player, {useCache = 1, setNext = false, freeDestScene = true})
+                -- Scene:go(Alias.player, {useCache = 1, setNext = false, freeDestScene = true})
             else
-                Scene:go(Alias.playeryue, {useCache = 1, setNext = false, freeDestScene = true})
+                -- Scene:go(Alias.playeryue, {useCache = 1, setNext = false, freeDestScene = true})--在订购之后跳转到播放页
+				Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml', {useCache = 1, setNext = false, freeDestScene = true})		
             end
         else
             Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,7)) --('无法获取数据，请稍后再试')
@@ -2033,9 +2035,11 @@ function Util:onPluginEvent(msg, param)
         Loading:close()
         Scene:_go(Alias.playerlocal)
     elseif msg == Msg.order then
+	    Log:write('=========order=============1')
         Loading:close()
         local orderData = Http:jsonDecode('order')
         if 'table' == type(orderData) then
+		Log:write('=========order=============3',type(orderData),orderData.success,productType)
             if 'true' == orderData.success then
                 setOrderDataUpdate()
                 if productType == 'dabaoyue' then
@@ -2053,6 +2057,7 @@ function Util:onPluginEvent(msg, param)
         end
     elseif msg == Msg.monthly then
         Loading:close()
+		Log:write('=========order=============2')
         local havemonthlyData = Http:xmlDecode('order_havemonthly')
         local dialogDesc = ''
         if 'havemonthly' == havemonthlyData.result then
@@ -2230,7 +2235,7 @@ function orderDoneAction()
     end
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
     local contparam = Reg:getString(reg, 'contparam')
-    Log:write('contparam',contparam)
+    Log:write('contparam========1',contparam)
     Util:goPlay(contparam)
 end
 
@@ -3770,7 +3775,7 @@ OrderNode.layout = [[
 </root>
 ]]
   -- <-- <image name="orderOptionD" rect="11,20,40,40" src="file://image/orderOption_d.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1010" ><node/></image>-->
-function OrderNode:show(playerData)
+function OrderNode:show(playerData)    
     local rootSprite = Sprite:getCurScene()
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
     local multiDownload = Reg:getString(reg, 'multiDownload')
@@ -3785,7 +3790,7 @@ function OrderNode:show(playerData)
     end
     _orderData = playerData
     local mainNode = Sprite:findChild(rootSprite, 'mainNode')
-    _orderNode = Sprite:findChild(rootSprite, '_orderNode')
+    _orderNode = Sprite:findChild(rootSprite, '_orderNode')	
     if _orderNode ~= 0 then
         setNodeState(_orderNode, 1)
         local orderDialog = Sprite:findChild(_orderNode, 'orderDialog')
@@ -3835,6 +3840,7 @@ function OrderNode:show(playerData)
             end
         end
     end
+	Log:write('OrderNode===========',_orderNode)
     popEffectShow(_orderNode, "uichange", "orderShadow", "orderBg", {"titleArea","bottomshadow","_orderListView"},9)
 end
 
@@ -3904,14 +3910,19 @@ end
 function _btnOrderCancelOnSelect(sprite)
     Sprite:releaseCapture(sprite)
     Sprite:killFocus(sprite)
-    setNodeState(_orderNode, 1)
+	Log:write('_btnOrderCancelOnSelect======3',sprite,Sprite:getParent(Sprite:getParent(Sprite:getParent(Sprite:getParent(sprite)))))
+    _orderNode=Sprite:getParent(Sprite:getParent(Sprite:getParent(Sprite:getParent(sprite))))
+	setNodeState(_orderNode, 1)
+	Log:write('_btnOrderCancelOnSelect======1',_orderNode)
     popEffectClose(_orderNode, "uichange", "orderShadow", "orderBg", {"titleArea","bottomshadow","_orderListView"},9)
+	Log:write('_btnOrderCancelOnSelect======2',_orderNode)
 end
 
 --order confirm
 function _btnOrderOkOnSelect(sprite)
     Sprite:releaseCapture(sprite)
     Sprite:killFocus(sprite)
+	_orderNode=Sprite:getParent(Sprite:getParent(Sprite:getParent(Sprite:getParent(sprite))))
     setNodeState(_orderNode, 1)
     popEffectClose(_orderNode, "uichange", "orderShadow", "orderBg", {"titleArea","bottomshadow","_orderListView"},9)
     linkParam = string.gsub(Sprite:getData(sprite), ";", "&")
@@ -4971,7 +4982,8 @@ function popEffectShow(sprite, frameSprite, shadowSprite, displaySprite, mainSpr
     if Sprite:getData(sprite) ~= "" then return end
     setNodeState(sprite,1)
     Sprite:setProperty(sprite,"OnTick","popEffectOnTick")
-    _pe_frame,_pe_shadow,_pe_display,_pe_main = frameSprite,shadowSprite,displaySprite,mainSprites
+    -- _pe_frame,_pe_shadow,_pe_display,_pe_main = frameSprite,shadowSprite,displaySprite,mainSprites
+	_pe_frame,_pe_shadow,_pe_display,_pe_main="uichange", "orderShadow", "orderBg", {"titleArea","bottomshadow","_orderListView"}
     _pe_style,_pe_callback = effectStyle,doneCallBack
     setSpritesState(sprite,mainSprites,0)
     Sprite:setProperty(sprite,"data","1")
@@ -4981,8 +4993,10 @@ function popEffectClose(sprite, frameSprite, shadowSprite, displaySprite, mainSp
     if Sprite:getData(sprite) ~= "" then return end
     setNodeState(sprite,1)
     Sprite:setProperty(sprite,"OnTick","popEffectOnTick")
+	local mainSprites=
     setSpritesState(sprite,mainSprites,0)
-    _pe_frame,_pe_shadow,_pe_display,_pe_main = frameSprite,shadowSprite,displaySprite,mainSprites
+    -- _pe_frame,_pe_shadow,_pe_display,_pe_main = frameSprite,shadowSprite,displaySprite,mainSprites
+	 _pe_frame,_pe_shadow,_pe_display,_pe_main="uichange", "orderShadow", "orderBg", {"titleArea","bottomshadow","_orderListView"}
     _pe_style,_pe_callback = effectStyle,doneCallBack
     Sprite:setProperty(sprite,"data","-1")
 end
@@ -4991,8 +5005,9 @@ function popEffectOnTick(sprite)
     local data = Sprite:getData(sprite)
     local state = tonumber(data)
     if not state then return end
+	_pe_frame,_pe_shadow,_pe_display,_pe_main="uichange", "orderShadow", "orderBg", {"titleArea","bottomshadow","_orderListView"}
     local pe_frame,pe_display,pe_shadow = Sprite:findChild(sprite, _pe_frame),Sprite:findChild(sprite, _pe_display),Sprite:findChild(sprite, _pe_shadow)
-    local _,_,w,h = Sprite:getRect(pe_frame)
+	local _,_,w,h = Sprite:getRect(pe_frame)
     if state >= 1 and state <= 5 then
         Sprite:setProperty(pe_display, "alpha",state*50)
         Sprite:setProperty(pe_shadow, "alpha",state*25.6)

@@ -121,6 +121,8 @@ function bodyOnPluginEvent(msg, param)
 	     Loading:close()
 		 checkinListData = Http:jsonDecode('checkinListData')
 		 LoadcheckinListviewData()
+		 else
+    Util:onPluginEvent(msg, param)	
 	end
 end
 

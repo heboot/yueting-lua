@@ -146,10 +146,7 @@ function bodyOnPluginEvent(msg, param)
 	if msg == 101 then
         local nodeImgData = Http:jsonDecode('nodeImgData')
         Log:write("nodeImgData",nodeImgData)
-        local count = ListView:getItemCount(downloadListview)
-		
-		
-		
+        local count = ListView:getItemCount(downloadListview)		
         for i=0,count do
             local item = ListView:getItem(downloadListview,i)
             local data = Sprite:getData(item)

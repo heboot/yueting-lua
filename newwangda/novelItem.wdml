@@ -151,6 +151,8 @@ function bodyOnPluginEvent(msg, param)
 		--end
 		--Log:write('fanhui.......',novelListData.contList.name)
 		--LoadnoveslListviewData()
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

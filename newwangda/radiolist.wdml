@@ -83,11 +83,11 @@ end
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
 	if msg== 108 then
-    radioLiveItemData = Http:jsonDecode('radioLiveItemData')
-	loadRadioInfo()
+       radioLiveItemData = Http:jsonDecode('radioLiveItemData')
+	   loadRadioInfo()
+	else
+      Util:onPluginEvent(msg, param)	
 	end
-	
-	
 end
 
 --返回按钮方法

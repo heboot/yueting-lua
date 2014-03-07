@@ -125,15 +125,13 @@ function bodyOnSpriteEvent(msg, param)
 	 Bottom:show()
 	 searchDownloadedFiles()
 	 LoadDownloadQuene()
-     LoadListData()
-	
-	 
+     LoadListData() 
     elseif msg == MSG_DEACTIVATE then
         
     elseif msg == Msg.login then
       
     else
-        Util:onSpriteEvent(msg, param)
+        Util:onSpriteEvent(msg, param)		
     end
 end
 
@@ -253,8 +251,9 @@ function bodyOnPluginEvent(msg, param)
             --end
             bEnableSingleOrder = nil
         end
+	else
+      Util:onPluginEvent(msg, param)	
 	end
-	
 end
 
 function requestProduct(contparam)

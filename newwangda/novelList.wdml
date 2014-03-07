@@ -106,6 +106,8 @@ function bodyOnPluginEvent(msg, param)
 		 novelListData = Http:jsonDecode('novelListDatab')
 		 Log:write('yyyyyyyyy2',#novelListData.contentList)
 		 LoadNovelListViewData()
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

@@ -87,7 +87,7 @@ function bodyOnSpriteEvent(msg, param)
       requestUserInfoData()
 	  --Loading:show()
     elseif msg == MSG_DEACTIVATE then
-        commonDeactivate()
+         commonDeactivate()
         Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
@@ -133,6 +133,8 @@ function bodyOnPluginEvent(msg, param)
             Tips:show("取消成功")
             requestUserInfoData(false)
         end
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

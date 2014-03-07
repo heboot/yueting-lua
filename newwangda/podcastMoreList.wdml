@@ -103,6 +103,8 @@ function bodyOnPluginEvent(msg, param)
 	     Loading:close()
 		 podcastListData = Http:jsonDecode('podcastListData')
 		 LoadpodcastListviewData()
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

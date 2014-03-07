@@ -223,36 +223,33 @@
 					</node>   
 					<node name="userNode" rect="30,20,480,100" extendstyle="1111" visible="0" enable="0">
 					   <button name="userBtn" normal="n" OnSelect="userBtnOnSelect" rect="0,0,480,100" extendstyle="1010">					
-					   <image name="n" rect="0,0,480,100" style="autosize" extendstyle="1010" src="file://image/right_item_background.png"/>
-				       <image name="userPic" rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/dft_headimg_mid.jpg" BuildChildrenFinished="resChoose"><node/></image>
-                       <image rect="18,27,52,52" style="minsize" src="file://image/sg_spacemask.png" extendstyle="0000" />					  
-					   <label name="userName" rect="80,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="欢迎你" color="#D2691E"  font-size="28"/>
-					   <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
+					      <image name="n" rect="0,0,480,100" style="autosize" extendstyle="1010" src="file://image/right_item_background.png"/>
+				          <image name="userPic" rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/dft_headimg_mid.jpg" BuildChildrenFinished="resChoose"><node/></image>
+                          <image rect="18,27,52,52" style="minsize" src="file://image/sg_spacemask.png" extendstyle="0000" />					  
+					      <label name="userName" rect="80,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="欢迎你" color="#D2691E"  font-size="28"/>
+					      <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
 					   </button>
-					</node>
-					
+					</node>					
 					<list name="rightList" rect="30,130,480,1000" col="1" line="6" auto-adjust="true" offset="0,10" extendstyle="1111">
 					<list-item name="rightItem" rect="0,0,480,100">					
-				    <button name="rightBtn" normal="n" sel="s" OnSelect="rightBtnOnSelect" rect="0,0,480,0" extendstyle="1117">					
-					<image rect="0,0,480,0" style="autosize" extendstyle="1117" src="file://image/right_item_background.png"/>
-				    <node name="n" rect="0,0,480,0" extendstyle="1117">
-				    <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc)"/>
-					<label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#999999"  font-size="30"/>
-					</node>
-					<node name="s" rect="0,0,480,0" extendstyle="1117">
-				    <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc_s)"/>
-					<label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#e15e00"  font-size="30"/>
-					</node>
-					<image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
-					</button>
+				       <button name="rightBtn" normal="n" sel="s" OnSelect="rightBtnOnSelect" rect="0,0,480,0" extendstyle="1117">					
+					    <image rect="0,0,480,0" style="autosize" extendstyle="1117" src="file://image/right_item_background.png"/>
+				        <node name="n" rect="0,0,480,0" extendstyle="1117">
+				           <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc)"/>
+					       <label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#999999"  font-size="30"/>
+					    </node>
+					    <node name="s" rect="0,0,480,0" extendstyle="1117">
+				           <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc_s)"/>
+					       <label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#e15e00"  font-size="30"/>
+					     </node>
+					     <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>	
+                         <shadow rect="0,0,480,0" alpha="128" color="#0000FF" extendstyle="1117"/>						 
+					   </button>
 				    </list-item>
 					<dataset>
-					<!--<set lsrc="file://image/user.png" txt="用户登录"/>-->
-                    <set lsrc="file://image/timing.png" lsrc_s="file://image/timing_s.png" txt="定时关闭"/>	
-                    <set lsrc="file://image/set.png" lsrc_s="file://image/set_s.png"  txt="系统设置"/>	
-                    <set lsrc="file://image/opinion.png" lsrc_s="file://image/opinion_s.png"  txt="意见反馈"/>	
-                   <!-- <set lsrc="file://image/question.png" lsrc_s="file://image/question_s.png"  txt="常见问题"/>	
-                    <set lsrc="file://image/about.png" lsrc_s="file://image/about_s.png"  txt="关于悦听"/>-->						
+                       <set lsrc="file://image/timing.png" lsrc_s="file://image/timing_s.png" txt="定时关闭"/>	
+                       <set lsrc="file://image/set.png" lsrc_s="file://image/set_s.png"  txt="系统设置"/>	
+                       <set lsrc="file://image/opinion.png" lsrc_s="file://image/opinion_s.png"  txt="意见反馈"/>					
 					</dataset>
 					</list>
                 </node>             
@@ -1259,9 +1256,11 @@ function mainNodeOnKeyUp(sprite, kc)
 	   if Sprite:isVisible(timedCloseNode) == true or Sprite:isVisible(timedCloseNode) == 1  then
 			Sprite:setVisible(timedCloseNode,0)
 			Sprite:setEnable(timedCloseNode,0) 
+	   elseif OrderNode:isShow() then
+            OrderNode:close()	   
 	   else
-       dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
-       Dialog:show('', dialogContent, 'ok_cancel', 'UI_exit')
+            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
+            Dialog:show('', dialogContent, 'ok_cancel', 'UI_exit')
 	   end
     end
 end

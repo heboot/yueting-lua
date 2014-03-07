@@ -181,6 +181,8 @@ function bodyOnPluginEvent(msg, param)
             Sprite:setProperty(checkEdit, 'text', '')
             checkInfo()
         end
+	else
+      Util:onPluginEvent(msg, param)	
 	end
 end
 

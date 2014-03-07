@@ -161,10 +161,19 @@ function onLoadCommentList (list,item,index)
     local usrIcon =Sprite:findChild( item,'usrIcon')
     local usrName = Sprite:findChild( item,'usrName')
     local commentcontent = Sprite:findChild( item,'commentcontent')
-	local beforeTime=Sprite:findChild(item, 'beforeTime')
-    local phonenumber = detailCommentPageData.commentList[index].mobile
-    local _phonenumber = string.gsub(phonenumber,string.sub(phonenumber,4,7),'****')
-    Sprite:setProperty( usrName,'text',_phonenumber)
+	local beforeTime=Sprite:findChild(item, 'beforeTime')	
+	if detailCommentPageData.commentList[index].picture~='' and detailCommentPageData.commentList[index].picture~=nil then
+	    Sprite:setProperty(usrIcon,'src',detailCommentPageData.commentList[index].picture)
+	else
+	    Sprite:setProperty(usrIcon,'src','file://image/dft_headimg_mid.jpg')
+	end
+	if  detailCommentPageData.commentList[index].sname~='' and detailCommentPageData.commentList[index].sname~=nil then
+	    Sprite:setProperty( usrName,'text',detailCommentPageData.commentList[index].sname)	    
+	else
+		local phonenumber = detailCommentPageData.commentList[index].mobile
+        local _phonenumber = string.gsub(phonenumber,string.sub(phonenumber,4,7),'****')
+        Sprite:setProperty( usrName,'text',_phonenumber)
+	end
     Sprite:setProperty( commentcontent,'text',detailCommentPageData.commentList[index].content)
 	Sprite:setProperty( beforeTime,'text',string.sub(detailCommentPageData.commentList[index].checkTime,1,10))
     local _,_,_,h = Sprite:getRect(commentcontent)

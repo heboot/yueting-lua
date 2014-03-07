@@ -187,6 +187,8 @@ function bodyOnPluginEvent(msg, param)
 	LoadyesterdayData()
 	LoadtodayData()
 	LoadtommorrowData()
+	else
+      Util:onPluginEvent(msg, param)	
    end
 end
 

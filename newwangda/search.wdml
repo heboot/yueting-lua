@@ -216,6 +216,7 @@ function searchDataItemBtnOnSelect(sprite)
 	elseif type == 'blog' then 	
 		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 		Reg:setString(reg,'bokeItemData',data)
+		Reg:setInteger(reg,'isNodeId',0)
 		Reg:setInteger(reg,'isUserId',1)
 		Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
 	else

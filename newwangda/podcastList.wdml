@@ -65,12 +65,27 @@ local mainTitle
 local parentId
 local playerJson
 
+local isFlag
+
 -- @brief root子节点创建完事件
 function bodyBuildChildrenFinished(sprite)
 	 rootSprite = sprite
 	 podcastListview = Sprite:findChild(sprite, 'podcastListview')
 	 podcastItem = Sprite:findChild(rootSprite, 'podcastItem')
 	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	 
+	 
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local isUserId=Reg:getInteger(reg,'isUserId')
+	local isNodeId=Reg:getInteger(reg,'isNodeId')
+	Log:write('isNodeId===22',isUserId,isNodeId)
+	if isUserId ==1 then
+		isFlag = 'isUserId'
+	end
+	if isNodeId == 1 then
+		isFlag = 'isNodeId'
+	end
+	 
 end
 
 --[[  节点消息方法  ]]--
@@ -80,8 +95,9 @@ function bodyOnSpriteEvent(msg, param)
       requestPodcastListData()
 	  Loading:show()
     elseif msg == MSG_DEACTIVATE then
-         commonDeactivate()
-         Scene:freeByHandle(rootSprite)
+         --commonDeactivate()
+		 --requestPodcastListData()
+         --	Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else
@@ -95,16 +111,34 @@ function requestPodcastListData()
 	local data=Reg:getString(reg,'bokeItemData')
 	local isUserId=Reg:getInteger(reg,'isUserId')
 	local isNodeId=Reg:getInteger(reg,'isNodeId')
-	if isNodeId == 1 then
-		local _,_,nodeId=string.find(data,'nodeId=(%d+);')
-		if nodeId and nodeId ~= '' then
-		Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastSpecialData.jsp?'..'nodeId='..nodeId,103)
+	Log:write('isNodeId===22',isUserId,isNodeId)
+	if isFlag and isFlag ~= nil then
+		if isFlag == 'isUserId' then
+			local _,_,userId=string.find(data,'userId=(%d+);')
+			local _,_,albumType = string.find(data,'albumType=(%d-);')
+			if userId and userId ~= '' then
+			Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastSpecialData.jsp?'..'userId='..userId..'&albumType='..albumType,103)
+			end	
 		end
-	end
-	if isUserId == 1 then
-		local _,_,userId=string.find(data,'userId=(%d+);')
-		if userId and userId ~= '' then
-		Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastSpecialData.jsp?'..'userId='..userId,103)
+		if isFlag == 'isNodeId' then
+			local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+			if nodeId and nodeId ~= '' then
+			Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastSpecialData.jsp?'..'nodeId='..nodeId,103)
+			end
+		end
+	else
+		if isNodeId == 1 then
+			local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+			if nodeId and nodeId ~= '' then
+			Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastSpecialData.jsp?'..'nodeId='..nodeId,103)
+			end
+		end
+		if isUserId == 1 then
+			local _,_,userId=string.find(data,'userId=(%d+);')
+			local _,_,albumType = string.find(data,'albumType=(%d-);')
+			if userId and userId ~= '' then
+			Http:request('podcastListData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastSpecialData.jsp?'..'userId='..userId..'&albumType='..albumType,103)
+			end
 		end
 	end
 end
@@ -170,7 +204,9 @@ function bodyOnPluginEvent(msg, param)
 			end
         -- else
             -- Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,7)) --('无法获取数据，请稍后再试')
-        end		
+        end	
+    else
+      Util:onPluginEvent(msg, param)			
 	end
 end
 

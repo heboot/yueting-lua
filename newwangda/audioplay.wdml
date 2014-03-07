@@ -294,7 +294,7 @@ function bodyOnPluginEvent(msg, param)
         if playerData and playerData.code == '1014' then
             Net:goToMyAccount()
         elseif playerData and playerData.orderList then
-			Log:write('audioplay================orderlist',playerData)
+			Log:write('audioplay================orderlist',playerData.orderList)
             OrderNode:show(playerData)
         elseif playerData and playerData.errordesc then
             Tips:show(playerData.errordesc)

@@ -96,7 +96,7 @@ end
 
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
-	
+      Util:onPluginEvent(msg, param)	
 end
 
 --返回按钮方法
