@@ -117,13 +117,13 @@ function bodyOnPluginEvent(msg, param)
 		 if podcastListData.albumType=='0' then
 		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的作品')
 		 elseif podcastListData.albumType=='1' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'娱乐')
+		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的娱乐')
 		 elseif podcastListData.albumType=='2' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'音乐')
+		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的音乐')
 		 elseif podcastListData.albumType=='3' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'情感')
+		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的情感')
 		 elseif podcastListData.albumType=='4' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'脱口秀')
+		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的脱口秀')
 		 end
 		 LoadpodcastListviewData()
 	elseif msg == Msg.getJsonPlayer then
@@ -238,6 +238,7 @@ function openUrl()
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
 	Reg:setString(bottomReg,'type',2)
+	Reg:setString(bottomReg,'playUrl',playUrl)
 	
 	Player:setFullScreen(0)
     Timer:cancel(TimerId.status)

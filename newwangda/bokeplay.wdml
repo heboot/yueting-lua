@@ -304,7 +304,7 @@ function bodyOnSpriteEvent(msg, param)
 
     elseif msg == MSG_DEACTIVATE then
 	    commonDeactivate()
-        Scene:freeByHandle(rootSprite)
+        --Scene:freeByHandle(rootSprite)
     elseif msg == MSG_MAXIMIZED then
     else
         Util:onSpriteEvent(msg, param)
@@ -364,6 +364,7 @@ end
 
 -- @brief 打开url
 function openUrl()
+	Log:write('openUrl=======================',playUrl)
     --取断点
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
     local breakPoint = Reg:getInteger(reg, 'breakPoint')
@@ -391,9 +392,10 @@ end
 function playBtnOnSelect(sprite)
   local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
   local flag = Reg:getInteger(bottomReg,'bottomPlayFlag')
+  Log:write('playBtnOnSelect==============111',flag)
   if flag == 1 then
-	
 			if status == Player.status.Finished or status == Player.status.Stopped then
+				playUrl = Reg:getString(bottomReg,"playUrl")
 				createPlayer()
 				Reg:setInteger(bottomReg,'bottomPlayFlag',0)
 			elseif status == Player.status.Ready
@@ -1037,7 +1039,7 @@ function progressforwardBtnOnSelect(sprite)
 	Log:write('bala2',ct,tt,Player:getStatus())
 	if status == Player.status.Playing or status == Player.status.Ready then
 		if ct+30 >= tt then
-			Player:seek(tt)
+			Player:seek(tt-1)
 			Log:write('bala22',ct,tt,Player:getStatus())
 			Timer:set(1099, 3000, 'closeProgressOption')
 		else

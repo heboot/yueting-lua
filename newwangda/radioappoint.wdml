@@ -142,9 +142,9 @@ end
 
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
+	Log:write('bodyOnSpriteEvent======11',msg)
     if msg == MSG_ACTIVATE then
 		 Bottom:show()
-		Log:write('===================test activate')
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
          Scene:freeByHandle(rootSprite)
@@ -158,6 +158,7 @@ end
 
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
+	Log:write('bodyOnSpriteEvent======22',msg)
    if msg==142 then
     -- Log:write('radioLiveItemData=======',#radioLiveItemData)
     radioLiveItemData=Http:jsonDecode('radioLiveItemData') 
@@ -168,6 +169,8 @@ function bodyOnPluginEvent(msg, param)
     g_reserveIdsStr = Reg:getString(reg, 'reserveIds')
 	LoadtodayData()
 	LoadtommorrowData()
+   else
+	 Util:onPluginEvent(msg, param)
    end
 end
 
@@ -355,7 +358,7 @@ function audiotodayBtnOnSelect(sprite)
     end
     startTime = Util:urlTrans(startTime)
     local progParam = startTime ..'|'..curTimeArea..'|'.. curContentName..'|'..contentId..'|' ..nodeId
-    addOneReserveProg(contentId,progParam,reserveType)
+    addOneReserveProg(contentId,'2012-11-30+23:00:00|23:00 - 23:45|新闻1|cctv4',reserveType)
     Sprite:setVisible( alreadyappoint,1)
 	Tips:show('预约成功')
 	else

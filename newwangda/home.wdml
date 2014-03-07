@@ -261,11 +261,11 @@
 		<node name="timedCloseNode" rect="0,0,0,0" extendstyle="1177" visible="0" enable="0"> 
 		<button rect="0,0,0,0" extendstyle="1177" OnSelect="closeBgBtnOnSelect"/>
         <node  rect="100,306,620,410" extendstyle="1010">        
-            <image rect="0,0,500,410" src="file://image/commonbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" BuildChildrenFinished="resChoose"><node/></image>
-            <image rect="0,0,500,85" src="file://image/orderDig_head.png"  style="sudoku-auto" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
-            <label name="dtitle" rect="15,0,200,85" text="定时关闭" color="#4F6852" font-size="30" v-align="center"  extendstyle="1010"/>
-            <label name="closeTimeLbl" rect="0,0,100,85" color="#4F6852" font-size="30" v-align="center"  extendstyle="8010"/>
-			<shadow rect="0,85,500,4" color="#B2DB93" alpha="255" extendstyle="1010"/>
+            <image rect="0,0,500,410" src="file://image/dialogbg.png"  style="autosize" extendstyle="1017" BuildChildrenFinished="resChoose"></image>
+            <image rect="0,0,500,85" src="file://image/orderDig_head.png"  style="autosize" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+            <label name="dtitle" rect="15,0,200,85" text="定时关闭" color="#CCCCCC" font-size="30" v-align="center"  extendstyle="1010"/>
+            <label name="closeTimeLbl" rect="0,0,100,85" color="#FFFFFF" font-size="30" v-align="center"  extendstyle="8010"/>
+			<shadow rect="0,85,500,4" color="#D2691E" alpha="255" extendstyle="1010"/>
             <node rect="0,20,500,65" extendstyle="1111">
 			<button name="switchBtn1" rect="0,0,140,65" extendstyle="5010" data="off" OnSelect="switchOnMouseUp" >
                 <image rect="0,0,120,50" src="file://image/onoffbtn_bg.png" style="autosize" extendstyle="1010" />
@@ -923,6 +923,7 @@ if msg == 101 then
             Net:changeSdcfg(sdcfg)
         end
 	else
+		Log:write('audioplay================orderlist home',msg,msg==Msg.getJsonPlayer)
         Util:onPluginEvent(msg, param)
   end
     

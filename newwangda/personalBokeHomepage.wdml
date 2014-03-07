@@ -185,7 +185,7 @@ function bodyOnSpriteEvent(msg, param)
 	  -- Loading:show()
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
-         Scene:freeByHandle(rootSprite)
+         --Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else
@@ -208,7 +208,9 @@ function bodyOnPluginEvent(msg, param)
 		   Sprite:setProperty(addfouseName,'text','已关注')
 		end
 	   Sprite:setProperty(addfocusBtn,'data',podcastData.userId)
+	   if podcastData.list0 and #podcastData.list0~='' and #podcastData.list0~=nil then
 	   LoadWorksListviewData()--加载作品数据
+	   end
        LoadAlbumListviewData()--加载专辑上数据
 	   saveInfo()--保存个人资料信息
 	elseif msg == 102 then
@@ -325,7 +327,7 @@ function loadAlbumItem(list,item,index)
 	local albumAnchor=Sprite:findChild(item,'albumAnchor')
 	-- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	if index== 0 then
-	if #podcastData.list1~='' and #podcastData.list1~=nil then
+	if podcastData.list1 and #podcastData.list1~='' and #podcastData.list1~=nil then
 	Sprite:setProperty(albumVoltage,'text','娱乐/'..#podcastData.list1+1)
 	Sprite:setProperty(albumImage,'src',podcastData.list1[#podcastData.list1].videoImg)
 	Sprite:setProperty(albumName,'text',podcastData.list1[#podcastData.list1].title)
@@ -333,7 +335,7 @@ function loadAlbumItem(list,item,index)
 	-- Reg:setTable(reg,'albumList1',podcastData.list1)
 	end
 	elseif index==1 then 
-	if #podcastData.list2~='' and #podcastData.list2~=nil then
+	if podcastData.list2 and #podcastData.list2~='' and #podcastData.list2~=nil then
 	Sprite:setProperty(albumVoltage,'text','音乐/'..#podcastData.list2+1)
 	Sprite:setProperty(albumImage,'src',podcastData.list2[#podcastData.list2].videoImg)
 	Sprite:setProperty(albumName,'text',podcastData.list2[#podcastData.list2].title)
@@ -341,7 +343,7 @@ function loadAlbumItem(list,item,index)
 	-- Reg:setTable(reg,'albumList2',podcastData.list2)
 	end
 	elseif index==2 then 
-	if #podcastData.list3~='' and #podcastData.list3~=nil then
+	if podcastData.list3 and  #podcastData.list3~='' and #podcastData.list3~=nil then
 	Sprite:setProperty(albumVoltage,'text','情感/'..#podcastData.list3+1)
 	Sprite:setProperty(albumImage,'src',podcastData.list3[#podcastData.list3].videoImg)
 	Sprite:setProperty(albumName,'text',podcastData.list3[#podcastData.list3].title)
@@ -349,7 +351,7 @@ function loadAlbumItem(list,item,index)
 	-- Reg:setTable(reg,'albumList3',podcastData.list3)
 	end
 	elseif index==3 then 
-	if #podcastData.list4~='' and #podcastData.list4~=nil then
+	if podcastData.list4 and  #podcastData.list4~='' and #podcastData.list4~=nil then
 	Sprite:setProperty(albumVoltage,'text','脱口秀/'..#podcastData.list4+1)
 	Sprite:setProperty(albumImage,'src',podcastData.list4[#podcastData.list4].videoImg)
 	Sprite:setProperty(albumName,'text',podcastData.list4[#podcastData.list4].title)

@@ -446,7 +446,7 @@ function createPlayer()
     isPlayerCreate = true
     --旋屏操作放在openUrl里
     openUrl()
-
+	--SendNotification('正在播放:'..playerJson.titleName,'正在播放的节目',playerJson.titleName,'',1116,1,'','notificationaudio')
     ----设置音频播放标志,在此处加是解决loading数据时快速点返回，当前场景以及切换而本场景不释放仍然能收到音频数据产生播放，单播放标志不对的情况
     if isPlayerCreate then
         setAudioPlayFlag(2)

@@ -1533,7 +1533,7 @@ end
 
 -- @brief 对各个页面OnSpriteEvent统一处理
 function Util:onSpriteEvent(msg, param)
-	Log:write('onSpriteEvent====luha',msg,MSG_APPOINTMENT)
+	Log:write('onSpriteEvent====luha',msg,MSG_APPOINTMENT,MSG_NOTIFICATION_Audio,MSG_NOTIFICATION)
     local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
     if msg == MSG_WLAN then
         local param1 = Param:getInteger(param, 0)
