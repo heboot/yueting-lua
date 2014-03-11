@@ -95,7 +95,7 @@ function bodyBuildChildrenFinished(sprite)
 	subListTable=Reg:getTable(reg,'bokeCollectTable')
 	title = '播客'
 	contentListData = subListTable
-	Log:write('subListTable=========',#subListTable)
+	Log:write('subListTable=========',#subListTable,subListTable[1].title)
 	if subListTable.albumType=='0' then
 		 Sprite:setProperty(mainTitle,'text',subListTable.sname..'的作品')
 	elseif subListTable.albumType=='1' then
@@ -328,7 +328,7 @@ function onLoadListviewItem(listview, item, index)
 	end
 	
 	for i=1,#downtable do
-		if subListTable[index].name == downtable[i].title then
+		if subListTable[index].title == downtable[i].title then
 		 Sprite:setVisible(checkBoxF,0)
 		 Sprite:setVisible(checkBoxN,0)
 		 Sprite:setEnable(radiolistBtn, 0)
@@ -513,12 +513,20 @@ end
 
 function LoadDownloadQuene()
     downtable = {}
-	local status  = Download:getStatus(false)	
+	local status  = Download:getStatus(false)
+	Log:write('LoadDownloadQuene==========000',#status)
 	for i=1,#status do
 		for j=1,#subListTable do	
-			--Log:write('LoadDownloadQuene======111',subListTable[j].name)
+			Log:write('LoadDownloadQuene======111',subListTable[j].title)
 			Log:write('LoadDownloadQuene======222',status[i].title)
-			if subListTable[j].name == status[i].title then
+			local xx,jj = string.find(status[i].title,'@')
+			Log:write('LoadDownloadQuene======444',xx,jj)
+			local title2
+			if xx~=nil then
+				title2 = string.sub(status[i].title,xx+1,#status[i].title)
+			end
+			Log:write('LoadDownloadQuene======555',title2)
+			if subListTable[j].title == status[i].title then
 				
 				table.insert(downtable,status[i])
 			end

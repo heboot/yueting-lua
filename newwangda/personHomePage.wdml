@@ -290,13 +290,14 @@ end
 
 --更换背景
 function spaceBgEditOS()
-   Popup:show({title="自定义背景",funcList={{funcName="拍摄一张",funcCallBack="cameraOS"},{funcName="本地图片",funcCallBack="localimgOS"}}})
+   --Popup:show({title="自定义背景",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}}) 
+   Popup:show({title="自定义背景",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}}) 
    cameraIndex=1
 end
 
 --更换头像
 function msgImgBtnOnSelect(sprite)
-    Popup:show({title="头像选择",funcList={{funcName="拍摄一张",funcCallBack="cameraOS"},{funcName="本地图片",funcCallBack="localimgOS"}}})
+   Popup:show({title="头像选择",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}})
    cameraIndex=2
 end
 
@@ -309,6 +310,10 @@ function localimgOS()
     local flashCard = getFlashCardPath()
     OpenAlbumDialog('getAlbumImg', flashCard, 'jpg')
     Popup:close(1)
+end
+
+function popupCloseOS()
+    Popup:close()
 end
 
 function clipImg(imgPath)

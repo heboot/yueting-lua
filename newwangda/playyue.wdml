@@ -204,6 +204,7 @@ local PEreviewSeekcurPlaySecond=0--回听回放时播放点跟开始点的秒数
 --收藏进入时所使用保存的table
 local radioplayCollectTable={}
 local curPlayContentId --华为播放器不能判断节目结束，我们使用不同的contentId来判断
+local isAudioReplay=false
 
 function bodyBuildChildrenFinished(sprite)
     rootSprite = sprite
@@ -390,11 +391,12 @@ function bodyOnSpriteEvent(msg, param)
           PEreviewSeekcurPlaySecond=0	
 	      local audioReplayParam='objType='..objType..';'..'contentId='..contentId..';'..'nodeId='..nodeId..';'
           Util:_goPlay(audioReplayParam)
+		  isAudioReplay=true
 	      Sprite:setProperty(ondemandAndReListen, 'text', '回放') 
 	      Reg:setString(reg, 'audioReplayData','')
 	   end
     elseif msg == MSG_DEACTIVATE then
-      
+		 Timer:cancel(TimerId.radiostatus)
     else
         Util:onSpriteEvent(msg, param)
     end
@@ -625,13 +627,13 @@ function getRadioStatus()
 	    end
     elseif status == Player.status.Paused or status == Player.status.Ready then
         uiPlay()
-    elseif status == Player.status.Stopped or status == Player.status.Finished or PELiveFinishFlag then
+    elseif (status == Player.status.Stopped or status == Player.status.Finished or PELiveFinishFlag) and not isAudioReplay then
         -- if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
             -- if status == Player.status.Finished then
 			if objType == 'live' then
                 local pIndex = getNextPlayParam(1)
                 if subListTable and subListTable ~= '' and pIndex ~= -1 then 
-				    Sprite:setProperty(startTimeNode, 'text',  subListTable[pIndex].sTime)
+				    Sprite:setProperty(audioStartTime, 'text',  subListTable[pIndex].sTime)
                     Sprite:setProperty(audioEndTime, 'text',  subListTable[pIndex].eTime) 				
 					Sprite:setProperty(audioname, 'text',  subListTable[pIndex].name) 
 					Sprite:setProperty(lblCurtime, 'text',  subListTable[pIndex].eTime)  					
@@ -873,9 +875,11 @@ function refreshDemandProgress(bForceRefresh)
 	      end
         end
 		Log:write('curPlayContentId=======4',curTime,endTime,PELiveFinishFlag)
-        if curTime >= endTime then
-	        PELiveFinishFlag = true
-	    end
+		if not isAudioReplay then
+		   if curTime >= endTime  then
+	          PELiveFinishFlag = true
+	       end
+		end   
    end
 end
 

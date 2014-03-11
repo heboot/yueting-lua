@@ -21,8 +21,7 @@
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="评论" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
-		</node> 
-		
+		</node> 		
 		<node rect="17,105,686,884" extendstyle="1010">
 		    <image rect="0,0,686,0" style="autosize" src="file://image/commmentbg.png" extendstyle="1017"/>
 			<listview name="commentlv" rect="0,0,686,0"  extendstyle="1017" scroll="auto"  OnOverTrail="contentListOnOverTrail" visible="1" enable="1">
@@ -36,22 +35,18 @@
 		<image rect="0,0,130,80" style="autosize" src="file://image/commentbt.png" extendstyle="1010"/>
 		<label  rect="0,0,130,80" extendstyle="1010" v-align="center" h-align="center" text="发送" font-size="24" color="#c8c8c8" />
 		</button>
-		</node>
-		
-		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
-		<node name="commentItem" rect="0,0,686,160"  visible="0" extendstyle="1010">
-            <image rect="15,18,72,72" src="file://image/whitebg.png" style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1000"/>
-            <image name="usrdefault" rect="19,22,64,64" src="file://image/dft_headimg_mid.jpg" style="autosize" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
-            <image name="usrIcon" rect="19,22,64,64" src="" style="autosize" extendstyle="1000" />
-            <label name="usrName" rect="91,16,400,70" text="" color="#000000" font-size="28" h-align="left" alpha ="128" v-align="center" extendstyle="1010"/>
+		</node>	
+		<node name="commentItem" rect="0,0,686,160"  visible="0" extendstyle="1010">   
+            <image name="usrdefault" rect="15,18,72,72" src="file://image/dft_headimg_mid.jpg" style="autosize" extendstyle="1000" BuildChildrenFinished="resChoose"><node/></image>
+            <image name="usrIcon" rect="15,18,72,72" src="" style="autosize" extendstyle="1000" />
+			<image name="usrIconMsak" rect="15,18,72,72" src="file://image/commentmask.png" style="autosize" extendstyle="1000" />
+            <label name="usrName" rect="120,16,400,70" text="" color="#000000" font-size="28" h-align="left" alpha ="128" v-align="center" extendstyle="1010"/>
             <textarea name="commentcontent" rect="14,90,672,70" extendstyle="1010" postfix=".." color="#000000" alpha ="128" line-height="40" font-size="30" text="" autoextend="true" />
             <image rect="500,25,32,32" style="autosize" extendstyle="1000" src="file://image/history.png" />
             <label name="beforeTime" rect="538,25,150,32" text="" font-size="22" color="#a4aba2" h-align="left" v-align="center" extendstyle="1010" />
             <shadow name="lineNode" rect="10,0,666,1" color="#CCCCCC" alpha="255" extendstyle="1514"/>       	
 		</node>
-		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
+		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>		
     </node>
     </body>
 </root>
@@ -144,7 +139,7 @@ end
 --请求评论数据
 function requestComments()
    commentId = contentId
-   Http:request('detailCommentPageData', Util:getServer() .. Alias.commentPageData .. '?objectId='.. commentId 
+   Http:request('detailCommentPageData', Util:getWeiBoServer() ..'publish/clt' ..'/resource/mobileaudio3/podcast/podcastCommentData.jsp?objectId='.. commentId 
    ..'&pageIndex='..commentPageIndex..'&pageSize='..commentPageSize..'&objectType=' .. commentType, 113)
 end
 
@@ -163,7 +158,7 @@ function onLoadCommentList (list,item,index)
     local commentcontent = Sprite:findChild( item,'commentcontent')
 	local beforeTime=Sprite:findChild(item, 'beforeTime')	
 	if detailCommentPageData.commentList[index].picture~='' and detailCommentPageData.commentList[index].picture~=nil then
-	    Sprite:setProperty(usrIcon,'src',detailCommentPageData.commentList[index].picture)
+	    Sprite:setProperty(usrIcon,'src',Util:getWeiBoServer() ..'publish/clt' ..detailCommentPageData.commentList[index].picture)
 	else
 	    Sprite:setProperty(usrIcon,'src','file://image/dft_headimg_mid.jpg')
 	end
@@ -175,7 +170,7 @@ function onLoadCommentList (list,item,index)
         Sprite:setProperty( usrName,'text',_phonenumber)
 	end
     Sprite:setProperty( commentcontent,'text',detailCommentPageData.commentList[index].content)
-	Sprite:setProperty( beforeTime,'text',string.sub(detailCommentPageData.commentList[index].checkTime,1,10))
+	Sprite:setProperty( beforeTime,'text',string.sub(detailCommentPageData.commentList[index].updateTime,1,10))
     local _,_,_,h = Sprite:getRect(commentcontent)
     if h > 77 then
 		Sprite:setRect(item, 0, 0, 686, 160+h-60)
@@ -194,7 +189,7 @@ function contentListOnOverTrail(sprite , x)
             return
         end
         insertLoading(sprite)
-        Http:request('detailCommentPageData', Util:getServer() .. Alias.commentPageData .. '?objectId='.. commentId ..'&pageIndex='..commentPageIndex..'&pageSize='..commentPageSize..'&objectType=' .. commentType , 123)
+        Http:request('detailCommentPageData', Util:getWeiBoServer() ..'publish/clt' ..'/resource/mobileaudio3/podcast/podcastCommentData.jsp?objectId='.. commentId ..'&pageIndex='..commentPageIndex..'&pageSize='..commentPageSize..'&objectType=' .. commentType , 123)
     else
         Tips:show('到底啦')
     end

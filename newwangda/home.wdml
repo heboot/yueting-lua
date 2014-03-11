@@ -242,8 +242,7 @@
 				           <image rect="20,30,50,50" style="maxsize" extendstyle="1111" src="$(lsrc_s)"/>
 					       <label rect="100,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="$(txt)" color="#e15e00"  font-size="30"/>
 					     </node>
-					     <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>	
-                         <shadow rect="0,0,480,0" alpha="128" color="#0000FF" extendstyle="1117"/>						 
+					     <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					 
 					   </button>
 				    </list-item>
 					<dataset>

@@ -474,10 +474,11 @@ function getNextPlayParam(mode)
    if subListTable then
         local count = #subListTable
         local curPlayName = Sprite:getProperty(audioname,'text')
+		Log:write('getNextPlayParam================',curPlayName)
         local iFound = -1       
         if subListTable and subListTable~='' and curPlayName ~='' then        
             for i=1,count  do
-			  Log:write('curPlayName=',curPlayName,count,subListTable[i].title)
+			  Log:write('getNextPlayParam=2',curPlayName,count,subListTable[i].title)
                 if subListTable[i].title == curPlayName then
                     if mode == 0 then
                         if (i+1 > count) then iFound = 0
@@ -524,7 +525,7 @@ end
 function getStatus()
     lastStatus = status
     status, errorCode = Player:getStatus()  
-	Log:write('bushi',objType,status,errorCode)
+	Log:write('bushi bokeplay',objType,status,errorCode)
     if  status == Player.status.Connecting or
         status == Player.status.Buffering or status == Player.status.Idle then
 	    uiRefresh()
@@ -543,24 +544,7 @@ function getStatus()
         uiPlay()
         -- if objType == 'live' then refreshLiveProgress() end
     elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
-        if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
-            if status == Player.status.Finished then
-                local pIndex = getNextPlayParam(1)
-                if subListTable and subListTable ~= '' and pIndex ~= -1 then
-                    Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
-                    doPlaynext(subListTable[pIndex].param)
-                else
-                    resetAudioPlayFlag()           
-                    Player:stop()
-                    Player:show(0)
-                    Timer:cancel(TimerId.status)
-                end
-            else
-                Player:stop()
-                Player:show(0)
-                Timer:cancel(TimerId.status)
-            end
-        end
+		Log:write('getStatus bokeplay')
         uiPlay()
     end
 	 if objType ~= 'live' and objType ~= 'review' then
@@ -958,13 +942,20 @@ end
 -- @brief 进度条OnMouseDown事件
 function progressOnMouseDown(sprite, x, y)
     Log:write('状态DOWN',status)
-    --if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
+	movex = x
+	moveflag = x
+	progressBarFlag = 1
+	if movex then
+		progressBarFlag = 0
+		--movex = 0
+	end
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
         --resetFSTimer(1)
         --setPointImgStatus(progressPointImg,1)
-        --setProgressBarPos(sprite, x)
-        --progressBarFlag = 1
+        setProgressBarPos(sprite, x,1)
+        progressBarFlag = 1
        
-    --end
+    end
 	
 	 return 0
 end

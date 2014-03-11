@@ -199,6 +199,7 @@ local audioplayCollectTable={}
 
 function bodyBuildChildrenFinished(sprite)
     rootSprite = sprite
+	Player:pause()
 	mainTitle=Sprite:findChild(sprite,'mainTitle')
 	playBtn=Sprite:findChild(sprite,'playBtn')
 	pauseBtn=Sprite:findChild(sprite,'pauseBtn')

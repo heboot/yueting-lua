@@ -126,25 +126,33 @@ function loadpodcastItem(list,item,index)
 	local podcastAnchor=Sprite:findChild(item,'podcastAnchor')
 	local podcastItemBtn=Sprite:findChild(item,'podcastItemBtn')
 	if index==0 then
+	 if podcastUserData.list1~='' and podcastUserData.list1~=nil then 
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list1[#podcastUserData.list1].videoImg)
 	   Sprite:setProperty(podcastName,'text','娱乐/'..#podcastUserData.list1+1)
 	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list1[#podcastUserData.list1].sname)
 	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=1;')
+	 end
 	elseif index==1 then
+	 if podcastUserData.list2~='' and podcastUserData.list2~=nil then 
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
 	   Sprite:setProperty(podcastName,'text','音乐/'..#podcastUserData.list2+1)
 	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list2[#podcastUserData.list2].sname)
 	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=2;')
+	 end
 	elseif index==2 then
+	 if podcastUserData.list3~='' and podcastUserData.list3~=nil then 
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list3[#podcastUserData.list3].videoImg)
 	   Sprite:setProperty(podcastName,'text','情感/'..#podcastUserData.list3+1)
 	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list3[#podcastUserData.list3].sname)
 	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=3;')
+	 end
 	elseif index==3 then
+	  if podcastUserData.list4~='' and podcastUserData.list4~=nil then 
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list4[#podcastUserData.list4].videoImg)
 	   Sprite:setProperty(podcastName,'text','脱口秀/'..#podcastUserData.list4+1)
 	   Sprite:setProperty(podcastAnchor,'text',podcastUserData.list4[#podcastUserData.list4].sname)
 	   Sprite:setProperty(podcastItemBtn,'data','albumIndex=4;')
+	  end
 	end
 end
 

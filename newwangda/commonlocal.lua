@@ -1133,8 +1133,22 @@ end
 
 -- 播放
 function playBtnOnSelect(sprite)
+	status, errorCode = Player:getStatus()  
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local gtype = Reg:getInteger(bottomReg,'type')
+	Log:write('playBtnOnSelect============',gtype,status,Player.status.Finished)
+	if gtype == 2 and status == Player.status.Finished  then
+		playUrl = Reg:getString(bottomReg,'playUrl')
+		Log:write('playBtnOnSelect============',playUrl)
+		Player:open(playUrl,Http:getCurConnect())
+		pluginInvoke(Player:_getHandle(),'StartPlayer') 
+		--Player:open(playUrl)
+		--uiPause()
+		--Player:play()
+	else
 	uiPause()
 	Player:play()
+	end
 end
 
 --暂停
@@ -3455,26 +3469,27 @@ Popup.layout = [[
 <root>
     <header/>
     <body>
-        <node name="popupblock" rect="0,0,720,1280" extendstyle="1117" OnTick="popupTick">
+        <node name="popupblock" rect="0,0,720,1280" extendstyle="1116" OnTick="popupTick" padding="0,0,112,0">
             <shadow name="popupShadow" rect="0,0,720,1280" color="#000000" alpha="128" extendstyle="1111"/>
             <button rect="0,0,720,1280" extendstyle="1111" OnSelect="popupCloseOS"/>
-            <node name="popup" rect="170,0,380,270" extendstyle="1510">
-                <image name="popupbg" rect="0,0,380,270" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
-                <node name="popupContent" rect="0,0,380,270" extendstyle="1010">
-                    <node rect="0,0,380,90" extendstyle="1010">
-                        <label name="popupTitle" rect="0,0,380,90" extendstyle="1010" text="" color="#4E6752" font-size="30" v-align="center" h-align="center"/>
-                        <shadow rect="4,0,372,3" color="#BADE9E" alpha="255" padding="0,4,0,0" extendstyle="0560"/>
+            <node name="popup" rect="0,0,720,270" extendstyle="1516" padding="0,0,700,0">
+                <image name="popupbg" rect="0,0,720,270" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/background.png" extendstyle="1077" BuildChildrenFinished="resChoose"></image>
+                <node name="popupContent" rect="0,0,720,270" extendstyle="1010">
+                    <node rect="0,0,720,90" extendstyle="1010">
+                        <label name="popupTitle" rect="0,0,720,90" extendstyle="1010" text="" color="#e15e00" font-size="30" v-align="center" h-align="center"/>
+                        <shadow rect="4,0,372,3" color="#e15e00" alpha="255" padding="0,4,0,0" extendstyle="0570"/>
                     </node>
-                    <list name="popupList" rect="0,90,720,560" line="10" auto-adjust="true" extendstyle="1010"/>
-                    <node name="popupItem" rect="0,0,380,90" extendstyle="1010" visible="0" enable="0" active="0">
-                        <shadow rect="4,0,372,1" color="#BADE9E" alpha="255" padding="0,4,0,0" extendstyle="0064"/>
-                        <button name="funcBtn" rect="0,0,380,90" extendstyle="1010" normal="n" sel="s" OnSelect="">
-                            <node name="n" rect="0,0,380,90" extendstyle="1010">
-                                <label name="f_n" rect="0,0,380,90" extendstyle="1010" text="N/A" color="#7D957F" font-size="25" v-align="center" h-align="center"/>
+                    <list name="popupList" rect="0,120,720,560" line="10" auto-adjust="true" extendstyle="1010"/>
+                    <node name="popupItem" rect="0,0,720,90" extendstyle="1010" visible="0" enable="0" active="0">
+                        <!--<shadow rect="4,0,372,1" color="#BADE9E" alpha="255" padding="0,4,0,0" extendstyle="0064"/>-->
+                        <button name="funcBtn" rect="20,10,680,90" extendstyle="1010" normal="n" sel="s" OnSelect="">
+                            <node name="n" rect="0,0,680,90" extendstyle="1010">
+								<image rect="0,0,680,90" extendstyle="1010" style="autosize" src="file://image/orderebtn.png"/>
+                                <label name="f_n" rect="0,0,680,90" extendstyle="1010" text="N/A" color="#000000" font-size="25" v-align="center" h-align="center"/>
                             </node>
-                            <node name="s" rect="0,0,380,90" extendstyle="1010">
-                                <shadow rect="4,4,372,82" color="#84CD7C" alpha="255" padding="0,4,4,0" extendstyle="0066"/>
-                                <label name="f_s" rect="0,0,380,90" extendstyle="1010" text="" color="#FFFFFF" font-size="25" v-align="center" h-align="center"/>
+                            <node name="s" rect="0,0,680,90" extendstyle="1010">
+                                <shadow rect="4,4,372,82" color="#e15e00" alpha="255" padding="0,4,4,0" extendstyle="0066"/>
+                                <label name="f_s" rect="0,0,680,90" extendstyle="1010" text="" color="#FFFFFF" font-size="25" v-align="center" h-align="center"/>
                             </node>
                         </button>
                     </node>
@@ -3493,7 +3508,7 @@ function Popup:show(param)
         local popupTitle = Sprite:findChild(popupNode, 'popupTitle')
         Sprite:setProperty(popupTitle,"text",param.title)
         local popup = Sprite:findChild(popupNode, 'popup')
-        Sprite:setRect(popup,170,0,380,90*#param.funcList+2)
+        Sprite:setRect(popup,0,0,720,90*#param.funcList+2)
         local popupblock,popupContent = Sprite:findChild(popupNode, 'popupblock'),Sprite:findChild(popupNode, 'popupContent')
         local popupList,popupItem = Sprite:findChild(popupNode, 'popupList'),Sprite:findChild(popupNode, 'popupItem')
         Popup.funcList = param.funcList
@@ -3506,7 +3521,7 @@ function Popup:show(param)
 end
 
 function onLoadpopupItem(list, item, index)
-    Sprite:setRect(item, 0,0,380,90)
+    Sprite:setRect(item, 0,0,720,90)
     Sprite:setProperty(item, 'extendstyle', '0010')
     local funcBtn,f_n,f_s = Sprite:findChild(item, 'funcBtn'),Sprite:findChild(item, 'f_n'),Sprite:findChild(item, 'f_s')
     Sprite:setProperty(funcBtn,"OnSelect",Popup.funcList[index+1].funcCallBack)
@@ -3525,8 +3540,10 @@ function popupTick(sprite)
         Sprite:setProperty(popupbg, "alpha",state*50)
         Sprite:setProperty(popupShadow, "alpha",state*25.6)
         Sprite:setProperty(sprite,"data",state+1)
-        Sprite:setRect(popup,170+13.3*(5-state),0,380-26.6*(5-state),h-h*0.07*(5-state))
-        Sprite:setRect(popupbg,0,0,380-26.6*(5-state),h-h*0.07*(5-state))
+        --Sprite:setRect(popup,170+13.3*(5-state),0,380-26.6*(5-state),h-h*0.07*(5-state))
+		Sprite:setRect(popup,0,0,720,h-h*0.07*(5-state))
+        --Sprite:setRect(popupbg,0,0,380-26.6*(5-state),h-h*0.07*(5-state))
+		Sprite:setRect(popupbg,0,0,720,h-h*0.07*(5-state))
         if state == 5 then
             setNodeState(Sprite:findChild(sprite, 'popupContent'),1)
         end
@@ -3535,8 +3552,10 @@ function popupTick(sprite)
         Sprite:setProperty(popupbg, "alpha",(5+state)*50)
         Sprite:setProperty(popupShadow, "alpha",(5+state)*25.6)
         Sprite:setProperty(sprite,"data",state-1)
-        Sprite:setRect(popup,170+13.3*(-state),0,380-26.6*(-state),h-h*0.07*(-state))
-        Sprite:setRect(popupbg,0,0,380-26.6*(5+state),h-h*0.07*(5+state))
+        --Sprite:setRect(popup,170+13.3*(-state),0,380-26.6*(-state),h-h*0.07*(-state))
+        --Sprite:setRect(popupbg,0,0,380-26.6*(5+state),h-h*0.07*(5+state))
+		Sprite:setRect(popup,0,0,720,h-h*0.07*(-state))
+        Sprite:setRect(popupbg,0,0,720,h-h*0.07*(5+state))
         if state == -5 then
             setNodeState(sprite,0)
             Sprite:removeChild(Sprite:getParent(sprite),sprite,1)
