@@ -117,13 +117,10 @@ end
 
 --[[  请求小说列表数据方法  ]]--
 function requestPodcastUserData()
-	-- local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
-    -- local userId = Reg:getString(regCommunity ,'userId')
-        -- _userId = userId
-	-- if _userId and _userId ~= '' then
-	local userId='99999838'
-       Http:request('podcastUserData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,103)
-    -- end
+	local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+    local userId = Reg:getString(regCommunity ,'userId')
+    _userId = userId
+    Http:request('podcastUserData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,103,{useCache=0})
 end
 
 --[[  插件消息方法  ]]--
@@ -132,8 +129,60 @@ function bodyOnPluginEvent(msg, param)
 	     Loading:close()
 		 podcastUserData = Http:jsonDecode('podcastUserData')
 		 loadpodcastListviewData()
+	elseif msg==105 then
+	     Loading:close()
+		 deleteCode = Http:jsonDecode('deleteCode')
+		 if deleteCode.result=='0000' then
+	         Tips:show('移除成功')
+			 requestPodcastUserData()
+			 -- Loading:show()
+	    else
+	         Tips:show('移除失败')
+	    end
+	elseif msg == Msg.getJsonPlayer then
+        Loading:close()
+        playerJson = Http:jsonDecode('playerData')
+        if playerJson and playerJson.code == '1014' then
+            Net:goToMyAccount()
+        elseif playerJson and playerJson.orderList then
+            OrderNode:show(playerJson)
+        elseif playerJson and playerJson.errordesc then
+            Tips:show(playerJson.errordesc)
+        elseif playerJson and 'table' == type(playerJson) then
+            --获取本次数据内容
+            gContparam = playerJson ~=nil and playerJson.param or ''
+            _,_,contentId = string.find(gContparam , 'contentId=(%d+);')
+            if playerJson and playerJson~='' and gContparam and gContparam ~='' then
+                if string.match(gContparam,'objType=live') or string.match(gContparam,'objType=review') then
+                    -- donothing
+                elseif string.match(gContparam,'objType=community') or string.match(gContparam,'objType=content') then
+                    --判断是否音频正在播放，如在播放则停止
+                    if getAudioPlayFlag then
+                        if getAudioPlayFlag() ~= 0 then
+                            Log:write('------------Msg.getJsonPlayer-2--------')
+                            --停止定时器，防止视频停止后音频点播自动播放下一集，取悦听场景句柄
+                            if getAudioScene then
+                                local curAudioScene = getAudioScene()
+                                Log:write('Msg.getJsonPlayer CurScene =',curAudioScene )
+                                Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
+                                resetAudioScene()
+								
+                            end
+                            --Player:stop()
+                            --Player:show(0)
+                            --isPlayerCreate = false
+                            --resetAudioPlayFlag()
+                        end
+                    end
+                    initPlayer()
+                end
+            -- end
+			end
+        -- else
+            -- Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,7)) --('无法获取数据，请稍后再试')
+        end	    
 	else
-      Util:onPluginEvent(msg, param)	
+         Util:onPluginEvent(msg, param)	
 	end
 end
 
@@ -182,15 +231,23 @@ function loadpodcastItem(list,item,index)
 	if albumIndex=='1' then
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list1[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list1[index].title)
+	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list1[index].blogId)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
 	elseif albumIndex=='2' then
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list2[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list2[index].title)
+	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list2[index].blogId)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
 	elseif albumIndex=='3' then
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list3[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list3[index].title)
+	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list3[index].blogId)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
 	elseif albumIndex=='4' then
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list4[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list4[index].title)
+	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list4[index].blogId)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
 	end
 	if not IfDelete then
        Sprite:setVisible(arrowGo, 1)
@@ -223,6 +280,216 @@ function podcastItemBtnOnSelect(sprite)
 	-- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	-- Reg:setString(reg,'albumIndex',data)
 	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+	local item= Sprite:getParent(sprite)
+    local index=ListView:getItemIndex(item) 
+    local data = Sprite:getData(sprite)
+	local bokeCollectTable={}
+	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local stable = {}
+	if albumIndex=='1' then
+		for i = 1,#podcastUserData.list1 do
+			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list1[i])
+			end
+		end
+	end
+	if albumIndex=='2' then
+		for i = 1,#podcastUserData.list2 do
+			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list1[i])
+			end
+		end
+	end
+	if albumIndex=='3' then
+		for i = 1,#podcastUserData.list3 do
+			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list1[i])
+			end
+		end
+	end
+	if albumIndex=='4' then
+		for i = 1,#podcastUserData.list4 do
+			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list1[i])
+			end
+		end
+	end
+	Reg:setTable(reg,'bokeCollectTable',stable)  
+	Reg:setString(reg,'bokeItemId',data)
+	Reg:setString(reg,'bokeItemIndex',index)
+    Util:_goPlay(data)
+end
+
+--播放
+function Util:_goPlay(contparam, param)
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml') 
+	Loading:show()
+    Log:write('_goPlay=====',contparam, param)
+    local _,_,contentId = string.find(contparam, 'contentId=(%d+);')
+    if contentId == nil then contentId = "null" end
+    local _,_,nodeId = string.find(contparam, 'nodeId=(%d+);')
+    local _,_,objType = string.find(contparam, 'objType=([%a%d]+);')
+    if not objType then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+		Loading:close()
+        return
+    end
+    if not nodeId and objType ~= 'community' then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+		Loading:close()
+        return
+    end
+    nodeId = nodeId or ''
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    if param and param.breakPoint then 
+	Reg:setInteger(reg, 'breakPoint', param.breakPoint) 
+	else Reg:setInteger(reg, 'breakPoint', 0) 
+	end
+    Reg:setString(reg, 'contparam', contparam)
+    if param and param.multiDownload then Reg:setString(reg, 'multiDownload', param.multiDownload) else Reg:setString(reg, 'multiDownload', 'false') end
+    if param and param.isAudio and param.isAudio == "true" then Reg:setString(reg, 'isAudio', param.isAudio) else Reg:setString(reg, 'isAudio', 'false') end
+    if param and not param.withoutLoading then uiRefresh()end
+    initCodeRateRule(Util:getNetworkType())  --初始化码率适配规则
+    local codeRate = Config:get('rate') --默认读取码率设置，home页里根据网络状况设置初始值,2G流畅，3G和wlan默认是高清
+    if param and param.codeRate then codeRate = param.codeRate end --手动码率切换时从参数读取coderate
+    local url = Util:getServer() .. Alias.playerData .. '?contentId=' .. contentId .. '&nodeId=' .. nodeId .. '&objType=community' .. '&rate=' .. codeRate
+    url = string.find(contparam, 'live=true') and url .. '&live=true' or url
+	uiRefresh()
+    Http:request('playerData', url, Msg.getJsonPlayer, {useCache = 0})
+end
+
+-- @brief 初始化播放器
+function initPlayer()
+    
+    -- symbian手机请求的播放地址不知为何会带&amp;字符串 导致open后play死机 在这里统一替换
+    playUrl = string.gsub(playerJson.playUrl,"&amp;","&")
+
+    local regplayer = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    Reg:setInteger(regplayer, 'minFlag',0) --客户端状态，0表示在应用里，1表示在后台,2表示重复后台 由于可能在后台切换player界面 所以用reg记录
+    if Reg:getInteger(regplayer, 'isScreenLock') == 0 then  -- 是否为锁屏状态
+        isScreenLock = false
+    else
+        isScreenLock = true
+    end
+    createPlayer()
+end
+
+
+
+-- @brief 创建播放器区域
+function createPlayer()
+	Log:write('创建')
+    Player:create(0, -1, 1, 1)
+    isPlayerCreate = true
+    --旋屏操作放在openUrl里
+    openUrl()
+
+    ----设置音频播放标志,在此处加是解决loading数据时快速点返回，当前场景以及切换而本场景不释放仍然能收到音频数据产生播放，单播放标志不对的情况
+    if isPlayerCreate then
+        setAudioPlayFlag(2)
+
+        --增加音频通知消息
+        if SendNotification then
+            if objType == '0' or objType=='content' then --音频点播
+                if gContparam and gContparam ~= '' then
+                    if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
+                    local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+                    -- Reg:setString(reg, 'audioCurPlayingTitle',title)
+                end
+            end
+        end
+    else
+        resetAudioPlayFlag()
+    end
+end
+
+-- @brief 打开url
+function openUrl()
+    --取断点
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    local breakPoint = Reg:getInteger(reg, 'breakPoint')
+    if breakPoint ~= 0 then
+        Reg:remove(reg, 'breakPoint')
+    end
+    if Http:getCurConnect() == 'WLAN' then
+        System:setBufferTime(1)
+    else
+        System:setBufferTime(3)
+    end
+    Player:open(playUrl,Http:getCurConnect(), breakPoint)
+	pluginInvoke(Player:_getHandle(),'StartPlayer')    
+	Log:write('testbottominsert',playerJson.titleName)
+	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	Reg:setString(bottomReg,'audioName',playerJson.titleName)
+	Reg:setString(bottomReg,'type',2)
+	Reg:setString(bottomReg,'playUrl',playUrl)	
+	Player:setFullScreen(0)
+    Timer:cancel(TimerId.status)
+    Timer:set(TimerId.status, 1000, 'getStatus')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.detail)
+    Reg:setString(reg,'audioResource','')
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatus()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('bushi',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
+            -- if status == Player.status.Finished then
+                -- local pIndex = getNextPlayParam(1)
+                -- if subListTable and subListTable ~= '' and pIndex ~= -1 then
+                    -- Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
+                    -- doPlaynext(subListTable[pIndex].param)
+                -- else
+                    -- resetAudioPlayFlag()           
+                    -- Player:stop()
+                    -- Player:show(0)
+                    -- Timer:cancel(TimerId.status)
+                -- end
+            -- else
+                -- Player:stop()
+                -- Player:show(0)
+                -- Timer:cancel(TimerId.status)
+            -- end
+        end
+        -- uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(TimerId.status, 500, 'getStatus')
+end
+
+-- @brief 格式化时间
+function timeFormat(sec)
+    if sec == nil then return '00:00:00' end
+	local  hh = math.floor(sec / 3600) < 10 and '0' .. math.floor(sec / 3600) or math.floor(sec / 3600)
+    local mm = math.floor(sec / 60) < 10 and '0' .. math.floor(sec / 60) or math.floor(sec / 60)
+    local ss = math.mod(sec, 60) < 10 and '0' .. math.mod(sec, 60) or math.mod(sec, 60)
+    local time = hh..':'..mm .. ':' .. ss
+    return time
 end
 
 function editBtnOnSelect(sprite)
@@ -238,11 +505,8 @@ function editBtnOnSelect(sprite)
 end
 
 function deleteBtnOnSelect(sprite)
-    -- Log:write('deleteBtnOnSelect=====')
-	-- local data=Sprite:getData(sprite)
-	-- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
-	-- deleteNodeId=nodeId
-	-- dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
+	local data=Sprite:getData(sprite)
+	deletedata=data
     Dialog:show('', '要将该作品从专辑总转移到作品中吗？', 'ok_cancel', 'Delete_cancel')
 end
 
@@ -281,20 +545,14 @@ end
 
 --Dialog确定按钮
 function _okProc()
-CollectionType=1
-deleteOneCollectionProg(deleteNodeId,CollectionType)
-local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
-local regFile = 'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlistlocal.xml'
-Reg:load(reg,regFile)
-g_collectionIdsStr = Reg:getString(reg, 'audiocollectionIds')
-listviewdata=readCollections(g_collectionIdsStr)	
-loadListviewData()
-Dialog:close()
+	  Http:request('deleteCode', Util:getWeiBoServer() .. '/sup/modifyAlbum.msp?blogId='..deletedata..'&album=0',105)
+	  Dialog:close()
+	  Loading:show()
 end
 
 --Dialog取消按钮
 function _cancelProc()
-Dialog:close()
+     Dialog:close()
 end
 
 Dialog.layout = [[

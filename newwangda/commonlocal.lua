@@ -979,24 +979,17 @@ Bottom.layout = [[
 
 function Bottom:show()
     local curScene = Sprite:getCurScene()
-	Log:write('commonbottom====1',curScene)
     --Sprite:sendEvent(curScene, Msg.dialogShow)
     local mainNode = Sprite:findChild(curScene, 'mainNode')
-	Log:write('commonbottom====2',mainNode)
     local bottomNode = Sprite:findChild(curScene, 'bottomNode')
-	Log:write('commonbottom====3',bottomNode)
     if bottomNode ~= 0 then
         setNodeState(bottomNode, 1)
     else
-		Log:write('commonbottom====4getstatusa2')
         bottomNode = Sprite:create('node', Sprite:findChild(curScene, 'mainNode'))
-		Log:write('commonbottom====4getstatusa3')
         Sprite:setProperty(bottomNode, 'name', 'bottomNode')
 		Sprite:setRect(bottomNode,0,0,720,112)
 		Sprite:setProperty(bottomNode, 'extendstyle', '1511')
-		Log:write('commonbottom====4getstatusa4')
         Sprite:loadFromString(bottomNode, Bottom.layout)
-		Log:write('commonbottom====4getstatusa5')
     end
 	
 	playBtn=Sprite:findChild(bottomNode,'playBtn')
@@ -1006,7 +999,6 @@ function Bottom:show()
 	playgoBtn = Sprite:findChild(bottomNode,'playgoBtn')
 	bottomRateAnimation = Sprite:findChild(bottomNode,'bottomRateAnimation')
 	tipsNode  = Sprite:findChild(bottomNode,'tipsNode')
-	Log:write('commonbottom====4getstatusa1')
 	Timer:cancel(4444)
 	Timer:set(4444,500,'getStatusa')
 end
@@ -1138,6 +1130,8 @@ function playBtnOnSelect(sprite)
 	local gtype = Reg:getInteger(bottomReg,'type')
 	Log:write('playBtnOnSelect============',gtype,status,Player.status.Finished)
 	if gtype == 2 and status == Player.status.Finished  then
+		Player:create(0, -1, 1, 1)
+		isPlayerCreate = true
 		playUrl = Reg:getString(bottomReg,'playUrl')
 		Log:write('playBtnOnSelect============',playUrl)
 		Player:open(playUrl,Http:getCurConnect())

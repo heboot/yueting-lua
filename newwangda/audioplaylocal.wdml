@@ -550,7 +550,7 @@ function setGalleryData()
 	
 	
 	Gallery:removeAllItems(gallery, 1) 
-	Gallery:loadItem(gallery, galleryItem, #audioplayCollectTable, 'onLoadGalleryItem')
+	Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
     Gallery:adjust(gallery) 
 	
 end
@@ -841,13 +841,21 @@ end
 -- @brief 进度条OnMouseDown事件
 function progressOnMouseDown(sprite, x, y)
     Log:write('状态DOWN',status)
-    --if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
+	movex = x
+	moveflag = x
+	progressBarFlag = 1
+	if movex <= leftx then
+		x = leftx
+		progressBarFlag = 0
+		--movex = 0
+	end
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
         --resetFSTimer(1)
         --setPointImgStatus(progressPointImg,1)
-        --setProgressBarPos(sprite, x)
-        --progressBarFlag = 1
+        setProgressBarPos(sprite, x,1)
+        progressBarFlag = 1
        
-    --end
+    end
 	
 	 return 0
 end

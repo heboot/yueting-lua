@@ -29,7 +29,8 @@
 		<!--背景、头像以及相关资料 node-->
 		<node rect="0,0,720,270"  extendstyle="1810">
 		<image rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
-		<image name="userImage" rect="10,10,176,176" style="autosize" src="file://image/personalhomepageimg.png" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>
+	    <image name="userImage" rect="10,10,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
+		<image name="msgImg" rect="13,13,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>		
 		<label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
 		<label rect="220,110,150,50" text="粉丝数:" font-size="36" v-align="center"  color="#ffffff" extendstyle="1010"/>
 		<label name="fansTotal" rect="0,110,120,50" text="" font-size="36" v-align="center"  color="#ffffff" extendstyle="8010"/>
@@ -131,7 +132,7 @@
 			<image name="albumImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/> 
 			<label name="albumVoltage" rect="270,19,400,45" v-align="center" postfix=".."  text="" extendstyle="1111" color="#FFFFFF"  font-size="30"/>
 			<label name="albumName" rect="270,70,400,45" v-align="center" postfix=".."  extendstyle="1111" color="#999999"  font-size="30"/>
-			<label rect="270,115,70,40" v-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
+			<label name="albumAnchorLabel" rect="270,115,70,40" v-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
 			<label name="albumAnchor" rect="0,115,200,40" v-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
 			<image name="rimg" rect="600,70,50,50" style="maxsize"  extendstyle="1111" src="file://image/arrow.png"/>					
 			</button>
@@ -154,6 +155,7 @@ local parentId
 local addfocusBtn
 local addfouseName
 local fansTotal
+local msgImg
 local personalInfo
 
 
@@ -171,11 +173,10 @@ function bodyBuildChildrenFinished(sprite)
 	 addfocusBtn= Sprite:findChild(sprite, 'addfocusBtn')
 	 addfouseName= Sprite:findChild(sprite, 'addfouseName')
 	 fansTotal= Sprite:findChild(sprite, 'fansTotal')
+	 msgImg= Sprite:findChild(sprite, 'msgImg')
 	 LoadInfoData()
 end
 
-
--- Util:getWeiBoServer() ..'publish/clt'..picture
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
@@ -201,6 +202,9 @@ function bodyOnPluginEvent(msg, param)
 		podcastData = Http:jsonDecode('podcastData') 
 		Sprite:setProperty(mainTitle,'text',podcastData.sname..'的主页')
 		Sprite:setProperty(fansTotal,'text',podcastData.followerCount)
+		if podcastData.picture and podcastData.picture~='' then
+		     Sprite:setProperty(msgImg,'src',Util:getWeiBoServer() .. 'publish/clt' ..podcastData.picture)
+		end
 		Log:write('isFocused',podcastData.isFocused)
 		if podcastData.isFocused=='0' then
 		   Sprite:setProperty(addfouseName,'text','+关注')
@@ -284,11 +288,13 @@ end
 --[[  加载作品列表ITEM数据方法 ]]--
 function loadWorksItem(list,item,index)
     Sprite:setRect(item, 0,0,686,172)
-    Sprite:setProperty(item,'extendstyle','1010')
-	Sprite:setProperty(Sprite:findChild(item,'worksImage'),'src',podcastData.list0[index].videoImg)  
+    Sprite:setProperty(item,'extendstyle','1010')  
 	Sprite:setProperty(Sprite:findChild(item,'worksName'),'text',podcastData.list0[index].title)
 	Sprite:setProperty(Sprite:findChild(item,'worksAnchor'),'text',podcastData.list0[index].sname)
-	Sprite:setProperty(Sprite:findChild(item,'worksItemBtn'),'data',podcastData.list0[index].param)
+	if podcastData.list0[index].omsId~='' and podcastData.list0[index].omsId~=nil then
+	     Sprite:setProperty(Sprite:findChild(item,'worksImage'),'src',podcastData.list0[index].videoImg)
+	     Sprite:setProperty(Sprite:findChild(item,'worksItemBtn'),'data',podcastData.list0[index].param)
+	end	
 end
 
 function LoadInfoData()--加载个人信息数据
@@ -327,41 +333,62 @@ function loadAlbumItem(list,item,index)
 	local albumImage=Sprite:findChild(item,'albumImage')
 	local albumName=Sprite:findChild(item,'albumName')
 	local albumAnchor=Sprite:findChild(item,'albumAnchor')
+	local albumItemBtn=Sprite:findChild(item,'albumItemBtn')
+	local albumAnchorLabel=Sprite:findChild(item,'albumAnchorLabel')
 	-- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	if index== 0 then
-	if podcastData.list1 and #podcastData.list1~='' and #podcastData.list1~=nil then
-	Sprite:setProperty(albumVoltage,'text','娱乐/'..#podcastData.list1+1)
-	Sprite:setProperty(albumImage,'src',podcastData.list1[#podcastData.list1].videoImg)
-	Sprite:setProperty(albumName,'text',podcastData.list1[#podcastData.list1].title)
-	Sprite:setProperty(albumAnchor,'text',podcastData.list1[#podcastData.list1].sname)
-	-- Reg:setTable(reg,'albumList1',podcastData.list1)
-	end
+	     if podcastData.list1 and #podcastData.list1~='' and #podcastData.list1~=nil then
+	         Sprite:setProperty(albumVoltage,'text','娱乐/'..#podcastData.list1+1)
+	         Sprite:setProperty(albumImage,'src',podcastData.list1[#podcastData.list1].videoImg)
+	         Sprite:setProperty(albumName,'text',podcastData.list1[#podcastData.list1].title)
+	         Sprite:setProperty(albumAnchor,'text',podcastData.list1[#podcastData.list1].sname)
+	      -- Reg:setTable(reg,'albumList1',podcastData.list1)
+		 else
+		     Sprite:setProperty(albumVoltage,'text','娱乐/0')
+			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setEnable(albumItemBtn,0)
+			 Sprite:setVisible(albumAnchorLabel, 0) 
+	     end
 	elseif index==1 then 
-	if podcastData.list2 and #podcastData.list2~='' and #podcastData.list2~=nil then
-	Sprite:setProperty(albumVoltage,'text','音乐/'..#podcastData.list2+1)
-	Sprite:setProperty(albumImage,'src',podcastData.list2[#podcastData.list2].videoImg)
-	Sprite:setProperty(albumName,'text',podcastData.list2[#podcastData.list2].title)
-	Sprite:setProperty(albumAnchor,'text',podcastData.list2[#podcastData.list2].sname)
-	-- Reg:setTable(reg,'albumList2',podcastData.list2)
-	end
+	     if podcastData.list2 and #podcastData.list2~='' and #podcastData.list2~=nil then
+	         Sprite:setProperty(albumVoltage,'text','音乐/'..#podcastData.list2+1)
+	         Sprite:setProperty(albumImage,'src',podcastData.list2[#podcastData.list2].videoImg)
+	         Sprite:setProperty(albumName,'text',podcastData.list2[#podcastData.list2].title)
+	         Sprite:setProperty(albumAnchor,'text',podcastData.list2[#podcastData.list2].sname)
+	      -- Reg:setTable(reg,'albumList2',podcastData.list2)
+		  else
+		     Sprite:setProperty(albumVoltage,'text','音乐/0')
+			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setEnable(albumItemBtn,0)
+			 Sprite:setVisible(albumAnchorLabel, 0) 
+	     end
 	elseif index==2 then 
-	if podcastData.list3 and  #podcastData.list3~='' and #podcastData.list3~=nil then
-	Sprite:setProperty(albumVoltage,'text','情感/'..#podcastData.list3+1)
-	Sprite:setProperty(albumImage,'src',podcastData.list3[#podcastData.list3].videoImg)
-	Sprite:setProperty(albumName,'text',podcastData.list3[#podcastData.list3].title)
-	Sprite:setProperty(albumAnchor,'text',podcastData.list3[#podcastData.list3].sname)
-	-- Reg:setTable(reg,'albumList3',podcastData.list3)
-	end
+	     if podcastData.list3 and  #podcastData.list3~='' and #podcastData.list3~=nil then
+	         Sprite:setProperty(albumVoltage,'text','情感/'..#podcastData.list3+1)
+	         Sprite:setProperty(albumImage,'src',podcastData.list3[#podcastData.list3].videoImg)
+	         Sprite:setProperty(albumName,'text',podcastData.list3[#podcastData.list3].title)
+	         Sprite:setProperty(albumAnchor,'text',podcastData.list3[#podcastData.list3].sname)
+	     -- Reg:setTable(reg,'albumList3',podcastData.list3)
+		  else
+		     Sprite:setProperty(albumVoltage,'text','情感/0')
+			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setEnable(albumItemBtn,0)
+			 Sprite:setVisible(albumAnchorLabel, 0) 
+	     end
 	elseif index==3 then 
-	if podcastData.list4 and  #podcastData.list4~='' and #podcastData.list4~=nil then
-	Sprite:setProperty(albumVoltage,'text','脱口秀/'..#podcastData.list4+1)
-	Sprite:setProperty(albumImage,'src',podcastData.list4[#podcastData.list4].videoImg)
-	Sprite:setProperty(albumName,'text',podcastData.list4[#podcastData.list4].title)
-	Sprite:setProperty(albumAnchor,'text',podcastData.list4[#podcastData.list4].sname)
-	-- Reg:setTable(reg,'albumList4',podcastData.list4)
-	end
-	end
-	
+	     if podcastData.list4 and  #podcastData.list4~='' and #podcastData.list4~=nil then
+	         Sprite:setProperty(albumVoltage,'text','脱口秀/'..#podcastData.list4+1)
+	         Sprite:setProperty(albumImage,'src',podcastData.list4[#podcastData.list4].videoImg)
+	         Sprite:setProperty(albumName,'text',podcastData.list4[#podcastData.list4].title)
+	         Sprite:setProperty(albumAnchor,'text',podcastData.list4[#podcastData.list4].sname)
+	      -- Reg:setTable(reg,'albumList4',podcastData.list4)
+		   else
+		     Sprite:setProperty(albumVoltage,'text','脱口秀/0')
+			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setEnable(albumItemBtn,0)
+			 Sprite:setVisible(albumAnchorLabel, 0) 
+	     end
+	end	
 end
 
 --返回按钮方法
@@ -383,21 +410,21 @@ function albumItemBtnOnSelect(sprite)
 	local data = Sprite:getData(sprite)
 	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	if index==0 then
-	Reg:setInteger(reg,'albumListIndex',1)
-	Reg:setTable(reg,'albumList1',podcastData.list1)
+	     Reg:setInteger(reg,'albumListIndex',1)
+	     Reg:setTable(reg,'albumList1',podcastData.list1)
 	elseif index==1 then
-	Reg:setInteger(reg,'albumListIndex',2)
-	Reg:setTable(reg,'albumList2',podcastData.list2)
+	     Reg:setInteger(reg,'albumListIndex',2)
+	     Reg:setTable(reg,'albumList2',podcastData.list2)
 	elseif index==2 then 
-	Reg:setInteger(reg,'albumListIndex',3)
-	Reg:setTable(reg,'albumList3',podcastData.list3)
+	     Reg:setInteger(reg,'albumListIndex',3)
+	     Reg:setTable(reg,'albumList3',podcastData.list3)
 	elseif index==3 then
-	Reg:setInteger(reg,'albumListIndex',4)
-	Reg:setTable(reg,'albumList4',podcastData.list4)
+	     Reg:setInteger(reg,'albumListIndex',4)
+	     Reg:setTable(reg,'albumList4',podcastData.list4)
 	end
-    Reg:setString(reg,'userId','userId='..podcastData.userId..';')
-	Reg:setInteger(reg,'isUserId',1)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\albumList.wdml',{freeDestScene=true})
+         Reg:setString(reg,'userId','userId='..podcastData.userId..';')
+	     Reg:setInteger(reg,'isUserId',1)
+	     Scene:go('MODULE:\\com_wondertek_mobileaudio\\albumList.wdml',{freeDestScene=true})
 end
 
 function worksItemBtnOnSelect(sprite)
@@ -406,7 +433,7 @@ function worksItemBtnOnSelect(sprite)
     local data = Sprite:getData(sprite)
 	local bokeCollectTable={}
     for i=0,#podcastData.list0 do
-	table.insert(bokeCollectTable,podcastData.list0[i])
+	     table.insert(bokeCollectTable,podcastData.list0[i])
 	end 
     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	Reg:setString(reg,'bokeItemId',data)
@@ -559,10 +586,12 @@ function Util:_goPlay(contparam, param)
     local _,_,objType = string.find(contparam, 'objType=([%a%d]+);')
     if not objType then
         Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+		Loading:close()
         return
     end
     if not nodeId and objType ~= 'community' then
         Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+		Loading:close()
         return
     end
     nodeId = nodeId or ''

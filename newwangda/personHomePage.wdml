@@ -30,7 +30,7 @@
 		<button name="spaceBgEdit" rect="0,0,720,270" extendstyle="1010" OnSelect="spaceBgEditOS"/>
 		<button name="msgImgBtn" rect="10,10,176,176" extendstyle="1010" OnSelect="msgImgBtnOnSelect">
 		<image rect="0,0,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
-		<image name="msgImg" rect="3,3,170,170" style="maxsize" src="file://image/personalhomepageimg.png" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>
+		<image name="msgImg" rect="3,3,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>
 		</button>
 		<label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
 		<label rect="220,110,150,50" text="粉丝数:" font-size="36"  v-align="center" color="#ffffff" extendstyle="1010"/>
@@ -51,7 +51,7 @@
 		<node  rect="0,0,720,140"  extendstyle="1810">
 		<button name="msgMoodBtn" normal="n" sel="s" OnSelect="msgMoodBtnOnSelect" rect="0,0,720,140" extendstyle="1010">
 		<shadow name="s" rect="0,0,720,140" alpha="50" color="#000000" extendstyle="1010"/>
-		<label name="msgMood" rect="45,0,720,140" text=""  v-align="center" font-size="28" color="#999999" extendstyle="1010"/>
+		<label name="msgMood" rect="45,0,600,140" text="" postfix="..." v-align="center" font-size="28" color="#999999" extendstyle="1010"/>
 		<image name="rimg" rect="650,50,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>
 		<image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
 		</button>
@@ -249,9 +249,11 @@ function personHomeItemBtnOnSelect(sprite)
 	local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
 	if index==0 then
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\localfile.wdml',{freeDestScene=true})
+	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\localfile.wdml',{freeDestScene=true})
+	elseif index==1 then
+	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\workslist.wdml',{freeDestScene=true})
 	elseif index==2 then
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\personAlbumList.wdml',{freeDestScene=true})
+	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\personAlbumList.wdml',{freeDestScene=true})
 	end
 end
 

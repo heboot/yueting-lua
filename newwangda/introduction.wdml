@@ -29,9 +29,9 @@
 		</node> 
 		<node  rect="15,120,690,541"  extendstyle="1111">
 		    <node name="labelNode" rect="0,0,0,0" extendstyle="1077">
-			<label name="contentLabelDesc" option="numeric" rect="0,0,0,0" extendstyle="1077" color="#BBC0B9" font-size="35" multiline="true" max-size="120"/>
+			<textarea  name="contentLabelDesc" option="numeric" rect="0,0,0,0" extendstyle="1077" color="#BBC0B9" font-size="35" line-height="50" autoextend="true"/>
 			</node>
-			<node name="editNode" rect="0,0,0,0" extendstyle="1077" visible="0">
+			<node name="editNode" rect="0,0,0,0" extendstyle="1077" visible="0" enable="0">
 			<image rect="0,0,0,0" style="autosize" src="file://image/settingcontentdesc_bg.png" extendstyle="1077"/>
 			<edit name="contentDesc" option="numeric" rect="0,0,0,0" extendstyle="1077" color="#BBC0B9" font-size="35" multiline="true" max-size="120"/>
 		    </node>

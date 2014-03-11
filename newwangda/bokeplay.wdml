@@ -379,7 +379,9 @@ function openUrl()
     Player:open(playUrl,Http:getCurConnect(), breakPoint)
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    	
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	if playerJson.titleName~=nil then
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
+	end
 	Reg:setString(bottomReg,'type',2)	
 	Player:setFullScreen(0)
     Timer:cancel(TimerId.status)
@@ -544,7 +546,24 @@ function getStatus()
         uiPlay()
         -- if objType == 'live' then refreshLiveProgress() end
     elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
-		Log:write('getStatus bokeplay')
+		 -- if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
+            -- if status == Player.status.Finished then
+                -- local pIndex = getNextPlayParam(1)
+                -- if subListTable and subListTable ~= '' and pIndex ~= -1 then
+                    -- Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
+                    -- doPlaynext(subListTable[pIndex].param)
+                -- else
+                    -- resetAudioPlayFlag()           
+                    -- Player:stop()
+                    -- Player:show(0)
+                    -- Timer:cancel(TimerId.status)
+                -- end
+            -- else
+                -- Player:stop()
+                -- Player:show(0)
+                -- Timer:cancel(TimerId.status)
+            -- end
+        -- end
         uiPlay()
     end
 	 if objType ~= 'live' and objType ~= 'review' then

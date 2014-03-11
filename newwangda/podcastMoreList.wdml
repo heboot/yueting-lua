@@ -22,7 +22,7 @@
 		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="加载中" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 	    </node>
 		
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,20,0"   extendstyle="1016" />

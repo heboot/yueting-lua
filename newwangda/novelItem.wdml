@@ -105,7 +105,6 @@ function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	  Loading:show()
 	  Bottom:show()
-	  LoadBottomPlayerData()
       --LoadNovelData()
 	  requestNovelData()
     elseif msg == MSG_DEACTIVATE then
@@ -166,13 +165,8 @@ end
 --[[  加载小说列表ITEM数据方法 ]]--
 function loadNovelItem(list,item,index)
 	 --Sprite:setProperty(item,"extendstyle","1070")
-	 local aaa = {1,3,5}
-	 for i = 1 , #aaa do	 
-		 if index == aaa[i] then
-			Sprite:setRect(item,0,0,720,255)
-		 end
-	 end
-     
+	 --Sprite:setRect(item,0,0,720,255)
+
 	 Sprite:setProperty(Sprite:findChild(item,'novelChildName'),'text',novelData.contList[index].name)
 	 Sprite:setProperty(Sprite:findChild(item,'novelItemBtn'),'data',novelData.contList[index].param)
 end

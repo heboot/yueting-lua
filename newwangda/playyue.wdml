@@ -354,6 +354,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
+	   --Timer:set(TimerId.radiostatus, 500, 'getRadioStatus')
 	   setNodeState(closeNode,0)
 	   Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
 	   Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml')
@@ -396,7 +397,7 @@ function bodyOnSpriteEvent(msg, param)
 	      Reg:setString(reg, 'audioReplayData','')
 	   end
     elseif msg == MSG_DEACTIVATE then
-		 Timer:cancel(TimerId.radiostatus)
+		 --Timer:cancel(TimerId.radiostatus)
     else
         Util:onSpriteEvent(msg, param)
     end

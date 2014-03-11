@@ -645,6 +645,11 @@ function downloadoptionBtnOnSelect(sprite)
 	    local xid = Download:getIndexById(did+0)
 		Download:pause(xid+0) 
 	elseif op~=nil and op == 'start' then --go开始下载
+		--downloadMember.m_b2G3GDownload = Config:get('autoDownload') == "1" and true or false
+        if (Http:getCurConnect() == 'CMWAP' or Http:getCurConnect() == 'CMNET') and not downloadMember.m_b2G3GDownload then
+            Dialog:show('提示', '亲，忘了设置过移动网络不缓存了？', 'ok_cancel', 'goSetting', nil, '设置')
+            return
+        end
 	    local xid = Download:getIndexById(did+0)
 		Download:start(xid+0) 
 		Log:write('downloadoptionBtnOnSelect2====',op,did)

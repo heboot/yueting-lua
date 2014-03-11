@@ -238,6 +238,7 @@ end
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
     if msg==103 then
+	Loading:close()
 	 novelData= Http:jsonDecode('novelData')
 	 subListTable=novelData.contList
 	 
@@ -798,6 +799,7 @@ function onLoadGalleryItem(gallery, item, index)
 end
 
 function galleryOnSelect(sprite)
+  Loading:show()
    Log:write('galleryOnSelect====================1')
    local tempnodeId
    local index = Gallery:getCurItem(gallery)

@@ -72,13 +72,10 @@ function bodyBuildChildrenFinished(sprite)
 	 rootSprite = sprite
 	 podcastListview = Sprite:findChild(sprite, 'podcastListview')
 	 podcastItem = Sprite:findChild(rootSprite, 'podcastItem')
-	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
-	 
-	 
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle') 
 	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	local isUserId=Reg:getInteger(reg,'isUserId')
 	local isNodeId=Reg:getInteger(reg,'isNodeId')
-	Log:write('isNodeId===22',isUserId,isNodeId)
 	if isUserId ==1 then
 		isFlag = 'isUserId'
 	end
@@ -111,7 +108,6 @@ function requestPodcastListData()
 	local data=Reg:getString(reg,'bokeItemData')
 	local isUserId=Reg:getInteger(reg,'isUserId')
 	local isNodeId=Reg:getInteger(reg,'isNodeId')
-	Log:write('isNodeId===22',isUserId,isNodeId)
 	if isFlag and isFlag ~= nil then
 		if isFlag == 'isUserId' then
 			local _,_,userId=string.find(data,'userId=(%d+);')
@@ -149,21 +145,20 @@ function bodyOnPluginEvent(msg, param)
 	     Loading:close()
 		 podcastListData = Http:jsonDecode('podcastListData')
 		 if podcastListData.albumType=='0' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的作品')
+		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的作品')
 		 elseif podcastListData.albumType=='1' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的娱乐')
+		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的娱乐')
 		 elseif podcastListData.albumType=='2' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的音乐')
+		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的音乐')
 		 elseif podcastListData.albumType=='3' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的情感')
+		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的情感')
 		 elseif podcastListData.albumType=='4' then
-		 Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的脱口秀')
+		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的脱口秀')
 		 end
-		 LoadpodcastListviewData()
+		     LoadpodcastListviewData()
 	elseif msg == Msg.getJsonPlayer then
         Loading:close()
         playerJson = Http:jsonDecode('playerData')
-		Log:write('playerData111=================1',playerJson)
         if playerJson and playerJson.code == '1014' then
             Net:goToMyAccount()
         elseif playerJson and playerJson.orderList then
@@ -172,9 +167,7 @@ function bodyOnPluginEvent(msg, param)
             Tips:show(playerJson.errordesc)
         elseif playerJson and 'table' == type(playerJson) then
             --获取本次数据内容
-			Log:write('playerData111=================2',playerJson)
             gContparam = playerJson ~=nil and playerJson.param or ''
-			Log:write('playerData111=================3',gContparam)
             _,_,contentId = string.find(gContparam , 'contentId=(%d+);')
             if playerJson and playerJson~='' and gContparam and gContparam ~='' then
                 if string.match(gContparam,'objType=live') or string.match(gContparam,'objType=review') then
@@ -274,8 +267,7 @@ function openUrl()
 	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
 	Reg:setString(bottomReg,'type',2)
-	Reg:setString(bottomReg,'playUrl',playUrl)
-	
+	Reg:setString(bottomReg,'playUrl',playUrl)	
 	Player:setFullScreen(0)
     Timer:cancel(TimerId.status)
     Timer:set(TimerId.status, 1000, 'getStatus')
@@ -292,7 +284,7 @@ function getStatus()
         status == Player.status.Buffering or status == Player.status.Idle then
 	    uiRefresh()
 		if objType ~= 'live' then 
-		refreshDemandProgress()	
+		--refreshDemandProgress()	
 		end
 	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
         uiPause()
@@ -307,24 +299,24 @@ function getStatus()
         -- if objType == 'live' then refreshLiveProgress() end
     elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
         if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
-            if status == Player.status.Finished then
-                local pIndex = getNextPlayParam(1)
-                if subListTable and subListTable ~= '' and pIndex ~= -1 then
-                    Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
-                    doPlaynext(subListTable[pIndex].param)
-                else
-                    resetAudioPlayFlag()           
-                    Player:stop()
-                    Player:show(0)
-                    Timer:cancel(TimerId.status)
-                end
-            else
-                Player:stop()
-                Player:show(0)
-                Timer:cancel(TimerId.status)
-            end
+            -- if status == Player.status.Finished then
+                -- local pIndex = getNextPlayParam(1)
+                -- if subListTable and subListTable ~= '' and pIndex ~= -1 then
+                    -- Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
+                    -- doPlaynext(subListTable[pIndex].param)
+                -- else
+                    -- resetAudioPlayFlag()           
+                    -- Player:stop()
+                    -- Player:show(0)
+                    -- Timer:cancel(TimerId.status)
+                -- end
+            -- else
+                -- Player:stop()
+                -- Player:show(0)
+                -- Timer:cancel(TimerId.status)
+            -- end
         end
-        uiPlay()
+        -- uiPlay()
     end
 	 if objType ~= 'live' and objType ~= 'review' then
             --local totalTime = timeFormat(Player:getTotalTime())
@@ -346,12 +338,9 @@ end
 --[[  加载小说列表数据方法 ]]--
 function LoadpodcastListviewData()
     if podcastListData.contentList~='' and podcastListData.contentList~=nil then 
-	-- Log:write('LoadpodcastListviewData========',#podcastListData.contentList)
-	
-    -- bokeCollectTable=podcastListData.contentList
-	ListView:removeAllItems(podcastListview, 1, 1)
-    ListView:loadItem(podcastListview,podcastItem,#podcastListData.contentList+1,'loadpodcastItem')
-	ListView:adjust(podcastListview)
+	     ListView:removeAllItems(podcastListview, 1, 1)
+         ListView:loadItem(podcastListview,podcastItem,#podcastListData.contentList+1,'loadpodcastItem')
+	     ListView:adjust(podcastListview)
    end	
 end
 
@@ -359,16 +348,19 @@ end
 function loadpodcastItem(list,item,index)
     Sprite:setRect(item, 0,0,686,172)
     Sprite:setProperty(item,'extendstyle','1010')    
-	if podcastListData.contentList[index].omsId~='' and podcastListData.contentList[index].omsId~=nil then 
-	local podcastImage=Sprite:findChild(item,'podcastImage')
-	local podcastName=Sprite:findChild(item,'podcastName')
-	local podcastAnchor=Sprite:findChild(item,'podcastAnchor')
-	Sprite:setProperty(podcastImage,'src',podcastListData.contentList[index].videoImg)
-	Sprite:setProperty(podcastName,'text',podcastListData.contentList[index].title)
-	Sprite:setProperty(podcastAnchor,'text',podcastListData.sname)	
-	Sprite:setProperty(Sprite:findChild(item,'podcastItemBtn'),'data',podcastListData.contentList[index].param)
-	saveNodeInfo(podcastListData.contentList[index].title,{img=GetLocalFilename(podcastListData.contentList[index].videoImg),count=1,anchor=podcastListData.sname})
-	end	
+	-- if podcastListData.contentList[index].omsId~='' and podcastListData.contentList[index].omsId~=nil then 
+	     local podcastImage=Sprite:findChild(item,'podcastImage')
+	     local podcastName=Sprite:findChild(item,'podcastName')
+	     local podcastAnchor=Sprite:findChild(item,'podcastAnchor')
+		 Sprite:setProperty(podcastName,'text',podcastListData.contentList[index].title)
+	     Sprite:setProperty(podcastAnchor,'text',podcastListData.sname)
+         if podcastListData.contentList[index].omsId~='' and podcastListData.contentList[index].omsId~=nil then 
+		     Sprite:setProperty(podcastImage,'src',podcastListData.contentList[index].videoImg)
+	         Sprite:setProperty(Sprite:findChild(item,'podcastItemBtn'),'data',podcastListData.contentList[index].param)
+			  saveNodeInfo(podcastListData.contentList[index].title,{img=GetLocalFilename(podcastListData.contentList[index].videoImg),count=1,anchor=podcastListData.sname})
+		 end  
+	     saveNodeInfo(podcastListData.contentList[index].title,{img='',count=1,anchor=podcastListData.sname})
+	-- end	
 end
 
 function saveNodeInfo(nodeName,propTable)
@@ -398,12 +390,11 @@ function podcastItemBtnOnSelect(sprite)
     local data = Sprite:getData(sprite)
 	local bokeCollectTable={}
 	for i=0,#podcastListData.contentList do
-	table.insert(bokeCollectTable,podcastListData.contentList[i])
+	     table.insert(bokeCollectTable,podcastListData.contentList[i])
 	end
     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	Reg:setString(reg,'bokeItemId',data)
 	Reg:setString(reg,'bokeItemIndex',index)
-	Log:write('getpindex22222',index)
 	bokeCollectTable=Reg:setTable(reg,'bokeCollectTable',bokeCollectTable)
     Util:_goPlay(data)
 	--Sprite:loadFromXml(sprite,"MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml") 
@@ -412,6 +403,9 @@ end
 
 --播放
 function Util:_goPlay(contparam, param)
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml') 
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+	Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml') 
 	Loading:show()
     Log:write('_goPlay=====',contparam, param)
     local _,_,contentId = string.find(contparam, 'contentId=(%d+);')
@@ -420,10 +414,12 @@ function Util:_goPlay(contparam, param)
     local _,_,objType = string.find(contparam, 'objType=([%a%d]+);')
     if not objType then
         Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+		Loading:close()
         return
     end
     if not nodeId and objType ~= 'community' then
         Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+		Loading:close()
         return
     end
     nodeId = nodeId or ''
