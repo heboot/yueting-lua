@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Root>
+<List>
+<Item name="newTokenPath" value="MODULE:\\newToken.dat" />
+<Item name="voiceGPRSRemind" value="1" />
+<Item name="autoLogin" value="1" />
+<Item name="voice_ver" value="1.0.0" />
+<Item name="notice_set" value="0" />
+<Item name="netTip_loginWaitLimit" value="5000" />
+<Item name="flowFileName" value="WONDER:\\temp\\flowCount.xml" />
+<Item name="rate" value="3" />
+<Item name="spaceBg" value="MODULE:\com_wondertek_mobileaudio\spaceBg.jpg" />
+<Item name="netTip_login3GLimit" value="12" />
+<Item name="skin_default_ver" value="1.0.0.0" />
+<Item name="app_id" value="com_wondertek_mobileaudio" />
+<Item name="base_resolution" value="720x1280" />
+<Item name="isShowImage" value="1" />
+<Item name="cmwap_weiboserverandportal" value="http://c2.cmvideo.cn/music-weibo/" />
+<Item name="skin_default" value="blueidea" />
+<Item name="download_path" value="1" />
+<Item name="wlan_serverandportal" value="http://c22.cmvideo.cn/music/" />
+<Item name="skin_adapter" value="default" />
+<Item name="company_url" value="http://www.wondertek.com.cn" />
+<Item name="autoDownload" value="1" />
+<Item name="wlan_weiboserverandportal" value="http://c22.cmvideo.cn/music-weibo/" />
+<Item name="cmwap_serverandportal" value="http://c2.cmvideo.cn/music/" />
+<Item name="netTip_login2GLimit" value="8" />
+<Item name="channel_id" value="14000002-99000-100300010010001" />
+<Item name="netTip_loginWLANLimit" value="43" />
+<Item name="rcPlayerCache" value="3" />
+<Item name="video_type" value="*.3gp|*.wmv|*.avi|*.mpg|*.mp4" />
+<Item name="app_name" value="手机悦听3.0" />
+<Item name="playerCache" value="1" />
+<Item name="password" value="d6d4e9d0491faa88" />
+<Item name="simcard" value="" />
+<Item name="noImageMode" value="1" />
+<Item name="updateTips_setting" value="1" />
+<Item name="install_pkg_ext" value=".apk" />
+<Item name="filterType" value="0" />
+<Item name="notFirstTime" value="1" />
+<Item name="screenLock" value="0" />
+<Item name="module_language" value="Lua" />
+<Item name="iskeysupport" value="0" />
+<Item name="phone_number" value="" />
+<Item name="clientId" value="d56aa97d8fab4752b2c56c0c13d56d5d" />
+<Item name="sdk_version" value="04.00.00.02" />
+<Item name="errReportFlag" value="1" />
+<Item name="userName" value="13764211414" />
+<Item name="isShortcut" value="0" />
+<Item name="uploadImmediately" value="0" />
+<Item name="shortCutOnce" value="1" />
+<Item name="mediaplayer_ver" value="1.0.0" />
+<Item name="downloadSize" value="5242880" />
+<Item name="playerCacheLenth" value="12" />
+<Item name="remeberPwd" value="1" />
+<Item name="netTip_login4GLimit" value="43" />
+<Item name="tokenPath" value="MODULE:\\token.dat" />
+<Item name="wlan_support" value="1" />
+<Item name="localFileCount" value="0"/>
+</List>
+</Root>

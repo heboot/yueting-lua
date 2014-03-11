@@ -30,7 +30,7 @@
 		</button>
 	   </node>
 		<node name="contentNode" rect="0,90,720,0" padding="0,0,20,0"   extendstyle="1116" >
-		   <panorama name="mainPanorama" rect="0,0,720,0" extendstyle="1017" style="circle" foreground="panoramaItem1">
+		   <panorama name="mainPanorama" rect="0,0,720,0" extendstyle="1017" foreground="panoramaItem1">
 		   <panoramaitem name="panoramaItem1" rect="0,0,720,0" extendstyle="1017">
 		   <image rect="270,200,173,135" style="maxsize" alpha="155" extendstyle="1014" src="file://image/nothingbg.png"/>
 		   <label rect="0,380,720,50" text="空空如也" v-align="center" alpha="75" h-align="center" postfix=".."  extendstyle="1010" color="#CCCCCC"  font-size="35"/>
@@ -51,8 +51,8 @@
 			</button>
 			<image rect="20,19,237,133" src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>	
 			<image name="podcastImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/>
-			<label name="podcastName" rect="270,0,400,172" v-align="center" h-align="center" postfix=".."  extendstyle="1111" color="#FFFFFF"  font-size="35"/>	
-			<button name="deleteBtn" rect="610,64,89,52" style="maxsize" visible="0" enable="0" OnSelect="deleteBtnOnSelect" extendstyle="1011">
+			<label name="podcastName" rect="270,0,380,172" v-align="center" h-align="left" postfix=".."  extendstyle="1111" color="#FFFFFF"  font-size="35"/>	
+			<button name="deleteBtn" rect="620,64,89,52" style="maxsize" visible="0" enable="0" OnSelect="deleteBtnOnSelect" extendstyle="1011">
 	        <image rect="0,0,89,52" style="maxsize" src="file://image/deletebtn.png"  extendstyle="1011"/>
 	        <label rect="0,0,89,52" extendstyle="1111"  h-align="center" v-align="center"  text="移除"  color="#FFFFFF"  font-size="25"/>
 	        </button>
@@ -107,7 +107,7 @@ function bodyOnSpriteEvent(msg, param)
 	  Loading:show()
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
-         Scene:freeByHandle(rootSprite)
+         -- Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else
@@ -237,17 +237,17 @@ function loadpodcastItem(list,item,index)
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list2[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list2[index].title)
 	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list2[index].blogId)
-	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list2[index].param)
 	elseif albumIndex=='3' then
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list3[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list3[index].title)
 	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list3[index].blogId)
-	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list3[index].param)
 	elseif albumIndex=='4' then
 	   Sprite:setProperty(podcastImage,'src',podcastUserData.list4[index].videoImg)
 	   Sprite:setProperty(podcastName,'text',podcastUserData.list4[index].title)
 	   Sprite:setProperty(deleteBtn,'data',podcastUserData.list4[index].blogId)
-	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list1[index].param)
+	   Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list4[index].param)
 	end
 	if not IfDelete then
        Sprite:setVisible(arrowGo, 1)
@@ -287,30 +287,30 @@ function podcastItemBtnOnSelect(sprite)
 	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	local stable = {}
 	if albumIndex=='1' then
-		for i = 1,#podcastUserData.list1 do
+		for i = 0,#podcastUserData.list1 do
 			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
 				table.insert(stable,podcastUserData.list1[i])
 			end
 		end
 	end
 	if albumIndex=='2' then
-		for i = 1,#podcastUserData.list2 do
-			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
-				table.insert(stable,podcastUserData.list1[i])
+		for i = 0,#podcastUserData.list2 do
+			if tonumber(podcastUserData.list2[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list2[i])
 			end
 		end
 	end
 	if albumIndex=='3' then
-		for i = 1,#podcastUserData.list3 do
-			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
-				table.insert(stable,podcastUserData.list1[i])
+		for i = 0,#podcastUserData.list3 do
+			if tonumber(podcastUserData.list3[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list3[i])
 			end
 		end
 	end
 	if albumIndex=='4' then
-		for i = 1,#podcastUserData.list4 do
-			if tonumber(podcastUserData.list1[i].blogStatus) == 1 then
-				table.insert(stable,podcastUserData.list1[i])
+		for i = 0,#podcastUserData.list4 do
+			if tonumber(podcastUserData.list4[i].blogStatus) == 1 then
+				table.insert(stable,podcastUserData.list4[i])
 			end
 		end
 	end

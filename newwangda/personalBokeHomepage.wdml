@@ -90,18 +90,18 @@
         </list>    
 	    </node>
 		<!--panorama node-->
-		<node name="contentNode" rect="17,468,686,0" padding="0,0,10,0"   extendstyle="1116" >
+		<node name="contentNode" rect="17,445,686,0" padding="0,0,10,0"   extendstyle="1016" >
 		<image src="file://image/novel_listbg.png" style="autosize" rect="0,0,686,0"  extendstyle="1017" />
 		
 		<panorama name="mainPanorama" rect="0,0,686,0" extendstyle="1017" style="circle">
             <panoramaitem rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
 			<label name="isHaveWorks" rect="0,0,0,0" extendstyle="1077"  text="暂无数据" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
-            <listview name="worksListview" visible="1" enable="1" rect="0,5,686,0"  extendstyle="0017" scroll="auto">
+            <listview name="worksListview" visible="1" enable="1" rect="0,10,686,0"  extendstyle="0017" scroll="auto">
             </listview>
             </panoramaitem>
             <panoramaitem  rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
 			<label name="isHaveAlbum" rect="0,0,0,0" extendstyle="1077"  text="暂无数据" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
-            <listview name="albumListview" visible="1" enable="1" rect="0,5,686,0" extendstyle="0017" scroll="auto">
+            <listview name="albumListview" visible="1" enable="1" rect="0,10,686,0" extendstyle="0017" scroll="auto">
             </listview>
             </panoramaitem>
             </panorama>

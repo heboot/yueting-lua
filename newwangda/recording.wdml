@@ -23,11 +23,11 @@
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>	    
 		</node> 		
 		<node rect="0,320,720,150"  extendstyle="1010" font-family="TianyiDigital">
-		<label  name="audioCurTime"  rect="100,0,366,150" color="#FFFFFF" text="00:00" font-size="145" v-align="center" h-align="center" extendstyle="1010"/>
+		<label  name="audioCurTime"  rect="0,0,466,150" color="#FFFFFF" text="00:00" font-size="145" v-align="center" h-align="right" extendstyle="1010"/>
 		<label  name="audioCurTimeSS"  rect="0,0,254,85" color="#FFFFFF" text=":00" font-size="80" v-align="center" h-align="left" extendstyle="8510"/>
 	    </node>
 		<node  rect="0,0,720,600"  extendstyle="1511">
-		<label name="recordingLabel" rect="0,80,720,50" text="录音"  font-size="35" h-align="center" color="#FFFFFF" extendstyle="1010"/>
+		<label name="recordingLabel" rect="0,40,720,50" text="录音"  font-size="35" h-align="center" color="#FFFFFF" extendstyle="1010"/>
 		<button name="tryListenBtn" nornal="n" sel="s" rect="0,30,130,95" extendstyle="1010"  OnSelect="tryListenBtnOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010"/>
 		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010"/>
@@ -166,7 +166,9 @@ function getStatus()
         status == Player.status.Buffering or
         status == Player.status.Playing then
         -- uiPause()
-		 local t = Player:getCurTime()
+		 local tick = Player:getCurTime()
+		 -- Log:write('desFilePath==========1',t)
+		 local t = Util:timeFormat(tick)
 	     local s = Util:split(t, ':')
          Sprite:setProperty(audioCurTime,"text",'00:'..s[1])
 		 Sprite:setProperty(audioCurTimeSS,"text",':'..s[2])		
@@ -183,44 +185,8 @@ function getStatus()
     end
     Timer:set(TimerId.status, 500, 'getStatus')
 end
-
---播放UI更新
-function uiPlay()
-    setSpriteStatus(playBtn,1)
-	--setSpriteStatus(playingAnimation,0)
-    setSpriteStatus(pauseBtn,0)
-	setSpriteStatus(refreshAnimation,0)
-end
-
---刷新UI更新
-function uiRefresh()
-    setSpriteStatus(playBtn,0)
-	--setSpriteStatus(playingAnimation,0)
-    setSpriteStatus(pauseBtn,0)
-	setSpriteStatus(refreshAnimation,1)
-end
-
---暂停UI更新
-function uiPause()
-    setSpriteStatus(playBtn,0)
-	--setSpriteStatus(playingAnimation,1)
-    setSpriteStatus(pauseBtn,1)
-	setSpriteStatus(refreshAnimation,0)
-end
-
--- 播放
-function playBtnOnSelect(sprite)
-	uiPause()
-	Player:play()
-end
-
---暂停
-function pauseBtnOnSelect()
-    if status == Player.status.Playing then
-        uiPlay()
-        Player:pause()
-    end
-end
+ 
+ 
 --底部按钮模块end
 
 function editOnTextChanged(sprite)
@@ -241,46 +207,49 @@ function recordingBtnOnSelect(sprite)
 	   end
 	   setNodeState(audioCurTime, 1) 
 	   setNodeState(audioCurTimeSS, 1) 	
-	   setNodeState(tryListenBtn,1) 
-	   setNodeState(reRecordingBtn, 1) 
-	   setNodeState(uploadBtn, 1)
+	   setNodeState(tryListenBtn,0) 
+	   setNodeState(reRecordingBtn, 0) 
+	   setNodeState(uploadBtn, 0)
        if isrecording==0 then 
           setNodeState(recordingLabel, 0)		
       	  local flashCard = System:getFlashCardName(1)
           local innerCard = System:getFlashCardName(0)
       	  local desPath = ""
       	  if flashCard and flashCard ~= "" then
-      	    desPath = flashCard .. "audiodownload/"
+      	     desPath = flashCard .. "audiodownload/"
       	  elseif innerCard and innerCard ~= "" then
-      	    desPath = innerCard .. "audiodownload/"
+      	     desPath = innerCard .. "audiodownload/"
       	  else
-            Tips:show("sd卡没插吧？")
+             Tips:show("sd卡没插吧？")
           return
-        end
-    if not IO:dirExist(desPath) then
-        IO:dirCreate(desPath)
-    end
-    local ct = Util:getServerTime()
-    local t = os.date('*t', math.floor(ct / 1000))
-    for i,v in pairs(t) do
-        local numv = tonumber(v)
-        if numv and numv < 10 then
-            t[i] = 0 .. v
-        end
-    end
-    desFilePath = desPath .. t["year"] .. t["month"] .. t["day"] .. t["hour"] .. t["min"] .. t["sec"] .. ".mp3"
-    dofunction(8, desFilePath, "", 1, 0)
-    timeTickingStart = GetTickTime()
-    Timer:set(TimerId.once,500,"OnTimeTicking")
-	isrecording=1
+           end
+          if not IO:dirExist(desPath) then
+             IO:dirCreate(desPath)
+          end
+          local ct = Util:getServerTime()
+          local t = os.date('*t', math.floor(ct / 1000))
+          for i,v in pairs(t) do
+             local numv = tonumber(v)
+             if numv and numv < 10 then
+                 t[i] = 0 .. v
+             end
+          end
+         desFilePath = desPath .. t["year"] .. t["month"] .. t["day"] .. t["hour"] .. t["min"] .. t["sec"] .. ".mp3"
+         dofunction(8, desFilePath, "", 1, 0)
+         timeTickingStart = GetTickTime()
+         Timer:set(TimerId.once,500,"OnTimeTicking")
+	     isrecording=1
 	elseif isrecording==1 then 
-	if not desFilePath then return end
-    dofunction(8, "", "", 0, 0)
-    setNodeState(recordingLabel, 1)		
-    Sprite:setProperty(recordingLabel,"text","结束")
-    Timer:cancel(TimerId.once)
-	isrecording=0
-	end
+	     if not desFilePath then return end
+             dofunction(8, "", "", 0, 0)
+             setNodeState(recordingLabel, 1)		
+             Sprite:setProperty(recordingLabel,"text","结束")
+	         setNodeState(tryListenBtn,1) 
+	         setNodeState(reRecordingBtn, 1) 
+	         setNodeState(uploadBtn,1)
+             Timer:cancel(TimerId.once)
+	         isrecording=0
+	     end
   end
 end
 
@@ -334,7 +303,8 @@ function tryListenBtnOnSelect(sprite)
 end
 
 function openUrl()
-    -- desFilePath='/mnt/sdcard/audiodownload/20140303141219.mp3'
+    desFilePath='/mnt/sdcard/audiodownload/20140303141219.mp3'
+	Log:write('desFilePath==========',desFilePath)
     Player:open(desFilePath)
 	pluginInvoke(Player:_getHandle(),'StartPlayer')
     Timer:cancel(TimerId.status)

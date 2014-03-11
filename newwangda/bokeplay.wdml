@@ -74,8 +74,8 @@
 			 <node rect="0,0,520,0" extendstyle="8017">
              <scrolltext  name="audioname" rect="90,70,0,95" step="2" scroll="true" color="#f06a06" text="暂无数据"  font-size="40" extendstyle="1171"/>
 			 <node rect="90,200,0,90" extendstyle="1171">
-			 <label name="anchor" rect="0,0,120,90" color="#f06a06" text="佚名"  font-size="35" v-align="center" h-align="center"  postfix=".." extendstyle="1111"/>
-			 <label rect="0,0,60,90" color="#f06a06" text="主播"  font-size="25" v-align="center" h-align="center" extendstyle="8111"/>
+			 <label name="anchor" rect="0,0,120,90" color="#f06a06" text="佚名"  font-size="35" v-align="bottom" h-align="center"  postfix=".." extendstyle="1010"/>
+			 <label rect="0,0,60,90" color="#f06a06" text="主播"  font-size="25" v-align="bottom" h-align="center" extendstyle="8010"/>
 			 </node>
 			 </node>
 		  </node>
@@ -652,8 +652,10 @@ end
 --------------------暂时使用---Gallery-------------------------------
 function setGalleryData()
     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-	local data = Reg:getString(reg,'bokeItemId')	
+	local data = Reg:getString(reg,'bokeItemId')
+	
 	bokeCollect =Reg:getString(reg,'bokeCollect')
+	Log:write('setGalleryData===============1',bokeCollect)
 	if bokeCollect=='1' then
 	--收藏进来的数据
 	bokeCollectTable1=Reg:getTable(reg,'bokeCollectTable1')	
@@ -682,25 +684,32 @@ function setGalleryData()
 	bokeCollectTable=Reg:getTable(reg,'bokeCollectTable')
 	contList=bokeCollectTable
 	if #bokeCollectTable>1 then
-	local _,_,nodeId1=string.find(data,'nodeId=(%d+);')
-	local temptable
-    local j=0	
-	for i=1,#bokeCollectTable do
-    local _,_, nodeId = string.find(bokeCollectTable[i].param,'nodeId=(%d+);')
-    if nodeId1 == nodeId then
-	j=i
-	temptable=bokeCollectTable[i]
-    end
-	end
-	if j~=0 or j~=''then
-	table.remove(bokeCollectTable, j)
-	table.insert(bokeCollectTable, 1, temptable)
-	end
+		local _,_,nodeId1=string.find(data,'nodeId=(%d+);')
+		local _,_,contId1 =string.find(data,'contentId=(%d+);')
+		local temptable
+		local j=0	
+			for i=1,#bokeCollectTable do
+			local _,_, nodeId = string.find(bokeCollectTable[i].param,'nodeId=(%d+);')
+			local _,_, contId = string.find(bokeCollectTable[i].param,'contentId=(%d+);')
+			if contId1 == contId then
+				j=i
+				temptable=bokeCollectTable[i]
+				end
+			end
+			-- if nodeId1 == nodeId then
+				-- j=i
+				-- temptable=bokeCollectTable[i]
+				-- end
+			-- end
+			if j~=0 or j~=''then
+			table.remove(bokeCollectTable, j)
+			table.insert(bokeCollectTable, 1, temptable)
+			end
 	end
 	gallarydata=bokeCollectTable
 	
 	subListTable=bokeCollectTable
-	Log:write('getpindex3333',#subListTable)
+	Log:write('getpindex3333',gallarydata[1].title)
 	Gallery:removeAllItems(gallery, 1) 
 	Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
     Gallery:adjust(gallery) 
@@ -729,7 +738,9 @@ function onLoadGalleryItem(gallery, item, index)
 end
 
 function galleryOnSelect(sprite)
+	
    local index = Gallery:getCurItem(gallery)
+   Log:write('getpindex33334',index)
    local item=Gallery:getItem(gallery, index)
    local collection_n=Sprite:findChild(item,'collection_n')
    local collection_s=Sprite:findChild(item,'collection_s')

@@ -143,7 +143,7 @@ function loadpodcastItem(list,item,index)
 	     end
 	elseif index==1 then
 	     if podcastUserData.list2~='' and podcastUserData.list2~=nil then 
-	         Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
+	         -- Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
 	         Sprite:setProperty(podcastName,'text','音乐/'..#podcastUserData.list2+1)
 	         Sprite:setProperty(podcastAnchor,'text',podcastUserData.list2[#podcastUserData.list2].sname)
 	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=2;')

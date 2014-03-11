@@ -103,6 +103,7 @@ function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 		 Bottom:show()
 	    commonActivate()
+		Loading:show()
         local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
         local imgpath = Reg:getString(reg,"imgpath")
 		Log:write('imgpath========1',imgpath)
@@ -194,7 +195,6 @@ function bodyOnPluginEvent(msg, param)
 	elseif msg == 110 then
 	    userinfoData = Http:jsonDecode('userinfoData')
         Log:write('userinfoData 110',userinfoData)
-	    Loading:close()
         if userinfoData.code =='1014' then
             setNodeState(contentList1,0)
             Net:goToMyAccount()
@@ -221,7 +221,8 @@ function loadpersonHomeItem(list,item,index)
 	local personHomeName=Sprite:findChild(item,'personHomeName')
 	local personHomeWorksimg=Sprite:findChild(item,'personHomeWorksimg')	
 	if index==0 then
-	Sprite:setProperty(personHomeName,'text','本地文件/30')
+	local localFileCount = Config:get('localFileCount')
+	Sprite:setProperty(personHomeName,'text','本地文件/'..localFileCount)
 	Sprite:setProperty(personHomeWorksimg,'src','file://image/localworks.png')
 	elseif index==1 then
 	Sprite:setProperty(personHomeName,'text','作品/'..userinfoData.worksCount)

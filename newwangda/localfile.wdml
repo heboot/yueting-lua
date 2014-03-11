@@ -13,7 +13,7 @@
     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
         <image rect="0,0,720,1280" src="file://image/background.png"  style="autosize"  alpha="255" extendstyle="1010" />
-        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1010">
 		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
 		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
@@ -33,7 +33,7 @@
         </button>
         </node> 
 		<node rect="17,90,686,0"  padding="0,0,250,0" extendstyle="1016">
-        <image rect="0,20,686,0" style="autosize" src="file://image/novel_listbg.png" extendstyle="1017"/>		
+        <image rect="0,15,686,0" style="autosize" src="file://image/novel_listbg.png" extendstyle="1017"/>		
         <panorama name="mainPanorama" rect="0,20,686,0" extendstyle="1017" foreground="foreground">
             <panoramaitem name="foreground" rect="0,0,686,0" extendstyle="1017">
                 <node name="scanLoadingNode" rect="0,370,686,100" extendstyle="1010" visible="0" activate="0">                   
@@ -147,6 +147,7 @@ end
 
 function createAccessibleList()
     tableScanVideo= getScanList()
+	Config:set('localFileCount',#tableScanVideo)
     ListView:removeAllItems(subListview3, 1, 1)
     if tableScanVideo and type(tableScanVideo) == 'table' and #tableScanVideo > 0 then
         setNodeState(subListview3Tips,0)

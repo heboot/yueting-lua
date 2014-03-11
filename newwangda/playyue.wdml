@@ -31,9 +31,9 @@
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
 			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511"/>
 			  <node name="startTimeNode" rect="285,0,435,105" extendstyle="1510" visible="1" enable="0" >
-			  <label  name="audioStartTime"  rect="0,0,200,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
-			  <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" extendstyle="8511"/>
-			  <label  rect="0,0,100,50" color="#f06a06" text="开始" font-size="30" extendstyle="8511"/>
+			  <label  name="audioStartTime"  rect="0,0,210,105" color="#f06a06" text="00:00" font-size="75" v-align="bottom" h-align="right" extendstyle="1511"/>
+			  <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" v-align="bottom" h-align="left" extendstyle="8511"/>
+			  <label  rect="0,0,100,50" color="#f06a06" text="开始" font-size="30" v-align="bottom" h-align="left" extendstyle="8511"/>
 			  </node>
 		  </node>
 		  <node rect="0,0,0,170"  extendstyle="1870">
@@ -73,9 +73,9 @@
 			 <node rect="0,0,570,0" extendstyle="8017">
                <scrolltext name="audioname" rect="90,70,0,90" color="#f06a06" text="暂无数据"  step="2" scroll="true" font-size="40" extendstyle="1171"/>
 			   <node name="endTimeNode" rect="90,180,0,90" extendstyle="1171" visible="1" enable="0" >
-			    <label  name="audioEndTime" rect="0,0,200,105" color="#f06a06" text="00:00" font-size="75" extendstyle="1511"/>
-			    <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" extendstyle="8511"/>
-			    <label  rect="0,0,100,50" color="#f06a06" text="结束" font-size="30" extendstyle="8511"/>
+			    <label  name="audioEndTime" rect="0,0,210,105" color="#f06a06" text="00:00" font-size="75" v-align="bottom" h-align="right" extendstyle="1510"/>
+			    <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" v-align="bottom" h-align="left" extendstyle="8510"/>
+			    <label  rect="0,0,100,50" color="#f06a06" text="结束" font-size="30" v-align="bottom" h-align="left" extendstyle="8510"/>
 			  </node>
 			 </node>
 		  </node>

@@ -12,7 +12,7 @@
     <header/>
     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
-        <image rect="0,0,720,1280" src="file://image/background.png"   alpha="255" extendstyle="1177" />
+        <image rect="0,0,720,1280" src="file://image/background.png"  style="autosize"  alpha="255" extendstyle="1177" />
 		<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
         <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
@@ -164,11 +164,12 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 		Bottom:show()
-		requestPodcastUserData()
+		Loading:show()
+	    requestPodcastUserData()
         commonActivate()
     elseif msg == MSG_DEACTIVATE then
         commonDeactivate()
-        Scene:freeByHandle(rootSprite)
+        -- Scene:freeByHandle(rootSprite)
     else
         Util:onSpriteEvent(msg, param)
     end
@@ -371,20 +372,38 @@ function playTimesBtnOnSelect(sprite)
      local data=Sprite:getData(sprite)
 	 local item= Sprite:getParent(Sprite:getParent(sprite))
     local index=ListView:getItemIndex(item) 
-	 Log:write('playTimesBtnOnSelect=====',index,data,podcastUserData.list0[1].blogStatus)
+	 Log:write('playTimesBtnOnSelect=====111',index,podcastUserData.list0[index].title)
+	 local temptitle = podcastUserData.list0[index].title
+	 local tempindex
 	 local stable = {}
+	 local ttable = {}
 	 for i=1,#podcastUserData.list0 do
 		if tonumber(podcastUserData.list0[i].blogStatus) == 1 then
 			table.insert(stable,podcastUserData.list0[i])
 		end
 	 end
-	 Log:write('playTimesBtnOnSelect=====',#stable)
+	 
+	 for i=1,#stable do
+		if temptitle == stable[i].title then
+			index = i
+			table.insert(ttable,stable[i])
+			--table.remove(stable,i)
+		end
+	 end
+	 
+	table.remove(stable,index)
+	 
+	 for i=1,#stable do
+		table.insert(ttable,stable[i])
+	 end
+	 
+	 Log:write('playTimesBtnOnSelect222=====',index,ttable[1].title)
 	 -- objType=20;contentId=502871599;nodeId=10314993;
 	 
 	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	Reg:setString(reg,'bokeItemId',data)
 	Reg:setString(reg,'bokeItemIndex',index)
-	Reg:setTable(reg,'bokeCollectTable',stable)
+	Reg:setTable(reg,'bokeCollectTable',ttable)
     -- Util:_goPlay(data)
 	 
 	 
@@ -628,15 +647,13 @@ function loadDialogListItem(list,item,index)
 	local worksCount = Sprite:findChild(item, 'worksCount')
 	if index==0 then
 	     Sprite:setProperty(worksTitle,'text','娱乐')
-		 -- Sprite:setProperty(worksCount,'text',userBoxData.blogList[index].body == "" and "这个人很懒，啥都没写" or userBoxData.blogList[index].body)
-		     if podcastUserData.list1 and podcastUserData.list1~='' and podcastUserData.list1~=nil then
+             if podcastUserData.list1 and podcastUserData.list1~='' and podcastUserData.list1~=nil then
 			     Sprite:setProperty(worksCount,'text', #podcastUserData.list1..'首')
 		     else
 			      Sprite:setProperty(worksCount,'text', '0首')
 		     end
 	elseif index==1 then
 	     Sprite:setProperty(worksTitle,'text','音乐')
-		 -- Sprite:setProperty(worksCount,'text',podcastUserData.list2=="" and '0首' or #podcastUserData.list2..'首')
 		     if podcastUserData.list2 and podcastUserData.list2~='' and podcastUserData.list2~=nil then
 			     Sprite:setProperty(worksCount,'text', #podcastUserData.list2..'首')
 		     else
@@ -652,7 +669,6 @@ function loadDialogListItem(list,item,index)
 		     end
 	elseif index==3 then
 	     Sprite:setProperty(worksTitle,'text','脱口秀')
-		 -- Sprite:setProperty(worksCount,'text',podcastUserData.list4=="" and '0首' or #podcastUserData.list4..'首')
 		     if podcastUserData.list4 and podcastUserData.list4~='' and podcastUserData.list4~=nil then
 			     Sprite:setProperty(worksCount,'text', #podcastUserData.list4..'首')
 		     else
@@ -708,20 +724,20 @@ Dialog.layout1 = [[
         <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
         <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
         <node name="dframe" rect="84,418,552,444" extendstyle="1010">
-            <image rect="0,0,522,444" src="file://image/worksdialogbg.png"  style="autosize" extendstyle="1017" />
+            <image rect="0,0,552,444" src="file://image/worksdialogbg.png"  style="autosize" extendstyle="1017" />
 			<label name="dtext" rect="0,0,460,88" extendstyle="1010" text="专辑" font-size="40" color="#FFFFFF" v-align="center" h-align="center"/>
-			<node rect="0,88,522,356" extendstyle="1010">
+			<node rect="0,88,552,356" extendstyle="1010">
 			      <listview name="dialogListview" rect="0,0,552,356"  extendstyle="1010">
 		          </listview>
 			</node>
         </node>
 		<node name="dialogItem" rect="0,0,552,89" extendstyle="1010"  visible="0" enable="0" active="0">
 		     <button name="dialogWorksBtn" rect="0,0,552,89" sel="s" extendstyle="1010" OnSelect="dialogWorksBtnOnSelect">
-			     <shadow name="s" rect="0,0,552,89" alpha="50" color="#000000" extendstyle="1010"/>
+			     <shadow name="s" rect="0,0,552,89" alpha="50" color="#000000" extendstyle="1111"/>
 			 </button>
 			 <label name="worksTitle" rect="10,0,552,40" v-align="center" text=""  font-size="35" color="#FFFFFF" extendstyle="1010"/>
 			 <label name="worksCount" rect="10,45,552,40" v-align="center" text="" color="#999999" extendstyle="1010"/>
-			 <image rect="0,0,552,2" style="autosize" extendstyle="1010" src="file://image/leftlistview_line.png"/>
+			 <image rect="0,0,552,2" style="autosize" extendstyle="1511" src="file://image/leftlistview_line.png"/>
 		</node>
     </body>
 </root>

@@ -74,8 +74,8 @@
 			 <node rect="0,0,520,0" extendstyle="8017">
              <scrolltext  name="audioname" rect="90,70,0,95" step="2" scroll="true" color="#f06a06" text="暂无数据"  font-size="40" extendstyle="1171"/>
 			 <node rect="90,200,0,90" extendstyle="1171">
-			 <label name="anchor" rect="0,0,120,90" color="#f06a06" text="佚名"  font-size="35" v-align="center" h-align="center"  postfix=".." extendstyle="1111"/>
-			 <label rect="0,0,60,90" color="#f06a06" text="主播"  font-size="25" v-align="center" h-align="center" extendstyle="8111"/>
+			 <label name="anchor" rect="0,0,120,90" color="#f06a06" text="佚名"  font-size="35" v-align="bottom" h-align="center"  postfix=".." extendstyle="1111"/>
+			 <label rect="0,0,60,90" color="#f06a06" text="主播"  font-size="25" v-align="bottom" h-align="center" extendstyle="8111"/>
 			 </node>
 			 </node>
 		  </node>
