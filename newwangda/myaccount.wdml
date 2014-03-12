@@ -59,13 +59,13 @@
 					   </node>
                         <button name="autoLoginBtn" rect="60,120,330,60" style="autosize" OnSelect="autoLoginBtnOS" extendstyle="1010" normal="n" sel="s">
                             <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
-                            <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" ></image>
+                            <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" BuildChildrenFinished="resChoose"><node/></image>
                             <label name="n" rect="80,0,250,60" extendstyle="1010" text="自动登录" font-size="24" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <label name="s" rect="80,0,250,60" extendstyle="1010" text="自动登录" font-size="24" color="#1C9FE3" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                         </button>
                         <button name="remeberPwdBtn" rect="390,120,330,60" style="autosize" OnSelect="remeberPwdBtnOS" extendstyle="1010" normal="n" sel="s">
                             <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
-                            <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" ></image>
+                            <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" BuildChildrenFinished="resChoose"><node/></image>
                             <label name="n" rect="80,0,250,60" extendstyle="1010" text="记住密码" font-size="24" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <label name="s" rect="80,0,250,60" extendstyle="1010" text="记住密码" font-size="24" color="#1C9FE3" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                         </button>

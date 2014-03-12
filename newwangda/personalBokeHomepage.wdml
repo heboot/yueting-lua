@@ -12,9 +12,9 @@
     <header/>       
     <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
     <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+	<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
 	<!--main -->
 	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
-		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
 		<!--顶部node-->
 		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
@@ -37,7 +37,7 @@
 		<!--加关注-->
 		<node rect="582,15,123,63"  extendstyle="1010">
 		<button name="addfocusBtn" rect="0,0,123,63" OnSelect="addfocusBtnOnSelect" color="#000000" extendstyle="1010">
-		<image rect="0,0,123,63" style="autosize" src="file://image/addfocus.png" extendstyle="1010"/>
+		<image rect="0,0,123,63" style="autosize" src="file://image/addfocus.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		<label name="addfouseName" rect="0,0,123,63" text="+关注" font-size="30" h-align="center" v-align="center" color="#ffffff" extendstyle="1010"/>
 		</button>
 		</node>		
@@ -95,12 +95,12 @@
 		
 		<panorama name="mainPanorama" rect="0,0,686,0" extendstyle="1017" style="circle">
             <panoramaitem rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
-			<label name="isHaveWorks" rect="0,0,0,0" extendstyle="1077"  text="暂无数据" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
+			<label name="isHaveWorks" rect="0,0,0,0" extendstyle="1077"  text="暂无作品" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
             <listview name="worksListview" visible="1" enable="1" rect="0,10,686,0"  extendstyle="0017" scroll="auto">
             </listview>
             </panoramaitem>
             <panoramaitem  rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
-			<label name="isHaveAlbum" rect="0,0,0,0" extendstyle="1077"  text="暂无数据" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
+			<label name="isHaveAlbum" rect="0,0,0,0" extendstyle="1077"  text="暂无作品" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
             <listview name="albumListview" visible="1" enable="1" rect="0,10,686,0" extendstyle="0017" scroll="auto">
             </listview>
             </panoramaitem>
@@ -346,7 +346,7 @@ function loadAlbumItem(list,item,index)
 	      -- Reg:setTable(reg,'albumList1',podcastData.list1)
 		 else
 		     Sprite:setProperty(albumVoltage,'text','娱乐/0')
-			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setProperty(albumName,'text','暂无作品')
 			 Sprite:setEnable(albumItemBtn,0)
 			 Sprite:setVisible(albumAnchorLabel, 0) 
 	     end
@@ -359,7 +359,7 @@ function loadAlbumItem(list,item,index)
 	      -- Reg:setTable(reg,'albumList2',podcastData.list2)
 		  else
 		     Sprite:setProperty(albumVoltage,'text','音乐/0')
-			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setProperty(albumName,'text','暂无作品')
 			 Sprite:setEnable(albumItemBtn,0)
 			 Sprite:setVisible(albumAnchorLabel, 0) 
 	     end
@@ -372,7 +372,7 @@ function loadAlbumItem(list,item,index)
 	     -- Reg:setTable(reg,'albumList3',podcastData.list3)
 		  else
 		     Sprite:setProperty(albumVoltage,'text','情感/0')
-			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setProperty(albumName,'text','暂无作品')
 			 Sprite:setEnable(albumItemBtn,0)
 			 Sprite:setVisible(albumAnchorLabel, 0) 
 	     end
@@ -385,7 +385,7 @@ function loadAlbumItem(list,item,index)
 	      -- Reg:setTable(reg,'albumList4',podcastData.list4)
 		   else
 		     Sprite:setProperty(albumVoltage,'text','脱口秀/0')
-			 Sprite:setProperty(albumName,'text','暂无数据')
+			 Sprite:setProperty(albumName,'text','暂无作品')
 			 Sprite:setEnable(albumItemBtn,0)
 			 Sprite:setVisible(albumAnchorLabel, 0) 
 	     end

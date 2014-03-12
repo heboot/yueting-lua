@@ -13,13 +13,11 @@
 <root>
     <header/>       
     <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
-    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">
+         <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>	
 	<!--main -->
-	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
-		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
-		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
-		
-		
+	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">		
+		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">		
 		<node name="searchNode" rect="20,20,450,70" extendstyle="1011">
 			<image src="file://image/loginedit_bg.png" extendstyle="1177" style="autosize"/>
 			<!--<button name="searchTypeBtn" rect="0,0,120,70" extendstyle="1111">
@@ -28,39 +26,28 @@
 			</button>-->
 			<edit name="searchText" font-size="50"  rect="0,0,350,70" color="#CCCCCC" extendstyle="1111">	
 			</edit>			
-		</node>
-		
-		
+		</node>	
 		<node rect="0,20,240,60" extendstyle="5111">
 			<button name="searchBtn" normal="n" sel="s" rect="10,0,120,61" extendstyle="1111" OnSelect="searchBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_n.png" extendstyle="1017"/>
-			<image name="s" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_f.png" extendstyle="1017"/>
-			<label rect="0,0,104,61" extendstyle="1111" text="搜索" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			     <image name="n" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_n.png" extendstyle="1017"/>
+			     <image name="s" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_f.png" extendstyle="1017"/>
+			     <label rect="0,0,104,61" extendstyle="1111" text="搜索" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-
 			<button name="backBtn" normal="n" sel="s" rect="10,0,104,65" extendstyle="8111" OnSelect="backBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/searchclose_n.png" extendstyle="1077"/>
-			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/searchclose_f.png" extendstyle="1077"/>
-			<label rect="0,0,104,61" extendstyle="1111" text="关闭" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
-			</button>
-		
+			     <image name="n" rect="0,0,0,0" style="autosize" src="file://image/searchclose_n.png" extendstyle="1077"/>
+			     <image name="s" rect="0,0,0,0" style="autosize" src="file://image/searchclose_f.png" extendstyle="1077"/>
+			     <label rect="0,0,104,61" extendstyle="1111" text="关闭" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			</button>		
 		</node>
         <!--<label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="加载中" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>-->
-	    </node>
-		
+	    </node>		
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,20,0"   extendstyle="1016" />
 		<node name="contentNode" rect="20,120,686,0" padding="0,0,20,0"   extendstyle="1116" >
-	    <listview name="searchDataListview" rect="0,0,686,0"  extendstyle="1117" limit="false">
-		</listview>
-		
-		<label name="noHaveResult" rect="0,300,686,100" extendstyle="1111" h-align="center" v-align="center" text="请输入搜索关键字"/>
-		
+	         <listview name="searchDataListview" rect="0,0,686,0"  extendstyle="1117" limit="false">
+		     </listview>		
+		     <label name="noHaveResult" rect="0,300,686,100" extendstyle="1111" h-align="center" v-align="center" text="请输入搜索关键字"/>	
 	    </node>
 	</node>
-	
-	
-	
-	<!--左侧菜单推荐的电台数据item-->
 	<node name="searchDataItem" rect="0,50,686,160" extendstyle="1070"  visible="0" enable="0" active="0">
 		    <button name="searchDataItemBtn" normal="n" sel="s" OnSelect="searchDataItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">					
 			<image name="n" rect="0,0,686,0" style="autosize" extendstyle="1117" src="file://image/novel_listitem_bg.png"/>
@@ -76,8 +63,7 @@
 			<image name="rimg" rect="600,70,50,50" style="autosize"  extendstyle="1111" src="file://image/arrow.png"/>					
 			</button>
 	</node>	
-	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
+	     <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>		
     </node>	
 </body>
 </root>

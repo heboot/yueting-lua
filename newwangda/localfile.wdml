@@ -22,13 +22,13 @@
 			</button>
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="本地文件" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		    <button name="scanBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="scanBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
-			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
 			<label rect="0,0,0,0" extendstyle="0077" text="扫描" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
 			<button name="goRecordingBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="goRecordingBtnOnSelect" visible="1" enable="1">
-			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_s.png" extendstyle="1077"/>
-			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_n.png" extendstyle="1077"/>
+			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_n.png" extendstyle="1077" />
+			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_s.png" extendstyle="1077" />
 			<label rect="0,0,0,0" extendstyle="0077" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
         </button>
         </node> 
@@ -75,15 +75,14 @@
        <node name="accessibleListAItem" rect="0,0,686,174" extendstyle="1010" visible="0" enable="0">
             <button name='setBtn' rect="0,0,686,174" normal="n" disabled ="d" OnSelect="fileChooseOS" extendstyle="1010">
                 <node name='n' rect="0,0,686,174" extendstyle="1010">
-				<image name="imgN" rect="41,57,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1010" />
-                <image name="imgF" visible="0" rect="41,57,58,59" style="autosize" src="file://image/tick_f.png" extendstyle="1010" />
-				<label name="setName" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
-				<image rect="140,20,237,133" style="autosize" src="file://image/noveldefaultbg.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+					<image  name="imgN" rect="41,57,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+					<image name="imgF" visible="0" rect="41,57,58,59" style="autosize" src="file://image/tick_f.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+					<label name="setName" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
+					<image rect="140,20,237,133" style="autosize" src="file://image/noveldefaultbg.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                 </node>
                 <node name='d' rect="0,0,686,174" extendstyle="1010">
-				
-				<label name="setName2" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
-				<image rect="140,20,237,133" style="autosize" src="file://image/noveldefaultbg.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+					<label name="setName2" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
+					<image rect="140,20,237,133" style="autosize" src="file://image/noveldefaultbg.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                 </node>
 				<image rect="0,0,686,2" style="autosize" src="file://image/leftlistview_line.png" extendstyle="1514" />
             </button>

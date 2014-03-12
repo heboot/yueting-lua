@@ -29,13 +29,13 @@
 		<node  rect="0,0,720,600"  extendstyle="1511">
 		<label name="recordingLabel" rect="0,40,720,50" text="录音"  font-size="35" h-align="center" color="#FFFFFF" extendstyle="1010"/>
 		<button name="tryListenBtn" nornal="n" sel="s" rect="0,30,130,95" extendstyle="1010"  OnSelect="tryListenBtnOnSelect" visible="1" enable="1">
-		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010"/>
-		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010"/>
+		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		<label rect="0,0,130,95" text="试听"  v-align="center" h-align="center" font-size="28" color="#000000" extendstyle="1010"/>
 		</button>	
 		<button name="reRecordingBtn" nornal="n" sel="s" rect="0,340,130,95" extendstyle="1010"  OnSelect="reRecordingBtnOnSelect" visible="1" enable="1">
-		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010"/>
-		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010"/>
+		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording2_n.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording2_s.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		<label rect="0,0,130,95" text="重录"  v-align="center" h-align="center" font-size="28" color="#000000" extendstyle="1010"/>
 		</button>
 		<button name="recordingBtn" nornal="n" sel="s" rect="156,0,407,413" extendstyle="1510"  OnSelect="recordingBtnOnSelect" visible="1" enable="1">
@@ -43,8 +43,8 @@
 		<image name="s" rect="0,0,407,413" style="maxsize" src="file://image/recording_s.png" extendstyle="1010"/>
 		</button>
 		<button name="uploadBtn" nornal="n" sel="s" rect="0,340,130,95" extendstyle="5010"  OnSelect="uploadBtnOnSelect" visible="1" enable="1">
-		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording1_n.png" extendstyle="1010"/>
-		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording1_s.png" extendstyle="1010"/>
+		<image name="n" rect="0,0,130,95" style="autosize" src="file://image/recording1_n.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		<image name="s" rect="0,0,130,95" style="autosize" src="file://image/recording1_s.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		<label rect="0,0,130,95" text="上传"  v-align="center" h-align="center" font-size="28" color="#000000" extendstyle="1010"/>
 		</button>
 		</node>

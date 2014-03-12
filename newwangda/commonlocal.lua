@@ -3797,11 +3797,11 @@ OrderNode.layout = [[
         <node name="_orderItem" rect="0,0,620,80" extendstyle="0010" visible="false" enable="false">
             <button name="btnOrderOpt" rect="0,0,620,80" OnSelect="orderOptionOnSelect" extendstyle="1010" normal="n" disabled="d" >                      
 			   <node name="n" rect="0,0,620,80" extendstyle="1010" >
-			        <image rect="10,6,66,67" src="file://image/setting_radiobox_n.png"  style="autosize"extendstyle="1010" />			        
+			        <image rect="10,6,66,67" src="file://image/setting_radiobox_n.png"  style="autosize"extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>		        
                     <label name="titleN" rect="90,10,520,60" text="" color="#817b7b" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="30" v-align="center" h-align="left" extendstyle="1010"/>
                 </node>
                 <node name="d" rect="0,0,620,80" extendstyle="1010" >
-				    <image rect="10,6,66,67" src="file://image/setting_radiobox_f.png"  style="autosize"extendstyle="1010" />
+				    <image rect="10,6,66,67" src="file://image/setting_radiobox_f.png"  style="autosize"extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                     <image rect="90,10,520,60" src="file://image/orderedit1.png"  style="sudoku-auto" sudoku="14,22,6,6" extendstyle="1010" />					
                     <label name="titleD" rect="90,10,520,60" text="" color="#565656" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" font-size="30" v-align="center" h-align="left" extendstyle="1010"/>
                 </node>

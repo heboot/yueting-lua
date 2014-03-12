@@ -35,14 +35,14 @@
                         <node rect="120,15,550,110" extendstyle="0010">
                             <label rect="15,0,300,100" v-align="center" extendstyle="1010"  font-size="32" color="#A3A3A3" text="SD卡存储"/>
                             <button name="driverDirGroupbutton1" rect="190,0,60,100" noraml="driverDirGroupbutton1Bg" sel="driverDirGroupbutton1Bg" disabled=="d" OnSelect="driverDirGrouponchange"  extendstyle="1010">
-                                <image name="driverDirGroupbutton1Bg" rect="0,25,50,50" style="autosize" src="file://image/setting_radiobox_n.png"  extendstyle="1010"></image>
-                                <image name="d" rect="0,25,50,50" style="autosize" src="file://image/setting_radiobox_n.png"  extendstyle="1010"></image>
-                                <image rect="0,25,50,50" name="driverDirGroupchecked1" visible="0" style="autosize" src="file://image/setting_radiobox_f.png"  extendstyle="1010"></image>
+                                <image name="driverDirGroupbutton1Bg" rect="0,25,50,50" style="autosize" src="file://image/setting_radiobox_n.png"  extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                                <image name="d" rect="0,25,50,50" style="autosize" src="file://image/setting_radiobox_n.png"  extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                                <image rect="0,25,50,50" name="driverDirGroupchecked1" visible="0" style="autosize" src="file://image/setting_radiobox_f.png"  extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                             </button>
                             <label rect="300,0,150,100" v-align="center" extendstyle="1010" font-size="32" color="#A3A3A3" text="手机存储"/>
                             <button rect="470,0,60,100" name="driverDirGroupbutton2" OnSelect="driverDirGrouponchange" extendstyle="1010">
-                                <image name="driverDirGroupbutton1Bg" rect="0,25,50,50" style="autosize" src="file://image/setting_radiobox_n.png"  extendstyle="1010"></image>
-                                <image rect="0,25,50,50" name="driverDirGroupchecked2" visible="0" style="autosize" src="file://image/setting_radiobox_f.png"  extendstyle="1010"></image>
+                                <image name="driverDirGroupbutton1Bg" rect="0,25,50,50" style="autosize" src="file://image/setting_radiobox_n.png"  extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+                                <image rect="0,25,50,50" name="driverDirGroupchecked2" visible="0" style="autosize" src="file://image/setting_radiobox_f.png"  extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                             </button>
                         </node>
                         <image rect="0,0,720,4" style="autosize"  src="file://image/leftlistview_line.png" extendstyle="1510" />

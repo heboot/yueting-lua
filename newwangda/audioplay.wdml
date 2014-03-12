@@ -22,13 +22,13 @@
 			</button>
             <scrolltext name="mainTitle" step="2" scroll="true"  rect="0,0,400,77" extendstyle="8110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		    <button name="selectedWorksBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="selectedWorksBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077"/>
-			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077"/>
+			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
+			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
 			<label rect="0,0,0,0" extendstyle="0077" text="选集" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
 			<button name="moreContentsBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="moreContentsBtnOnSelect" visible="1" enable="1">
-			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/morecontents.png" extendstyle="1077"/>
-			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/morecontents_s.png" extendstyle="1077"/>
+			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/morecontents.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
+			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/morecontents_s.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
 			</button>
         </node> 
         <node rect="0,0,0,508"  extendstyle="1871">
@@ -121,8 +121,8 @@
         <label name="lblNormal" rect="67,5,585,100" extendstyle="1111" h-align="center"  v-align="center"  text="" color="#606060" font-size="35"/>			 
         </node>               
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
-		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
-		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"BuildChildrenFinished="resChoose"><node/></image>
+		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171" BuildChildrenFinished="resChoose"><node/></image>
+		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111" BuildChildrenFinished="resChoose"><node/></image>
         <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"  v-align="center" text="" color="#FFFFFF" font-size="40"/>	
 		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
 		<node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
@@ -142,13 +142,13 @@
 			
 			<button name="progressbackBtn" OnSelect="progressbackBtnOnSelect" rect="10,15,180,130" extendstyle="1111">
 			<image rect="0,0,70,70" extendstyle="1177"  style="autosize"  src="file://image/progressop_btnbg.png"/>
-			<image rect="50,10,50,50" style="autosize" extendstyle="1111" src="file://image/progress_back.png"/>
+			<image rect="50,10,50,50" style="maxsize" extendstyle="1111" src="file://image/progress_back.png" BuildChildrenFinished="resChoose"><node/></image>
 			<label text="回退30秒" rect="20,60,0,0" extendstyle="1577" color="#FFFFFF"/>
 			</button>
 			
 			<button name="progressforwardBtn"  OnSelect="progressforwardBtnOnSelect" rect="200,15,180,130" extendstyle="8111">
 			<image rect="0,0,70,70" extendstyle="1177" style="autosize" src="file://image/progressop_btnbg.png"/>
-			<image rect="50,10,50,50"  style="autosize" extendstyle="1111" src="file://image/progress_forward.png"/>
+			<image rect="50,10,50,50"  style="maxsize" extendstyle="1111" src="file://image/progress_forward.png" BuildChildrenFinished="resChoose"><node/></image>
 			<label text="前进30秒" rect="20,60,0,0" extendstyle="1577" color="#FFFFFF" />
 			</button>
 			

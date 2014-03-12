@@ -50,8 +50,8 @@
 	<node name="contentItem" rect="0,0,686,90" extendstyle="1010"  visible="0" enable="0" active="0">		  				
 	   <button name="radiolistBtn"  rect="2,0,686,0"  sel="s"  OnSelect="radiolistBtnOnSelect" extendstyle="1017">
 	   <image name="s" rect="0,0,0,0" style="autosize" src="file://image/leftlistview_itembg_s.png"  extendstyle="1077"/>
-	   <image name="checkBoxN"  visible="1" rect="10,10,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1011"/>
-	   <image name="checkBoxF" rect="10,10,58,59" extendstyle="1011" visible="0" style='autosize' src="file://image/tick_f.png"/>
+	   <image name="checkBoxN"  visible="1" rect="10,10,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1011" BuildChildrenFinished="resChoose"><node/></image>
+	   <image name="checkBoxF" rect="10,10,58,59" extendstyle="1011" visible="0" style='autosize' src="file://image/tick_f.png" BuildChildrenFinished="resChoose"><node/></image>
 	   </button>	
 	   <label name="radioName" rect="80,15,500,45" extendstyle="1111"  text=""  color="#FFFFFF"  font-size="30"/>
 	   

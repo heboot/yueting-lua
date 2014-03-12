@@ -52,19 +52,19 @@
 			    <image name="podcastLine2" rect="0,0,686,2" style="autosize" extendstyle="1010" src="file://image/leftlistview_line.png"/>
 				<button name="playTimesBtn" rect="0,0,227,56" normal="n" sel="s" extendstyle="1010" OnSelect="playTimesBtnOnSelect">
 				    <shadow name="s" rect="0,0,227,0" alpha="50" color="#000000" extendstyle="1117"/>
-					<image rect="20,8,39,39" style="autosize" extendstyle="1010" src="file://image/playtimes2.png"/>
+					<image rect="20,8,39,39" style="autosize" extendstyle="1010" src="file://image/playtimes2.png" BuildChildrenFinished="resChoose"><node/></image>
 					<label name="playCount" rect="70,0,157,56" text="播放数0" v-align="center"  h-align="center" postfix=".."  extendstyle="1010" color="#ffffff"  font-size="30"/>
 				</button>
 				<shadow rect="0,0,2,50" alpha="50" color="#000000" extendstyle="8010"/>
 				<button name="deleteBtn" rect="0,0,227,56" normal="n" sel="s" extendstyle="8010" OnSelect="deleteBtnOnSelect">
 				    <shadow name="s" rect="0,0,227,0" alpha="50" color="#000000" extendstyle="1117"/>
-					<image rect="20,8,39,39" style="autosize" extendstyle="1010" src="file://image/delete2.png"/>
+					<image rect="20,8,39,39" style="autosize" extendstyle="1010" src="file://image/delete2.png" BuildChildrenFinished="resChoose"><node/></image>
 					<label rect="70,0,150,56" text="删除作品" v-align="center"  h-align="center" postfix=".."  extendstyle="1010" color="#ffffff"  font-size="30"/>
 				</button>
 				<shadow rect="0,0,2,50" alpha="50" color="#000000" extendstyle="8010"/>
 				<button name="moveToBtn" rect="0,0,227,56" normal="n" sel="s" extendstyle="8010" OnSelect="moveToBtnOnSelect">
 				    <shadow name="s" rect="0,0,227,0" alpha="50" color="#000000" extendstyle="1117"/>
-					<image rect="20,8,39,39" style="autosize" extendstyle="1010" src="file://image/moveto2.png"/>
+					<image rect="20,8,39,39" style="autosize" extendstyle="1010" src="file://image/moveto2.png" BuildChildrenFinished="resChoose"><node/></image>
 					<label rect="70,0,150,56" text="添加至..." v-align="center"  h-align="center" postfix=".."  extendstyle="1010" color="#ffffff"  font-size="30"/>
 				</button>
 			</node>

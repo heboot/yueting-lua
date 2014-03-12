@@ -42,7 +42,7 @@
 					<image name="rimg" rect="$(rrect)" style="maxsize"  extendstyle="111" src="$(rsrc)"/>					
 					</button>
 					<list name="radioList" rect="0,0,480,0" visible="0" col="2" line="3" auto-adjust="true" offset="0,0" extendstyle="1010">											
-			            <button name="allRadioBtn" rect="0,300,480,100" OnSelect="allRadioBtnOnSelect" normal="n" sel="s" extendstyle="1111" >
+			            <button name="allRadioBtn" rect="0,280,480,100" OnSelect="allRadioBtnOnSelect" normal="n" sel="s" extendstyle="1010" >
 						<image name="n" rect="0,0,480,100" style="autosize" src="file://image/left_radio_bottom.png"/>
 						<image name="s" rect="0,0,480,100" style="autosize" src="file://image/left_radio_bottom_s.png"/>
 						<label rect="0,0,480,100" extendstyle="1111" h-align="center" text="查看完整电台分类" color="#fb6c03" v-align="center" font-size="30"/>
@@ -224,8 +224,8 @@
 					<node name="userNode" rect="30,20,480,100" extendstyle="1111" visible="0" enable="0">
 					   <button name="userBtn" normal="n" OnSelect="userBtnOnSelect" rect="0,0,480,100" extendstyle="1010">					
 					      <image name="n" rect="0,0,480,100" style="autosize" extendstyle="1010" src="file://image/right_item_background.png"/>
-				          <image name="userPic" rect="20,30,50,50" style="maxsize" extendstyle="1111" src="file://image/dft_headimg_mid.jpg" BuildChildrenFinished="resChoose"><node/></image>
-                          <image rect="18,27,52,52" style="minsize" src="file://image/sg_spacemask.png" extendstyle="0000" />					  
+				          <image name="userPic" rect="22,22,56,56" style="maxsize" extendstyle="0000" src="file://image/dft_headimg_mid.jpg" BuildChildrenFinished="resChoose"><node/></image>
+                          <image rect="18,20,60,60" style="minsize" src="file://image/sg_spacemask.png" extendstyle="0000" />					  
 					      <label name="userName" rect="80,28,100,50" v-align="center" autoextend="true" extendstyle="1111" text="欢迎你" color="#D2691E"  font-size="28"/>
 					      <image rect="400,30,50,50" style="autosize"  extendstyle="111" src="file://image/arrow.png"/>					
 					   </button>
@@ -1232,7 +1232,9 @@ function bodyOnSpriteEvent(msg, param)
         if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
 		    
             LoginStatusChange(true)
-        else
+        elseif Reg:getInteger(regI, 'accountLogin') == 0 then
+		    LoginStatusChange(true)
+		else
             if phoneNumber == '' then
                 LoginStatusChange(false)
             elseif phoneNumber == 'logout' then
@@ -1244,6 +1246,7 @@ function bodyOnSpriteEvent(msg, param)
     elseif msg == MSG_DEACTIVATE then
         
     elseif msg == Msg.login then
+	Log:write('login================',Msg.login)
       LoginStatusChange(true)
     else
         Util:onSpriteEvent(msg, param)
@@ -2036,7 +2039,8 @@ function leftBtnOnSelect(sprite)
 	   loadleftradioItem()
 	   Sprite:setRect(vitem_video,0,95,720,100*leftRadioLineCount+100+120)
 	   Sprite:setRect(radioList,5,100,300,100*leftRadioLineCount)
-	   Sprite:setRect(tt,0,100*leftRadioLineCount+17,720,100)
+	   Sprite:setRect(tt,0,100*leftRadioLineCount+10,720,100)
+	   Sprite:setProperty(tt,'extendstyle','1010')
 	   Sprite:setVisible(radioList, 1) 
 	   Sprite:setRect(rimg,405,33,35,35)
 	   Sprite:setProperty(rimg,"src","file://image/left_radio_point.png")
