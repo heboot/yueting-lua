@@ -122,12 +122,12 @@
         </node>               
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
 		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
-		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
+		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"BuildChildrenFinished="resChoose"><node/></image>
         <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"  v-align="center" text="" color="#FFFFFF" font-size="40"/>	
 		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
 		<node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
-		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
-		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
+		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		    <label  name="click2collect" rect="13,115,130,60" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
         </node>
         </node>				  
@@ -357,6 +357,7 @@ function bodyOnSpriteEvent(msg, param)
     local curConnect = Http:getCurConnect()
     if curConnect == 'WLAN' then
 	Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
+	resChoose(wifiFlag)
 	else
 	Sprite:setProperty(wifiFlag, 'src', '') 
 	end

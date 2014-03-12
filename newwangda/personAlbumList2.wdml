@@ -104,7 +104,7 @@ function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	   Bottom:show()
        requestPodcastUserData()
-	  Loading:show()
+	   Loading:show()
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
          -- Scene:freeByHandle(rootSprite)
@@ -117,6 +117,11 @@ end
 
 --[[  请求小说列表数据方法  ]]--
 function requestPodcastUserData()
+	Loading:show()
+	if not bKeepList then
+        ListView:setItemToTop(podcastListview,0) --为了不错误触发onovertrail
+        ListView:removeAllItems(podcastListview,1,1)
+    end
 	local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
     local userId = Reg:getString(regCommunity ,'userId')
     _userId = userId
@@ -134,7 +139,7 @@ function bodyOnPluginEvent(msg, param)
 		 deleteCode = Http:jsonDecode('deleteCode')
 		 if deleteCode.result=='0000' then
 	         Tips:show('移除成功')
-			 requestPodcastUserData()
+			 requestPodcastUserData(false)
 			 -- Loading:show()
 	    else
 	         Tips:show('移除失败')
@@ -545,7 +550,7 @@ end
 
 --Dialog确定按钮
 function _okProc()
-	  Http:request('deleteCode', Util:getWeiBoServer() .. '/sup/modifyAlbum.msp?blogId='..deletedata..'&album=0',105)
+	  Http:request('deleteCode', Util:getWeiBoServer() .. '/sup/modifyAlbum.msp?blogId='..deletedata..'&album=0',105,{useCache=0})
 	  Dialog:close()
 	  Loading:show()
 end

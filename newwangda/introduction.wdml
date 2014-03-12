@@ -135,10 +135,12 @@ end
 function LoadUserInfo()     
 	  if userinfoData.sign== '' or userinfoData.sign==nil then
 	    Sprite:setVisible(editNode,0)
+		Sprite:setEnable(editNode,0)
 		Sprite:setVisible(noCommentNode,1)
 		Sprite:setVisible(labelNode,0)
 	  else
 	    Sprite:setVisible(editNode,0)
+		Sprite:setEnable(editNode,0)
 		Sprite:setVisible(noCommentNode,0)
 		Sprite:setVisible(labelNode,1)
 		Sprite:setProperty(contentDesc,'text', userinfoData.sign)
@@ -150,6 +152,7 @@ function editBtnOnSelect(sprite)
       if Sprite:isVisible(editNode)==1 then
 	  Sprite:setProperty(editLabel,'text', '编辑')
 	  Sprite:setVisible(editNode,0)
+	  Sprite:setEnable(editNode,0)
 	  Sprite:setVisible(labelNode,1)
 	  Sprite:setProperty(contentLabelDesc,'text', Sprite:getText(contentDesc))
 	  local sign=Sprite:getText(contentDesc)
@@ -157,6 +160,7 @@ function editBtnOnSelect(sprite)
 	  else
 	  Sprite:setProperty(editLabel,'text', '完成')
 	  Sprite:setVisible(editNode,1)
+	  Sprite:setEnable(editNode,1)
 	  Sprite:setVisible(labelNode,0)
 	  Sprite:setProperty(contentLabelDesc,'text', Sprite:getText(contentDesc))
 	  end  

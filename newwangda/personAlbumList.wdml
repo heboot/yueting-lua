@@ -132,24 +132,24 @@ function loadpodcastItem(list,item,index)
 	if index==0 then
 	     if podcastUserData.list1~='' and podcastUserData.list1~=nil then 
 		     Sprite:setProperty(podcastAnchor,'text',podcastUserData.list1[#podcastUserData.list1].sname)
-	         -- Sprite:setProperty(podcastImage,'src',podcastUserData.list1[#podcastUserData.list1].videoImg)
+	         Sprite:setProperty(podcastImage,'src',podcastUserData.list1[#podcastUserData.list1].videoImg)
 	         Sprite:setProperty(podcastName,'text','娱乐/'..#podcastUserData.list1+1)
 	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=1;')
 	    else
 	         Sprite:setProperty(podcastName,'text','娱乐/0')
-		     Sprite:setProperty(podcastAnchorLabel,'text','暂无数据')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
 		     Sprite:setEnable(podcastItemBtn,0)
 			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40) 	 
 	     end
 	elseif index==1 then
 	     if podcastUserData.list2~='' and podcastUserData.list2~=nil then 
-	         -- Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
+	         Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
 	         Sprite:setProperty(podcastName,'text','音乐/'..#podcastUserData.list2+1)
 	         Sprite:setProperty(podcastAnchor,'text',podcastUserData.list2[#podcastUserData.list2].sname)
 	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=2;')
 	    else
 	         Sprite:setProperty(podcastName,'text','音乐/0')
-		     Sprite:setProperty(podcastAnchorLabel,'text','暂无数据')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
 		     Sprite:setEnable(podcastItemBtn,0)
 			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40)
 	     end
@@ -161,7 +161,7 @@ function loadpodcastItem(list,item,index)
 	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=3;')
 	     else
 	         Sprite:setProperty(podcastName,'text','情感/0')
-		     Sprite:setProperty(podcastAnchorLabel,'text','暂无数据')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
 		     Sprite:setEnable(podcastItemBtn,0)
 			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40)
 	     end
@@ -173,7 +173,7 @@ function loadpodcastItem(list,item,index)
 	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=4;')
 	    else
 	         Sprite:setProperty(podcastName,'text','脱口秀/0')
-		     Sprite:setProperty(podcastAnchorLabel,'text','暂无数据')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
 		     Sprite:setEnable(podcastItemBtn,0)
 			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40)
 	     end

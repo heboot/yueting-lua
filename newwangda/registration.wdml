@@ -39,7 +39,9 @@
 							<image rect="40,15,50,55" extendstyle="1010" style="autosize" src="file://image/user_head.png"/>
                             <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入移动手机号码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <edit name="accountName" option="numeric" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged" font-size="28"/>
-                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                            <button name="cleanAccountBtn" OnSelect="cleanAccountBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							</button>
                         </node>
                     </list-item>
                     
@@ -49,7 +51,9 @@
                             <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
 							<label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入新密码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <edit name="passWord" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged" font-size="28"/>
-                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                            <button name="cleanPasswordBtn" OnSelect="cleanPasswordBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							</button>
                         </node>
                     </list-item>
                     <list-item  rect="0,0,720,105" extendstyle="1010">
@@ -58,7 +62,9 @@
                             <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
 							<label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入确认密码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <edit name="passWordConfirm" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged" font-size="28"/>
-                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                            <button name="cleanPassword2Btn" OnSelect="cleanPassword2BtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							</button>
                         </node>
                     </list-item>
 					<list-item  rect="0,0,720,105" extendstyle="1010">
@@ -67,20 +73,22 @@
                             <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/checkkey.png"/>
 							<label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入验证码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <edit name="dynamicCode" rect="130,0,450,80" v-align="center" extendstyle="1010" color="#C8C8C8" OnTextChanged="editOnTextChanged"/> 
-                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+                            <button name="cleanCheckcodeBtn" OnSelect="cleanCheckcodeBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							</button>
 					   </node>
                     </list-item>
 					<list-item  rect="0,0,720,105" extendstyle="1010">
                         <node rect="30,10,660,85" extendstyle="1010">
 						<button name="getDynamicCodeBtn" rect="0,0,660,85" normal="n" sel="s" disabled="d" style="autosize" data="" OnSelect="getDynamicCodeBtnOS" extendstyle="1010">
                                 <image name="n" rect="0,0,660,85" style='autosize' src="file://image/settingsend_bg.png"  extendstyle="1010">
-                                    <label name="normalLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#FFFFFF" v-align="center" h-align="center" />
+                                    <label name="normalLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#e15e00" v-align="center" h-align="center" />
                                 </image>
                                 <image name="s" rect="0,0,660,85" style='autosize' src="file://image/settingsend_bg.png"  extendstyle="1010">
-                                    <label name="selectLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#FFFFFF" v-align="center" h-align="center" />
+                                    <label name="selectLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#e15e00" v-align="center" h-align="center" />
                                 </image>
                                 <image name="d" rect="0,0,660,85" style='autosize' src="file://image/register_bg.png" extendstyle="1010">
-                                    <label name="disableLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#ffffff" v-align="center" h-align="center" />
+                                    <label name="disableLbl" rect="0,0,660,85" extendstyle="1010" text="获取验证码" font-size="28" color="#e15e00" v-align="center" h-align="center" />
                                 </image>
                             </button>
 						 </node>
@@ -222,10 +230,12 @@ function bodyOnPluginEvent(msg, param)
                 lastPhoneNum = lastPhoneNum or ''
                 if lastPwd and lastPwd ~= '' then
                     Log:write('sendResetMsg')
-                    local postData = 'phoneNumber=' .. lastPhoneNum .. '&message=您已成功使用手机视频客户端修改了登录密码，密码为' .. string.sub(lastPwd, 1, 1) .. '****' .. string.sub(lastPwd, string.len(lastPwd))
+                    local postData = 'phoneNumber=' .. lastPhoneNum .. '&message=您已成功使用悦听客户端修改了登录密码，密码为' .. string.sub(lastPwd, 1, 1) .. '****' .. string.sub(lastPwd, string.len(lastPwd))
                     Http:request('sendMsg', Util:getServer() .. 'msp/pushFriendRecommend.msp?', 111, {method = 'post', useCache = 0, postData = postData})
-                end
-                Dialog:show('提示', resetResult.desc, 'ok', 'backOnSelect', nil, '返回')
+					
+					Tips:show('密码重置成功，请重新登录')
+			   end
+                --Dialog:show('提示', resetResult.desc, 'ok', 'backOnSelect', nil, '返回')
             else
                 Tips:show(resetResult.desc)
             end
@@ -295,19 +305,23 @@ function check()
     local dynamicNum = Sprite:getText(dynamicCode)
     local pwdConfirm = Sprite:getText(passWordConfirm)
     if phoneNum == '' then
-        Dialog:show('提示', '请输入手机号', 'ok')
+        --Dialog:show('提示', '请输入手机号', 'ok')
+		Tips:show('请输入手机号')
         return
     end
     if pwd == '' then
-        Dialog:show('提示', '请输入密码', 'ok')
+        --Dialog:show('提示', '请输入密码', 'ok')
+		Tips:show('请输入密码')
         return
     end
     if dynamicNum == '' then
-        Dialog:show('提示', '请输入验证码', 'ok')
+        --Dialog:show('提示', '请输入验证码', 'ok')
+		Tips:show('请输入验证码')
         return
     end
     if pwd ~= pwdConfirm then
-        Dialog:show('提示', '两次密码输入不一致', 'ok')
+        --Dialog:show('提示', '两次密码输入不一致', 'ok')
+		Tips:show('两次密码输入不一致')
         return
     end
     lastPhoneNum = phoneNum
@@ -347,7 +361,8 @@ function getDynamicCodeBtnOS(sprite)
     Log:write('getDynamicCodeBtnOS')
     local phoneNum = Sprite:getText(accountName)
     if phoneNum == '' then
-        Dialog:show('提示', '请输入手机号', 'ok')
+        --Dialog:show('提示', '请输入手机号', 'ok')
+		Tips:show('请输入手机号')
         return
     elseif not matchPhoneNum(phoneNum) then
         Tips:show("注册仅支持中国移动手机号码")
@@ -421,4 +436,23 @@ function matchPhoneNum(str)
     end
     return nil
 end
+
+
+
+function cleanAccountBtnOnSelect(sprite)
+	Sprite:setProperty(accountName,'text','')
+end
+
+function cleanPasswordBtnOnSelect(sprite)
+	Sprite:setProperty(passWord,'text','')
+end
+
+function cleanPassword2BtnOnSelect(sprite)
+	Sprite:setProperty(passWordConfirm,'text','')
+end
+
+function cleanCheckcodeBtnOnSelect(sprite)
+	Sprite:setProperty(dynamicCode,'text','')
+end
+
 ]]>

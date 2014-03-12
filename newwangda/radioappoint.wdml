@@ -118,6 +118,7 @@ local mainPanorama
 local catalogList
 local isHaveProgramToday
 local isHaveProgramTommorrow
+local parentId
 
 
 
@@ -137,6 +138,13 @@ function bodyBuildChildrenFinished(sprite)
 	catalogList= Sprite:findChild(sprite, 'catalogList')	
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
 	local nodeId=Reg:getString(reg,'liveNodeId')
+	
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+	local data=Reg:getString(reg,'audioplayData')
+	_,_,parentId=string.find(data,'parentId=(%d+);')
+	Log:write('=============radioappoint',parentId)
+	
+	
 	Http:request('radioLiveItemData', Util:getServer()..'/publish/clt/resource/mobileaudio3/radiolive/radioLiveItemData2.jsp?nodeId='..nodeId..'&objType=live',142)
 end
 
@@ -308,7 +316,7 @@ function audiotommorrowBtnOnSelect(sprite)
         end
         local strRemind = '您预约的节目:'..curContentName..',即将于'..reserveEditTime..'分钟后播放,敬请观看。'
         local appoitmentTimeLeft = (reserveTimeLeft - reserveEditTime)*60  -- 设定xx秒后弹出通知栏预约消息
-        local appoitmentParam = 'objType=live'..';contentId='..contentId..';nodeId=' .. nodeId .. ';'
+        local appoitmentParam = 'objType=radio'..';contentId='..contentId..';nodeId=' .. nodeId ..';parentId='..parentId..';'
         Log:write('111 AppendAppointment()',strRemind,appoitmentTimeLeft,appoitmentParam)
         AppendAppointment(tonumber(contentId), appoitmentTimeLeft, strRemind, appoitmentParam)		
     end
@@ -351,14 +359,14 @@ function audiotodayBtnOnSelect(sprite)
         end
         local strRemind = '您预约的节目:'..curContentName..',即将于'..reserveEditTime..'分钟后播放,敬请观看。'
         local appoitmentTimeLeft = (reserveTimeLeft - reserveEditTime)*60  -- 设定xx秒后弹出通知栏预约消息
-        local appoitmentParam = 'live=true;objType=live'..';contentId='..contentId..';nodeId=' .. nodeId .. ';'
+        local appoitmentParam = 'objType=radio'..';contentId='..contentId..';nodeId=' .. nodeId ..';parentId='..parentId..';'
         Log:write('111 AppendAppointment()',strRemind,appoitmentTimeLeft,appoitmentParam)
         --AppendAppointment(tonumber(contentId), appoitmentTimeLeft, strRemind, appoitmentParam)
-		AppendAppointment(tonumber(contentId), 5, strRemind, appoitmentParam)
+		AppendAppointment(tonumber(contentId), 10, strRemind, appoitmentParam)
     end
     startTime = Util:urlTrans(startTime)
     local progParam = startTime ..'|'..curTimeArea..'|'.. curContentName..'|'..contentId..'|' ..nodeId
-    addOneReserveProg(contentId,'2012-11-30+23:00:00|23:00 - 23:45|新闻1|cctv4',reserveType)
+    addOneReserveProg(contentId,progParam,reserveType)
     Sprite:setVisible( alreadyappoint,1)
 	Tips:show('预约成功')
 	else

@@ -1682,6 +1682,7 @@ function Util:onSpriteEvent(msg, param)
         Log:write('isAppointEvent======================MSG_APPOINTMENT=============')
         dofunction(5, "", "", 0, 0)
         local rtn1, rtn2 = Util:checkAppointmentFile()
+		Log:write('==================MSG_APPOINTMENT',rtn1,rtn2)
         if not rtn1 and rtn2 == 'nil' then
             Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,3)) --('获取本地预约数据异常')
         end
@@ -2439,7 +2440,9 @@ function Util:goDetail(param, liveTab)
     local _,_,nodeId = string.find(param, 'nodeId=(%d+);')
     local _,_,liveId = string.find(param, 'liveId=(%d+);')
     local _,_,objType = string.find(param, 'objType=([%a%d]+);')
+	local _,_,parentId = string.find(param,'parentId=(%d+);')
     local vplus = string.find(param,'vplus;')
+	Log:write('goDetail==============',contentId,nodeId,objType,parentId)
     if not objType then
         Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
         return false
@@ -2504,6 +2507,27 @@ function Util:goDetail(param, liveTab)
             Scene:go(Alias.communityDetail, {freeDestScene = true, setReturn = false})
         else
             Scene:go(Alias.communityDetail, {freeDestScene = true})
+        end
+        return true
+	elseif 'radio' == objType then
+		if Scene:getNameByHandle() == Alias.index then
+            --Scene:go(Alias.livelist, {useCache = 0, freeDestScene = true, setReturn = false})
+			
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+        else
+			local newParam
+			Log:write('=============mytest newParam0',param)
+			local _,_,liveId = string.find(param,'nodeId=(%d+);')
+			Log:write('=============mytest newParam1',liveId)
+			local _,_,parentId = string.find(param,'parentId=(%d+);')
+			Log:write('=============mytest newParam2',parentId)
+			newParam = 'liveId='..liveId..';parentId='..parentId..';'
+			Log:write('=============mytest newParam',newParam)
+			local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+			Reg:setString(reg,'audioplayData',newParam)
+			
+			Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene = true, setReturn = false})
+            --Scene:go(Alias.livelist, {useCache = 0, freeDestScene = true})
         end
         return true
     else

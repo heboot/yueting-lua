@@ -21,7 +21,7 @@
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
 		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="账号登陆" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="登录" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			<button name="loginBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="loginBtnOS" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
@@ -42,7 +42,9 @@
                             <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入移动手机号码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <edit name="accountName" option="numeric" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
                             <label name="loginedNum" rect="130,0,450,85" extendstyle="1010" text="" font-size="30" color="#BBC0B9" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" visible="false"/>                   
-                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>					  
+                            <button name="cleanAccountBtn" OnSelect="cleanAccountBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>					  
+							</button>
 					  </node>
                     </list-item>
                     <list-item name="item2" rect="0,0,720,205" extendstyle="1010">
@@ -51,7 +53,9 @@
 							<image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
                             <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输密码" font-size="28" color="#BBC0B9" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
                             <edit name="passWord" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
-                            <image rect="0,20,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							<button name="cleanPasswordBtn" OnSelect="cleanPasswordBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							</button>
 					   </node>
                         <button name="autoLoginBtn" rect="60,120,330,60" style="autosize" OnSelect="autoLoginBtnOS" extendstyle="1010" normal="n" sel="s">
                             <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
@@ -171,7 +175,7 @@ function bodyOnPluginEvent(msg, param)
             end
         end
     elseif msg == Msg.login then
-        -- Loading:close()
+        Loading:close()
         local loginResult = Http:jsonDecode('loginResult')
         Log:write('loginResult', loginResult)
         if type(loginResult) == 'table' then
@@ -336,7 +340,7 @@ function confirmLogin()
     Reg:setString(reg, 'password', pwd)
     local postData = 'phoneNumber=' .. phoneNum .. '&password=' .. pwd
     Log:write('url=', Util:getServer() .. 'msp/login.msp' .. postData)
-    -- Loading:show()
+    Loading:show()
     Http:request('loginResult', Util:getServer() .. 'msp/login.msp', Msg.login, {method = 'post', useCache = 0, postData = postData})
     setOrderDataUpdate()
 end
@@ -407,7 +411,7 @@ function UIChange(isLogin, phoneNumber)
         else
             Sprite:setVisible(loginBtn,1)
             Sprite:setEnable(loginBtn, 1)
-			Sprite:setProperty(loginName, 'text', '登出')
+			Sprite:setProperty(loginName, 'text', '退出')
             Sprite:setProperty(loginBtn, 'OnSelect', 'logoutBtnOS')
         end
     else
@@ -445,6 +449,14 @@ function UIChange(isLogin, phoneNumber)
         end
     end
     ListView:adjust(mainListview)
+end
+
+function cleanAccountBtnOnSelect(sprite)
+	Sprite:setProperty(accountName,'text','')
+end
+
+function cleanPasswordBtnOnSelect(sprite)
+	Sprite:setProperty(passWord,'text','')
 end
 
 

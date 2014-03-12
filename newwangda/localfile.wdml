@@ -75,12 +75,13 @@
        <node name="accessibleListAItem" rect="0,0,686,174" extendstyle="1010" visible="0" enable="0">
             <button name='setBtn' rect="0,0,686,174" normal="n" disabled ="d" OnSelect="fileChooseOS" extendstyle="1010">
                 <node name='n' rect="0,0,686,174" extendstyle="1010">
-				<image rect="41,57,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1010" />
-                <label name="setName" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
+				<image name="imgN" rect="41,57,58,59" style="autosize" src="file://image/tick_n.png" extendstyle="1010" />
+                <image name="imgF" visible="0" rect="41,57,58,59" style="autosize" src="file://image/tick_f.png" extendstyle="1010" />
+				<label name="setName" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
 				<image rect="140,20,237,133" style="autosize" src="file://image/noveldefaultbg.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                 </node>
                 <node name='d' rect="0,0,686,174" extendstyle="1010">
-				<image rect="41,57,58,59" style="autosize" src="file://image/tick_f.png" extendstyle="1010" />
+				
 				<label name="setName2" rect="400,0,286,174" extendstyle="1010" color="#FFFFFF" font-size="28" postfix="..."  v-align="center"/>
 				<image rect="140,20,237,133" style="autosize" src="file://image/noveldefaultbg.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
                 </node>
@@ -262,10 +263,12 @@ function onLoadAccessibleListItem2(list,item,index)
 end
 
 function fileChooseOS(sprite)
+	 imgN = Sprite:findChild(sprite,"imgN")	
+	 imgF = Sprite:findChild(sprite,"imgF")	
      local count= ListView:getItemCount(subListview3)  
      for i=0,count do
       local item = ListView:getItem(subListview3,i)
-      local setBtn = Sprite:findChild(item,"setBtn")
+      local setBtn = Sprite:findChild(item,"setBtn")	 
       Sprite:setEnable(setBtn,1)
      end
     if bIsscanLoading == 1 then return end
@@ -278,7 +281,15 @@ function fileChooseOS(sprite)
     end
     if not IO:fileExist(desFilePath) then Tips:show("未找到文件") return end
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
-	Sprite:setEnable(sprite, 0) 
+	Log:write('=================cccc',Sprite:isVisible(imgN))
+	if Sprite:isVisible(imgN) == 1 then
+	Sprite:setVisible(imgF, 1)
+	Sprite:setVisible(imgN, 0)
+	else
+	Sprite:setVisible(imgF, 0)
+	Sprite:setVisible(imgN, 1)
+	end
+	
     Reg:setString(reg,"filepath",desFilePath)
 end
 

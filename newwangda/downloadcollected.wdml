@@ -52,7 +52,7 @@
 			<label rect="250,70,70,40" v-align="center" h-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
 			<label name="novelAnchor" rect="0,70,200,40" v-align="center" h-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
 			<image name="rimg" rect="600,70,50,50" style="autosize"  extendstyle="1111" src="file://image/arrow.png"/>
-            <label rect="250,120,150,40" name="downloadStatus" v-align="center" h-align="center"  extendstyle="1111" color="#e15e00"   font-size="28"/>				
+            <label rect="250,120,180,40" name="downloadStatus" v-align="center" h-align="left"  extendstyle="1111" color="#e15e00"   font-size="28"/>				
 				<button name="downloadoptionBtn" OnSelect="downloadoptionBtnOnSelect" rect="450,110,100,60" extendstyle="1111">
 					<image name="novelImage"  rect="0,0,100,50" src="file://image/navigation_bg.png" style="maxsize" extendstyle="1010"/>
 				    <label rect="0,0,100,50" extendstyle="1010" h-align="center" v-align="center" font-size="25" name="downloadoptionLbl"/>					

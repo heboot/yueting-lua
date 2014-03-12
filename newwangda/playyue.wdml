@@ -29,7 +29,7 @@
 		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
 		  <node rect="0,0,0,150"  extendstyle="1071">
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
-			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511"/>
+			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511" BuildChildrenFinished="resChoose"><node/></image>
 			  <node name="startTimeNode" rect="285,0,435,105" extendstyle="1510" visible="1" enable="0" >
 			  <label  name="audioStartTime"  rect="0,0,210,105" color="#f06a06" text="00:00" font-size="75" v-align="bottom" h-align="right" extendstyle="1511"/>
 			  <label  rect="0,0,80,70" color="#f06a06" text=":00" font-size="50" v-align="bottom" h-align="left" extendstyle="8511"/>
@@ -109,11 +109,11 @@
         </node>               
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
 		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
-		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
+		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111" BuildChildrenFinished="resChoose"><node/></image>
         <label name="lblFocus" rect="67,0,585,176" extendstyle="1111" h-align="center"   v-align="center" text="" color="#FFFFFF" font-size="40"/>	
         <node name="collectionNode" rect="0,0,143,176" extendstyle="1111" OnSelect="collectionNodeSelect">
-		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010"/>
-		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010"/>
+		    <image  name="collection_n" rect="40,45,63,60" src="file://image/collection_n.png" style="autosize" visible="1" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		    <image  name="collection_s" rect="40,45,63,60" src="file://image/collection_s.png" style="autosize" visible="0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		    <label  name="click2collect" rect="13,115,130,60" extendstyle="1111" h-align="center"  v-align="center"  text="点击收藏" color="#FFFFFF" font-size="20"/>
         </node>
 		</node>				  
@@ -313,6 +313,7 @@ function bodyOnPluginEvent(msg, param)
         local data=Reg:getString(reg,'audioplayData')
 	    local _,_,liveId1=string.find(data,'liveId=(%d+);')
 	    gallarydata={}	
+		Log:write('radioplayCollect=======444',#gallarydata,#radioLiveItemData1.radioLiveItemList)
 	    for i=0,#radioLiveItemData1.radioLiveItemList do
             table.insert(gallarydata,radioLiveItemData1.radioLiveItemList[i])
 	    end
@@ -320,16 +321,23 @@ function bodyOnPluginEvent(msg, param)
 	    local j=0	
 	    for i=1,#gallarydata do
 	         local _,_, liveId = string.find(gallarydata[i].param,'liveId=(%d+);')
+			 Log:write('radioplayCollectff=======',i)
 	         if liveId1 == liveId then
+			 Log:write('radioplayCollectffzz=======',i)
 		     j=i
 		     temptable=gallarydata[i]
 	    end
 	   end	
+	   
+	   Log:write('radioplayCollect=======44422',#temptable)
+	   
 	   if j~=0 or j~=''then
 	         table.remove(gallarydata, j)
 	         table.insert(gallarydata, 1, temptable)
        end	
+	  
 	-- gallarydata=Reg:getTable(reg,'audioFMData')
+	Log:write('radioplayCollect=======444',#gallarydata)
 	   Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
        Gallery:adjust(gallery) 
 	elseif msg == Msg.getJsonPlayer then
@@ -363,6 +371,7 @@ function bodyOnSpriteEvent(msg, param)
        local curConnect = Http:getCurConnect()
        if curConnect == 'WLAN' then
 	      Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
+		  resChoose(wifiFlag)
 	   else
 	      Sprite:setProperty(wifiFlag, 'src', '') 
 	   end
@@ -756,7 +765,7 @@ function setGalleryData()
     radioplayCollect=Reg:getString(reg,'radioplayCollect')
 	local data=Reg:getString(reg,'audioplayData')
 	local _,_,parentId=string.find(data,'parentId=(%d+);')
-	-- Log:write('radioplayCollect===============',parentId,radioplayCollect)
+	Log:write('radioplayCollect===============11',parentId,radioplayCollect)
 	if radioplayCollect=='1' then
      	radioplayCollectTable=Reg:getTable(reg,'radioplayCollectTable')
 	    Reg:setString(reg,'radioplayCollect','0')
@@ -785,6 +794,7 @@ function setGalleryData()
 end
 
 function onLoadGalleryItem(gallery, item, index)
+	Log:write("radioplayCollect=========333",index)
     local lblNormal = Sprite:findChild(item,'lblNormal')
     local lblFocus = Sprite:findChild(item,'lblFocus')
     local lblMiddle = Sprite:findChild(item,'lblMiddle')

@@ -260,7 +260,7 @@
             <image rect="0,0,500,410" src="file://image/dialogbg.png"  style="autosize" extendstyle="1017" BuildChildrenFinished="resChoose"></image>
             <image rect="0,0,500,85" src="file://image/orderDig_head.png"  style="autosize" sudoku="6,0,6,0" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
             <label name="dtitle" rect="15,0,200,85" text="定时关闭" color="#CCCCCC" font-size="30" v-align="center"  extendstyle="1010"/>
-            <label name="closeTimeLbl" rect="0,0,100,85" color="#FFFFFF" font-size="30" v-align="center"  extendstyle="8010"/>
+            <label name="closeTimeLbl" rect="0,0,120,85" color="#FFFFFF" font-size="30" v-align="center"  extendstyle="8010"/>
 			<shadow rect="0,85,500,4" color="#D2691E" alpha="255" extendstyle="1010"/>
             <node rect="0,20,500,65" extendstyle="1111">
 			<button name="switchBtn1" rect="0,0,140,65" extendstyle="5010" data="off" OnSelect="switchOnMouseUp" >
@@ -2189,10 +2189,11 @@ function rightBtnOnSelect(sprite)
    -- Scene:go('MODULE:\\com_wondertek_mobileaudio\\myaccount.wdml',{freeDestScene = true})
    local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
    local closeFlag = Reg:getInteger(closeTimeReg,'closeFlag')
-   if closeFlag~= nil then
-   setSwitchPos(60)
-   else
+   Log:write('rightBtnOnSelect ======close',closeFlag)
+   if closeFlag == 1 then
    setSwitchPos(0)
+   else
+   setSwitchPos(60)
    end
    Sprite:setVisible(timedCloseNode, 1) 
    Sprite:setEnable(timedCloseNode, 1) 
@@ -2363,6 +2364,7 @@ function getCloseTime()
 		setSwitchPos(60)
 		Log:write('timedCloseBtnOnSelect===stop')
 		Player:pause()
+		Reg:setInteger(closeTimeReg,'closeFlag',0)
 	else
 	    Sprite:setProperty(closeTimeLbl,'text',timeFormat2(timeValue-1))
 		Timer:set(4443,1000,'getCloseTime')
@@ -2441,7 +2443,9 @@ function animate3()
     else
 		Timer:cancel(4443)
 		Sprite:setProperty(closeTimeLbl,'text','')
+		local closeTimeReg = Reg:create('com_wondertek_mobileaudio_closetime')
         Sprite:setProperty(switchBtn, 'data', 'on')
+		Reg:setInteger(closeTimeReg,'closeFlag',0)
         setSwitchPos(60)
     end
    

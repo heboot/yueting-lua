@@ -239,7 +239,8 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function albumItemBtnOnSelect(sprite)
-    for i=0,9 do
+    local count=ListView:getItemCount(albumListview) 
+    for i=0,count-1 do
       local item = ListView:getItem(albumListview,i)
       local albumItemBtn = Sprite:findChild(item,"albumItemBtn")
       Sprite:setEnable(albumItemBtn,1)

@@ -145,6 +145,8 @@ function bodyOnSpriteEvent(msg, param)
                end
 		       if userImgCig ~= "" then
                   Sprite:setProperty(msgImg,"src",userImgCig)
+			   else
+				  Sprite:setProperty(msgImg,"src",'file://image/dft_headimg_big.jpg')
                end
 		else
 			   local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
@@ -280,6 +282,8 @@ function LoadUserInfo()
     if userImg~='' then
         userImg =Util:getWeiBoServer() .. 'publish/clt' .. userImg
         Sprite:setProperty(msgImg,'src', userImg)
+	else
+		Sprite:setProperty(msgImg,"src",'file://image/dft_headimg_big.jpg')
     end
     Sprite:setProperty(msgMood,'text',userinfoData.sign == "" and "简介:这个人很懒，啥都没填写" or "简介:" .. userinfoData.sign)
 	Sprite:setProperty(fansTotal,'text',userinfoData.followerCount)

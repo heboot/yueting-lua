@@ -27,7 +27,7 @@
 		  <image rect="0,0,0,0" style="minsize" src="file://image/playyue_bg.png" extendstyle="1077"/>
 		  <node rect="0,0,0,150"  extendstyle="1071">
 		      <!--<shadow rect="0,0,0,0" color="#FFFFFF" alpha="125" extendstyle="1077"/>-->
-			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511"/>
+			  <image name="wifiFlag" rect="81,0,106,48" style="autosize" src="" extendstyle="1511" BuildChildrenFinished="resChoose"><node/></image>
 			  <label  name="audioCurTime"  rect="300,0,245,80" color="#f06a06" text="00:00:00" font-size="55" extendstyle="1511"/>
 		  </node>
 		  <node rect="0,0,0,170"  extendstyle="1877">
@@ -114,7 +114,7 @@
         </node>               
 		<node name="sFocus" rect="0,0,720,176" extendstyle="1111">
 		<image  rect="0,0,0,176" src="file://image/gallerFocusbg.png" style="autosize" extendstyle="1171"/>
-		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"/>
+		<image  rect="0,66,577,40" src="file://image/gallery_redline.png" style="autosize" extendstyle="5111"BuildChildrenFinished="resChoose"><node/></image>
         <label name="lblFocus" rect="67,4,585,88" extendstyle="1111" h-align="center"   text="" color="#FFFFFF" font-size="40"/>	
 		<label name="lblTypeFocus" rect="67,92,585,88" extendstyle="1010" h-align="center"  text="" color="#FFFFFF" font-size="25"/>
 		
@@ -232,7 +232,8 @@ function bodyOnSpriteEvent(msg, param)
 	    Scene:freeByName('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml') 
         local curConnect = Http:getCurConnect()
 		if curConnect == 'WLAN' then
-		   Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png') 
+		   Sprite:setProperty(wifiFlag, 'src', 'file://image/wififlag.png')
+           resChoose(wifiFlag)	   
 		else
 		   Sprite:setProperty(wifiFlag, 'src', '') 
 		end

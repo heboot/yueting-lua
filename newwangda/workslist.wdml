@@ -36,7 +36,7 @@
            </panoramaitem>
 		 </panorama>
 	    </node>
-		<node name="podcastItem" rect="0,0,686,232" extendstyle="1010"  visible="0" enable="0" active="0">
+		<node name="podcastItem" rect="0,0,686,241" extendstyle="1010"  visible="0" enable="0" active="0">
 		    <button name="podcastItemBtn" normal="n" sel="s" OnSelect="podcastItemBtnOnSelect" rect="0,0,686,176" extendstyle="1010">								
 			   <shadow name="s" rect="0,0,686,176" alpha="50" color="#000000" extendstyle="1010"/> 
 			</button>
@@ -48,7 +48,7 @@
 			<label name="podcastIsCheck" rect="510,110,120,40" v-align="center"  postfix=".."  extendstyle="1111" color="#999999"  font-size="35"/>
 			<image name="rimg" rect="620,70,50,50" style="maxsize"  extendstyle="1111" src="file://image/ischecked2.png"/>
             <image name="podcastLine" rect="0,0,686,2" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
-            <node name="checkNode" rect="0,176,686,56" extendstyle="1010" visible="0" enable="0">
+            <node name="checkNode" rect="0,176,686,65" extendstyle="1010" visible="0" enable="0">
 			    <image name="podcastLine2" rect="0,0,686,2" style="autosize" extendstyle="1010" src="file://image/leftlistview_line.png"/>
 				<button name="playTimesBtn" rect="0,0,227,56" normal="n" sel="s" extendstyle="1010" OnSelect="playTimesBtnOnSelect">
 				    <shadow name="s" rect="0,0,227,0" alpha="50" color="#000000" extendstyle="1117"/>
@@ -228,7 +228,7 @@ function loadpodcastItem(list,item,index)
 			     if podcastUserData.list0[index].blogStatus and podcastUserData.list0[index].blogStatus=='0' or podcastUserData.list0[index].omsId=='' then
 				     for i=1,#tableIndex do
 					     if (index)==tableIndex[i] then
-						     Sprite:setRect(item, 0,0,686,232)
+						     Sprite:setRect(item, 0,0,686,241)
 					         setNodeState(checkNode, 1)
 							 -- Sprite:setProperty(rimg,'src','file://image/ischecked2.png')
 							 break
@@ -243,13 +243,13 @@ function loadpodcastItem(list,item,index)
 	                 Sprite:setProperty(podcastIsCheck,'text','审核中')           
 	                 Sprite:setRect(podcastLine, 0,0,686,2)
 	                 Sprite:setProperty(podcastLine,'extendstyle','1510')
-	                 Sprite:setEnable(playTimesBtn, 0)
+	                 Sprite:setEnable(playTimesBtn, 1)
 					 Sprite:setEnable(moveToBtn, 0)
 	                 Sprite:setEnable(podcastItemBtn, 1)
 	            elseif podcastUserData.list0[index].blogStatus and podcastUserData.list0[index].blogStatus=='1' and podcastUserData.list0[index].omsId~=''then
 	                  for i=1,#tableIndex do
 					     if (index)==tableIndex[i] then
-						     Sprite:setRect(item, 0,0,686,232)
+						     Sprite:setRect(item, 0,0,686,241)
 					         setNodeState(checkNode, 1)
 							 -- Sprite:setProperty(rimg,'src','file://image/ischecked1.png')
 							 break
@@ -281,7 +281,7 @@ function loadpodcastItem(list,item,index)
 	         -- Sprite:setProperty(rimg,'src','file://image/ischecked2.png')
 	         Sprite:setRect(podcastLine, 0,0,686,2)
 	         Sprite:setProperty(podcastLine,'extendstyle','1510')
-	         Sprite:setEnable(playTimesBtn, 0)
+	         Sprite:setEnable(playTimesBtn, 1)
 	         setNodeState(checkNode, 0)
 			 Sprite:setEnable(moveToBtn, 0)
 			 Sprite:setEnable(podcastItemBtn, 1)
@@ -299,7 +299,7 @@ function loadpodcastItem(list,item,index)
 			 else
 				  Sprite:setProperty(podcastIsCheck,'text','审核中')
 	         -- Sprite:setProperty(rimg,'src','file://image/ischecked2.png')      
-	             Sprite:setEnable(playTimesBtn, 0)
+	             Sprite:setEnable(playTimesBtn, 1)
 			     Sprite:setEnable(podcastItemBtn, 1)
 			 end
 			     setNodeState(checkNode, 0)
@@ -373,6 +373,9 @@ function playTimesBtnOnSelect(sprite)
 	 local item= Sprite:getParent(Sprite:getParent(sprite))
     local index=ListView:getItemIndex(item) 
 	 Log:write('playTimesBtnOnSelect=====111',index,podcastUserData.list0[index].title)
+	 
+	 if tonumber(podcastUserData.list0[index].blogStatus) == 1 then
+	 
 	 local temptitle = podcastUserData.list0[index].title
 	 local tempindex
 	 local stable = {}
@@ -409,6 +412,10 @@ function playTimesBtnOnSelect(sprite)
 	 
 	 
 	 Util:_goPlay(data)
+	 else
+		  Tips:show('暂未通过审核,请耐心等待')
+		
+	 end
 end
 
 -- @brief 初始化播放器
@@ -648,14 +655,14 @@ function loadDialogListItem(list,item,index)
 	if index==0 then
 	     Sprite:setProperty(worksTitle,'text','娱乐')
              if podcastUserData.list1 and podcastUserData.list1~='' and podcastUserData.list1~=nil then
-			     Sprite:setProperty(worksCount,'text', #podcastUserData.list1..'首')
+			     Sprite:setProperty(worksCount,'text', (#podcastUserData.list1+1)..'首')
 		     else
 			      Sprite:setProperty(worksCount,'text', '0首')
 		     end
 	elseif index==1 then
 	     Sprite:setProperty(worksTitle,'text','音乐')
 		     if podcastUserData.list2 and podcastUserData.list2~='' and podcastUserData.list2~=nil then
-			     Sprite:setProperty(worksCount,'text', #podcastUserData.list2..'首')
+			     Sprite:setProperty(worksCount,'text', (#podcastUserData.list2+1)..'首')
 		     else
 			      Sprite:setProperty(worksCount,'text', '0首')
 		     end
@@ -663,14 +670,14 @@ function loadDialogListItem(list,item,index)
 	     Sprite:setProperty(worksTitle,'text','情感')
 		 -- Sprite:setProperty(worksCount,'text',podcastUserData.list3=="" and '0首' or #podcastUserData.list3..'首')
 		     if podcastUserData.list3 and podcastUserData.list3~='' and podcastUserData.list3~=nil then
-			     Sprite:setProperty(worksCount,'text', #podcastUserData.list3..'首')
+			     Sprite:setProperty(worksCount,'text', (#podcastUserData.list3+1)..'首')
 		     else
 			      Sprite:setProperty(worksCount,'text', '0首')
 		     end
 	elseif index==3 then
 	     Sprite:setProperty(worksTitle,'text','脱口秀')
 		     if podcastUserData.list4 and podcastUserData.list4~='' and podcastUserData.list4~=nil then
-			     Sprite:setProperty(worksCount,'text', #podcastUserData.list4..'首')
+			     Sprite:setProperty(worksCount,'text', (#podcastUserData.list4+1)..'首')
 		     else
 			      Sprite:setProperty(worksCount,'text', '0首')
 		     end
@@ -725,7 +732,7 @@ Dialog.layout1 = [[
         <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
         <node name="dframe" rect="84,418,552,444" extendstyle="1010">
             <image rect="0,0,552,444" src="file://image/worksdialogbg.png"  style="autosize" extendstyle="1017" />
-			<label name="dtext" rect="0,0,460,88" extendstyle="1010" text="专辑" font-size="40" color="#FFFFFF" v-align="center" h-align="center"/>
+			<label name="dtext" rect="0,0,552,88" extendstyle="1010" text="专辑" font-size="40" color="#FFFFFF" v-align="center" h-align="center"/>
 			<node rect="0,88,552,356" extendstyle="1010">
 			      <listview name="dialogListview" rect="0,0,552,356"  extendstyle="1010">
 		          </listview>
@@ -735,8 +742,8 @@ Dialog.layout1 = [[
 		     <button name="dialogWorksBtn" rect="0,0,552,89" sel="s" extendstyle="1010" OnSelect="dialogWorksBtnOnSelect">
 			     <shadow name="s" rect="0,0,552,89" alpha="50" color="#000000" extendstyle="1111"/>
 			 </button>
-			 <label name="worksTitle" rect="10,0,552,40" v-align="center" text=""  font-size="35" color="#FFFFFF" extendstyle="1010"/>
-			 <label name="worksCount" rect="10,45,552,40" v-align="center" text="" color="#999999" extendstyle="1010"/>
+			 <label name="worksTitle" rect="50,0,552,40" v-align="center" text=""  font-size="35" color="#FFFFFF" extendstyle="1010"/>
+			 <label name="worksCount" rect="50,45,552,40" v-align="center" text="" color="#999999" extendstyle="1010"/>
 			 <image rect="0,0,552,2" style="autosize" extendstyle="1511" src="file://image/leftlistview_line.png"/>
 		</node>
     </body>

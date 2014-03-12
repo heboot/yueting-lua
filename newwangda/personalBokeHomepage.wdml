@@ -111,15 +111,16 @@
 	
 	<!--panorama的作品数据item-->
 	<node name="worksItem" rect="0,0,686,172" extendstyle="1010"  visible="0" enable="0" active="0">
-			<button name="worksItemBtn" normal="n" sel="s" OnSelect="worksItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">					
-			<image rect="0,0,686,2" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
-			<shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/> 
-			<image rect="20,19,237,133" src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>
-			<image name="worksImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/>
-			<label name="worksName" rect="270,35,400,55" v-align="center" postfix=".."  extendstyle="1111" color="#FFFFFF"  font-size="35"/>
-			<label rect="270,110,70,40" v-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
-			<label name="worksAnchor" rect="0,110,200,40" v-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
-			<image name="rimg" rect="600,70,50,50" style="maxsize"  extendstyle="1111" src="file://image/arrow.png"/>					
+			<button name="worksItemBtn" normal="n" sel="s" disabled ="d" OnSelect="worksItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">								   
+			     <shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/> 
+			     <image rect="20,19,237,133" src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>
+			     <image name="worksImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/>
+			     <label name="worksName" rect="270,35,400,55" v-align="center" postfix=".."  extendstyle="1111" color="#FFFFFF"  font-size="35"/>
+			     <label rect="270,110,70,40" v-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
+			     <label name="worksAnchor" rect="0,110,200,40" v-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
+			     <image name="rimg" rect="600,70,50,50" style="maxsize"  extendstyle="1111" src="file://image/arrow.png"/>
+                 <image rect="0,0,686,2" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
+                 <shadow name="d" rect="0,0,8,172" alpha="255" color="#fb6c03" extendstyle="1010"/> 				 
 			</button>
 	</node>	
 	
@@ -428,6 +429,12 @@ function albumItemBtnOnSelect(sprite)
 end
 
 function worksItemBtnOnSelect(sprite)
+    local count=ListView:getItemCount(worksListview) 
+	for i=0,count-1 do
+      local item = ListView:getItem(worksListview,i)
+      local worksItemBtn = Sprite:findChild(item,"worksItemBtn")
+      Sprite:setEnable(worksItemBtn,1)
+    end
     local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
     local data = Sprite:getData(sprite)
@@ -438,10 +445,9 @@ function worksItemBtnOnSelect(sprite)
     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	Reg:setString(reg,'bokeItemId',data)
 	Reg:setString(reg,'bokeItemIndex',index)
-	Log:write('index=======1',index)
 	bokeCollectTable=Reg:setTable(reg,'bokeCollectTable',bokeCollectTable)
-    --Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml',{freeDestScene=true})
-	 Util:_goPlay(data)
+	Sprite:setEnable(sprite, 0) 
+	Util:_goPlay(data)
 end
 
 -- @brief 初始化播放器
