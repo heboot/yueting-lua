@@ -18,13 +18,13 @@
 		   <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0"  style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
-            <scrolltext name="mainTitle" step="2" scroll="true"  rect="0,0,400,77" extendstyle="8110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <scrolltext name="mainTitle" step="2" scroll="true"  rect="0,0,400,77" extendstyle="8110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 		    <button name="selectedWorksBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="selectedWorksBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
-			<label rect="0,0,0,0" extendstyle="0077" text="选集" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			<label rect="0,0,0,0" extendstyle="0077" text="选集" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
 			<button name="moreContentsBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="moreContentsBtnOnSelect" visible="1" enable="1">
 			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/morecontents.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
@@ -1024,7 +1024,7 @@ function progressOnMouseDown(sprite, x, y)
 		x = leftx
 		progressBarFlag = 0
 		--movex = 0
-    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering  then
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused then
         --resetFSTimer(1)
         --setPointImgStatus(progressPointImg,1)
         setProgressBarPos(sprite, x,1)
@@ -1043,7 +1043,7 @@ function progressOnMouseUp(sprite, x, y)
     --resetFSTimer()
 	 Log:write('状态UP',status,x,progressy)
     --setPointImgStatus(progressPointImg,0)
-    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused or status == Player.status.Buffering then
+    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused then
         Timer:cancel(TimerId.status)
         Timer:set(TimerId.status, 500, 'getStatus')
         setProgressBarPos(sprite, x,1)

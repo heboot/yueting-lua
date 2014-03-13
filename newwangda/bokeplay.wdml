@@ -18,13 +18,13 @@
 		   <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0"  style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
-            <scrolltext name="mainTitle" rect="114,0,400,77"  step="2" scroll="true" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <scrolltext name="mainTitle" rect="114,0,400,77"  step="2" scroll="true" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 		    <button name="commentBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="commentBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
-			<label rect="0,0,0,0" extendstyle="0077" text="评论" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			<label rect="0,0,0,0" extendstyle="0077" text="评论" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
 			<button name="moreContentsBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="moreContentsBtnOnSelect" visible="1" enable="1">
 			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/morecontents.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>

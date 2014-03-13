@@ -18,18 +18,18 @@
 		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="本地文件" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="本地文件" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 		    <button name="scanBtn" normal="n" sel="s" rect="520,15,96,59" extendstyle="1111" OnSelect="scanBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/selectedworks.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/selectedworks_s.png" extendstyle="1077" BuildChildrenFinished="resChoose"><node/></image>
-			<label rect="0,0,0,0" extendstyle="0077" text="扫描" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			<label rect="0,0,0,0" extendstyle="0077" text="扫描" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
 			<button name="goRecordingBtn" normal="n" sel="s" rect="0,15,96,59" extendstyle="8111" OnSelect="goRecordingBtnOnSelect" visible="1" enable="1">
-			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_n.png" extendstyle="1077" />
-			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_s.png" extendstyle="1077" />
-			<label rect="0,0,0,0" extendstyle="0077" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			<image name="n"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_n.png" extendstyle="1077"  BuildChildrenFinished="resChoose"><node/></image>
+			<image name="s"  rect="0,0,0,0" style="autosize" src="file://image/recordingbg_s.png" extendstyle="1077"  BuildChildrenFinished="resChoose"><node/></image>
+			<label rect="0,0,0,0" extendstyle="0077" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
         </button>
         </node> 
 		<node rect="17,90,686,0"  padding="0,0,250,0" extendstyle="1016">

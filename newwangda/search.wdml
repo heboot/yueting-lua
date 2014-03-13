@@ -31,12 +31,12 @@
 			<button name="searchBtn" normal="n" sel="s" rect="10,0,120,61" extendstyle="1111" OnSelect="searchBtnOnSelect" visible="1" enable="1">
 			     <image name="n" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_n.png" extendstyle="1017"/>
 			     <image name="s" rect="0,0,104,0" style="autosize" src="file://image/searchbtn_f.png" extendstyle="1017"/>
-			     <label rect="0,0,104,61" extendstyle="1111" text="搜索" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			     <label rect="0,0,104,61" extendstyle="1111" text="搜索" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
 			<button name="backBtn" normal="n" sel="s" rect="10,0,104,65" extendstyle="8111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 			     <image name="n" rect="0,0,0,0" style="autosize" src="file://image/searchclose_n.png" extendstyle="1077"/>
 			     <image name="s" rect="0,0,0,0" style="autosize" src="file://image/searchclose_f.png" extendstyle="1077"/>
-			     <label rect="0,0,104,61" extendstyle="1111" text="关闭" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+			     <label rect="0,0,104,61" extendstyle="1111" text="关闭" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>		
 		</node>
         <!--<label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="加载中" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>-->

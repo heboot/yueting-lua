@@ -12,103 +12,102 @@
     <header/>       
     <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
     <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
-	<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+	     <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
 	<!--main -->
-	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+	<node  rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
 		<!--顶部node-->
-		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
-		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
-		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
-		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
-		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
-		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		 <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		     <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		         <image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		         <image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		         <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		     </button>
+             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 	    </node>
 		
 		<!--背景、头像以及相关资料 node-->
 		<node rect="0,0,720,270"  extendstyle="1810">
-		<image rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
-	    <image name="userImage" rect="10,10,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
-		<image name="msgImg" rect="13,13,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>		
-		<label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
-		<label rect="220,110,150,50" text="粉丝数:" font-size="36" v-align="center"  color="#ffffff" extendstyle="1010"/>
-		<label name="fansTotal" rect="0,110,120,50" text="" font-size="36" v-align="center"  color="#ffffff" extendstyle="8010"/>
+		     <image rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
+	         <image name="userImage" rect="10,10,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
+		     <image name="msgImg" rect="13,13,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>		
+		     <label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
+		     <label rect="220,110,150,50" text="粉丝数:" font-size="36" v-align="center"  color="#ffffff" extendstyle="1010"/>
+		     <label name="fansTotal" rect="0,110,120,50" text="" font-size="36" v-align="center"  color="#ffffff" extendstyle="8010"/>
 		<!--加关注-->
 		<node rect="582,15,123,63"  extendstyle="1010">
-		<button name="addfocusBtn" rect="0,0,123,63" OnSelect="addfocusBtnOnSelect" color="#000000" extendstyle="1010">
-		<image rect="0,0,123,63" style="autosize" src="file://image/addfocus.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
-		<label name="addfouseName" rect="0,0,123,63" text="+关注" font-size="30" h-align="center" v-align="center" color="#ffffff" extendstyle="1010"/>
-		</button>
+		     <button name="addfocusBtn" rect="0,0,123,63" OnSelect="addfocusBtnOnSelect" color="#000000" extendstyle="1010">
+		         <image rect="0,0,123,63" style="autosize" src="file://image/addfocus.png" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		         <label name="addfouseName" rect="0,0,123,63" text="+关注" font-size="30" h-align="center" v-align="center" color="#ffffff" extendstyle="1010"/>
+		     </button>
 		</node>		
 		<node rect="238,0,240,84"  extendstyle="1510">
-		<button name="informationBtn" normal="n" sel="s" rect="0,0,240,84" OnSelect="informationBtnOnSelect" color="#000000" extendstyle="1010">
-		<node name="n" rect="0,0,240,84"  extendstyle="1010">
-		<shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
-		<label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
-		</node>
-		<node name="s" rect="0,0,240,84"  extendstyle="1010">
-		<shadow name="s" rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
-		<label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
-		</node>	
-		</button>
+		     <button name="informationBtn" normal="n" sel="s" rect="0,0,240,84" OnSelect="informationBtnOnSelect" color="#000000" extendstyle="1010">
+		         <node name="n" rect="0,0,240,84"  extendstyle="1010">
+		             <shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
+		             <label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
+		         </node>
+		         <node name="s" rect="0,0,240,84"  extendstyle="1010">
+		             <shadow  rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
+		             <label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
+		         </node>	
+		    </button>
 		</node>
 		<node rect="478,0,2,84"  extendstyle="1510">
-		<shadow rect="0,0,2,84" alpha="75" color="#FFFFFF" extendstyle="1010"/>
+		     <shadow rect="0,0,2,84" alpha="75" color="#FFFFFF" extendstyle="1010"/>
 		</node>
 		<node rect="480,0,240,84"  extendstyle="1510">
-		<button name="checkinBtn" normal="n" sel="s" rect="0,0,240,80" OnSelect="checkinBtnOnSelect" color="#000000" extendstyle="1010">
-		<node name="n" rect="0,0,240,84"  extendstyle="1010">
-		<shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
-		<label rect="0,0,240,84" text="签到" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
+		     <button name="checkinBtn" normal="n" sel="s" rect="0,0,240,80" OnSelect="checkinBtnOnSelect" color="#000000" extendstyle="1010">
+		         <node name="n" rect="0,0,240,84"  extendstyle="1010">
+		             <shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
+		             <label rect="0,0,240,84" text="签到" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
+		         </node>
+		         <node name="s" rect="0,0,240,84"  extendstyle="1010">
+		             <shadow  rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
+		             <label rect="0,0,240,84" text="签到" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
+		         </node>		
+		     </button>
 		</node>
-		<node name="s" rect="0,0,240,84"  extendstyle="1010">
-		<shadow name="s" rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
-		<label rect="0,0,240,84" text="签到" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
-		</node>		
-		</button>
-		</node>
-		</node>
+	</node>
 		
 		<!--catalogNode node-->
-		<node name="catalogNode" rect="0,373,720,62"   extendstyle="1010" >
-	    <list name="catalogList" rect='16,0,688,62' extendstyle='1010' auto-adjust="true" line='1' col='2'>
-		<image rect="0,0,0,0"  src="file://image/radiotop_bg.png"  style="autosize"  extendstyle="1077" />
-        <list-item  rect="0,0,344,62" extendstyle="1010">
-		<button name="catalogBtn" rect="1,1,343,60"  normal="n" sel="s" disabled ="d" OnSelect="catalogBtnOnSelect" extendstyle="1010"> 
-        <image rect="0,0,340,62" src="file://image/radiotopbtn_bg.png"  style="autosize"  extendstyle="1010" />		
-		<label rect="0,0,0,0"  name="n" text="$(text)" v-align="center" h-align="center" color="#ffffff" extendstyle="1077"/>
-		<label rect="0,0,0,0"  name="s" text="$(text)" v-align="center" h-align="center" color="#D2691E" alpha="75" extendstyle="1077"/>
-		<node name="d" rect="0,0,343,60"  extendstyle="1010">
-		<label rect="0,0,340,60"  text="$(text)" v-align="center" h-align="center" color="#D2691E" extendstyle="1010"/>
-		</node>
-		</button> 
-        </list-item>
-		<dataset>
-		<set text="作品"/><set text="专辑"/>	 
-		</dataset>
-        </list>    
+		 <node name="catalogNode" rect="0,373,720,62"   extendstyle="1010" >
+	         <list name="catalogList" rect='16,0,688,62' extendstyle='1010' auto-adjust="true" line='1' col='2'>
+		         <image rect="0,0,0,0"  src="file://image/radiotop_bg.png"  style="autosize"  extendstyle="1077" />
+                 <list-item  rect="0,0,344,62" extendstyle="1010">
+		             <button name="catalogBtn" rect="1,1,343,60"  normal="n" sel="s" disabled ="d" OnSelect="catalogBtnOnSelect" extendstyle="1010"> 
+                         <image rect="0,0,340,62" src="file://image/radiotopbtn_bg.png"  style="autosize"  extendstyle="1010" />		
+		                 <label rect="0,0,0,0"  name="n" text="$(text)" v-align="center" h-align="center" color="#ffffff" extendstyle="1077"/>
+		                 <label rect="0,0,0,0"  name="s" text="$(text)" v-align="center" h-align="center" color="#D2691E" alpha="75" extendstyle="1077"/>
+		                 <node name="d" rect="0,0,343,60"  extendstyle="1010">
+		                     <label rect="0,0,340,60"  text="$(text)" v-align="center" h-align="center" color="#D2691E" extendstyle="1010"/>
+		                </node>
+		             </button> 
+                 </list-item>
+		     <dataset>
+		         <set text="作品"/><set text="专辑"/>	 
+		     </dataset>
+             </list>    
 	    </node>
 		<!--panorama node-->
 		<node name="contentNode" rect="17,445,686,0" padding="0,0,10,0"   extendstyle="1016" >
-		<image src="file://image/novel_listbg.png" style="autosize" rect="0,0,686,0"  extendstyle="1017" />
-		
-		<panorama name="mainPanorama" rect="0,0,686,0" extendstyle="1017" style="circle">
-            <panoramaitem rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
-			<label name="isHaveWorks" rect="0,0,0,0" extendstyle="1077"  text="暂无作品" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
-            <listview name="worksListview" visible="1" enable="1" rect="0,10,686,0"  extendstyle="0017" scroll="auto">
-            </listview>
-            </panoramaitem>
-            <panoramaitem  rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
-			<label name="isHaveAlbum" rect="0,0,0,0" extendstyle="1077"  text="暂无作品" v-align="center" h-align="center" color="#303030"  font-size="72" visible="0"/>
-            <listview name="albumListview" visible="1" enable="1" rect="0,10,686,0" extendstyle="0017" scroll="auto">
-            </listview>
-            </panoramaitem>
+		     <image src="file://image/novel_listbg.png" style="autosize" rect="0,0,686,0"  extendstyle="1017" />
+		     <panorama name="mainPanorama" rect="0,0,686,0" extendstyle="1017" style="circle">
+                 <panoramaitem rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
+				     <node name="foreground" rect="0,0,686,0" extendstyle="1017" visbile="0">
+					     <image rect="270,200,173,135" style="maxsize" alpha="155" extendstyle="1014" src="file://image/nothingbg.png"/>
+		                 <label rect="0,380,686,50" text="空空如也" v-align="center" alpha="75" h-align="center" postfix=".."  extendstyle="1010" color="#CCCCCC"  font-size="35"/>	
+					 </node>
+                     <listview name="worksListview" visible="1" enable="1" rect="0,10,686,0"  extendstyle="0017" scroll="auto">
+                     </listview>
+                 </panoramaitem>
+                 <panoramaitem  rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
+                     <listview name="albumListview" visible="1" enable="1" rect="0,10,686,0" extendstyle="0017" scroll="auto">
+                     </listview>
+                </panoramaitem>
             </panorama>
 	    </node>
 	</node>
-	
-	
 	<!--panorama的作品数据item-->
 	<node name="worksItem" rect="0,0,686,172" extendstyle="1010"  visible="0" enable="0" active="0">
 			<button name="worksItemBtn" normal="n" sel="s" disabled ="d" OnSelect="worksItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">								   
@@ -127,19 +126,18 @@
 	<!--panorama的专辑数据item-->
 	<node name="albumItem" rect="0,0,686,172" extendstyle="1010"  visible="0" enable="0" active="0">
 	        <button name="albumItemBtn" normal="n" sel="s" OnSelect="albumItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">					
-			<image rect="0,0,686,2" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
-			<shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/> 
-			<image rect="20,19,237,133" src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>	
-			<image name="albumImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/> 
-			<label name="albumVoltage" rect="270,19,400,45" v-align="center" postfix=".."  text="" extendstyle="1111" color="#FFFFFF"  font-size="30"/>
-			<label name="albumName" rect="270,70,400,45" v-align="center" postfix=".."  extendstyle="1111" color="#999999"  font-size="30"/>
-			<label name="albumAnchorLabel" rect="270,115,70,40" v-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
-			<label name="albumAnchor" rect="0,115,200,40" v-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
-			<image name="rimg" rect="600,70,50,50" style="maxsize"  extendstyle="1111" src="file://image/arrow.png"/>					
+			     <image rect="0,0,686,2" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
+			     <shadow name="s" rect="0,0,686,0" alpha="50" color="#000000" extendstyle="1117"/> 
+			     <image rect="20,19,237,133" src="file://image/noveldefaultbg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>	
+			     <image name="albumImage"  rect="20,19,237,133" style="autosize" extendstyle="1010"/> 
+			     <label name="albumVoltage" rect="270,19,400,45" v-align="center" postfix=".."  text="" extendstyle="1111" color="#FFFFFF"  font-size="30"/>
+			     <label name="albumName" rect="270,70,400,45" v-align="center" postfix=".."  extendstyle="1111" color="#999999"  font-size="30"/>
+			     <label name="albumAnchorLabel" rect="270,115,70,40" v-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>			
+			     <label name="albumAnchor" rect="0,115,200,40" v-align="center"  postfix=".."  extendstyle="8111" color="#999999"  font-size="28"/>
+			     <image name="rimg" rect="600,70,50,50" style="maxsize"  extendstyle="1111" src="file://image/arrow.png"/>					
 			</button>
 	</node>	
-<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
+    <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>	
     </node>	
 </body>
 </root>
@@ -167,14 +165,14 @@ function bodyBuildChildrenFinished(sprite)
 	 albumListview = Sprite:findChild(sprite, 'albumListview')
 	 albumItem = Sprite:findChild(rootSprite, 'albumItem')
 	 worksItem= Sprite:findChild(rootSprite, 'worksItem')
-	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
-	
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')	
 	 catalogList= Sprite:findChild(sprite, 'catalogList')
 	 mainPanorama= Sprite:findChild(sprite, 'mainPanorama')
 	 addfocusBtn= Sprite:findChild(sprite, 'addfocusBtn')
 	 addfouseName= Sprite:findChild(sprite, 'addfouseName')
 	 fansTotal= Sprite:findChild(sprite, 'fansTotal')
 	 msgImg= Sprite:findChild(sprite, 'msgImg')
+	 foreground = Sprite:findChild(sprite, 'foreground')
 	 LoadInfoData()
 end
 
@@ -182,12 +180,8 @@ end
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 		 Bottom:show()
-	  --加载个人信息数据
-	 
-	  -- Loading:show()
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
-         --Scene:freeByHandle(rootSprite)
     elseif msg == Msg.login then
       
     else
@@ -206,58 +200,50 @@ function bodyOnPluginEvent(msg, param)
 		if podcastData.picture and podcastData.picture~='' then
 		     Sprite:setProperty(msgImg,'src',Util:getWeiBoServer() .. 'publish/clt' ..podcastData.picture)
 		end
-		Log:write('isFocused',podcastData.isFocused)
-		if podcastData.isFocused=='0' then
-		   Sprite:setProperty(addfouseName,'text','+关注')
-		else
-		   Sprite:setProperty(addfouseName,'text','已关注')
-		end
-	   Sprite:setProperty(addfocusBtn,'data',podcastData.userId)
-	   if podcastData.list0 and #podcastData.list0~='' and #podcastData.list0~=nil then
-	   LoadWorksListviewData()--加载作品数据
-	   end
-       LoadAlbumListviewData()--加载专辑上数据
-	   saveInfo()--保存个人资料信息
+		 if podcastData.isFocused=='0' then
+		     Sprite:setProperty(addfouseName,'text','+关注')
+		 else
+		     Sprite:setProperty(addfouseName,'text','已关注')
+		 end
+	     Sprite:setProperty(addfocusBtn,'data',podcastData.userId)
+	     if podcastData.list0 and #podcastData.list0~='' and #podcastData.list0~=nil then
+	         LoadWorksListviewData()--加载作品数据
+	     end
+         LoadAlbumListviewData()--加载专辑上数据
+	     saveInfo()--保存个人资料信息
 	elseif msg == 102 then
         resultData = Http:jsonDecode('addFocus_data')
-        Log:write("addFocus_data", resultData.result)
         if resultData.result=='0000' then
-			local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-			Reg:setInteger(reg,'isUserId',1)
-			Reg:setString(reg,'userId','userId='..podcastData.userId..';')
-			LoadInfoData()
+			 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+			 Reg:setInteger(reg,'isUserId',1)
+			 Reg:setString(reg,'userId','userId='..podcastData.userId..';')
+			 LoadInfoData()
         end
 	elseif msg == Msg.getJsonPlayer then
-        Loading:close()
-        playerJson = Http:jsonDecode('playerData')
-		Log:write('playerData111=================1',playerJson)
+         Loading:close()
+         playerJson = Http:jsonDecode('playerData')
         if playerJson and playerJson.code == '1014' then
-            Net:goToMyAccount()
+             Net:goToMyAccount()
         elseif playerJson and playerJson.orderList then
-            OrderNode:show(playerJson)
+             OrderNode:show(playerJson)
         elseif playerJson and playerJson.errordesc then
-            Tips:show(playerJson.errordesc)
+             Tips:show(playerJson.errordesc)
         elseif playerJson and 'table' == type(playerJson) then
             --获取本次数据内容
-			Log:write('playerData111=================2',playerJson)
-            gContparam = playerJson ~=nil and playerJson.param or ''
-			Log:write('playerData111=================3',gContparam)
-            _,_,contentId = string.find(gContparam , 'contentId=(%d+);')
-            if playerJson and playerJson~='' and gContparam and gContparam ~='' then
-                if string.match(gContparam,'objType=live') or string.match(gContparam,'objType=review') then
+             gContparam = playerJson ~=nil and playerJson.param or ''
+             _,_,contentId = string.find(gContparam , 'contentId=(%d+);')
+             if playerJson and playerJson~='' and gContparam and gContparam ~='' then
+                 if string.match(gContparam,'objType=live') or string.match(gContparam,'objType=review') then
                     -- donothing
-                elseif string.match(gContparam,'objType=community') or string.match(gContparam,'objType=content') then
+                 elseif string.match(gContparam,'objType=community') or string.match(gContparam,'objType=content') then
                     --判断是否音频正在播放，如在播放则停止
-                    if getAudioPlayFlag then
-                        if getAudioPlayFlag() ~= 0 then
-                            Log:write('------------Msg.getJsonPlayer-2--------')
-                            --停止定时器，防止视频停止后音频点播自动播放下一集，取悦听场景句柄
-                            if getAudioScene then
-                                local curAudioScene = getAudioScene()
-                                Log:write('Msg.getJsonPlayer CurScene =',curAudioScene )
-                                Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
-                                resetAudioScene()
-								
+                     if getAudioPlayFlag then
+                         if getAudioPlayFlag() ~= 0 then
+                             --停止定时器，防止视频停止后音频点播自动播放下一集，取悦听场景句柄
+                             if getAudioScene then
+                                 local curAudioScene = getAudioScene()
+                                 Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
+                                 resetAudioScene()
                             end
                             --Player:stop()
                             --Player:show(0)
@@ -281,21 +267,26 @@ end
 --[[  加载作品列表数据方法 ]]--
 function LoadWorksListviewData()
 	-- bokeCollectTable=podcastData.list0
-	ListView:removeAllItems(worksListview, 1, 1)
-    ListView:loadItem(worksListview,worksItem,#podcastData.list0+1,'loadWorksItem')
-	ListView:adjust(worksListview) 
+	 if podcastData.list0~='' and podcastData.list0~=nil then
+	     Sprite:setVisible(foreground, 0) 
+	     ListView:removeAllItems(worksListview, 1, 1)
+         ListView:loadItem(worksListview,worksItem,#podcastData.list0+1,'loadWorksItem')
+	     ListView:adjust(worksListview) 
+	else
+	     Sprite:setVisible(foreground, 1) 
+	end
 end
 
 --[[  加载作品列表ITEM数据方法 ]]--
 function loadWorksItem(list,item,index)
-    Sprite:setRect(item, 0,0,686,172)
-    Sprite:setProperty(item,'extendstyle','1010')  
-	Sprite:setProperty(Sprite:findChild(item,'worksName'),'text',podcastData.list0[index].title)
-	Sprite:setProperty(Sprite:findChild(item,'worksAnchor'),'text',podcastData.list0[index].sname)
-	if podcastData.list0[index].omsId~='' and podcastData.list0[index].omsId~=nil then
+     Sprite:setRect(item, 0,0,686,172)
+     Sprite:setProperty(item,'extendstyle','1010')  
+	 Sprite:setProperty(Sprite:findChild(item,'worksName'),'text',podcastData.list0[index].title)
+	 Sprite:setProperty(Sprite:findChild(item,'worksAnchor'),'text',podcastData.list0[index].sname)
+	 if podcastData.list0[index].omsId~='' and podcastData.list0[index].omsId~=nil then
 	     Sprite:setProperty(Sprite:findChild(item,'worksImage'),'src',podcastData.list0[index].videoImg)
 	     Sprite:setProperty(Sprite:findChild(item,'worksItemBtn'),'data',podcastData.list0[index].param)
-	end	
+	 end	
 end
 
 function LoadInfoData()--加载个人信息数据
@@ -303,39 +294,37 @@ function LoadInfoData()--加载个人信息数据
      local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	 local isUserId=Reg:getInteger(reg,'isUserId')
 	 local isNodeId=Reg:getInteger(reg,'isNodeId')
-	 Log:write('isNodeId======',isUserId,isNodeId)
 	 if isUserId == 1 then
-	  local data=Reg:getString(reg,'userId')
-	  local _,_,userId=string.find(data, 'userId=(%d+);')
-	  Reg:setInteger(reg,'isUserId',0)
-	  Http:request('podcastData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,108,{useCache = 0})
+	     local data=Reg:getString(reg,'userId')
+	     local _,_,userId=string.find(data, 'userId=(%d+);')
+	     Reg:setInteger(reg,'isUserId',0)
+	     Http:request('podcastData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,108,{useCache = 0})
 	elseif isNodeId==1 then
-	  local data=Reg:getString(reg,'nodeId')
-	  local _,_,nodeId=string.find(data, 'nodeId=(%d+);')
-      Reg:setInteger(reg,'isNodeId',0)	
-	  Http:request('podcastData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'nodeId='..nodeId,108,{useCache = 0})
+	     local data=Reg:getString(reg,'nodeId')
+	     local _,_,nodeId=string.find(data, 'nodeId=(%d+);')
+         Reg:setInteger(reg,'isNodeId',0)	
+	     Http:request('podcastData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'nodeId='..nodeId,108,{useCache = 0})
 	end
-	
 end
 
 
 --[[  加载专辑列表数据方法 ]]--
 function LoadAlbumListviewData()
-	ListView:removeAllItems(albumListview, 1, 1)
-    ListView:loadItem(albumListview,albumItem,4,'loadAlbumItem')
-	ListView:adjust(albumListview) 
+	 ListView:removeAllItems(albumListview, 1, 1)
+     ListView:loadItem(albumListview,albumItem,4,'loadAlbumItem')
+	 ListView:adjust(albumListview) 
 end
 
 --[[  加载专辑列表ITEM数据方法 ]]--
 function loadAlbumItem(list,item,index)
-    Sprite:setRect(item, 0,0,686,172)
-    Sprite:setProperty(item,'extendstyle','1010')
-	local albumVoltage=Sprite:findChild(item,'albumVoltage')
-	local albumImage=Sprite:findChild(item,'albumImage')
-	local albumName=Sprite:findChild(item,'albumName')
-	local albumAnchor=Sprite:findChild(item,'albumAnchor')
-	local albumItemBtn=Sprite:findChild(item,'albumItemBtn')
-	local albumAnchorLabel=Sprite:findChild(item,'albumAnchorLabel')
+     Sprite:setRect(item, 0,0,686,172)
+     Sprite:setProperty(item,'extendstyle','1010')
+	 local albumVoltage=Sprite:findChild(item,'albumVoltage')
+	 local albumImage=Sprite:findChild(item,'albumImage')
+	 local albumName=Sprite:findChild(item,'albumName')
+	 local albumAnchor=Sprite:findChild(item,'albumAnchor')
+	 local albumItemBtn=Sprite:findChild(item,'albumItemBtn')
+	 local albumAnchorLabel=Sprite:findChild(item,'albumAnchorLabel')
 	-- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
 	if index== 0 then
 	     if podcastData.list1 and #podcastData.list1~='' and #podcastData.list1~=nil then
@@ -429,41 +418,39 @@ function albumItemBtnOnSelect(sprite)
 end
 
 function worksItemBtnOnSelect(sprite)
-    local count=ListView:getItemCount(worksListview) 
-	for i=0,count-1 do
-      local item = ListView:getItem(worksListview,i)
-      local worksItemBtn = Sprite:findChild(item,"worksItemBtn")
-      Sprite:setEnable(worksItemBtn,1)
-    end
-    local item= Sprite:getParent(sprite)
-    local index=ListView:getItemIndex(item) 
-    local data = Sprite:getData(sprite)
-	local bokeCollectTable={}
-    for i=0,#podcastData.list0 do
+     local count=ListView:getItemCount(worksListview) 
+	 for i=0,count-1 do
+         local item = ListView:getItem(worksListview,i)
+         local worksItemBtn = Sprite:findChild(item,"worksItemBtn")
+         Sprite:setEnable(worksItemBtn,1)
+     end
+     local item= Sprite:getParent(sprite)
+     local index=ListView:getItemIndex(item) 
+     local data = Sprite:getData(sprite)
+	 local bokeCollectTable={}
+     for i=0,#podcastData.list0 do
 	     table.insert(bokeCollectTable,podcastData.list0[i])
-	end 
-    local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
-	Reg:setString(reg,'bokeItemId',data)
-	Reg:setString(reg,'bokeItemIndex',index)
-	bokeCollectTable=Reg:setTable(reg,'bokeCollectTable',bokeCollectTable)
-	Sprite:setEnable(sprite, 0) 
-	Util:_goPlay(data)
+	 end 
+     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 Reg:setString(reg,'bokeItemId',data)
+	 Reg:setString(reg,'bokeItemIndex',index)
+	 bokeCollectTable=Reg:setTable(reg,'bokeCollectTable',bokeCollectTable)
+	 Sprite:setEnable(sprite, 0) 
+	 Util:_goPlay(data)
 end
 
 -- @brief 初始化播放器
 function initPlayer()
-    
     -- symbian手机请求的播放地址不知为何会带&amp;字符串 导致open后play死机 在这里统一替换
-    playUrl = string.gsub(playerJson.playUrl,"&amp;","&")
-
-    local regplayer = Reg:create(Reg.com_wondertek_mobileaudio.player)
-    Reg:setInteger(regplayer, 'minFlag',0) --客户端状态，0表示在应用里，1表示在后台,2表示重复后台 由于可能在后台切换player界面 所以用reg记录
-    if Reg:getInteger(regplayer, 'isScreenLock') == 0 then  -- 是否为锁屏状态
-        isScreenLock = false
-    else
-        isScreenLock = true
-    end
-    createPlayer()
+     playUrl = string.gsub(playerJson.playUrl,"&amp;","&")
+     local regplayer = Reg:create(Reg.com_wondertek_mobileaudio.player)
+     Reg:setInteger(regplayer, 'minFlag',0) --客户端状态，0表示在应用里，1表示在后台,2表示重复后台 由于可能在后台切换player界面 所以用reg记录
+     if Reg:getInteger(regplayer, 'isScreenLock') == 0 then  -- 是否为锁屏状态
+         isScreenLock = false
+     else
+         isScreenLock = true
+     end
+     createPlayer()
 end
 
 
@@ -475,11 +462,9 @@ function createPlayer()
     isPlayerCreate = true
     --旋屏操作放在openUrl里
     openUrl()
-
     ----设置音频播放标志,在此处加是解决loading数据时快速点返回，当前场景以及切换而本场景不释放仍然能收到音频数据产生播放，单播放标志不对的情况
     if isPlayerCreate then
         setAudioPlayFlag(2)
-
         --增加音频通知消息
         if SendNotification then
             if objType == '0' or objType=='content' then --音频点播
@@ -498,28 +483,26 @@ end
 -- @brief 打开url
 function openUrl()
     --取断点
-    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
-    local breakPoint = Reg:getInteger(reg, 'breakPoint')
-    if breakPoint ~= 0 then
-        Reg:remove(reg, 'breakPoint')
-    end
-    if Http:getCurConnect() == 'WLAN' then
-        System:setBufferTime(1)
-    else
-        System:setBufferTime(3)
-    end
-    Player:open(playUrl,Http:getCurConnect(), breakPoint)
-	pluginInvoke(Player:_getHandle(),'StartPlayer')    
-	Log:write('testbottominsert',playerJson.titleName)
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
-	Reg:setString(bottomReg,'audioName',playerJson.titleName)
-	Reg:setString(bottomReg,'type',2)
-	
-	Player:setFullScreen(0)
-    Timer:cancel(TimerId.status)
-    Timer:set(TimerId.status, 1000, 'getStatus')
-	local reg = Reg:create(Reg.com_wondertek_mobileaudio.detail)
-    Reg:setString(reg,'audioResource','')
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+     local breakPoint = Reg:getInteger(reg, 'breakPoint')
+     if breakPoint ~= 0 then
+         Reg:remove(reg, 'breakPoint')
+     end
+     if Http:getCurConnect() == 'WLAN' then
+         System:setBufferTime(1)
+     else
+         System:setBufferTime(3)
+     end
+     Player:open(playUrl,Http:getCurConnect(), breakPoint)
+	 pluginInvoke(Player:_getHandle(),'StartPlayer')    
+	 local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	 Reg:setString(bottomReg,'audioName',playerJson.titleName)
+	 Reg:setString(bottomReg,'type',2)
+	 Player:setFullScreen(0)
+     Timer:cancel(TimerId.status)
+     Timer:set(TimerId.status, 1000, 'getStatus')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.detail)
+     Reg:setString(reg,'audioResource','')
 end
 
 -- @brief 刷新播放与暂停按钮状态

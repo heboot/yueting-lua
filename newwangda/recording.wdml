@@ -18,9 +18,9 @@
 		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>	    
+            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="录音" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>	    
 		</node> 		
 		<node rect="0,320,720,150"  extendstyle="1010" font-family="TianyiDigital">
 		<label  name="audioCurTime"  rect="0,0,466,150" color="#FFFFFF" text="00:00" font-size="145" v-align="center" h-align="right" extendstyle="1010"/>

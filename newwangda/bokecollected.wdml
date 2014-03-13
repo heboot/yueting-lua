@@ -13,23 +13,23 @@
 <root>
     <header/>       
     <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
-    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
+    <node name="mainNode" rect="0,0,720,1280" enable="true" active="true"  OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111"> 
+         <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>	
 	<!--main -->
-	<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
-		<image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+	<node  rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
 		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
 		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="作品收藏" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="作品收藏" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 	    </node>
 		<button name="managerBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="managerBtnOnSelect" visible="1" enable="1">
 		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		<label name="managername" rect="0,0,104,61" extendstyle="1111" text="管理" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		<label name="managername" rect="0,0,104,61" extendstyle="1111" text="管理" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		</button>
 		<image src="file://image/novel_listbg.png" style="autosize" rect="20,100,686,0" padding="0,0,20,0"   extendstyle="1016" />
 		<node name="contentNode" rect="20,120,686,0" padding="0,0,20,0"   extendstyle="1116" >

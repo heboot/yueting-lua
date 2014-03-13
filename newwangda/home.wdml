@@ -14,7 +14,7 @@
     <header/>       
     <body resolution="720,1280" BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent">
     <node name="mainNode" rect="0,0,720,1280" enable="true" active="true" OnKeyUp="mainNodeOnKeyUp" layouttype="1" extendstyle="1111">  
-        <shadow rect="0,0,720,1280" alpha="255" color="#292929" extendstyle="1017"/>    
+        <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>  
         <panorama name="mainPanorama" rect="0,0,720,1180" extendstyle="1017" foreground="foreground">
             <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
                 <node name="popupNode" rect="0,0,720,1180" extendstyle="1111"/>
@@ -61,20 +61,20 @@
 					</listview>
                 </node>			
 				<!--main -->
-				<node name="mainNode" rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
-				  <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
+				<node  rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
+				     <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>
 				  <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
 				    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
 					<button name="leftNavigationBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="leftNavigationBtnOnSelect" visible="1" enable="1">
 					<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 					<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-				    <label rect="0,0,104,61" extendstyle="1111" text="导航" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+				    <label rect="0,0,104,61" extendstyle="1111" text="导航" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 				    </button>
-                    <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="首页精选" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+                    <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="首页精选" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 					<button name="rightNavigationBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="rightNavigationBtnOnSelect" visible="1" enable="1">
 					<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
 					<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-				    <label rect="0,0,104,61" extendstyle="1111" text="功能" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+				    <label rect="0,0,104,61" extendstyle="1111" text="功能" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 				    </button>
 				</node>  
 				<node name="mainPanoramaNode" rect="0,100,720,300"  extendstyle="1111">
@@ -530,7 +530,7 @@
 		  <node name="leftRadioListviewItem" rect="0,0,687,90" extendstyle="1010" visible="0" enable="0" active="0"> 
 			  <node rect="0,0,0,0" extendstyle="1077">
 			  <button name="leftRadioItemBtn"   sel="s" rect="0,0,0,0"  OnSelect="leftRadioItemBtnOnSelect" style="autosize" extendstyle="1077">
-			  <image name="s" rect="0,0,0,90" style="autosize" src="file://image/leftlistview_itembg_s.png"  extendstyle="1077"/>
+			  <shadow name="s" rect="0,0,0,90" alpha="50" color="#000000" extendstyle="1070"/>
 			  <image name="radioimg" rect="40,30,41,34" style="maxsize" src=""  extendstyle="1011"/>
 			  <label name="radioname" rect="120,0,250,0" text="" v-align="center" extendstyle="1017" color="#FFFFFF" font-size="30"/>
 			  <image rect="600,20,55,55" style="maxsize" src="file://image/arrow.png"  extendstyle="1011"/>
@@ -619,9 +619,9 @@
 		 
 		<!--左侧菜单推荐的电台数据item-->
 		<node name="leftRadioItem" rect="0,0,240,100" padding="0,2,0,2" extendstyle="0000" visible="0" enable="0" active="0">
-		    <button name="leftRadioBtn" rect="0,0,240,100" normal="n" sel="s" OnSelect="leftRadioBtnOnSelect" extendstyle="0000">
-			<image name="n" rect="0,0,240,100" src="file://image/left_radio_child.png" style="autosize"/>
-			<image name="s" rect="0,0,240,100" src="file://image/leftlistview_itembg_s.png" style="minsize"/>
+		    <button name="leftRadioBtn" rect="0,0,240,100" sel="s" OnSelect="leftRadioBtnOnSelect" extendstyle="0000">
+			<image rect="0,0,240,100" src="file://image/left_radio_child.png" style="autosize" extendstyle="1010"/>
+			<shadow name="s" rect="0,0,240,100" alpha="50" color="#000000" extendstyle="1010"/>
 			<image rect="20,35,20,30" src="file://image/left_radio_child_arrow.png" style="autosize"/>
 			<label name="leftRadioName" rect="60,0,200,100" extendstyle="1111" text="$(text)" h-align="left" color="#999999" v-align="center" font-size="30"/>
 			</button>
