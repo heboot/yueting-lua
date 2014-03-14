@@ -357,7 +357,7 @@ function loadpodcastItem(list,item,index)
          if podcastListData.contentList[index].omsId~='' and podcastListData.contentList[index].omsId~=nil then 
 		     Sprite:setProperty(podcastImage,'src',podcastListData.contentList[index].videoImg)
 	         Sprite:setProperty(Sprite:findChild(item,'podcastItemBtn'),'data',podcastListData.contentList[index].param)
-			  saveNodeInfo(podcastListData.contentList[index].title,{img=GetLocalFilename(podcastListData.contentList[index].videoImg),count=1,anchor=podcastListData.sname})
+			 saveNodeInfo(podcastListData.contentList[index].title,{img=GetLocalFilename(podcastListData.contentList[index].videoImg),count=1,anchor=podcastListData.sname})
 		 end  
 	     saveNodeInfo(podcastListData.contentList[index].title,{img='',count=1,anchor=podcastListData.sname})
 	-- end	

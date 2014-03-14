@@ -596,7 +596,8 @@ function loadDownloadItem(list,item,index)
 		end
         Sprite:setProperty(Sprite:findChild(item,'downloadItemImage'),'src',noedInfoTable.img)
         if (noedInfoTable.nodeId and not IO:fileExist(noedInfoTable.img)) or noedInfoTable.anchor == nil or noedInfoTable.anchor == '' then
-            blankImgNodeIds = blankImgNodeIds .. noedInfoTable.nodeId .. ","
+			Log:write('================setName6',noedInfoTable.nodeId)
+			blankImgNodeIds = blankImgNodeIds .. noedInfoTable.nodeId .. ","
 			--Sprite:setProperty(Sprite:findChild(item,'novelItemBtn'),'data',noedInfoTable.nodeId)
 			Sprite:setProperty(item,"data",noedInfoTable.nodeId)
         end

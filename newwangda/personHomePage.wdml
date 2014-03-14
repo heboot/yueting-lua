@@ -15,64 +15,81 @@
          <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>	
 	<!--main -->
 	<node  rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
-		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
-		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
-		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
-		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
-		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
-		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
+		 <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		     <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		         <image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		         <image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		         <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		     </button>
+             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 	    </node>
 		<!--背景、头像以及相关资料 node-->
 		<node rect="0,0,720,270"  extendstyle="1810">
-		<image name="spaceBg" rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
-		<button name="spaceBgEdit" rect="0,0,720,270" extendstyle="1010" OnSelect="spaceBgEditOS"/>
-		<button name="msgImgBtn" rect="10,10,176,176" extendstyle="1010" OnSelect="msgImgBtnOnSelect">
-		<image rect="0,0,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
-		<image name="msgImg" rect="3,3,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>
-		</button>
-		<label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
-		<label rect="220,110,150,50" text="粉丝数:" font-size="36"  v-align="center" color="#ffffff" extendstyle="1010"/>
-		<label name="fansTotal" rect="0,110,120,50" text="" v-align="center" font-size="36" color="#ffffff" extendstyle="8010"/>	
-		<node rect="480,0,240,84"  extendstyle="1510">
-		<button name="informationBtn" normal="n" sel="s" rect="0,0,240,84" OnSelect="informationBtnOnSelect" color="#000000" extendstyle="1010">
-		<node name="n" rect="0,0,240,84"  extendstyle="1010">
-		<shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
-		<label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
-		</node>
-		<node name="s" rect="0,0,240,84"  extendstyle="1010">
-		<shadow name="s" rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
-		<label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
-		</node>	
-		</button>
-		</node>	 
+		     <image name="spaceBg" rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
+		     <button name="spaceBgEdit" rect="0,0,720,270" extendstyle="1010" OnSelect="spaceBgEditOS"/>
+		     <button name="msgImgBtn" rect="10,10,176,176" extendstyle="1010" OnSelect="msgImgBtnOnSelect">
+		         <image rect="0,0,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
+		         <image name="msgImg" rect="3,3,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
+		     </button>
+		     <label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
+		     <label rect="220,110,150,50" text="粉丝数:" font-size="36"  v-align="center" color="#ffffff" extendstyle="1010"/>
+		     <label name="fansTotal" rect="0,110,120,50" text="" v-align="center" font-size="36" color="#ffffff" extendstyle="8010"/>	
+		     <node rect="480,0,240,84"  extendstyle="1510">
+		         <button name="informationBtn" normal="n" sel="s" rect="0,0,240,84" OnSelect="informationBtnOnSelect" color="#000000" extendstyle="1010">
+		             <node name="n" rect="0,0,240,84"  extendstyle="1010">
+		                 <shadow  rect="0,0,240,84" alpha="125" color="#000000" extendstyle="1010"/>
+		                 <label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#ffffff" extendstyle="1010"/>
+		             </node>
+		             <node name="s" rect="0,0,240,84"  extendstyle="1010">
+		                 <shadow name="s" rect="0,0,240,84" alpha="75" color="#000000" extendstyle="1010"/>
+		                 <label rect="0,0,240,84" text="资料" h-align="center" v-align="center" font-size="36" color="#D2691E" extendstyle="1010"/>
+		             </node>	
+		         </button>
+		     </node>	 
 		</node>
 		<node  rect="0,0,720,140"  extendstyle="1810">
-		<button name="msgMoodBtn" normal="n" sel="s" OnSelect="msgMoodBtnOnSelect" rect="0,0,720,140" extendstyle="1010">
-		<shadow name="s" rect="0,0,720,140" alpha="50" color="#000000" extendstyle="1010"/>
-		<label name="msgMood" rect="45,0,600,140" text="" postfix="..." v-align="center" font-size="28" color="#999999" extendstyle="1010"/>
-		<image name="rimg" rect="650,50,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>
-		<image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
-		</button>
+		    <button name="msgMoodBtn" normal="n" sel="s" OnSelect="msgMoodBtnOnSelect" rect="0,0,720,140" extendstyle="1010">
+		         <shadow name="s" rect="0,0,720,140" alpha="50" color="#000000" extendstyle="1010"/>
+		         <label name="msgMood" rect="45,0,600,140" text="" postfix="..." v-align="center" font-size="28" color="#999999" extendstyle="1010"/>
+		         <image name="rimg" rect="650,50,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>
+		         <image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
+		    </button>
 		</node>
 		<node name="contentNode" rect="0,0,720,0"   extendstyle="1817"  >
-	    <listview name="personHomeListview" rect="0,0,720,0"  extendstyle="1117" limit="false">
-		</listview>
+	         <listview name="personHomeListview" rect="0,0,720,0"  extendstyle="1117" limit="false">
+		     </listview>
 	    </node>
+		<node name="cameraNode" rect="0,0,720,300"   extendstyle="1511" visible="0" >
+		     <shadow rect="0,0,720,300" color="#000000" alpha="128" extendstyle="0011"/>
+			 <list name="cameraList" rect="47,0,625,300" visible="1" col="1" line="2" auto-adjust="true" extendstyle="1011">
+			</list>
+		</node>
 	</node>
 	
 	<node name="personHomeItem" rect="0,0,720,90" extendstyle="1010"  visible="0" enable="0" active="0">
-		    <button name="personHomeItemBtn" normal="n" sel="s" OnSelect="personHomeItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">								
-			<shadow name="s" rect="0,0,720,0" alpha="50" color="#000000" extendstyle="1117"/>
-            <image name="personHomeWorksimg" rect="45,27,33,35" style="autosize" extendstyle="1010"/>			
-			<label name="personHomeName" rect="100,0,200,90" v-align="center"  postfix=".."  extendstyle="1010" color="#999999"  font-size="28"/>
-			<image name="rimg" rect="650,25,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>	
-            <image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>			
-			</button>
+		 <button name="personHomeItemBtn" normal="n" sel="s" OnSelect="personHomeItemBtnOnSelect" rect="0,0,686,0" extendstyle="1117">								
+			 <shadow name="s" rect="0,0,720,0" alpha="50" color="#000000" extendstyle="1117"/>
+             <image name="personHomeWorksimg" rect="45,27,33,35" style="autosize" extendstyle="1010"/>			
+			 <label name="personHomeName" rect="100,0,200,90" v-align="center"  postfix=".."  extendstyle="1010" color="#999999"  font-size="28"/>
+			 <image name="rimg" rect="650,25,40,40" style="maxsize"  extendstyle="1111" src="file://image/play_go.png"/>	
+             <image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>			
+		</button>
 	</node>	
+	<node name="cameraItem" rect="0,0,625,150" extendstyle="1010" visible="0" enable="0" active="0">
+		 <button name="cameraBtn" rect="0,33,625,84" normal="" sel="s" OnSelect="cameraBtnOnSelect"  extendstyle="1010">
+			<node name="n" rec="0,0,625,84" extendstyle="1010" >
+				<image name="optImg_n" rect="0,0,625,84" src="file://image/camerartn2.png" style="autosize" extendstyle="1010"/>
+				<label name="optName_n" rect="0,0,625,84" text=""  v-align="center" h-align="center" font-size="35"  extendstyle="1010"/>
+			</node>
+			<node name="s" rec="0,0,625,84" extendstyle="1010" >
+				<image name="optImg_s" rect="0,0,625,84" src="" style="autosize" extendstyle="1010"/>
+				<label name="optName_s" rect="0,0,625,84" text=""  v-align="center" h-align="center" font-size="35"  extendstyle="1010"/>
+			</node>
+		</button>			 
+	</node>
 	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-	<node name="popupNode" rect="0,0,720,1280" extendstyle="0017"/>
+	<node name="popupNode" rect="0,0,720,0" extendstyle="0016" padding="0,0,112,0"/>
     </node>	
 </body>
 </root>
@@ -85,6 +102,9 @@ local personHomeItem
 local mainTitle
 local parentId
 local cameraIndex
+local cameraNode
+local cameraList
+local cameraItem
 
 
 -- @brief root子节点创建完事件
@@ -93,7 +113,9 @@ function bodyBuildChildrenFinished(sprite)
 	 personHomeListview = Sprite:findChild(sprite, 'personHomeListview')
 	 personHomeItem = Sprite:findChild(rootSprite, 'personHomeItem')
 	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
-	
+	 cameraNode= Sprite:findChild(rootSprite, 'cameraNode')
+	 cameraList= Sprite:findChild(rootSprite, 'cameraList')
+	 cameraItem= Sprite:findChild(rootSprite, 'cameraItem')
 	 spaceBg = Sprite:findChild(sprite,'spaceBg')
 	 msgImg = Sprite:findChild(sprite,'msgImg')
 end
@@ -218,20 +240,20 @@ end
 
 --[[  加载小说列表ITEM数据方法 ]]--
 function loadpersonHomeItem(list,item,index)
-    Sprite:setRect(item, 0,0,720,90)
-    Sprite:setProperty(item,'extendstyle','1010')
-	local personHomeName=Sprite:findChild(item,'personHomeName')
-	local personHomeWorksimg=Sprite:findChild(item,'personHomeWorksimg')	
-	if index==0 then
-	local localFileCount = Config:get('localFileCount')
-	Sprite:setProperty(personHomeName,'text','本地文件/'..localFileCount)
-	Sprite:setProperty(personHomeWorksimg,'src','file://image/localworks.png')
+     Sprite:setRect(item, 0,0,720,90)
+     Sprite:setProperty(item,'extendstyle','1010')
+	 local personHomeName=Sprite:findChild(item,'personHomeName')
+	 local personHomeWorksimg=Sprite:findChild(item,'personHomeWorksimg')	
+     if index==0 then
+	     local localFileCount = Config:get('localFileCount')
+	     Sprite:setProperty(personHomeName,'text','本地文件/'..localFileCount)
+	     Sprite:setProperty(personHomeWorksimg,'src','file://image/localworks.png')
 	elseif index==1 then
-	Sprite:setProperty(personHomeName,'text','作品/'..userinfoData.worksCount)
-	Sprite:setProperty(personHomeWorksimg,'src','file://image/works.png')
+	     Sprite:setProperty(personHomeName,'text','作品/'..#userinfoData.list0+1)
+	     Sprite:setProperty(personHomeWorksimg,'src','file://image/works.png')
 	elseif index==2 then
-	Sprite:setProperty(personHomeName,'text','专辑/4')
-	Sprite:setProperty(personHomeWorksimg,'src','file://image/specialworks.png')
+	     Sprite:setProperty(personHomeName,'text','专辑/4')
+	     Sprite:setProperty(personHomeWorksimg,'src','file://image/specialworks.png')
 	end	
 end
 
@@ -270,42 +292,62 @@ function requestUserinfoData()
     local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
     local useCache = getRequestState("userinfoDataState" .. _userId, regCommunity)
     Loading:show()
-    Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = useCache})
+    Http:request('userinfoData',  Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp' .. '?userId=' .. _userId, 110, {useCache = useCache})
 end
 
 function LoadUserInfo()
-    Sprite:setProperty(mainTitle,'text',userinfoData.sname)
-    local msgImg = Sprite:findChild(rootSprite,'msgImg')
-    local msgMood = Sprite:findChild(rootSprite,'msgMood')
-	local fansTotal = Sprite:findChild(rootSprite,'fansTotal')
-    userImg =userinfoData.picture or ''
-    if userImg~='' then
-        userImg =Util:getWeiBoServer() .. 'publish/clt' .. userImg
-        Sprite:setProperty(msgImg,'src', userImg)
+     Sprite:setProperty(mainTitle,'text',userinfoData.sname)
+     local msgImg = Sprite:findChild(rootSprite,'msgImg')
+     local msgMood = Sprite:findChild(rootSprite,'msgMood')
+	 local fansTotal = Sprite:findChild(rootSprite,'fansTotal')
+     userImg =userinfoData.picture or ''
+     if userImg~='' then
+         userImg =Util:getWeiBoServer() .. 'publish/clt' .. userImg
+         Sprite:setProperty(msgImg,'src', userImg)
 	else
-		Sprite:setProperty(msgImg,"src",'file://image/dft_headimg_big.jpg')
+		 Sprite:setProperty(msgImg,"src",'file://image/dft_headimg_big.jpg')
     end
-    Sprite:setProperty(msgMood,'text',userinfoData.sign == "" and "简介:这个人很懒，啥都没填写" or "简介:" .. userinfoData.sign)
-	Sprite:setProperty(fansTotal,'text',userinfoData.followerCount)
+     Sprite:setProperty(msgMood,'text',userinfoData.sign == "" and "简介:这个人很懒，啥都没填写" or "简介:" .. userinfoData.sign)
+	 Sprite:setProperty(fansTotal,'text',userinfoData.followerCount)
 end
 
 
 --点击资料按钮
 function informationBtnOnSelect(sprite)
-    Scene:go('MODULE:\\com_wondertek_mobileaudio\\information.wdml',{freeDestScene=false})
+     Scene:go('MODULE:\\com_wondertek_mobileaudio\\information.wdml',{freeDestScene=false})
 end
 
 --更换背景
 function spaceBgEditOS()
+     if  Sprite:isVisible(cameraNode)==0 then
+	     Sprite:setVisible(cameraNode, 1) 
+		 cameraIndex=1
+         List:removeAllItems(cameraList, 1,1) 
+	     List:loadItem(cameraList, cameraItem,2, 'loadCameraItem')
+	     List:adjust(cameraList) 		 
+     else  
+	     Sprite:setVisible(cameraNode, 0) 
+		 cameraIndex=0
+     end	 
    --Popup:show({title="自定义背景",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}}) 
-   Popup:show({title="自定义背景",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}}) 
-   cameraIndex=1
+   -- Popup:show({title="自定义背景",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}}) 
+   -- cameraIndex=1
 end
 
 --更换头像
 function msgImgBtnOnSelect(sprite)
-   Popup:show({title="头像选择",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}})
-   cameraIndex=2
+     if  Sprite:isVisible(cameraNode)==0 then
+	     Sprite:setVisible(cameraNode, 1)
+		 cameraIndex=2
+		 List:removeAllItems(cameraList, 1,1) 
+	     List:loadItem(cameraList, cameraItem,2, 'loadCameraItem')
+	     List:adjust(cameraList) 	 
+     else 
+	     Sprite:setVisible(cameraNode, 0) 
+		  cameraIndex=0
+     end	
+   -- Popup:show({title="头像选择",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}})
+   -- cameraIndex=2
 end
 
 function cameraOS()
@@ -324,49 +366,92 @@ function popupCloseOS()
 end
 
 function clipImg(imgPath)
-    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
-    Reg:setString(reg,"imgPath",imgPath)
-	if cameraIndex==1 then
-	 Reg:setString(reg,"displaystyle","2")
-	elseif cameraIndex==2 then
-	 Reg:setString(reg,"displaystyle","3")
-	end 
-    Scene:go(Alias.uploadimgedit)
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+     Reg:setString(reg,"imgPath",imgPath)
+	 if cameraIndex==1 then
+	     Reg:setString(reg,"displaystyle","2")
+	 elseif cameraIndex==2 then
+	     Reg:setString(reg,"displaystyle","3")
+	 end 
+     Scene:go(Alias.uploadimgedit)
 end
 
 function getAlbumImg(imgPath, imgType)
     Log:write('imgPath============', imgPath)
-    local fileExt = string.lower(IO:fileExt(imgPath))
-    if imgPath and fileExt == "jpg" or fileExt == "png" then
-        clipImg(imgPath)
-    else
-        Tips:show('请使用jpg或png格式的图片')
-    end
+     local fileExt = string.lower(IO:fileExt(imgPath))
+     if imgPath and fileExt == "jpg" or fileExt == "png" then
+         clipImg(imgPath)
+     else
+         Tips:show('请使用jpg或png格式的图片')
+     end
 end
 
 
 function getFlashCardPath()
-    local path = ''
-    local flashCard = System:getFlashCardName(1)
-    local innerCard = System:getFlashCardName(0)
-    if flashCard and flashCard ~= '' then
-        path = flashCard
-    elseif innerCard and innerCard ~= '' then
-        path = innerCard
-    end
-    return path
+     local path = ''
+     local flashCard = System:getFlashCardName(1)
+     local innerCard = System:getFlashCardName(0)
+     if flashCard and flashCard ~= '' then
+         path = flashCard
+     elseif innerCard and innerCard ~= '' then
+         path = innerCard
+     end
+     return path
 end
 
 
 function getRequestState(requestTag,requestReg)
-    if not requestReg then return 0 end
-    local requestState = Reg:getString(requestReg,requestTag)
-    if requestState == "" or requestState == "1" then
-        Reg:setString(requestReg,requestTag,"2")
-        return 0
-    else
-        return 2
-    end
+     if not requestReg then return 0 end
+     local requestState = Reg:getString(requestReg,requestTag)
+     if requestState == "" or requestState == "1" then
+         Reg:setString(requestReg,requestTag,"2")
+         return 0
+     else
+         return 2
+     end
+end
+
+function loadCameraItem(list,item, index)
+     local optName_n =Sprite:findChild(item, 'optName_n')
+	 local optName_s =Sprite:findChild(item, 'optName_s')
+	 local optImg_n=Sprite:findChild(item, 'optImg_n')
+	 local optImg_s=Sprite:findChild(item, 'optImg_s')
+	 if index==0 then
+	     if cameraIndex==1 then
+		     Sprite:setProperty(optName_n, 'text', '更换背景图片')
+			 Sprite:setProperty(optName_s, 'text', '更换背景图片')
+		 elseif cameraIndex==2 then
+		     Sprite:setProperty(optName_n, 'text', '更换头像')
+			 Sprite:setProperty(optName_s, 'text', '更换头像')
+		 end
+		 Sprite:setProperty(optName_n, 'color', '#000000')
+		 Sprite:setProperty(optName_s, 'color', '#454545')
+		 Sprite:setProperty(optImg_n, 'src', 'file://image/camerartn1.png')
+		 Sprite:setProperty(optImg_s, 'src', 'file://image/camerartn1.png')
+	 elseif index==1 then
+	     Sprite:setProperty(optName_n, 'text', '取消')
+		 Sprite:setProperty(optName_s, 'text', '取消')
+		 Sprite:setProperty(optName_n, 'color', '#FFFFFF')
+		 Sprite:setProperty(optName_s, 'color', '#E5E5E5')
+		 Sprite:setProperty(optImg_n, 'src', 'file://image/camerartn2.png')
+		 Sprite:setProperty(optImg_s, 'src', 'file://image/camerartn2.png')
+	 end
+end
+function cameraBtnOnSelect(sprite)
+     local index=List:getItemIndex(Sprite:getParent(sprite)) 
+	 Log:write('cameraBtnOnSelect=====',index)
+	 if index==0 then
+	     if cameraIndex==1 then
+	         Popup:show({title="",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}})
+	     elseif cameraIndex==2 then
+		     Popup:show({title="",funcList={{funcName="拍照",funcCallBack="cameraOS"},{funcName="从手机相册选择",funcCallBack="localimgOS"},{funcName="取消",funcCallBack="popupCloseOS"}}})
+		 end
+		 Sprite:setVisible(cameraNode, 0) 
+		 -- cameraIndex=0
+	 elseif index==1 then
+	     Sprite:setVisible(cameraNode, 0) 
+		 cameraIndex=0
+	 end 
 end
 
 ]]>

@@ -1024,7 +1024,7 @@ function progressOnMouseDown(sprite, x, y)
 		x = leftx
 		progressBarFlag = 0
 		--movex = 0
-    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused then
+    if status == Player.status.Playing or status == Player.status.Ready then
         --resetFSTimer(1)
         --setPointImgStatus(progressPointImg,1)
         setProgressBarPos(sprite, x,1)
@@ -1043,7 +1043,7 @@ function progressOnMouseUp(sprite, x, y)
     --resetFSTimer()
 	 Log:write('状态UP',status,x,progressy)
     --setPointImgStatus(progressPointImg,0)
-    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused then
+    if status == Player.status.Playing or status == Player.status.Ready then
         Timer:cancel(TimerId.status)
         Timer:set(TimerId.status, 500, 'getStatus')
         setProgressBarPos(sprite, x,1)
@@ -1074,7 +1074,7 @@ function progressOnMouseMove(sprite, x, y)
 		progressBarFlag = 0
 		--movex = 0
 	end
-    if status == Player.status.Playing or status == Player.status.Ready or status == Player.status.Paused  then
+    if status == Player.status.Playing or status == Player.status.Ready then
         if progressBarFlag == 1 then -- 在OnMouseDown时设置此标识量，表明需要响应OnMouseMove事件，否则不响应
 		    --Timer:cancel(TimerId.status)
             setProgressBarPos(sprite,x)

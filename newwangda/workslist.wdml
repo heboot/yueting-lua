@@ -199,6 +199,7 @@ end
 
 --[[  加载小说列表数据方法 ]]--
 function loadpodcastListviewData()
+	Log:write('podcastUserData======',#podcastUserData.list0+1)
     local panoramaItem1=Sprite:findChild(rootSprite,'panoramaItem1')   
     if podcastUserData.list0~='' and podcastUserData.list0~=nil then 
 	   Sprite:setVisible(panoramaItem1,0)  
@@ -244,7 +245,8 @@ function loadpodcastItem(list,item,index)
 	                 Sprite:setRect(podcastLine, 0,0,686,2)
 	                 Sprite:setProperty(podcastLine,'extendstyle','1510')
 	                 Sprite:setEnable(playTimesBtn, 1)
-					 Sprite:setEnable(moveToBtn, 0)
+					 Sprite:setEnable(moveToBtn, 1)
+					 Sprite:setProperty(moveToBtn,'data',0)	
 	                 Sprite:setEnable(podcastItemBtn, 1)
 	            elseif podcastUserData.list0[index].blogStatus and podcastUserData.list0[index].blogStatus=='1' and podcastUserData.list0[index].omsId~=''then
 	                  for i=1,#tableIndex do
@@ -265,12 +267,13 @@ function loadpodcastItem(list,item,index)
 	                 Sprite:setProperty(podcastLine,'extendstyle','1510')
 	                 Sprite:setProperty(podcastImage,'src',podcastUserData.list0[index].videoImg)
 	                 Sprite:setProperty(playTimesBtn,'data',podcastUserData.list0[index].param)
-	                 Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list0[index].param)  	   	             
+						Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list0[index].param)  	
+  Sprite:setProperty(moveToBtn,'data',podcastUserData.list0[index].blogId)						 
 	                 Sprite:setEnable(podcastItemBtn, 1)
 	             end
 					
                      Sprite:setProperty(deleteBtn,'data',podcastUserData.list0[index].blogId)
-                     Sprite:setProperty(moveToBtn,'data',podcastUserData.list0[index].blogId)				 
+                   			 
 	                 Sprite:setProperty(item,'extendstyle','1010')	
 	                 Sprite:setProperty(podcastName,'text',podcastUserData.list0[index].title)
 	                 Sprite:setProperty(podcastAuthor,'text',podcastUserData.list0[index].sname)
@@ -283,7 +286,8 @@ function loadpodcastItem(list,item,index)
 	         Sprite:setProperty(podcastLine,'extendstyle','1510')
 	         Sprite:setEnable(playTimesBtn, 1)
 	         setNodeState(checkNode, 0)
-			 Sprite:setEnable(moveToBtn, 0)
+			 Sprite:setEnable(moveToBtn, 1)
+			 Sprite:setProperty(moveToBtn,'data',0)	
 			 Sprite:setEnable(podcastItemBtn, 1)
 	     elseif podcastUserData.list0[index].blogStatus and podcastUserData.list0[index].blogStatus=='1' then
 	         Sprite:setRect(item, 0,0,686,172)
@@ -296,6 +300,7 @@ function loadpodcastItem(list,item,index)
 	             Sprite:setProperty(podcastItemBtn,'data',podcastUserData.list0[index].param) 
                  -- Sprite:setProperty(playCount,'text','播放数10')			 
 	             Sprite:setEnable(podcastItemBtn, 1)
+				 Sprite:setProperty(moveToBtn,'data',podcastUserData.list0[index].blogId)	 
 			 else
 				  Sprite:setProperty(podcastIsCheck,'text','审核中')
 	         -- Sprite:setProperty(rimg,'src','file://image/ischecked2.png')      
@@ -319,7 +324,7 @@ function loadpodcastItem(list,item,index)
 				 -- Sprite:setProperty(playCount,'text','播放次数0')
 			 -- end			  
 			 Sprite:setProperty(deleteBtn,'data',podcastUserData.list0[index].blogId)
-             Sprite:setProperty(moveToBtn,'data',podcastUserData.list0[index].blogId)	 
+             
 	end
 end
 
@@ -362,9 +367,14 @@ end
 --移动作品
 function moveToBtnOnSelect(sprite)
    local data=Sprite:getData(sprite)
-   movedata=data
-   dialogIndex=2
-   Dialog:show('', '专辑', '', '')
+   Log:write('moveToBtnOnSelect=================',data)
+   if tonumber(data) ~= 0 then
+	   movedata=data
+	   dialogIndex=2
+	   Dialog:show('', '专辑', '', '')
+   else
+		Tips:show('暂未通过审核,请耐心等待')
+   end
 end
 
 --播放作品次数作品
@@ -684,6 +694,10 @@ function loadDialogListItem(list,item,index)
 	end
 end
 
+function closeBgOnSelect(sprite)
+	Dialog:close()
+end
+
 --删除作品弹出的dialog
 Dialog.layout = [[
 <?xml version="1.0" encoding="utf-8"?>
@@ -728,7 +742,7 @@ Dialog.layout1 = [[
 <root>
     <header/>
     <body>
-        <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
+        <button rect="0,0,720,1280" OnSelect="closeBgOnSelect" extendstyle="1111"/>
         <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
         <node name="dframe" rect="84,418,552,444" extendstyle="1010">
             <image rect="0,0,552,444" src="file://image/worksdialogbg.png"  style="autosize" extendstyle="1017" />

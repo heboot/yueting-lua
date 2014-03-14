@@ -985,7 +985,6 @@ end
 
 --local playTime,endTime,curPlaySecond,timeOffset = liveSeekTimeFormat(ct,t,startTimeLbl,endTimeLbl,pct)
 function liveSeekTimeFormat(ct,t,startT,endT,pct)
-    Log:write('liveSeekTimeFormat=========2',ct,t,startT,endT,pct,curDay)
     local s = Util:split(startT, ':')
     local e = Util:split(endT, ':')
     local startTime = (s[1] * 60 + s[2]) * 60
