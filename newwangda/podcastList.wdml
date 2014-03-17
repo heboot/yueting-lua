@@ -144,16 +144,21 @@ function bodyOnPluginEvent(msg, param)
 	if msg == 103 then
 	     Loading:close()
 		 podcastListData = Http:jsonDecode('podcastListData')
+		 local psname = podcastListData.sname
+		 Log:write('==============mobile',podcastListData.mobile)
+		 if not psname or psname == '' or psname == ' ' then
+			psname = '用户'..string.sub(podcastListData.mobile,8,11)
+		 end
 		 if podcastListData.albumType=='0' then
-		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的作品')
+		     Sprite:setProperty(mainTitle,'text',psname..'的作品')
 		 elseif podcastListData.albumType=='1' then
-		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的娱乐')
+		     Sprite:setProperty(mainTitle,'text',psname..'的娱乐')
 		 elseif podcastListData.albumType=='2' then
-		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的音乐')
+		     Sprite:setProperty(mainTitle,'text',psname..'的音乐')
 		 elseif podcastListData.albumType=='3' then
-		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的情感')
+		     Sprite:setProperty(mainTitle,'text',psname..'的情感')
 		 elseif podcastListData.albumType=='4' then
-		     Sprite:setProperty(mainTitle,'text',podcastListData.sname..'的脱口秀')
+		     Sprite:setProperty(mainTitle,'text',psname..'的脱口秀')
 		 end
 		     LoadpodcastListviewData()
 	elseif msg == Msg.getJsonPlayer then

@@ -1228,12 +1228,11 @@ function bodyOnSpriteEvent(msg, param)
                     Timer:set(homeTimeId.updateDelay,500,"updateFunc")
             end
         end
-		
+		Log:write('home============', Reg:getInteger(regI, 'accountLogin'))
         if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
-		    
-            LoginStatusChange(true)
+             LoginStatusChange(true)
         elseif Reg:getInteger(regI, 'accountLogin') == 0 then
-		    LoginStatusChange(true)
+		     LoginStatusChange(true)
 		else
             if phoneNumber == '' then
                 LoginStatusChange(false)

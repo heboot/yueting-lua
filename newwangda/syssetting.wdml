@@ -460,12 +460,13 @@ function bodyOnSpriteEvent(msg, param)
 		 Bottom:show()
         commonActivate()
 	    local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
-		if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
-		Sprite:setEnable(replaceAccountBtn, 1)
-        Sprite:setVisible(replaceAccountBtn, 1)
+		Log:write('setting============', Reg:getInteger(regI, 'accountLogin'))
+		if Reg:getInteger(regI, 'accountLogin') == 1  then --已显式登录标志位
+		     Sprite:setEnable(replaceAccountBtn, 1)
+             Sprite:setVisible(replaceAccountBtn, 1)
 		else
-		Sprite:setEnable(replaceAccountBtn, 0)
-        Sprite:setVisible(replaceAccountBtn, 0)
+		     Sprite:setEnable(replaceAccountBtn, 0)
+             Sprite:setVisible(replaceAccountBtn, 0)
 	    end
         -- requestUserinfoData()
     elseif msg == MSG_DEACTIVATE then

@@ -3487,7 +3487,7 @@ Popup.layout = [[
 <root>
     <header/>
     <body>
-        <node name="popupblock" rect="0,0,720,1168" extendstyle="1111" OnTick="popupTick" padding="0,0,0,0">
+        <node name="popupblock" rect="0,0,720,1168" extendstyle="1111" OnTick="popupTick">
             <shadow name="popupShadow" rect="0,0,720,1168" color="#000000" alpha="128" extendstyle="1111"/>
             <button rect="0,0,720,1168" extendstyle="1111" OnSelect="popupCloseOS"/>
             <node name="popup" rect="0,0,720,0" extendstyle="1511">

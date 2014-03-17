@@ -9,33 +9,33 @@
  == ============================================================================
 -->
 <root>
-    <header/>
-    <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
-    <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
-        <image rect="0,0,720,1280" src="file://image/background.png"    style="autosize"  alpha="255" extendstyle="1177" />
-        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
-		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
-		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
-			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
-			</button>
-            <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="作品上传" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
-		</node> 
-		<node rect="0,90,720,0" padding="0,0,250,0"  extendstyle="1016">
-		   <node rect="0,0,720,100" padding="0,0,100,0"  extendstyle="1010">
-		   <image rect="120,12,598,85" extendstyle="1010" style="autosize" src="file://image/loginedit_bg.png"/>
-	       <label rect="20,12,100,85" extendstyle="1111" text="标题" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
-		   <label name="blankTip" rect="120,12,580,85"extendstyle="1010" text="为你的作品配上响亮的标题吧" font-size="30" color="#525252" v-align="center"/>
-		   <edit  name="videoTitleText" rect="120,12,598,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="30"/>
-		   </node>
-		   <node rect="0,0,720,357"  extendstyle="1810">
-		   <label rect="20,30,100,85" extendstyle="1111" text="封面" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
-		   <image name="userImg" rect="120,20,598,337" extendstyle="1010" style="autosize" src="file://image/noveldefaultbg.png" BuildChildrenFinished="resChoose"><node/></image>		   
-		   </node>
-		   <node rect="0,0,720,125"  extendstyle="1810">
-		   <button name='cameraBtn' rect="122,20,598,85" normal="n" OnSelect="cameraBtnOnSelect" extendstyle="1010">
-		   <image name="n" rect="0,0,598,85" style="autosize" src="file://image/camerabtn_n.png" extendstyle="1010"/>
+     <header/>
+     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
+     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
+         <image rect="0,0,720,1280" src="file://image/background.png"    style="autosize"  alpha="255" extendstyle="1177" />
+         <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		     <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+			     <image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			     <image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		         <label rect="0,0,104,61" extendstyle="1111" text="放弃" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+			 </button>
+             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="作品上传" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
+		 </node> 
+		 <node rect="0,90,720,0" padding="0,0,250,0"  extendstyle="1016">
+		    <node rect="0,0,720,100" padding="0,0,100,0"  extendstyle="1010">
+		         <image rect="120,12,598,85" extendstyle="1010" style="autosize" src="file://image/loginedit_bg.png"/>
+	             <label rect="20,12,100,85" extendstyle="1111" text="标题" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		         <label name="blankTip" rect="120,12,580,85"extendstyle="1010" text="为你的作品配上响亮的标题吧" font-size="30" color="#525252" v-align="center"/>
+		         <edit  name="videoTitleText" rect="120,12,598,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="30"/>
+		    </node>
+		    <node rect="0,0,720,357"  extendstyle="1810">
+		         <label rect="20,30,100,85" extendstyle="1111" text="封面" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		         <image name="userImg" rect="120,20,598,337" extendstyle="1010" style="autosize" src="file://image/noveldefaultbg.png" BuildChildrenFinished="resChoose"><node/></image>		   
+		     </node>
+		     <node rect="0,0,720,125"  extendstyle="1810">
+		         <button name='cameraBtn' rect="122,20,598,85" normal="n" OnSelect="cameraBtnOnSelect" extendstyle="1010">
+		         <image name="n" rect="0,0,598,85" style="autosize" src="file://image/camerabtn_n.png" extendstyle="1010"/>
 		   <label rect="0,0,598,85" extendstyle="1010" text="拍照" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		   </button>
 		   </node>
@@ -127,7 +127,8 @@ function bodyOnPluginEvent(msg, param)
         Log:write('publishData', publishData)
         if publishData.description then
             Tips:show('上传成功，请等待内容审核')
-            Timer:set(TimerId.once,2000,"backBtnOnSelect")
+			Scene:back()
+            -- Timer:set(TimerId.once,2000,"backBtnOnSelect")
         else
             Tips:show('发布异常')
         end
@@ -155,7 +156,6 @@ function bodyOnSpriteEvent(msg, param)
 	   commonActivate()
     elseif msg == MSG_DEACTIVATE then
         commonDeactivate()
-        Scene:freeByHandle(rootSprite)
 	elseif msg == MSG_STRINGEVENT then 
 	    local paramEventID = Param:getInteger(param, 0)
         if paramEventID == 9 then
@@ -182,7 +182,7 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function backBtnOnSelect(sprite)
-    Scene:back()
+     Dialog:show('', '是否放弃上传？你的录音或选择的本地文件将丢失哦', 'ok_cancel', 'Delete_cancel')
 end
 
 function requestUserinfoData()
@@ -298,9 +298,7 @@ end
 
 function OnGetUploadUrlSuccess()
     local regUpload = registerCreate("regUpload")
-    Log:write('regUpload========', regUpload)
     local fileCache = registerGetString(regUpload, "fileName")
-    Log:write('fileCache========', fileCache)
     if '' ~= fileCache and IO:fileExist(fileCache) then
         local data = IO:fileRead(fileCache)
         if data then
@@ -483,5 +481,86 @@ function onGetUploadDialogStatus()
     end
     Timer:set(101, 1000, 'onGetUploadDialogStatus')
 end
+
+--Dialog确定按钮
+function _okProc()
+     Scene:back()
+end
+--Dialog取消按钮
+function _cancelProc()
+     Dialog:close()
+end
+
+
+--[[
+ ------------------------------------------------------------
+ -- @function Dialog:show(title, message, typeStr, okCallback, cancelCallback, okText, cancelText, checkBoxCallback, checkBoxText, isChecked)
+ ------------------------------------------------------------
+ -- @brief 显示对话框
+ ------------------------------------------------------------
+ -- @param string title 对话框标题
+ -- @param string message 对话框内容
+ -- @param string typeStr 对话框类型，'ok'、'cancle'、'ok_cancel'
+ -- @param string okCallback 确定回调函数名，可空
+ ------------------------------------------------------------
+ -- @return void
+ ------------------------------------------------------------
+ --]]
+function Dialog:show(title, message, typeStr, okCallback)
+    local curScene = Sprite:getCurScene()
+    Sprite:sendEvent(curScene, Msg.dialogShow)
+    local mainNode = Sprite:findChild(curScene, 'mainNode')
+    local dialogNode = Sprite:findChild(curScene, 'dialogNode')
+    if dialogNode ~= 0 then
+        setNodeState(dialogNode, 1)
+    else
+        dialogNode = Sprite:create('node', Sprite:findChild(curScene, 'mainNode'))
+        Sprite:setProperty(dialogNode, 'name', 'dialogNode')
+		Sprite:loadFromString(dialogNode, Dialog.layout)
+    end
+	local dtext = Sprite:findChild(dialogNode, 'dtext')
+	local okBtn = Sprite:findChild(dialogNode, 'okBtn')
+	local cancelBtn = Sprite:findChild(dialogNode, 'cancelBtn')
+    Sprite:setProperty(dtext, 'text', message)
+end
+
+
+
+Dialog.layout = [[
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <header/>
+    <body>
+        <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
+        <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
+        <node name="dframe" rect="54,475,612,230" extendstyle="1010">
+            <image rect="0,0,612,230" src="file://image/dialogbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" />
+            <textarea name="dtext" text="" rect="80,0,460,100" extendstyle="1010" font-size="28" color="#7F7B7A" line-height="35" h-align="center" v-align="center" loop="true" step="1"/>
+            <node name="btnArea" rect="34,120,544,77" extendstyle="0010">
+                <button name="okBtn" rect="0,0,255,77" style="autosize" OnSelect="_okProc" extendstyle="1510" normal="n" sel="s">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkN" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,255,77" extendstyle="1010" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkF" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+                <button name="cancelBtn" rect="289,50,255,77" OnSelect="_cancelProc" extendstyle="1570" normal="n" sel="s" disabled="d">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070"/>
+                        <label name="textCancelN" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,255,77" extendstyle="1070" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070"/>
+                        <label name="textCancelF" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+            </node>
+        </node>
+    </body>
+</root>
+]]
 
 ]]>

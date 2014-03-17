@@ -92,7 +92,7 @@
 		<!--panorama node-->
 		<node name="contentNode" rect="17,445,686,0" padding="0,0,10,0"   extendstyle="1016" >
 		     <image src="file://image/novel_listbg.png" style="autosize" rect="0,0,686,0"  extendstyle="1017" />
-		     <panorama name="mainPanorama" rect="0,0,686,0" extendstyle="1017" style="circle">
+		     <panorama name="mainPanorama" rect="0,0,686,0" extendstyle="1017" >
                  <panoramaitem rect="0,0,686,0" extendstyle="1017" OnSelect="mainPanoramaOnSel" enable="1">
 				     <node name="foreground" rect="0,0,686,0" extendstyle="1017" visbile="0">
 					     <image rect="270,200,173,135" style="maxsize" alpha="155" extendstyle="1014" src="file://image/nothingbg.png"/>
@@ -195,7 +195,14 @@ function bodyOnPluginEvent(msg, param)
 	if msg==108 then
 	    Loading:close()
 		podcastData = Http:jsonDecode('podcastData') 
-		Sprite:setProperty(mainTitle,'text',podcastData.sname..'的主页')
+		
+		local psname = podcastData.sname
+		Log:write('==============mobile',podcastData.mobile)
+		if not psname or psname == '' or psname == ' ' then
+			psname = '用户'..string.sub(podcastData.mobile,8,11)
+		end
+		
+		Sprite:setProperty(mainTitle,'text',psname..'的主页')
 		Sprite:setProperty(fansTotal,'text',podcastData.followerCount)
 		if podcastData.picture and podcastData.picture~='' then
 		     Sprite:setProperty(msgImg,'src',Util:getWeiBoServer() .. 'publish/clt' ..podcastData.picture)

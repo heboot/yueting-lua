@@ -9,340 +9,337 @@
  == ============================================================================
 -->
 <root>
-    <header>
-    </header>
-    <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
-    <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
-        <image rect="0,0,720,1280" src="file://image/background.png"   style="autosize" alpha="255" extendstyle="1177" />
-        <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
-		    <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
-		    <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
-			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
-			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+     <header>
+     </header>
+     <body BuildChildrenFinished="bodyBuildChildrenFinished" OnSpriteEvent="bodyOnSpriteEvent" OnPluginEvent="bodyOnPluginEvent" resolution="720,1280">
+     <node name="mainNode" rect="0,0,720,1280" extendstyle="1111" layouttype="1" OnKeyUp="mainNodeOnKeyUp">
+         <image rect="0,0,720,1280" src="file://image/background.png"   style="autosize" alpha="255" extendstyle="1177" />
+         <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		     <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+			     <image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			     <image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		         <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="登录" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 			<button name="loginBtn" normal="n" sel="s" rect="600,15,104,61" extendstyle="1111" OnSelect="loginBtnOS" visible="1" enable="1">
-			<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
-			<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		    <label name="loginName" rect="0,0,104,61" extendstyle="1111" text="确定" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+			     <image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+			     <image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		         <label name="loginName" rect="0,0,104,61" extendstyle="1111" text="确定" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 			</button>
-		</node>
-        <panorama name="mainPanorama" rect="0,90,720,0" extendstyle="0017" foreground="foreground">
-            <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
-                <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-            </panoramaitem>
-            <panoramaitem rect="0,0,720,0" extendstyle="0017">
-                <listview name="mainListview" rect="0,0,720,0" extendstyle="1017">
-				<!--<shadow name="n" rect="0,0,0,0" color="#84CD7C" alpha="255" extendstyle="1077"/>-->
-                    <list-item rect="0,0,720,105" extendstyle="1010">
-                        <node rect="30,17,660,85" extendstyle="1010">
-						    <image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
-							<image rect="40,15,50,55" extendstyle="1010" style="autosize" src="file://image/user_head.png"/>
-                            <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入移动手机号码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                            <edit name="accountName" option="numeric" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
-                            <label name="loginedNum" rect="130,0,450,85" extendstyle="1010" text="" font-size="30" color="#BBC0B9" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" visible="false"/>                   
-                            <button name="cleanAccountBtn" OnSelect="cleanAccountBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
-							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>					  
-							</button>
-					  </node>
-                    </list-item>
-                    <list-item name="item2" rect="0,0,720,205" extendstyle="1010">
-                        <node rect="30,0,660,85" extendstyle="1010">
-						    <image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
-							<image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
-                            <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输密码" font-size="28" color="#BBC0B9" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                            <edit name="passWord" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
-							<button name="cleanPasswordBtn" OnSelect="cleanPasswordBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
-							<image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
-							</button>
-					   </node>
-                        <button name="autoLoginBtn" rect="60,120,330,60" style="autosize" OnSelect="autoLoginBtnOS" extendstyle="1010" normal="n" sel="s">
-                            <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
-                            <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" BuildChildrenFinished="resChoose"><node/></image>
-                            <label name="n" rect="80,0,250,60" extendstyle="1010" text="自动登录" font-size="24" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                            <label name="s" rect="80,0,250,60" extendstyle="1010" text="自动登录" font-size="24" color="#1C9FE3" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                        </button>
-                        <button name="remeberPwdBtn" rect="390,120,330,60" style="autosize" OnSelect="remeberPwdBtnOS" extendstyle="1010" normal="n" sel="s">
-                            <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
-                            <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" BuildChildrenFinished="resChoose"><node/></image>
-                            <label name="n" rect="80,0,250,60" extendstyle="1010" text="记住密码" font-size="24" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                            <label name="s" rect="80,0,250,60" extendstyle="1010" text="记住密码" font-size="24" color="#1C9FE3" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
-                        </button>
-                    </list-item>
-                    <list-item name="item4" rect="0,0,660,85" extendstyle="1010">
-                        
-                        <button name="registerBtn" rect="30,0,330,85" style="autosize" data="" OnSelect="registerBtnOS" extendstyle="1010" normal="n" sel="s">
-                            <image rect="50,27,29,30" extendstyle="1000" style='autosize' src="file://image/account_reg.png" BuildChildrenFinished="resChoose"><node/></image>
-                            <textarea name="n" rect="95,0,330,85" extendstyle="1010" text="<U>账号注册</U>" font-size="28" color="#A0AC9E" v-align="center"/>
-                            <textarea name="s" rect="95,0,330,85" extendstyle="1010" text="<U>账号注册</U>" font-size="28" color="#e15e00" v-align="center"/>
-                        </button>
-						<button name="getPwdBtn" rect="360,0,330,85" style="autosize" data="" OnSelect="getPwdBtnOS" extendstyle="1010" normal="n" sel="s">
-                            <image rect="50,27,29,30" extendstyle="1000" style='autosize' src="file://image/account_getpwd.png" BuildChildrenFinished="resChoose"><node/></image>
-                            <textarea  name="n" rect="95,0,330,85" extendstyle="1010" text="<U>找回密码</U>" font-size="28" color="#A0AC9E" v-align="center"/>
-                            <textarea name="s" rect="95,0,330,85" extendstyle="1010" text="<U>找回密码</U>" font-size="28" color="#e15e00" v-align="center"/>
-                        </button>
-                    </list-item>
-                </listview>
-            </panoramaitem>
-        </panorama>
-		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
-    </node>
-    </body>
+		 </node>
+         <panorama name="mainPanorama" rect="0,90,720,0" extendstyle="0017" foreground="foreground">
+             <panoramaitem name="foreground" rect="0,0,720,0" extendstyle="0017">
+                 <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
+             </panoramaitem>
+             <panoramaitem rect="0,0,720,0" extendstyle="0017">
+                 <listview name="mainListview" rect="0,0,720,0" extendstyle="1017">
+				 <!--<shadow name="n" rect="0,0,0,0" color="#84CD7C" alpha="255" extendstyle="1077"/>-->
+                     <list-item rect="0,0,720,105" extendstyle="1010">
+                         <node rect="30,17,660,85" extendstyle="1010">
+						     <image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
+							 <image rect="40,15,50,55" extendstyle="1010" style="autosize" src="file://image/user_head.png"/>
+                             <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输入移动手机号码" font-size="28" color="#C8C8C8" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                             <edit name="accountName" option="numeric" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
+                             <label name="loginedNum" rect="130,0,450,85" extendstyle="1010" text="" font-size="30" color="#BBC0B9" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1" visible="false"/>                   
+                             <button name="cleanAccountBtn" OnSelect="cleanAccountBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							 <image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>					  
+							 </button>
+					     </node>
+                     </list-item>
+                     <list-item name="item2" rect="0,0,720,205" extendstyle="1010">
+                         <node rect="30,0,660,85" extendstyle="1010">
+						     <image rect="0,0,0,0" extendstyle="1077" style="autosize" src="file://image/loginedit_bg.png"/>
+							 <image rect="40,20,60,48" extendstyle="1010" style="autosize" src="file://image/password_head.png"/>
+                             <label name="blankTip" rect="130,0,450,80" extendstyle="1010" text="请输密码" font-size="28" color="#BBC0B9" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                             <edit name="passWord" password="true" rect="130,0,450,85" v-align="center" extendstyle="1010" color="#BBC0B9" OnTextChanged="editOnTextChanged" font-size="28"/>
+							 <button name="cleanPasswordBtn" OnSelect="cleanPasswordBtnOnSelect" rect="0,20,45,45" extendstyle="8010">
+							 <image rect="0,0,45,45" extendstyle="8010" style="autosize" src="file://image/check.png"/>
+							 </button>
+					    </node>
+                         <button name="autoLoginBtn" rect="60,120,330,60" style="autosize" OnSelect="autoLoginBtnOS" extendstyle="1010" normal="n" sel="s">
+                             <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
+                             <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" BuildChildrenFinished="resChoose"><node/></image>
+                             <label name="n" rect="80,0,250,60" extendstyle="1010" text="自动登录" font-size="24" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                             <label name="s" rect="80,0,250,60" extendstyle="1010" text="自动登录" font-size="24" color="#1C9FE3" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                         </button>
+                         <button name="remeberPwdBtn" rect="390,120,330,60" style="autosize" OnSelect="remeberPwdBtnOS" extendstyle="1010" normal="n" sel="s">
+                             <image name="checkBoxN" rect="12,9,50,50" extendstyle="1000" style="autosize" src="file://image/setting_radiobox_n.png" />
+                             <image name="checkBoxF" rect="12,9,50,50" extendstyle="1000" visible="0" style='autosize' src="file://image/setting_radiobox_f.png" BuildChildrenFinished="resChoose"><node/></image>
+                             <label name="n" rect="80,0,250,60" extendstyle="1010" text="记住密码" font-size="24" color="#4F6855" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                             <label name="s" rect="80,0,250,60" extendstyle="1010" text="记住密码" font-size="24" color="#1C9FE3" v-align="center" shadow="true" shadow-color="#ffffff" shadow-alpha="150" shadow-offset="0,1"/>
+                         </button>
+                     </list-item>
+                     <list-item name="item4" rect="0,0,660,85" extendstyle="1010">  
+                         <button name="registerBtn" rect="30,0,330,85" style="autosize" data="" OnSelect="registerBtnOS" extendstyle="1010" normal="n" sel="s">
+                             <image rect="50,27,29,30" extendstyle="1000" style='autosize' src="file://image/account_reg.png" BuildChildrenFinished="resChoose"><node/></image>
+                             <textarea name="n" rect="95,0,330,85" extendstyle="1010" text="<U>账号注册</U>" font-size="28" color="#A0AC9E" v-align="center"/>
+                             <textarea name="s" rect="95,0,330,85" extendstyle="1010" text="<U>账号注册</U>" font-size="28" color="#e15e00" v-align="center"/>
+                         </button>
+						 <button name="getPwdBtn" rect="360,0,330,85" style="autosize" data="" OnSelect="getPwdBtnOS" extendstyle="1010" normal="n" sel="s">
+                             <image rect="50,27,29,30" extendstyle="1000" style='autosize' src="file://image/account_getpwd.png" BuildChildrenFinished="resChoose"><node/></image>
+                             <textarea  name="n" rect="95,0,330,85" extendstyle="1010" text="<U>找回密码</U>" font-size="28" color="#A0AC9E" v-align="center"/>
+                             <textarea name="s" rect="95,0,330,85" extendstyle="1010" text="<U>找回密码</U>" font-size="28" color="#e15e00" v-align="center"/>
+                         </button>
+                     </list-item>
+                 </listview>
+             </panoramaitem>
+         </panorama>
+		 <node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>	
+     </node>
+     </body>
 </root>
 <![CDATA[
 require('com_wondertek_mobileaudio.commonlocal')
 
 
 function bodyBuildChildrenFinished(sprite)
-    rootSprite= sprite
-    mainListview = Sprite:findChild(sprite, "mainListview")
-    accountName = Sprite:findChild(sprite, "accountName")
-    passWord = Sprite:findChild(sprite, "passWord")
-    autoLoginBtn = Sprite:findChild(sprite, "autoLoginBtn")
-    remeberPwdBtn = Sprite:findChild(sprite, "remeberPwdBtn")
-    item2 = Sprite:findChild(sprite, "item2")
-    item4 = Sprite:findChild(sprite, "item4")
-    -- loginLblN = Sprite:findChild(sprite, "loginLblN")
-    -- loginLblS = Sprite:findChild(sprite, "loginLblS")
-    -- loginLblD = Sprite:findChild(sprite, "loginLblD")
-    loginBtn = Sprite:findChild(sprite, "loginBtn")
-	loginName= Sprite:findChild(sprite, "loginName")
-    loginedNum = Sprite:findChild(sprite, "loginedNum")
-	
+     rootSprite= sprite
+     mainListview = Sprite:findChild(sprite, "mainListview")
+     accountName = Sprite:findChild(sprite, "accountName")
+     passWord = Sprite:findChild(sprite, "passWord")
+     autoLoginBtn = Sprite:findChild(sprite, "autoLoginBtn")
+     remeberPwdBtn = Sprite:findChild(sprite, "remeberPwdBtn")
+     item2 = Sprite:findChild(sprite, "item2")
+     item4 = Sprite:findChild(sprite, "item4")
+     -- loginLblN = Sprite:findChild(sprite, "loginLblN")
+     -- loginLblS = Sprite:findChild(sprite, "loginLblS")
+     -- loginLblD = Sprite:findChild(sprite, "loginLblD")
+     loginBtn = Sprite:findChild(sprite, "loginBtn")
+	 loginName= Sprite:findChild(sprite, "loginName")
+     loginedNum = Sprite:findChild(sprite, "loginedNum")
 end
 
 function backBtnOnSelect(sprite)
-    Scene:back()
+     Scene:back()
 end
 
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
-    if msg == Msg.logout then
-        -- Loading:close()
-        local logoutResult = Http:jsonDecode('logoutResult')
-        Log:write('logoutResult', logoutResult)
-        if type(logoutResult) == 'table' then
-            setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
-            if logoutResult.success == 'true' and logoutResult.code == '019' then
-                local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
-                Reg:setString(regI, 'phoneNumber', 'logout')
-                Reg:setInteger(regI, 'accountLogin', 0) --已显式登录标志位
-                Reg:setInteger(regI, 'useAccount', 1) --只要退出账号本次就不使用token或cmwap的手机号
-                Config:set('filterType', 1)
-                UIChange(false)
-                if Net.setMsgParam then --兼容内测包
-                    Net:setMsgParam({phoneNumber = ''})
-                end
-            end
-            Tips:show(logoutResult.desc)
-        else
-            Dialog:show('提示', '亲，好像出了点状况', 'ok')
-        end
-    elseif msg == Msg.phoneNumber then
-        local loginPhoneNum = Http:jsonDecode('loginPhoneNum')
+     if msg == Msg.logout then
+         -- Loading:close()
+         local logoutResult = Http:jsonDecode('logoutResult')
+         Log:write('logoutResult', logoutResult)
+         if type(logoutResult) == 'table' then
+             setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
+             if logoutResult.success == 'true' and logoutResult.code == '019' then
+                 local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                 Reg:setString(regI, 'phoneNumber', 'logout')
+                 Reg:setInteger(regI, 'accountLogin', 0) --已显式登录标志位
+                 Reg:setInteger(regI, 'useAccount', 1) --只要退出账号本次就不使用token或cmwap的手机号
+                 Config:set('filterType', 1)
+                 UIChange(false)
+                 if Net.setMsgParam then --兼容内测包
+                     Net:setMsgParam({phoneNumber = ''})
+                 end
+             end
+             Tips:show(logoutResult.desc)
+         else
+             Dialog:show('提示', '亲，好像出了点状况', 'ok')
+         end
+     elseif msg == Msg.phoneNumber then
+         local loginPhoneNum = Http:jsonDecode('loginPhoneNum')
         if Net.havePhoneNumber then --兼容内测包
-            local rtn = Net:havePhoneNumber(loginPhoneNum)
-            if rtn then
-                Sprite:setProperty(loginedNum, 'text', loginPhoneNum.phoneNum)
-            else
-                Log:write('loginPhoneNum.code', loginPhoneNum.code)
-                if loginPhoneNum.code and loginPhoneNum.code == '1015' then --未绑定
-                    local numeric = Net:getNumeric() --46000、46002表示中国移动;46001表示中国联通;46003表示中国电信
-                    Log:write('numeric', numeric)
-                    local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
-                    if numeric == '46000' or numeric == '46002' then
-                        if Reg:getInteger(reg, 'reSendSMSTimes') == 0 then
-                            Reg:setInteger(reg, 'reSendSMSTimes', 1)
-                            Net:sendSMStoGetToken()
-                        end
-                    else
+             local rtn = Net:havePhoneNumber(loginPhoneNum)
+             if rtn then
+                 Sprite:setProperty(loginedNum, 'text', loginPhoneNum.phoneNum)
+             else
+                 Log:write('loginPhoneNum.code', loginPhoneNum.code)
+                 if loginPhoneNum.code and loginPhoneNum.code == '1015' then --未绑定
+                     local numeric = Net:getNumeric() --46000、46002表示中国移动;46001表示中国联通;46003表示中国电信
+                     Log:write('numeric', numeric)
+                     local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                     if numeric == '46000' or numeric == '46002' then
+                         if Reg:getInteger(reg, 'reSendSMSTimes') == 0 then
+                             Reg:setInteger(reg, 'reSendSMSTimes', 1)
+                             Net:sendSMStoGetToken()
+                         end
+                     else
                         Reg:setString(reg, 'phoneNumber', 'logout')
-                    end
-                end
-                if Sprite:getText(loginedNum) == '正在获取用户信息' then
-                    UIChange(false)
-                end
-            end
-        else
-            if loginPhoneNum.phoneNum and loginPhoneNum.phoneNum ~= '' then
-                Sprite:setProperty(loginedNum, 'text', loginPhoneNum.phoneNum)
-            else
-                if Sprite:getText(loginedNum) == '正在获取用户信息' then
-                    UIChange(false)
-                end
-            end
-        end
-    elseif msg == Msg.login then
-        Loading:close()
-        local loginResult = Http:jsonDecode('loginResult')
-        Log:write('loginResult', loginResult)
-        if type(loginResult) == 'table' then
-            setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
-            if loginResult.success == 'true' and loginResult.code == '011' then
-                if Config:get('autoLogin') == '1' then --自动登录
-                    Config:set('filterType', 0)
-                end
-                local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+                     end
+                 end
+                 if Sprite:getText(loginedNum) == '正在获取用户信息' then
+                     UIChange(false)
+                 end
+             end
+         else
+             if loginPhoneNum.phoneNum and loginPhoneNum.phoneNum ~= '' then
+                 Sprite:setProperty(loginedNum, 'text', loginPhoneNum.phoneNum)
+             else
+                 if Sprite:getText(loginedNum) == '正在获取用户信息' then
+                     UIChange(false)
+                 end
+             end
+         end
+     elseif msg == Msg.login then
+         Loading:close()
+         local loginResult = Http:jsonDecode('loginResult')
+         Log:write('loginResult', loginResult)
+         if type(loginResult) == 'table' then
+             setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
+             if loginResult.success == 'true' and loginResult.code == '011' then
+                 if Config:get('autoLogin') == '1' then --自动登录
+                     Config:set('filterType', 0)
+                 end
+                 local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
                 if Config:get('remeberPwd') == '1' then --记住密码
-                    local userName = Reg:getString(reg, 'userName')
-                    local password = Reg:getString(reg, 'password')
-                    Log:write('userName', userName)
-                    Log:write('password', password)
-                    Config:set('userName', userName)
-                    Config:set('password', password)
-                end
-                local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
-                Reg:setString(regI, 'phoneNumber', loginResult.phoneNumber)
-                Reg:setInteger(regI, 'accountLogin', 1) --已显式登录标志位
-                if Reg:getInteger(reg, 'fromCommon') == 1 then --用户点击关键业务进入的我的账号
-                    Reg:setInteger(reg, 'fromCommon', 0)
-                    Scene:back()
-                    return
-                end
-                UIChange(true, loginResult.phoneNumber)
-                Net:setMsgParam({phoneNumber = loginResult.phoneNumber})
-                Tips:show(loginResult.desc)
-				Scene:back()
-            else
-                Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,10)) --('用户名或密码错误')
-            end
-        else
-            dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,2) --or '返回数据格式错误','提示'
-            Dialog:show(dialogTitle, dialogContent, 'ok')
-        end
-    else
-        Util:onPluginEvent(msg, param) -- 登录消息在此处理
-    end
+                     local userName = Reg:getString(reg, 'userName')
+                     local password = Reg:getString(reg, 'password')
+                     Log:write('userName', userName)
+                     Log:write('password', password)
+                     Config:set('userName', userName)
+                     Config:set('password', password)
+                 end
+                 local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                 Reg:setString(regI, 'phoneNumber', loginResult.phoneNumber)
+                 Reg:setInteger(regI, 'accountLogin', 1) --已显式登录标志位
+                 if Reg:getInteger(reg, 'fromCommon') == 1 then --用户点击关键业务进入的我的账号
+                     Reg:setInteger(reg, 'fromCommon', 0)
+                     Scene:back()
+                     return
+                 end
+                 UIChange(true, loginResult.phoneNumber)
+                 Net:setMsgParam({phoneNumber = loginResult.phoneNumber})
+                 Tips:show(loginResult.desc)
+				 Scene:back()
+             else
+                 Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,10)) --('用户名或密码错误')
+             end
+         else
+             dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,2) --or '返回数据格式错误','提示'
+             Dialog:show(dialogTitle, dialogContent, 'ok')
+         end
+     else
+         Util:onPluginEvent(msg, param) -- 登录消息在此处理
+     end
 end
 
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
-    if msg == MSG_ACTIVATE then
+     if msg == MSG_ACTIVATE then
 		 Bottom:show()
-        commonActivate()
-        local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
-        local phoneNumber = Reg:getString(regI, 'phoneNumber')
-        Log:write('phoneNumber', phoneNumber)
-        if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
-            UIChange(true, phoneNumber)
-        else
-            if phoneNumber == '' then
+         commonActivate()
+         local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+         local phoneNumber = Reg:getString(regI, 'phoneNumber')
+         Log:write('phoneNumber', phoneNumber)
+         if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
+             UIChange(true, phoneNumber)
+         else
+             if phoneNumber == '' then
                 UIChange(true)
-            elseif phoneNumber == 'logout' then
-                UIChange(false)
-            else
-                UIChange(true, phoneNumber)
+             elseif phoneNumber == 'logout' then
+                 UIChange(false)
+             else
+                 UIChange(true, phoneNumber)
             end
-        end
-        local autoLoginCheckBoxF = Sprite:findChild(autoLoginBtn, "checkBoxF")
-        local remeberPwdCheckBoxF = Sprite:findChild(remeberPwdBtn, "checkBoxF")
-        local autoLogin = Config:get('autoLogin')
-        if autoLogin == '' then
-            autoLoginBtnOS(autoLoginBtn)
-        else
-            Sprite:setVisible(autoLoginCheckBoxF, tonumber(autoLogin))
-        end
-        local remeberPwd = Config:get('remeberPwd')
-        remeberPwd = remeberPwd == '' and 0 or remeberPwd
-        Sprite:setVisible(remeberPwdCheckBoxF, remeberPwd)
-    elseif msg == MSG_DEACTIVATE then
-        commonDeactivate()
-        Scene:freeByHandle(rootSprite)
-        if goRegistration then
-            goRegistration = false
-        else
-            local reg = Reg:create( Reg.com_wondertek_mobileaudio.myaccount)
-            Reg:setInteger(reg, 'fromCommon', 0)
-        end
-    else
-        Util:onSpriteEvent(msg, param)
-    end
+         end
+         local autoLoginCheckBoxF = Sprite:findChild(autoLoginBtn, "checkBoxF")
+         local remeberPwdCheckBoxF = Sprite:findChild(remeberPwdBtn, "checkBoxF")
+         local autoLogin = Config:get('autoLogin')
+         if autoLogin == '' then
+             autoLoginBtnOS(autoLoginBtn)
+         else
+             Sprite:setVisible(autoLoginCheckBoxF, tonumber(autoLogin))
+         end
+         local remeberPwd = Config:get('remeberPwd')
+         remeberPwd = remeberPwd == '' and 0 or remeberPwd
+         Sprite:setVisible(remeberPwdCheckBoxF, remeberPwd)
+     elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+         if goRegistration then
+             goRegistration = false
+         else
+             local reg = Reg:create( Reg.com_wondertek_mobileaudio.myaccount)
+             Reg:setInteger(reg, 'fromCommon', 0)
+         end
+     else
+         Util:onSpriteEvent(msg, param)
+     end
 end
 
 --[[  按键事件响应  ]]--
 function mainNodeOnKeyUp(sprite, kc)
-    if kc == Key.F2 then
-        if commonF2KeyUp and commonF2KeyUp() then return end
-        Scene:back()
-    else
-        Util:mainNodeOnKeyUp(sprite, kc)
-    end
+     if kc == Key.F2 then
+         if commonF2KeyUp and commonF2KeyUp() then return end
+         Scene:back()
+     else
+         Util:mainNodeOnKeyUp(sprite, kc)
+     end
 end
 
 --[[  自动登录  ]]--
 function autoLoginBtnOS(sprite)
-    if setCheck(sprite) == 1 then -- 1勾选，0未勾
-        Config:set('autoLogin', 1)
-        Config:set('remeberPwd', 1)
-        setCheck(remeberPwdBtn, 1)
-    else
-        Config:set('autoLogin', 0)
-    end
+     if setCheck(sprite) == 1 then -- 1勾选，0未勾
+         Config:set('autoLogin', 1)
+         Config:set('remeberPwd', 1)
+         setCheck(remeberPwdBtn, 1)
+     else
+         Config:set('autoLogin', 0)
+     end
 end
 
 --[[  记住密码  ]]--
 function remeberPwdBtnOS(sprite)
-    if setCheck(sprite) == 1 then -- 1勾选，0未勾
-        Config:set('remeberPwd', 1)
-    else
-        Config:set('remeberPwd', 0)
-        Config:set('autoLogin', 0)
-        setCheck(autoLoginBtn, 0)
-    end
+     if setCheck(sprite) == 1 then -- 1勾选，0未勾
+         Config:set('remeberPwd', 1)
+     else
+         Config:set('remeberPwd', 0)
+         Config:set('autoLogin', 0)
+         setCheck(autoLoginBtn, 0)
+     end
 end
 
 function setCheck(sprite, forceShow)
-    local checkBoxF = Sprite:findChild(sprite, "checkBoxF")
-    local isVisible = Sprite:isVisible(checkBoxF)
-    local status = isVisible == 0 and 1 or  0
-    Sprite:setVisible(checkBoxF, forceShow and forceShow or status)
-    return status
+     local checkBoxF = Sprite:findChild(sprite, "checkBoxF")
+     local isVisible = Sprite:isVisible(checkBoxF)
+     local status = isVisible == 0 and 1 or  0
+     Sprite:setVisible(checkBoxF, forceShow and forceShow or status)
+     return status
 end
 
 function editOnTextChanged(sprite)
-    local p = Sprite:getParent(sprite)
-    local blankTip = Sprite:findChild(p,"blankTip")
-    if Sprite:getText(sprite) == "" then
-        setNodeState(blankTip,1)
-    else
-        setNodeState(blankTip,0)
-    end
+     local p = Sprite:getParent(sprite)
+     local blankTip = Sprite:findChild(p,"blankTip")
+     if Sprite:getText(sprite) == "" then
+         setNodeState(blankTip,1)
+     else
+         setNodeState(blankTip,0)
+     end
 end
 
 --[[  登录  ]]--
 function loginBtnOS(sprite)
-    Log:write('loginBtnOS')
-    phoneNum = Sprite:getText(accountName)
-    pwd = Sprite:getText(passWord)
-    if phoneNum == '' then
-        Dialog:show('提示', '请输入手机号', 'ok')
-        return
-    end
-    if pwd == '' then
-        Dialog:show('提示', '请输入密码', 'ok')
-        return
-    end
-    if Config:get('autoLogin') == '1' then
-        Dialog:show('提示', '“自动登录”选中后，客户端将优先以用户输入的手机号登录，不再以手机卡号登录！', 'ok_cancel', 'confirmLogin')
-        return
-    end
-    confirmLogin()
+     Log:write('loginBtnOS')
+     phoneNum = Sprite:getText(accountName)
+     pwd = Sprite:getText(passWord)
+     if phoneNum == '' then
+         Dialog:show('提示', '请输入手机号', 'ok')
+         return
+     end
+     if pwd == '' then
+         Dialog:show('提示', '请输入密码', 'ok')
+         return
+     end
+     if Config:get('autoLogin') == '1' then
+         Dialog:show('提示', '“自动登录”选中后，客户端将优先以用户输入的手机号登录，不再以手机卡号登录！', 'ok_cancel', 'confirmLogin')
+         return
+     end
+     confirmLogin()
 end
 
 function confirmLogin()
-    phoneNum = Sprite:getText(accountName)
-    pwd = Sprite:getText(passWord)
-    pwd = Net:pwdEncode(pwd)
-    local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
-    Reg:setString(reg, 'userName', phoneNum)
-    Reg:setString(reg, 'password', pwd)
-    local postData = 'phoneNumber=' .. phoneNum .. '&password=' .. pwd
-    Log:write('url=', Util:getServer() .. 'msp/login.msp' .. postData)
-    Loading:show()
-    Http:request('loginResult', Util:getServer() .. 'msp/login.msp', Msg.login, {method = 'post', useCache = 0, postData = postData})
-    setOrderDataUpdate()
+     phoneNum = Sprite:getText(accountName)
+     pwd = Sprite:getText(passWord)
+     pwd = Net:pwdEncode(pwd)
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+     Reg:setString(reg, 'userName', phoneNum)
+     Reg:setString(reg, 'password', pwd)
+     local postData = 'phoneNumber=' .. phoneNum .. '&password=' .. pwd
+     Log:write('url=', Util:getServer() .. 'msp/login.msp' .. postData)
+     Loading:show()
+     Http:request('loginResult', Util:getServer() .. 'msp/login.msp', Msg.login, {method = 'post', useCache = 0, postData = postData})
+     setOrderDataUpdate()
 end
 
 --[[  登出  ]]--
@@ -403,17 +400,17 @@ function UIChange(isLogin, phoneNumber)
         -- Sprite:setProperty(loginLblN, 'text', '切换账号')--退出换号
         -- Sprite:setProperty(loginLblS, 'text', '切换账号')
         -- Sprite:setProperty(loginLblD, 'text', '切换账号')
-        local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
-        if Reg:getInteger(regI, 'accountLogin') ~= 1 then -- 隐式登录
-            Sprite:setVisible(loginBtn,0)
-            Sprite:setEnable(loginBtn, 0)
-            --Sprite:setProperty(loginBtn, 'OnSelect', 'changeBtnOS')
-        else
+        -- local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        -- if Reg:getInteger(regI, 'accountLogin') ~= 1 then -- 隐式登录
+            -- Sprite:setVisible(loginBtn,1)
+            -- Sprite:setEnable(loginBtn, 1)
+            Sprite:setProperty(loginBtn, 'OnSelect', 'changeBtnOS')
+        -- else
             Sprite:setVisible(loginBtn,1)
             Sprite:setEnable(loginBtn, 1)
 			Sprite:setProperty(loginName, 'text', '退出')
             Sprite:setProperty(loginBtn, 'OnSelect', 'logoutBtnOS')
-        end
+        -- end
     else
         Sprite:setEnable(accountName, 1)
         Sprite:setVisible(accountName, 1)
