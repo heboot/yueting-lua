@@ -248,7 +248,12 @@ function loadpersonHomeItem(list,item,index)
 	     Sprite:setProperty(personHomeName,'text','本地文件/'..localFileCount)
 	     Sprite:setProperty(personHomeWorksimg,'src','file://image/localworks.png')
 	elseif index==1 then
-	     Sprite:setProperty(personHomeName,'text','作品/'..#userinfoData.list0+1)
+	     if userinfoData.list0~='' and userinfoData.list0~=nil then
+		     Sprite:setProperty(personHomeName,'text','作品/'..#userinfoData.list0+1)
+         else
+		     Sprite:setProperty(personHomeName,'text','作品/0')
+         end		 
+	     
 	     Sprite:setProperty(personHomeWorksimg,'src','file://image/works.png')
 	elseif index==2 then
 	     Sprite:setProperty(personHomeName,'text','专辑/4')

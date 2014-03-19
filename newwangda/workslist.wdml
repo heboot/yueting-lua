@@ -199,7 +199,6 @@ end
 
 --[[  加载小说列表数据方法 ]]--
 function loadpodcastListviewData()
-	Log:write('podcastUserData======',#podcastUserData.list0+1)
     local panoramaItem1=Sprite:findChild(rootSprite,'panoramaItem1')   
     if podcastUserData.list0~='' and podcastUserData.list0~=nil then 
 	   Sprite:setVisible(panoramaItem1,0)  

@@ -31,8 +31,9 @@
 		    </node>
 		    <node rect="0,0,720,357"  extendstyle="1810">
 		         <label rect="20,30,100,85" extendstyle="1111" text="封面" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
-		         <image name="userImg" rect="120,20,598,337" extendstyle="1010" style="autosize" src="file://image/noveldefaultbg.png" BuildChildrenFinished="resChoose"><node/></image>		   
-		     </node>
+		         <image rect="120,20,598,337" extendstyle="1010" style="autosize" src="file://image/noveldefaultbg.png" BuildChildrenFinished="resChoose"><node/></image>		   
+		         <image name="userImg" rect="120,20,598,337" extendstyle="1010" style="autosize" src="" />
+			 </node>
 		     <node rect="0,0,720,125"  extendstyle="1810">
 		         <button name='cameraBtn' rect="122,20,598,85" normal="n" OnSelect="cameraBtnOnSelect" extendstyle="1010">
 		         <image name="n" rect="0,0,598,85" style="autosize" src="file://image/camerabtn_n.png" extendstyle="1010"/>
@@ -88,6 +89,8 @@ function bodyOnPluginEvent(msg, param)
         end
 	elseif msg == 101 then
         local URL, PARAM, videoId = OnGetUploadUrlSuccess()
+		Log:write('_videoId=============',URL, PARAM, videoId)
+		--http://c22.cmvideo.cn:80/ugcup/uploadFile/, PARAM=6S8GvLmx%2BqWSuIcaBA3L48Bw4J0AwfdYphaNzCnpyB7%2F6HxtIwOGoeJU5ovxrhXOCI96dCUUeMvUa40eMrHBPKuSfW6aIHKnIpcCJ5HuaLAMpFCv5KXAOylZm016cNqb2bIfr14dvQffTU4uCF1pm3gjBmeeS%2Br1JYWlGpPYJ59QzYm5QAxq7oU4VKygLNZMBIVXu0ViLFDjk4VQXIMhDC9%2BQAYg2RGVdwK5i4fzdUvw%2FEuaDZJHBBAvmti1OGGrT2DyBf5eDREZi%2FgYrdWxtQ%3D%3D&ID=22688&CREATE_TIME=20140319105319, 3044
         if videoId then
             local imgSrc = Sprite:getProperty(userImg,"src")
             if imgSrc ~= "" then
@@ -99,6 +102,7 @@ function bodyOnPluginEvent(msg, param)
             else
                 Loading:close()
                 _videoId = videoId
+				
 				-- UploadDialog:show(title, btnName, fileName, UploadFinishCallback, UploadFailCallback, UploadCancelCallback)
                 Upload:append(URL, PARAM, desFilePath, videoName, '', IO:fileExt(desFilePath))
                 UploadDialog:show('作品上传中', '取  消', videoName, 'uploadFinishCallback', 'uploadFailCallback', 'cancelUploadPackage')
@@ -124,7 +128,7 @@ function bodyOnPluginEvent(msg, param)
         end
     elseif msg == 103 then
         local publishData = Http:jsonDecode('publish')
-        Log:write('publishData', publishData)
+        Log:write('publishData', publishData.description)
         if publishData.description then
             Tips:show('上传成功，请等待内容审核')
 			Scene:back()
@@ -408,7 +412,7 @@ function uploadFinishCallback()
     if not _videoId then Tips:show('参数异常') return end
     --发微博
     local param = ""
-    Http:request('publish', Util:getWeiBoServer() .. 'sup/sup_Publish.msp?body=' .. '' .. '&videoId=' .. _videoId .. '&videoTitle=' .. Sprite:getText(videoTitleText) .. '&topic=网络主播大赛' .. param, 103, {useCache=0})
+    Http:request('publish', Util:getWeiBoServer() .. 'sup/sup_Publish.msp?body=' .. '无' .. '&videoId=' .. _videoId .. '&videoTitle=' .. Sprite:getText(videoTitleText) .. '&topic=网络主播大赛' .. param, 103, {useCache=0})
 end
 
 function uploadFailCallback()

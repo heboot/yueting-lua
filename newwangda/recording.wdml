@@ -246,7 +246,7 @@ end
 function uploadBtnOnSelect(sprite)
      local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
      Reg:setString(reg,"filepath",desFilePath)
-     Scene:go('MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml',{setReturn=false,freeDestScene=true)}
+     Scene:go('MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml',{setReturn=false,freeDestScene=true})
 end
 
 --点击试听按钮
