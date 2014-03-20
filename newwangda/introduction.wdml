@@ -97,7 +97,7 @@ end
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
-		 Bottom:show()
+		Bottom:show()
         commonActivate()
 		local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
         local userId = Reg:getString(regCommunity ,'userId')
@@ -129,7 +129,7 @@ function requestUserinfoData()
 	  local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
       local useCache = getRequestState("userinfoDataState" .. _userId, regCommunity)
       Loading:show()
-      Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = useCache})
+      Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
 end
 
 function LoadUserInfo()     

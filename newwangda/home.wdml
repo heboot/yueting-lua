@@ -24,7 +24,7 @@
                 OnNavigationL="itemOnNavigationL" OnNavigationC="itemOnNavigationC" frame="false">               
 				<!--左部 -->
 				<node name="leftSideguideNode" rect="0,0,720,1180" padding="0,0,112,0" extendstyle="1116">
-                    <image name="leftBg" rect="0,0,720,0" extendstyle="1117" src="file://image/right_bg.jpg"/>
+                    <image name="leftBg" rect="0,0,550,0" style="autosize" extendstyle="1117" src="file://image/left_bg.png"/>
 					<image name="leftImage" rect="0,0,0,270" style="autosize" extendstyle="1171" src="file://image/left_image.png"/>
 					<listview name="leftListview" rect="30,300,480,0" col="1" line="6" auto-adjust="true" offset="0,10" extendstyle="1117">
 					

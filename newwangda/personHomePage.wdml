@@ -318,7 +318,7 @@ end
 
 --点击资料按钮
 function informationBtnOnSelect(sprite)
-     Scene:go('MODULE:\\com_wondertek_mobileaudio\\information.wdml',{freeDestScene=false})
+     Scene:go('MODULE:\\com_wondertek_mobileaudio\\information.wdml',{freeDestScene=true})
 end
 
 --更换背景

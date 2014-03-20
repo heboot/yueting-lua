@@ -236,7 +236,7 @@ function requestUserinfoData()
 	  local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
       local useCache = getRequestState("userinfoDataState" .. _userId, regCommunity)
       Loading:show()
-      Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = useCache})
+      Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
 	  end
 end
 
