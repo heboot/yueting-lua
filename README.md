@@ -10,7 +10,7 @@ yueting-lua
 最终由网达引擎解释运行.
 
 APP运行效果如图:
-![ScreenShot](http://img.my.csdn.net/uploads/201403/19/1395194946_8232.png)
+![ScreenShot](http://img.my.csdn.net/uploads/201403/21/1395379273_1979.png)
 
 -------------------------------------------------------------------------------
 
