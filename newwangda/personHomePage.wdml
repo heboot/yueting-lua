@@ -32,9 +32,11 @@
 		         <image rect="0,0,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
 		         <image name="msgImg" rect="3,3,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010" BuildChildrenFinished="resChoose"><node/></image>
 		     </button>
-		     <label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
-		     <label rect="220,110,150,50" text="粉丝数:" font-size="36"  v-align="center" color="#ffffff" extendstyle="1010"/>
-		     <label name="fansTotal" rect="0,110,120,50" text="" v-align="center" font-size="36" color="#ffffff" extendstyle="8010"/>	
+		     <label name="gradeName" rect="220,30,120,50" text="LV.0" font-size="36" color="#ffffff" extendstyle="1077"/>
+			 <button name="checkInBtn" rect="220,110,270,50"  OnSelect="checkInBtnOnSelect">
+		     <label rect="0,0,150,50" text="粉丝数:" font-size="36"  v-align="center" color="#ffffff" extendstyle="1010"/>
+		     <label name="fansTotal" rect="0,0,120,50" text="" v-align="center" font-size="36" color="#ffffff" extendstyle="8010"/>
+             </button>		 
 		     <node rect="480,0,240,84"  extendstyle="1510">
 		         <button name="informationBtn" normal="n" sel="s" rect="0,0,240,84" OnSelect="informationBtnOnSelect" color="#000000" extendstyle="1010">
 		             <node name="n" rect="0,0,240,84"  extendstyle="1010">
@@ -304,6 +306,47 @@ function LoadUserInfo()
      local msgImg = Sprite:findChild(rootSprite,'msgImg')
      local msgMood = Sprite:findChild(rootSprite,'msgMood')
 	 local fansTotal = Sprite:findChild(rootSprite,'fansTotal')
+	 local gradeNumber = Sprite:findChild(rootSprite,'gradeName')
+	 if userinfoData.empValue~= '' or userinfoData.empValue~=nil then
+		 local _empValue=tonumber(userinfoData.empValue)
+		 if _empValue>=0 and _empValue<5 then
+			 Sprite:setProperty(gradeNumber,'text','LV.1')
+		 elseif _empValue>=5 and _empValue<15 then
+			 Sprite:setProperty(gradeNumber,'text','LV.2')
+		 elseif _empValue>=15 and _empValue<30 then
+			 Sprite:setProperty(gradeNumber,'text','LV.3')
+		 elseif _empValue>=30 and _empValue<50 then
+			 Sprite:setProperty(gradeNumber,'text','LV.4')
+		 elseif _empValue>=50 and _empValue<100 then
+			 Sprite:setProperty(gradeNumber,'text','LV.5')
+		 elseif _empValue>=100 and _empValue<200 then
+			 Sprite:setProperty(gradeNumber,'text','LV.6')
+		 elseif _empValue>=200 and _empValue<500 then
+			 Sprite:setProperty(gradeNumber,'text','LV.7')
+		 elseif _empValue>=500 and _empValue<1000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.8')
+		 elseif _empValue>=1000 and _empValue<2000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.9')
+		 elseif _empValue>=2000 and _empValue<3000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.10')
+		 elseif _empValue>=3000 and _empValue<6000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.11')
+		 elseif _empValue>=6000 and _empValue<10000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.12')
+		 elseif _empValue>=10000 and _empValue<18000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.13')
+		 elseif _empValue>=18000 and _empValue<30000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.14')
+		 elseif _empValue>=30000 and _empValue<60000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.15')
+		 elseif _empValue>=60000 and _empValue<100000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.16')
+		 elseif _empValue>=100000 and _empValue<300000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.17')
+		 elseif _empValue>=300000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.18')
+		 end
+	 end
      userImg =userinfoData.picture or ''
      if userImg~='' then
          userImg =Util:getWeiBoServer() .. 'publish/clt' .. userImg
@@ -456,6 +499,10 @@ function cameraBtnOnSelect(sprite)
 	     Sprite:setVisible(cameraNode, 0) 
 		 cameraIndex=0
 	 end 
+end
+
+function checkInBtnOnSelect(sprite)
+	 Scene:go('MODULE:\\com_wondertek_mobileaudio\\fans.wdml',{freeDestScene=true})
 end
 
 ]]>

@@ -15,55 +15,57 @@
          <image rect="0,0,720,0" style="autosize" src="file://image/background.png" extendstyle="1017"/>	
 	<!--main -->
 	<node rect="0,0,720,1168" padding="0,0,112,0" extendstyle="1116">
-		<node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
-		<image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
-		<button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
-		<image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
-		<image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
-		<label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
-		</button>
-        <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="签到" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
+		 <node name="mianTopNode" rect="0,0,720,90"  extendstyle="1111">
+		     <image rect="0,0,0,0" style="autosize" src="file://image/top_bg.png" extendstyle="1077"/>
+		     <button name="backBtn" normal="n" sel="s" rect="10,15,104,61" extendstyle="1111" OnSelect="backBtnOnSelect" visible="1" enable="1">
+		         <image name="n" rect="0,0,0,0" style="autosize" src="file://image/navigation_bg.png" extendstyle="1077"/>
+		         <image name="s" rect="0,0,0,0" style="autosize" src="file://image/navigation_s_bg.png" extendstyle="1077"/>
+		         <label rect="0,0,104,61" extendstyle="1111" text="返回" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		     </button>
+             <label name="mainTitle" rect="0,0,720,77" extendstyle="1110" text="签到" color="#FFFFFF" v-align="center" h-align="center" font-size="42"/>
 	    </node>
 		<node rect="0,0,720,150"  extendstyle="1810">
-		<label rect="20,0,500,150" extendstyle="1111" text="连续签到，赢取特权奖励" color="#FFFFFF"  v-align="center" font-size="35"/>
-		<image rect="476,25,219,120" style="autosize" src="file://image/checkindays.png" extendstyle="1010"/>
+		     <label rect="20,0,500,150" extendstyle="1111" text="连续签到，赢取特权奖励" color="#FFFFFF"  v-align="center" font-size="35"/>
+		     <image rect="476,25,219,120" style="autosize" src="file://image/checkindays.png" extendstyle="1010">
+			     <label name="checkInDaysName" rect="0,0,219,80" extendstyle="1010" text="0" color="#FFFFFF"  h-align="center" v-align="center" font-size="35"/>
+			 </image>
 		</node>
 		<node rect="17,0,686,54"  extendstyle="1810">
-		<image rect="0,0,0,0" style="autosize" src="file://image/checkinprogress.png" extendstyle="1077"/>
+		     <image  name="progressImg" rect="0,0,686,54" style="autosize" extendstyle="1010" src="file://image/checkinprogress.png">
+				 <image  name="progressBarImg"rect="0,0,0,0" style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1010" src="file://image/checkinprogressbg2.png"/>
+			 </image>
 		</node>
 		<node rect="10,0,700,80"  extendstyle="1810">
-		<shadow rect="0,15,100,50" alpha="100" color="#FFFFFF" extendstyle="1010"/>
-		<label rect="0,15,100,50" extendstyle="1010" text="2天" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
+		     <shadow rect="0,15,100,50" alpha="100" color="#FFFFFF" extendstyle="1010"/>
+		     <label name="checkInDaysName1"  rect="0,15,100,50" extendstyle="1010" text="0天" color="#FFFFFF" v-align="center" h-align="center" font-size="35"/>
 		</node>
 		<node rect="0,0,720,110"  extendstyle="1810">
-		<image rect="199,14,322,82" style="autosize" src="file://image/ischeckin.png" extendstyle="1010"/>
-		<label rect="199,14,322,82" text="未签到"  alpha="125" color="#CCCCCC" v-align="center" h-align="center" font-size="35" extendstyle="1010"/>
+		     <button name="checkinBtn" normal="n" sel="s" rect="199,14,322,82" extendstyle="1111" OnSelect="checkinBtnOnSelect" visible="1" enable="1">
+		         <image rect="0,0,322,82" style="autosize" src="file://image/ischeckin.png" extendstyle="1010"/>
+		         <label name="checkinName" rect="0,0,322,82" text="今日签到"  alpha="125" color="#fe8300" v-align="center" h-align="center" font-size="35" extendstyle="1010"/>
+		     </button>
 		</node>
 		<node rect="10,485,700,60"  extendstyle="1010">
-		<image rect="0,0,700,60" style="autosize" src="file://image/checkinranklist.png" extendstyle="1010"/>
-		<label rect="0,0,700,60" extendstyle="1111" text="签到排行" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
+		     <image rect="0,0,700,60" style="autosize" src="file://image/checkinranklist.png" extendstyle="1010"/>
+		     <label rect="0,0,700,60" extendstyle="1111" text="签到排行" color="#FFFFFF" v-align="center" h-align="center" font-size="25"/>
 		</node>
 		<node name="contentNode" rect="0,549,720,0" padding="0,0,5,0"   extendstyle="1016" >
-	    <listview name="checkinListview" rect="0,0,720,0"  extendstyle="1117" limit="false">
-		</listview>
+	         <listview name="checkinListview" rect="0,0,720,0"  extendstyle="1117" limit="false">
+		     </listview>
 	    </node>
 	</node>
 	
-	<!--左侧菜单推荐的电台数据item-->
 	<node name="checkinItem" rect="0,0,720,90" extendstyle="1010"  visible="0" enable="0" active="0">
-		<button name="checkinItemBtn" normal="n" sel="s" OnSelect="checkinItemBtnOnSelect" rect="0,0,720,0" extendstyle="1117">					
-		<image rect="0,0,720,4" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
-		<shadow name="s" rect="0,0,720,0" alpha="50" color="#000000" extendstyle="1117"/> 
-		<label name="checkinRank" rect="10,0,100,90" v-align="center" h-align="center" text="" extendstyle="1111" color="#999999"  font-size="28"/>
-		<image rect="140,10,70,70" src="file://image/personalhomepageimg.png" style="autosize" extendstyle="1010"  BuildChildrenFinished="resChoose"><node/></image>	
-		<image name="checkinImage"  rect="140,10,70,70" style="autosize" extendstyle="1010"/>
-		<label name="checkinName" rect="270,0,150,90" v-align="center" h-align="center" postfix=".."  extendstyle="1111" color="#999999"  font-size="28"/>
-		<!--<label rect="270,110,70,40" v-align="center" h-align="center" text="主播:" extendstyle="1111" color="#999999"  font-size="28"/>	-->		
-		<label name="checkinTime" rect="490,0,230,90" v-align="center"  postfix=".."  extendstyle="1010" color="#999999"  font-size="28"/>				
+		 <button name="checkinItemBtn" normal="n" sel="s" OnSelect="checkinItemBtnOnSelect" rect="0,0,720,0" extendstyle="1117">					
+		     <image rect="0,0,720,3" style="autosize" extendstyle="1510" src="file://image/leftlistview_line.png"/>
+		     <shadow name="s" rect="0,0,720,0" alpha="50" color="#000000" extendstyle="1117"/> 
+		     <label name="checkinRank" rect="40,0,100,90" v-align="center" h-align="center" text="" extendstyle="1111" color="#999999"  font-size="28"/>
+		     <image name="checkinImage"  rect="280,10,70,70" style="autosize" extendstyle="1010"/>
+			 <image rect="280,10,70,70" src="file://image/chickinfliter.png" style="autosize" extendstyle="1010" />	
+		     <label name="checkinName" rect="470,0,150,90" v-align="center" h-align="center" postfix=".."  extendstyle="1111" color="#999999"  font-size="28"/>			
 		</button>
 	</node>	
-	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
+	<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>	
     </node>	
 </body>
 </root>
@@ -74,22 +76,38 @@ local rootSprite
 local checkinListview
 local checkinItem
 local parentId
-
-
+local checkinName
+local checkinBtn
+local checkInDaysName
+local checkInDaysName1
+local progressImg
+local progressBarImg
 
 -- @brief root子节点创建完事件
 function bodyBuildChildrenFinished(sprite)
 	 rootSprite = sprite
 	 checkinListview = Sprite:findChild(sprite, 'checkinListview')
 	 checkinItem = Sprite:findChild(rootSprite, 'checkinItem')
-	
+	 checkinName= Sprite:findChild(rootSprite, 'checkinName')
+	 checkinBtn= Sprite:findChild(rootSprite, 'checkinBtn')
+	 checkInDaysName= Sprite:findChild(rootSprite, 'checkInDaysName')
+     checkInDaysName1= Sprite:findChild(rootSprite, 'checkInDaysName1')
+	 progressImg= Sprite:findChild(rootSprite, 'progressImg')
+     progressBarImg= Sprite:findChild(rootSprite, 'progressBarImg')
+	 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 toUserId=Reg:getString(reg,'checkInUserId')
 end
 
 --[[  节点消息方法  ]]--
 function bodyOnSpriteEvent(msg, param)
     if msg == MSG_ACTIVATE then
 	  Bottom:show()
-      requestcheckinListData()
+	  requestUserInfo()	
+      local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)	  
+      local regFile = 'MODULE:\\com_wondertek_mobileaudio\\checkinlistlocal.xml'
+      Reg:load(reg,regFile)
+      g_checkinIdsStr = Reg:getString(reg, 'checkinIds')
+	  readCheckIns(g_checkinIdsStr)
 	  Loading:show()
     elseif msg == MSG_DEACTIVATE then
          commonDeactivate()
@@ -103,51 +121,83 @@ end
 
 --[[  请求小说列表数据方法  ]]--
 function requestcheckinListData()
-	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
-    -- local data = Reg:getString(reg,'ListViewData')
-	-- local title = Reg:getString(reg, 'ListViewDataTitle')
-	-- Sprite:setProperty(mainTitle,'text',title)
-	-- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
-	LoadcheckinListviewData()
-	-- parentId=nodeId
-	-- if nodeId and nodeId ~= '' then
-       -- Http:request('checkinListData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/checkinListData2.jsp?nodeId='..nodeId..'&objType=live',103)
-    -- end
+     Http:request('checkinListData', Util:getWeiBoServer()..'/publish/clt/resource/mobileaudio3/podcast/userSignListData.jsp?userId='..toUserId..'&type=sign',104,{useCache=0})
 end
 
 --[[  插件消息方法  ]]--
 function bodyOnPluginEvent(msg, param)
-	if msg == 103 then
+	 if msg == 103 then
 	     Loading:close()
+		 isCheckIn = Http:jsonDecode('isCheckIn')
+		 if isCheckIn.isSignedIn~='' and isCheckIn.isSignedIn~=nil then 
+		     if isCheckIn.isSignedIn=="0" or isCheckIn.isSignedIn=="-1" then
+			     Sprite:setProperty(checkinName,'text',"今日签到")
+				 Sprite:setProperty(checkinName,'color',"#fe8300")
+			 elseif  isCheckIn.isSignedIn=="1"  then
+			     Sprite:setProperty(checkinName,'text',"已签到") 
+				 Sprite:setProperty(checkinName,'color',"#b2b2b2")
+		     end
+	     end
+	 elseif msg== 110 then
+		userinfoData = Http:jsonDecode('userinfoData')
+		if userinfoData.userId~='' and userinfoData.userId~=nil then
+			 userId_=userinfoData.userId--当前用户登录的ID
+			 requestcheckinListData()
+			 requestIsCheck()
+		end
+	 elseif msg==104 then
 		 checkinListData = Http:jsonDecode('checkinListData')
-		 LoadcheckinListviewData()
-		 else
-    Util:onPluginEvent(msg, param)	
+		 loadcheckinListviewData()
+	 elseif msg==105 then
+		toCheck =  Http:jsonDecode('toCheck')
+		if toCheck.result~='' and toCheck.result~=nil then 
+			 if toCheck.result == '0000' then
+			 local days=Sprite:getText(checkInDaysName) 
+	         if days== '15' then
+	             Sprite:setProperty(checkInDaysName,'text','1')
+		         Sprite:setProperty(checkInDaysName1,'text','1天')
+	         else
+		         Sprite:setProperty(checkInDaysName,'text',tonumber(days)+1)
+		         Sprite:setProperty(checkInDaysName1,'text',(tonumber(days)+1)..'天')
+	         end
+			     tempnodeId=toUserId
+	             progParam=Sprite:getText(checkInDaysName) 
+	             CollectionType=1
+				 deleteOneCheckProg(tempnodeId,CollectionType)
+	             addOneCheckProg(tempnodeId,progParam,CollectionType)
+				 Sprite:setProperty(checkinName,'text',"已签到") 
+				 Sprite:setProperty(checkinName,'color',"#b2b2b2")
+				 requestcheckinListData()
+			elseif toCheck.result == '0029' then
+				Tips:show("没有关注不能签到哦")
+			else
+				 Sprite:setProperty(checkinName,'text',"已签到") 
+				 Sprite:setProperty(checkinName,'color',"#b2b2b2")
+				 Tips:show("今日已经签到过")
+			end
+		end
+	 else
+         Util:onPluginEvent(msg, param)	
 	end
 end
 
---[[  加载小说列表数据方法 ]]--
-function LoadcheckinListviewData()
-	ListView:removeAllItems(checkinListview, 1, 1)
-    ListView:loadItem(checkinListview,checkinItem,10,'loadcheckinItem')
-	ListView:adjust(checkinListview) 
+--[[  加载签到列表数据方法 ]]--
+function loadcheckinListviewData()
+     if checkinListData.signToUserList~='' and checkinListData.signToUserList~=nil then
+		 ListView:removeAllItems(checkinListview, 1, 1)
+         ListView:loadItem(checkinListview,checkinItem,#checkinListData.signToUserList+1,'loadcheckinItem')
+	     ListView:adjust(checkinListview)   
+	 end	
 end
 
 --[[  加载小说列表ITEM数据方法 ]]--
 function loadcheckinItem(list,item,index)
-    Sprite:setRect(item, 0,0,720,90)
-    Sprite:setProperty(item,'extendstyle','1010')
-	 -- if checkinListData.contentList[index].limg ~= nil then
-	 -- Sprite:setProperty(Sprite:findChild(item,'checkinImage'),'src',checkinListData.contentList[index].limg)
-	 -- else
-	 
+     Sprite:setRect(item, 0,0,720,90)
+     Sprite:setProperty(item,'extendstyle','1010')
 	 Sprite:setProperty(Sprite:findChild(item,'checkinRank'),'text','第'..(index+1)..'名')
-	 Sprite:setProperty(Sprite:findChild(item,'checkinImage'),'src','file://image/personalhomepageimg.png')
-	 -- end
-	 Sprite:setProperty(Sprite:findChild(item,'checkinName'),'text','这就是爱'..index)
-	 Sprite:setProperty(Sprite:findChild(item,'checkinTime'),'text','2月19日 10:00')
-	 -- local param=checkinListData.contentList[index].param..'parentId='..parentId..';'
-	 -- Sprite:setProperty(Sprite:findChild(item,'checkinItemBtn'),'data',param)
+	 Sprite:setProperty(Sprite:findChild(item,'checkinImage'),'src',Util:getWeiBoServer() ..'publish/clt'..checkinListData.signToUserList[index].picture)
+	 Sprite:setProperty(Sprite:findChild(item,'checkinName'),'text',checkinListData.signToUserList[index].sname)
+	 Sprite:setProperty(Sprite:findChild(item,'checkinItemBtn'),'data',checkinListData.signToUserList[index].userId)
 end
 
 --返回按钮方法
@@ -164,14 +214,116 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function checkinItemBtnOnSelect(sprite)
-	-- local item= Sprite:getParent(sprite)
-    -- local index=ListView:getItemIndex(item) 
-	-- local data = Sprite:getData(sprite)
-	-- local reg = Reg:create('com_wondertek_mobileaudio_novel')
-    -- Reg:setString(reg,'checkinItemId',data)	
-	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\checkinItem.wdml',{freeDestScene=true})
+	 local data = Sprite:getData(sprite)
+	 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 Reg:setInteger(reg,'isUserId',1)
+	 Reg:setString(reg,'userId','userId='..data)
+	 Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
 end
 
+function requestIsCheck()
+	 Http:request('isCheckIn',Util:getWeiBoServer() ..'publish/clt/resource/mobileaudio3/podcast/userIsSignedIn.jsp?userId='..userId_..'&toUserId='..toUserId,103,{useCache=0})
+end
 
+--请求个人信息
+function requestUserInfo()
+     local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+     local userId = Reg:getString(regCommunity ,'userId')
+     _userId = userId
+	 Loading:show()
+     Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
+end
 
+--签到按钮的点击事件
+function checkinBtnOnSelect()
+	 Http:request('toCheck',Util:getWeiBoServer() ..'sup/sup_infoSignIn.msp?signUserId='..userId_..'&signedUserId='..toUserId..'&signEmpValue=10&signedEmpValue=8',105,{useCache=0})  
+end
+
+-- @brief 签到，向本地写入数据
+function addOneCheckProg(userId,CollectionParam,CollectionType)
+     local _,_,CollectionParamStartTime= string.find(CollectionParam,'(.-)|')
+     local tempIdsStr = ''
+     local reg = 0
+     local regFile = ''
+     if CollectionType == 0 or CollectionType == nil then
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile = 'MODULE:\\com_wondertek_mobileaudio\\checkinlist.xml'
+     else
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile =  'MODULE:\\com_wondertek_mobileaudio\\checkinlistlocal.xml'
+     end
+     Reg:load(reg,regFile)
+     local checkinIds = Reg:getString(reg, 'checkinIds')
+     if checkinIds and '' ~= checkinIds then
+        --按照时间排序插入
+         local collectionIdsTable = Util:split(checkinIds, '|')
+         local count = #collectionIdsTable - 1
+         if tempIdsStr == '' then --表明没找到合适的位子，说明该时间最小,插入到最前面
+             tempIdsStr = userId ..'|'.. checkinIds
+         end
+         Reg:setString(reg, 'checkinIds', tempIdsStr)
+     else
+         Reg:setString(reg, 'checkinIds', userId .. '|')
+     end
+     Reg:setString(reg, userId, CollectionParam)
+     Reg:save(reg, regFile)
+     Reg:release(Reg.com_wondertek_mobileaudio.personalBoke)
+end
+
+--删除一个签到数据
+function deleteOneCheckProg(userId,collectionType)
+     local reg = 0
+     local regFile = ''
+     if collectionType == 0 or collectionType == nil then
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile = 'MODULE:\\com_wondertek_mobileaudio\\checkinlist.xml'
+     else
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile =  'MODULE:\\com_wondertek_mobileaudio\\checkinlistlocal.xml'
+     end
+     Reg:load(reg,regFile)
+     local checkinIdsStr = Reg:getString(reg, 'checkinIds')
+     if hasCheckCollected(userId,checkinIdsStr) then
+         checkinIdsStr = string.gsub(checkinIdsStr,userId..'|' ,'')
+         Reg:setString(reg,'checkinIds',checkinIdsStr)
+         Reg:remove(reg,userId)
+         Reg:save(reg, regFile)
+     end
+     Reg:release(Reg.com_wondertek_mobileaudio.personalBoke)
+end
+
+-- @brief 判断节目是否在收藏列表中
+function hasCheckCollected(userId, checkinIdsStr)
+    if checkinIdsStr and '' ~= checkinIdsStr then
+        local checkinIdsTable = Util:split(checkinIdsStr, '|')
+        local count = #checkinIdsTable - 1
+        for i=1,count do
+            if tonumber(checkinIdsTable[i]) == tonumber(userId) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+--读取xml数据，拼装成table
+function readCheckIns(checkinIdsStr)
+    if checkinIdsStr and '' ~= checkinIdsStr then
+	    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+        local checkinIdsTable = Util:split(checkinIdsStr, '|')
+        local count = #checkinIdsTable - 1
+		for i=1,count do
+		local checkInContents = Reg:getString(reg,checkinIdsTable[i])
+		 local checkInContentsTable = Util:split(checkInContents, '|')
+		 local count2=#checkInContentsTable
+		
+		 local days=checkInContentsTable[1]
+		  Sprite:setProperty(checkInDaysName,'text',days)
+		  Sprite:setProperty(checkInDaysName1,'text',days..'天')
+		  local x, y,width,height =Sprite:getRect(progressImg) 
+		  Sprite:setRect(progressBarImg, 0,0,(days/15)*width,height)
+        end
+	end
+
+end
 ]]>

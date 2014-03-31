@@ -314,38 +314,32 @@ function bodyOnPluginEvent(msg, param)
 	   end	 
      end
 	elseif msg==108 then
-	    radioLiveItemData1=Http:jsonDecode('radioLiveItemData1')
-	    local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
-        local data=Reg:getString(reg,'audioplayData')
-	    local _,_,liveId1=string.find(data,'liveId=(%d+);')
-	    gallarydata={}	
-		Log:write('radioplayCollect=======444',#gallarydata,#radioLiveItemData1.radioLiveItemList)
-	    for i=0,#radioLiveItemData1.radioLiveItemList do
-            table.insert(gallarydata,radioLiveItemData1.radioLiveItemList[i])
-	    end
-	    local temptable
-	    local j=0	
-	    for i=1,#gallarydata do
+	     radioLiveItemData1=Http:jsonDecode('radioLiveItemData1')
+	     local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+         local data=Reg:getString(reg,'audioplayData')
+	     local _,_,liveId1=string.find(data,'liveId=(%d+);')
+	     gallarydata={}	
+	     for i=0,#radioLiveItemData1.radioLiveItemList do
+             table.insert(gallarydata,radioLiveItemData1.radioLiveItemList[i])
+	     end
+		 if #radioLiveItemData1.radioLiveItemList~=0 then
+		     local temptable
+	         local j=0	
+	       for i=1,#gallarydata do
 	         local _,_, liveId = string.find(gallarydata[i].param,'liveId=(%d+);')
-			 Log:write('radioplayCollectff=======',i)
 	         if liveId1 == liveId then
-			 Log:write('radioplayCollectffzz=======',i)
-		     j=i
-		     temptable=gallarydata[i]
-	    end
-	   end	
-	   
-	   Log:write('radioplayCollect=======44422',#temptable)
-	   
-	   if j~=0 or j~=''then
+		         j=i
+		         temptable=gallarydata[i]
+	         end
+	     end	
+	     if j~=0 or j~=''then
 	         table.remove(gallarydata, j)
 	         table.insert(gallarydata, 1, temptable)
-       end	
-	  
-	-- gallarydata=Reg:getTable(reg,'audioFMData')
-	Log:write('radioplayCollect=======444',#gallarydata)
-	   Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
-       Gallery:adjust(gallery) 
+         end
+		 end
+	     
+	     Gallery:loadItem(gallery, galleryItem, #gallarydata, 'onLoadGalleryItem')
+         Gallery:adjust(gallery) 
 	elseif msg == Msg.getJsonPlayer then
          Loading:close()
         local playerData = Http:jsonDecode('playerData')		

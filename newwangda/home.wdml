@@ -357,173 +357,122 @@
 	   </node>	
 	   
        <!-- 推荐列表电台的item-->
-        <node name="recommendItem" rect="0,0,686,403" extendstyle="1010" visible="0" enable="0" active="0"> 
-			  <node name="imgNode1" rect="0,0,407,192" extendstyle="1111">
-               <!-- <image rect="0,0,342,142" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" alpha="255" padding="0,5,5,0" extendstyle="0066" >-->
-			    <shadow rect="0,0,407,192" color="#000000" alpha="50" padding="0,5,5,0" extendstyle="0066">
-                <image name="fallImg" rect="5,5,397,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,407,192" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode2" rect="416,0,271,192" extendstyle="1111">
-                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,261,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode3" rect="0,201,271,192" extendstyle="1111">
-                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,271,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode4" rect="280,201,407,192" extendstyle="1111">
-                <shadow rect="0,0,407,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,392,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,397,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
+        <node name="recommendItem" rect="0,0,686,510" extendstyle="1010" visible="0" enable="0" active="0"> 
+			 <node name="imgNode1" rect="0,0,407,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,407,192" style="minsize" alphaeffect="true" src="" extendstyle="0010">
+                     <image rect="0,0,407,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode2" rect="416,0,271,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,271,192" style="minsize" alphaeffect="true" src=""  extendstyle="0010">
+                     <image rect="0,0,271,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect"  extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode3" rect="0,256,271,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,271,192" style="minsize" alphaeffect="true" src="" extendstyle="0010">
+                     <image rect="0,0,271,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode4" rect="280,256,407,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,407,192" style="minsize" alphaeffect="true" src=""  extendstyle="0010">
+                     <image rect="0,0,407,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
         </node>
         <!-- 推荐列表小说的item-->
-        <node name="recommendNovelItem" rect="0,0,686,403" extendstyle="1010" visible="0" enable="0" active="0"> 
-			  <node name="imgNode1" rect="0,0,407,192" extendstyle="1111">
-               <!-- <image rect="0,0,342,142" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" alpha="255" padding="0,5,5,0" extendstyle="0066" >-->
-			    <shadow rect="0,0,407,192" color="#000000" alpha="50" padding="0,5,5,0" extendstyle="0066">
-                <image name="fallImg" rect="5,5,397,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,397,192" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode2" rect="416,0,271,192" extendstyle="1111">
-                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,261,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode3" rect="0,201,271,192" extendstyle="1111">
-                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,271,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode4" rect="280,201,407,192" extendstyle="1111">
-                <shadow rect="0,0,407,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,392,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,397,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
+        <node name="recommendNovelItem"  rect="0,0,686,510" extendstyle="1010" visible="0" enable="0" active="0"> 
+			 <node name="imgNode1" rect="0,0,407,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,407,192" style="minsize" alphaeffect="true" src="" extendstyle="0010">
+                     <image rect="0,0,407,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode2" rect="416,0,271,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,271,192" style="minsize" alphaeffect="true" src=""  extendstyle="0010">
+                     <image rect="0,0,271,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect"  extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode3" rect="0,256,271,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,271,192" style="minsize" alphaeffect="true" src="" extendstyle="0010">
+                     <image rect="0,0,271,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode4" rect="280,256,407,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,407,192" style="minsize" alphaeffect="true" src=""  extendstyle="0010">
+                     <image rect="0,0,407,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
          </node>
  
         <!-- 推荐列表播客的item-->
-        <node name="recommendPodcastItem" rect="0,0,686,403" extendstyle="1010" visible="0" enable="0" active="0"> 
-			  <node name="imgNode1" rect="0,0,407,192" extendstyle="1111">
-               <!-- <image rect="0,0,342,142" style="sudoku-auto" sudoku="7,7,7,7" src="file://image/commonbg.png" alpha="255" padding="0,5,5,0" extendstyle="0066" >-->
-			    <shadow rect="0,0,407,192" color="#000000" alpha="50" padding="0,5,5,0" extendstyle="0066">
-                <image name="fallImg" rect="5,5,397,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,397,192" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode2" rect="416,0,271,192" extendstyle="1111">
-                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,261,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode3" rect="0,201,271,192" extendstyle="1111">
-                <shadow rect="0,0,271,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,261,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,261,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,271,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
-			  <node name="imgNode4" rect="280,201,407,192" extendstyle="1111">
-                <shadow rect="0,0,407,192" color="#000000" alpha="70" padding="0,5,5,0" extendstyle="0066" >
-                <image name="fallImg" rect="5,5,392,182" style="minsize" alphaeffect="true" src="" padding="0,5,5,0" extendstyle="0066">
-                <image rect="0,0,397,182" style="autosize" src="file://image/shadow_content.png" extendstyle="0570"/>
-				<image rect="0,0,0,44" alpha="125" src="file://image/recommendItemname_bg.png" extendstyle="1571">
-				  <label name="recommendItemname" rect="0,0,0,0" extendstyle="1077"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
-                </image>
-                </image>
-                </shadow>
-                <button name="contentBtn" rect="0,0,397,182" OnSelect="contentOnSelect" padding="0,5,5,0" extendstyle="0066" sel="s">
-                <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
-                </button>
-              </node>
+        <node name="recommendPodcastItem"  rect="0,0,686,510" extendstyle="1010" visible="0" enable="0" active="0"> 
+			 <node name="imgNode1" rect="0,0,407,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,407,192" style="minsize" alphaeffect="true" src="" extendstyle="0010">
+                     <image rect="0,0,407,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode2" rect="416,0,271,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,271,192" style="minsize" alphaeffect="true" src=""  extendstyle="0010">
+                     <image rect="0,0,271,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect"  extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode3" rect="0,256,271,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,271,192" style="minsize" alphaeffect="true" src="" extendstyle="0010">
+                     <image rect="0,0,271,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
+			 <node name="imgNode4" rect="280,256,407,245" extendstyle="1111">
+                 <image name="fallImg" rect="0,0,407,192" style="minsize" alphaeffect="true" src=""  extendstyle="0010">
+                     <image rect="0,0,407,192" style="autosize" src="file://image/shadow_content.png" extendstyle="0010"/>
+                 </image>
+				 <label name="recommendItemname" rect="0,0,0,44" extendstyle="1571"  text="" v-align="center" h-align="center" postfix=".." color="#FFFFFF"  font-size="30"/>
+                 <button name="contentBtn" rect="0,0,0,0" OnSelect="contentOnSelect" extendstyle="0077" sel="s">
+                     <shadow name="s" rect="0,0,0,0" color="#000000" alpha="125" extendstyle="0077"/>
+                 </button>
+             </node>
          </node>
 		 
 		  <!-- left电台ListView的item-->
@@ -927,7 +876,7 @@ end
 
 --电台数据load
 function loadImagefallItem(list, item, index)
-    Sprite:setRect(item, 0, 0, 686, 403)
+    Sprite:setRect(item, 0, 0, 686, 510)
     Sprite:setProperty(item, 'extendstyle', '1111')
 	local subjectCount=#homeData.recommendList+1
 	Log:write('subjectCount======2=',subjectCount,4*index)
@@ -944,7 +893,7 @@ function loadImagefallItem(list, item, index)
     if subjectCount > 4*index+1 then
         loadImagefallData(Sprite:findChild(item, 'imgNode2'), 4*index+1)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======2')
         for i=2, 4 do
             setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
@@ -954,7 +903,7 @@ function loadImagefallItem(list, item, index)
     if subjectCount > 4*index+2 then
         loadImagefallData(Sprite:findChild(item, 'imgNode3'), 4*index+2)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======2')
         for i=3, 4 do
             setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
@@ -964,7 +913,7 @@ function loadImagefallItem(list, item, index)
     if subjectCount > 4*index+3 then
         loadImagefallData(Sprite:findChild(item, 'imgNode4'), 4*index+3)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======4')
         setNodeState(Sprite:findChild(item, 'imgNode4'), 0)
         return
@@ -973,7 +922,7 @@ end
 
 --小说数据load
 function loadImagefallNovelItem(list, item, index)
-    Sprite:setRect(item, 0, 0, 686, 403)
+    Sprite:setRect(item, 0, 0, 686, 510)
     Sprite:setProperty(item, 'extendstyle', '1111')
 	local subjectCount=#homeData.recommendList2+1
 	Log:write('subjectCount======2=',subjectCount,4*index)
@@ -990,7 +939,7 @@ function loadImagefallNovelItem(list, item, index)
     if subjectCount > 4*index+1 then
         loadImagefallNovelData(Sprite:findChild(item, 'imgNode2'), 4*index+1)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======2')
         for i=2, 4 do
             setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
@@ -1000,7 +949,7 @@ function loadImagefallNovelItem(list, item, index)
     if subjectCount > 4*index+2 then
         loadImagefallNovelData(Sprite:findChild(item, 'imgNode3'), 4*index+2)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======2')
         for i=3, 4 do
             setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
@@ -1010,7 +959,7 @@ function loadImagefallNovelItem(list, item, index)
     if subjectCount > 4*index+3 then
         loadImagefallNovelData(Sprite:findChild(item, 'imgNode4'), 4*index+3)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======4')
         setNodeState(Sprite:findChild(item, 'imgNode4'), 0)
         return
@@ -1021,7 +970,7 @@ end
 
 --播客数据load
 function loadImagefallPodcastItem(list, item, index)
-    Sprite:setRect(item, 0, 0, 686, 403)
+    Sprite:setRect(item, 0, 0, 686, 510)
     Sprite:setProperty(item, 'extendstyle', '1111')
 	local subjectCount=#homeData.recommendList3+1
 	Log:write('subjectCount======2=',subjectCount,4*index)
@@ -1038,7 +987,7 @@ function loadImagefallPodcastItem(list, item, index)
     if subjectCount > 4*index+1 then
         loadImagefallPodcastData(Sprite:findChild(item, 'imgNode2'), 4*index+1)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======2')
         for i=2, 4 do
             setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
@@ -1048,7 +997,7 @@ function loadImagefallPodcastItem(list, item, index)
     if subjectCount > 4*index+2 then
         loadImagefallPodcastData(Sprite:findChild(item, 'imgNode3'), 4*index+2)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======2')
         for i=3, 4 do
             setNodeState(Sprite:findChild(item, 'imgNode' .. i), 0)
@@ -1058,7 +1007,7 @@ function loadImagefallPodcastItem(list, item, index)
     if subjectCount > 4*index+3 then
         loadImagefallPodcastData(Sprite:findChild(item, 'imgNode4'), 4*index+3)
     else
-        Sprite:setRect(item, 0, 0, 686, 192)
+        Sprite:setRect(item, 0, 0, 686, 245)
 		Log:write('index=======4')
         setNodeState(Sprite:findChild(item, 'imgNode4'), 0)
         return

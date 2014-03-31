@@ -31,7 +31,7 @@
 		     <image rect="0,0,720,270" style="autosize" src="file://image/personalhomepagebg.png" extendstyle="1010"/>
 	         <image name="userImage" rect="10,10,176,176" style="maxsize" src="file://image/personalhomepageimgbg.png" extendstyle="1010"/>
 		     <image name="msgImg" rect="13,13,170,170" style="maxsize" src="file://image/dft_headimg_big.jpg" extendstyle="1010"   BuildChildrenFinished="resChoose"><node/></image>		
-		     <label name="gradeName" rect="220,30,120,50" text="LV.30" font-size="36" color="#ffffff" extendstyle="1077"/>
+		     <label name="gradeName" rect="220,30,120,50" text="LV.0" font-size="36" color="#ffffff" extendstyle="1077"/>
 		     <label rect="220,110,150,50" text="粉丝数:" font-size="36" v-align="center"  color="#ffffff" extendstyle="1010"/>
 		     <label name="fansTotal" rect="0,110,120,50" text="" font-size="36" v-align="center"  color="#ffffff" extendstyle="8010"/>
 		<!--加关注-->
@@ -194,13 +194,15 @@ end
 function bodyOnPluginEvent(msg, param)
 	if msg==108 then
 	    Loading:close()
-		podcastData = Http:jsonDecode('podcastData') 
-		
+		podcastData = Http:jsonDecode('podcastData') 		
 		local psname = podcastData.sname
-		Log:write('==============mobile',podcastData.mobile)
 		if not psname or psname == '' or psname == ' ' then
 			psname = '用户'..string.sub(podcastData.mobile,8,11)
-		end
+		end		
+		 if not podcastData.userId  then
+		     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+             Reg:setString(reg,'userId',podcastData.userId)
+		 end
 		
 		Sprite:setProperty(mainTitle,'text',psname..'的主页')
 		Sprite:setProperty(fansTotal,'text',podcastData.followerCount)
@@ -216,6 +218,47 @@ function bodyOnPluginEvent(msg, param)
 	     if podcastData.list0 and #podcastData.list0~='' and #podcastData.list0~=nil then
 	         LoadWorksListviewData()--加载作品数据
 	     end
+        local gradeNumber = Sprite:findChild(rootSprite,'gradeName')
+	 if podcastData.empValue~= '' or podcastData.empValue~=nil then
+		 local _empValue=tonumber(podcastData.empValue)
+		 if _empValue>=0 and _empValue<5 then
+			 Sprite:setProperty(gradeNumber,'text','LV.1')
+		 elseif _empValue>=5 and _empValue<15 then
+			 Sprite:setProperty(gradeNumber,'text','LV.2')
+		 elseif _empValue>=15 and _empValue<30 then
+			 Sprite:setProperty(gradeNumber,'text','LV.3')
+		 elseif _empValue>=30 and _empValue<50 then
+			 Sprite:setProperty(gradeNumber,'text','LV.4')
+		 elseif _empValue>=50 and _empValue<100 then
+			 Sprite:setProperty(gradeNumber,'text','LV.5')
+		 elseif _empValue>=100 and _empValue<200 then
+			 Sprite:setProperty(gradeNumber,'text','LV.6')
+		 elseif _empValue>=200 and _empValue<500 then
+			 Sprite:setProperty(gradeNumber,'text','LV.7')
+		 elseif _empValue>=500 and _empValue<1000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.8')
+		 elseif _empValue>=1000 and _empValue<2000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.9')
+		 elseif _empValue>=2000 and _empValue<3000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.10')
+		 elseif _empValue>=3000 and _empValue<6000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.11')
+		 elseif _empValue>=6000 and _empValue<10000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.12')
+		 elseif _empValue>=10000 and _empValue<18000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.13')
+		 elseif _empValue>=18000 and _empValue<30000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.14')
+		 elseif _empValue>=30000 and _empValue<60000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.15')
+		 elseif _empValue>=60000 and _empValue<100000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.16')
+		 elseif _empValue>=100000 and _empValue<300000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.17')
+		 elseif _empValue>=300000 then
+			 Sprite:setProperty(gradeNumber,'text','LV.18')
+		 end
+	 end
          LoadAlbumListviewData()--加载专辑上数据
 	     saveInfo()--保存个人资料信息
 	elseif msg == 102 then
@@ -650,7 +693,9 @@ end
 
 --checkinBtnOnSelect 签到按钮
 function checkinBtnOnSelect(sprite)
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\checkin.wdml',{freeDestScene=true})
+     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+     Reg:setString(reg,'checkInUserId',_userId)
+     Scene:go('MODULE:\\com_wondertek_mobileaudio\\checkin.wdml',{freeDestScene=true})
 end
 
 --加关注
@@ -668,5 +713,6 @@ end
 --个人资料保存 
 function saveInfo()
   personalInfo='sname='..podcastData.sname..';sex='..podcastData.sex..';age='..podcastData.age..';'
+   _userId=podcastData.userId 
 end
 ]]>
