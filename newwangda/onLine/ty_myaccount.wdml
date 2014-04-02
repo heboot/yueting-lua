@@ -1,0 +1,362 @@
+function bodyBuildChildrenFinished(sprite)
+     rootSprite= sprite
+     mainListview = Sprite:findChild(sprite, "mainListview")
+     accountName = Sprite:findChild(sprite, "accountName")
+     passWord = Sprite:findChild(sprite, "passWord")
+     autoLoginBtn = Sprite:findChild(sprite, "autoLoginBtn")
+     remeberPwdBtn = Sprite:findChild(sprite, "remeberPwdBtn")
+     item2 = Sprite:findChild(sprite, "item2")
+     item4 = Sprite:findChild(sprite, "item4")
+     -- loginLblN = Sprite:findChild(sprite, "loginLblN")
+     -- loginLblS = Sprite:findChild(sprite, "loginLblS")
+     -- loginLblD = Sprite:findChild(sprite, "loginLblD")
+     loginBtn = Sprite:findChild(sprite, "loginBtn")
+	 loginName= Sprite:findChild(sprite, "loginName")
+     loginedNum = Sprite:findChild(sprite, "loginedNum")
+end
+
+function backBtnOnSelect(sprite)
+     Scene:back()
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+     if msg == Msg.logout then
+         -- Loading:close()
+         local logoutResult = Http:jsonDecode('logoutResult')
+         Log:write('logoutResult', logoutResult)
+         if type(logoutResult) == 'table' then
+             setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
+             if logoutResult.success == 'true' and logoutResult.code == '019' then
+                 local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                 Reg:setString(regI, 'phoneNumber', 'logout')
+                 Reg:setInteger(regI, 'accountLogin', 0) --已显式登录标志位
+                 Reg:setInteger(regI, 'useAccount', 1) --只要退出账号本次就不使用token或cmwap的手机号
+                 Config:set('filterType', 1)
+                 UIChange(false)
+                 if Net.setMsgParam then --兼容内测包
+                     Net:setMsgParam({phoneNumber = ''})
+                 end
+             end
+             Tips:show(logoutResult.desc)
+         else
+             Dialog:show('提示', '亲，好像出了点状况', 'ok')
+         end
+     elseif msg == Msg.phoneNumber then
+         local loginPhoneNum = Http:jsonDecode('loginPhoneNum')
+        if Net.havePhoneNumber then --兼容内测包
+             local rtn = Net:havePhoneNumber(loginPhoneNum)
+             if rtn then
+                 Sprite:setProperty(loginedNum, 'text', loginPhoneNum.phoneNum)
+             else
+                 Log:write('loginPhoneNum.code', loginPhoneNum.code)
+                 if loginPhoneNum.code and loginPhoneNum.code == '1015' then --未绑定
+                     local numeric = Net:getNumeric() --46000、46002表示中国移动;46001表示中国联通;46003表示中国电信
+                     Log:write('numeric', numeric)
+                     local reg = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                     if numeric == '46000' or numeric == '46002' then
+                         if Reg:getInteger(reg, 'reSendSMSTimes') == 0 then
+                             Reg:setInteger(reg, 'reSendSMSTimes', 1)
+                             Net:sendSMStoGetToken()
+                         end
+                     else
+                        Reg:setString(reg, 'phoneNumber', 'logout')
+                     end
+                 end
+                 if Sprite:getText(loginedNum) == '正在获取用户信息' then
+                     UIChange(false)
+                 end
+             end
+         else
+             if loginPhoneNum.phoneNum and loginPhoneNum.phoneNum ~= '' then
+                 Sprite:setProperty(loginedNum, 'text', loginPhoneNum.phoneNum)
+             else
+                 if Sprite:getText(loginedNum) == '正在获取用户信息' then
+                     UIChange(false)
+                 end
+             end
+         end
+     elseif msg == Msg.login then
+         Loading:close()
+         local loginResult = Http:jsonDecode('loginResult')
+         Log:write('loginResult', loginResult)
+         if type(loginResult) == 'table' then
+             setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
+             if loginResult.success == 'true' and loginResult.code == '011' then
+                 if Config:get('autoLogin') == '1' then --自动登录
+                     Config:set('filterType', 0)
+                 end
+                 local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+                if Config:get('remeberPwd') == '1' then --记住密码
+                     local userName = Reg:getString(reg, 'userName')
+                     local password = Reg:getString(reg, 'password')
+                     Log:write('userName', userName)
+                     Log:write('password', password)
+                     Config:set('userName', userName)
+                     Config:set('password', password)
+                 end
+                 local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+                 Reg:setString(regI, 'phoneNumber', loginResult.phoneNumber)
+                 Reg:setInteger(regI, 'accountLogin', 1) --已显式登录标志位
+                 if Reg:getInteger(reg, 'fromCommon') == 1 then --用户点击关键业务进入的我的账号
+                     Reg:setInteger(reg, 'fromCommon', 0)
+                     Scene:back()
+                     return
+                 end
+                 UIChange(true, loginResult.phoneNumber)
+                 Net:setMsgParam({phoneNumber = loginResult.phoneNumber})
+                 Tips:show(loginResult.desc)
+				 Scene:back()
+             else
+                 Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,10)) --('用户名或密码错误')
+             end
+         else
+             dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,2) --or '返回数据格式错误','提示'
+             Dialog:show(dialogTitle, dialogContent, 'ok')
+         end
+     else
+         Util:onPluginEvent(msg, param) -- 登录消息在此处理
+     end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+     if msg == MSG_ACTIVATE then
+		 Bottom:show()
+         commonActivate()
+         local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+         local phoneNumber = Reg:getString(regI, 'phoneNumber')
+         Log:write('phoneNumber', phoneNumber)
+         if Reg:getInteger(regI, 'accountLogin') == 1 then --已显式登录标志位
+             UIChange(true, phoneNumber)
+         else
+             if phoneNumber == '' then
+                UIChange(true)
+             elseif phoneNumber == 'logout' then
+                 UIChange(false)
+             else
+                 UIChange(true, phoneNumber)
+            end
+         end
+         local autoLoginCheckBoxF = Sprite:findChild(autoLoginBtn, "checkBoxF")
+         local remeberPwdCheckBoxF = Sprite:findChild(remeberPwdBtn, "checkBoxF")
+         local autoLogin = Config:get('autoLogin')
+         if autoLogin == '' then
+             autoLoginBtnOS(autoLoginBtn)
+         else
+             Sprite:setVisible(autoLoginCheckBoxF, tonumber(autoLogin))
+         end
+         local remeberPwd = Config:get('remeberPwd')
+         remeberPwd = remeberPwd == '' and 0 or remeberPwd
+         Sprite:setVisible(remeberPwdCheckBoxF, remeberPwd)
+     elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+         if goRegistration then
+             goRegistration = false
+         else
+             local reg = Reg:create( Reg.com_wondertek_mobileaudio.myaccount)
+             Reg:setInteger(reg, 'fromCommon', 0)
+         end
+     else
+         Util:onSpriteEvent(msg, param)
+     end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+     if kc == Key.F2 then
+         if commonF2KeyUp and commonF2KeyUp() then return end
+         Scene:back()
+     else
+         Util:mainNodeOnKeyUp(sprite, kc)
+     end
+end
+
+--[[  自动登录  ]]--
+function autoLoginBtnOS(sprite)
+     if setCheck(sprite) == 1 then -- 1勾选，0未勾
+         Config:set('autoLogin', 1)
+         Config:set('remeberPwd', 1)
+         setCheck(remeberPwdBtn, 1)
+     else
+         Config:set('autoLogin', 0)
+     end
+end
+
+--[[  记住密码  ]]--
+function remeberPwdBtnOS(sprite)
+     if setCheck(sprite) == 1 then -- 1勾选，0未勾
+         Config:set('remeberPwd', 1)
+     else
+         Config:set('remeberPwd', 0)
+         Config:set('autoLogin', 0)
+         setCheck(autoLoginBtn, 0)
+     end
+end
+
+function setCheck(sprite, forceShow)
+     local checkBoxF = Sprite:findChild(sprite, "checkBoxF")
+     local isVisible = Sprite:isVisible(checkBoxF)
+     local status = isVisible == 0 and 1 or  0
+     Sprite:setVisible(checkBoxF, forceShow and forceShow or status)
+     return status
+end
+
+function editOnTextChanged(sprite)
+     local p = Sprite:getParent(sprite)
+     local blankTip = Sprite:findChild(p,"blankTip")
+     if Sprite:getText(sprite) == "" then
+         setNodeState(blankTip,1)
+     else
+         setNodeState(blankTip,0)
+     end
+end
+
+--[[  登录  ]]--
+function loginBtnOS(sprite)
+     Log:write('loginBtnOS')
+     phoneNum = Sprite:getText(accountName)
+     pwd = Sprite:getText(passWord)
+     if phoneNum == '' then
+         Dialog:show('提示', '请输入手机号', 'ok')
+         return
+     end
+     if pwd == '' then
+         Dialog:show('提示', '请输入密码', 'ok')
+         return
+     end
+     if Config:get('autoLogin') == '1' then
+         Dialog:show('提示', '“自动登录”选中后，客户端将优先以用户输入的手机号登录，不再以手机卡号登录！', 'ok_cancel', 'confirmLogin')
+         return
+     end
+     confirmLogin()
+end
+
+function confirmLogin()
+     phoneNum = Sprite:getText(accountName)
+     pwd = Sprite:getText(passWord)
+     pwd = Net:pwdEncode(pwd)
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+     Reg:setString(reg, 'userName', phoneNum)
+     Reg:setString(reg, 'password', pwd)
+     local postData = 'phoneNumber=' .. phoneNum .. '&password=' .. pwd
+     Log:write('url=', Util:getServer() .. 'msp/login.msp' .. postData)
+     Loading:show()
+     Http:request('loginResult', Util:getServer() .. 'msp/login.msp', Msg.login, {method = 'post', useCache = 0, postData = postData})
+     setOrderDataUpdate()
+end
+
+--[[  登出  ]]--
+function logoutBtnOS(sprite)
+    Log:write('logoutBtnOS')
+    local phoneNum = Sprite:getText(accountName)
+    Log:write('url=', Util:getServer() .. 'msp/logout.msp?phoneNumber=' .. phoneNum)
+    -- Loading:show()
+    Http:request('logoutResult', Util:getServer() .. 'msp/logout.msp?phoneNumber=' .. phoneNum, Msg.logout, {useCache = 0})
+    setOrderDataUpdate()
+end
+
+--[[  切换账号  ]]--
+function changeBtnOS()
+    Log:write('changeBtnOS')
+    local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+    Reg:setInteger(regI, 'useAccount', 1) --只要退出账号本次就不使用token或cmwap的手机号
+    UIChange(false)
+end
+
+--[[  找回密码  ]]--
+function getPwdBtnOS(sprite)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+    Reg:setInteger(reg, 'isRegister', 0)
+    -- Scene:go(Alias.registration)
+	Scene:go(Alias.registration,{freeDestScene = true})
+end
+
+--[[  账号注册  ]]--
+function registerBtnOS(sprite)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
+    Reg:setInteger(reg, 'isRegister', 1)
+    -- Scene:go(Alias.registration)
+	Scene:go(Alias.registration,{freeDestScene = true})
+    goRegistration = true
+end
+
+function UIChange(isLogin, phoneNumber)
+    local p = Sprite:getParent(accountName)
+    local blankTip = Sprite:findChild(p, "blankTip")
+    local p2 = Sprite:getParent(passWord)
+    local blankTip2 = Sprite:findChild(p2, "blankTip")
+    if isLogin then
+        if not phoneNumber then
+            Http:request('loginPhoneNum', Util:getServer() .. Alias.phonenumber, Msg.phoneNumber, {useCache = 0})
+        end
+        Sprite:setProperty(loginedNum, 'text', phoneNumber or '正在获取用户信息')
+        Sprite:setVisible(blankTip, 0)
+        Sprite:setVisible(blankTip2, 0)
+        Sprite:setEnable(accountName, 0)
+        Sprite:setVisible(accountName, 0)
+        Sprite:setVisible(loginedNum, 1)
+        Sprite:setRect(item2, 0, 0, 720, 0)
+        Sprite:setEnable(item2, 0)
+        Sprite:setRect(item4, 0, 0, 720, 0)
+        Sprite:setEnable(item4, 0)
+		
+        -- Sprite:setProperty(loginLblN, 'text', '切换账号')--退出换号
+        -- Sprite:setProperty(loginLblS, 'text', '切换账号')
+        -- Sprite:setProperty(loginLblD, 'text', '切换账号')
+        -- local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+        -- if Reg:getInteger(regI, 'accountLogin') ~= 1 then -- 隐式登录
+            -- Sprite:setVisible(loginBtn,1)
+            -- Sprite:setEnable(loginBtn, 1)
+            Sprite:setProperty(loginBtn, 'OnSelect', 'changeBtnOS')
+        -- else
+            Sprite:setVisible(loginBtn,1)
+            Sprite:setEnable(loginBtn, 1)
+			Sprite:setProperty(loginName, 'text', '退出')
+            Sprite:setProperty(loginBtn, 'OnSelect', 'logoutBtnOS')
+        -- end
+    else
+        Sprite:setEnable(accountName, 1)
+        Sprite:setVisible(accountName, 1)
+        Sprite:setProperty(loginedNum, 'text', '')
+        Sprite:setVisible(loginedNum, 0)
+        Sprite:setRect(item2, 0, 0, 720, 205)
+        Sprite:setEnable(item2, 1)
+        Sprite:setRect(item4, 0, 0, 720, 85)
+        Sprite:setEnable(item4, 1)
+		Sprite:setProperty(loginName, 'text', '确定')
+        Sprite:setVisible(loginBtn,1)
+        Sprite:setEnable(loginBtn, 1)
+        Sprite:setProperty(loginBtn, 'OnSelect', 'loginBtnOS')
+        if Config:get('remeberPwd') == '1' then
+            local userName = Config:get('userName')
+            local password = Net:pwdDecode(Config:get('password'))
+            Sprite:setVisible(blankTip, userName == '' and 1 or 0)
+            Sprite:setVisible(blankTip2, password == '' and 1 or 0)
+            Sprite:setProperty(accountName, 'text', userName)
+            Sprite:setProperty(passWord, 'text', password)
+        else
+            Sprite:setVisible(blankTip, 1)
+            Sprite:setVisible(blankTip2, 1)
+            Sprite:setProperty(accountName, 'text', '')
+            Sprite:setProperty(passWord, 'text', '')
+        end
+        local autoLoginCheckBoxF = Sprite:findChild(autoLoginBtn, "checkBoxF")
+        local autoLogin = Config:get('autoLogin')
+        if autoLogin == '' then
+            autoLoginBtnOS(autoLoginBtn)
+        else
+            Sprite:setVisible(autoLoginCheckBoxF, tonumber(autoLogin))
+        end
+    end
+    ListView:adjust(mainListview)
+end
+
+function cleanAccountBtnOnSelect(sprite)
+	Sprite:setProperty(accountName,'text','')
+end
+
+function cleanPasswordBtnOnSelect(sprite)
+	Sprite:setProperty(passWord,'text','')
+end

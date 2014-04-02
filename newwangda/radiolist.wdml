@@ -156,7 +156,7 @@ function radiolistBtnOnSelect(sprite)
 	if flag==1 then
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
     Reg:setString(reg,'audioplayData',data)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})
+	Scene:go(Alias.playyue,{freeDestScene=true})
 	elseif flag==2 then
 	Log:write('radiolistBtnOnSelect======1',data)
 	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
@@ -165,8 +165,8 @@ function radiolistBtnOnSelect(sprite)
 	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
     Reg:setString(reg, 'ExradioData',data)
 	Reg:setString(reg, 'ExradioTitle',Sprite:getText(Sprite:findChild(item, 'radioName')))
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\Exradiolist.wdml',{freeDestScene=true})
-	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\radiolist.wdml',{setReturn=false})
+	Scene:go(Alias.Exradiolist,{freeDestScene=true})
+	-- Scene:go(Alias.radiolist,{setReturn=false})
 	end
 end
 

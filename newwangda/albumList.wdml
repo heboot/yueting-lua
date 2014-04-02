@@ -163,7 +163,7 @@ end
 
 --[[  加载小说列表数据方法 ]]--
 function LoadAlbumListviewData()
-    local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	local index=Reg:getInteger(reg,'albumListIndex')
 	ListView:removeAllItems(albumListview, 1, 1)
 	if index==1 then 
@@ -194,7 +194,7 @@ function loadAlbumItem(list,item,index)
 	local albumName=Sprite:findChild(item,'albumName')
 	local albumAnchor=Sprite:findChild(item,'albumAnchor')
 	local albumItemBtn= Sprite:findChild(item,'albumItemBtn')
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
     albumListIndex=Reg:getInteger(reg,'albumListIndex')
 	Log:write('loadAlbumItem=====111',index,albumItemBtn)
 	if albumListIndex==1 then 
@@ -267,11 +267,11 @@ function albumItemBtnOnSelect(sprite)
     local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
     local data = Sprite:getData(sprite)	
-    local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	Reg:setString(reg,'bokeItemId',data)
 	Reg:setString(reg,'bokeItemIndex',index)
 	bokeCollectTable=Reg:setTable(reg,'bokeCollectTable',bokeCollectTable)	
-	--Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml',{freeDestScene=true})
+	--Scene:go(Alias.bokeplay,{freeDestScene=true})
 	Log:write('loadAlbumItem',data)
 	Util:_goPlay(data)
 end
@@ -311,7 +311,7 @@ function createPlayer()
             if objType == '0' or objType=='content' then --音频点播
                 if gContparam and gContparam ~= '' then
                     if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
-                    local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+                    local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
                     -- Reg:setString(reg, 'audioCurPlayingTitle',title)
                 end
             end
@@ -337,7 +337,7 @@ function openUrl()
     Player:open(playUrl,Http:getCurConnect(), breakPoint)
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    
 	Log:write('testbottominsert',playerJson.titleName)
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
 	Reg:setString(bottomReg,'type',2)
 	
@@ -445,10 +445,10 @@ end
 
 --进入个人主页按钮
 function personalHomepageBtnOnSelect(sprite)
-     -- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+     -- local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
      -- Reg:setString(reg,'userId','userId='..podcastListData.userId..';')
 	 -- Reg:setInteger(reg,'isUserId',1)
-     Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+     Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
 end
 
 ]]>

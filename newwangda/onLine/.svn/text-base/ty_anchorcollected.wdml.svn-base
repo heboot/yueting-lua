@@ -1,0 +1,214 @@
+local rootSprite
+local noticerListview
+local noticerItem
+local mainTitle
+local parentId
+local noticerData
+local IfDelete=false --判断是否删除
+
+local contentPageIndex = 1
+local contentPageSize = 30
+local isLoadingMore = 0
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 noticerListview = Sprite:findChild(sprite, 'noticerListview')
+	 noticerItem = Sprite:findChild(rootSprite, 'noticerItem')
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	   Bottom:show()
+      requestUserInfoData()
+	  --Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求个人信息方法  ]]--
+function requestUserInfoData(bKeepList)
+	Loading:show()
+	if not bKeepList then
+        ListView:setItemToTop(noticerListview,0) --为了不错误触发onovertrail
+        ListView:removeAllItems(noticerListview,1,1)
+    end
+	--local urlparam_n ='&usertype=noticer&pageIdx=' .. infotable[2].page .. '&pageSize=10'
+	local urlparam_n ='&usertype=noticer'
+	Http:request('userinfoData',  Util:getWeiBoServer() ..Alias.usernetworkData.. '?userId=' .. urlparam_n..'&pageIndex='..contentPageIndex..'&pageSize='..contentPageSize, 110, {useCache = 0})
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 110 then
+	    Loading:close()
+		userData = Http:jsonDecode('userinfoData')
+		Log:write('================userinfo',userData.myuserId)
+		if userData.myuserId == '' then
+            Net:goToMyAccount()
+        else
+            if userData and userData.userInfoList and #userData.userInfoList+1 > 0 then
+				noticerData = userData.userInfoList
+				Log:write('================noticerData',#noticerData)
+				loadListviewData()
+			else
+				
+			end
+        end
+    elseif msg == 103 then
+        resultData = Http:jsonDecode('cancelFocus_data')
+        Log:write("cancelFocus_data", resultData,resultData.result)
+        if resultData.result=='0000' then
+            --changeStatus()
+            Tips:show("取消成功")
+            requestUserInfoData(false)
+        end
+	else
+      Util:onPluginEvent(msg, param)	
+	end
+end
+
+function loadListviewData()
+	ListView:removeAllItems(noticerListview,1,1)
+    ListView:loadItem(noticerListview,noticerItem,#noticerData+1,'onloadItem1')
+    ListView:adjust(noticerListview)
+end
+
+function onloadItem1(list, item, index) --关注
+    Sprite:setRect(item, 0, 0, 720, 120)
+    Sprite:setProperty(item, 'extendstyle', '1010')
+   
+    local rimg =Sprite:findChild(item, 'rimg')
+    local deleteBtn =Sprite:findChild(item, 'deleteBtn')
+   
+   local noticerItemBtn =Sprite:findChild(item, 'noticerItemBtn')
+    if not IfDelete then
+	   Sprite:setVisible(rimg, 1)
+       Sprite:setVisible(deleteBtn, 0)
+	   Sprite:setEnable(deleteBtn, 0)  
+       Sprite:setEnable(noticerItemBtn, 1)  	   
+	else 
+	   Sprite:setVisible(rimg, 0)
+       Sprite:setVisible(deleteBtn, 1)
+	   Sprite:setEnable(deleteBtn, 1)  
+       Sprite:setEnable(noticerItemBtn, 0)  	   
+	end
+	
+    local anchorImage = Sprite:findChild(item, 'anchorImage')
+    local userImg = noticerData[index].img or ''
+    if userImg ~= '' then
+        userImg = Util:getWeiBoServer() .. 'publish/clt' .. userImg
+        Sprite:setProperty(anchorImage, 'src', userImg)
+        Log:write('userImg=='..userImg)
+    end
+    local podcastAnchor = Sprite:findChild(item, 'podcastAnchor')
+    Sprite:setProperty(podcastAnchor, 'text', noticerData[index].name)
+	Sprite:setProperty(deleteBtn, 'data', noticerData[index].id)
+	Sprite:setProperty(noticerItemBtn, 'data', noticerData[index].id)
+end
+
+function unfollowBtnOS(sprite)
+    local id = Sprite:getData(sprite)
+    if tonumber(id) then
+        Http:request('cancelFocus_data', Util:getWeiBoServer()..'/sup/supRemoveNoticer.msp?noticerId='.. id, 103, {useCache = 0})
+    else
+        Tips:show("无法获取用户信息")
+    end
+end
+
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function noticerItemBtnOnSelect(sprite)
+	local id = Sprite:getData(sprite)
+	Log:write('noticerItemBtnOnSelect==========',id)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	Reg:setInteger(reg,'isUserId',1)
+	Reg:setString(reg,'userId','userId='..id..';')
+    Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
+end
+
+--点击管理按钮
+function managerBtnOnSelect(sprite)
+    local managername=Sprite:findChild(sprite, 'managername')
+	if Sprite:getText(managername) =='管理' then
+    Sprite:setProperty(managername,'text','完成')
+	IfDelete=true
+	elseif  Sprite:getText(managername) =='完成' then
+	Sprite:setProperty(managername,'text','管理')
+	IfDelete=false
+	end
+	requestUserInfoData()
+end
+
+
+--进入个人主页按钮
+function personalHomepageBtnOnSelect(sprite)
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+     Reg:setString(reg,'userId','userId='..podcastListData.userId..';')
+	 Reg:setInteger(reg,'isUserId',1)
+     Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
+end
+
+function contentListOnOverTrail(sprite , x)
+	Log:write('contentListOnOverTrail=====',x)
+    if x ~= 0 or isLoadingMore > 0 then
+        return
+    end
+    if contentPageIndex ~= -1 and contentPageIndex < 200 then
+        contentPageIndex = contentPageIndex + 1
+        if contentPageIndex< 1 then --2013.10.24
+            return
+        end
+        insertLoading(sprite)
+		local urlparam_n ='&usertype=noticer'
+        Http:request('userinfoData',  Util:getWeiBoServer() ..Alias.usernetworkData.. '?userId=' .. urlparam_n..'&pageIndex='..contentPageIndex..'&pageSize='..contentPageSize, 110, {useCache = 0})
+
+    else
+        Tips:show('到底啦')
+    end
+end
+
+function insertLoading(sprite)
+    isLoadingMore = 1
+    local item = Sprite:create("listitem",0)
+    local node = Sprite:create("node",item)
+   
+    local spriteRect = {Sprite:getRect(sprite)}
+    local xoffset = math.floor( (spriteRect[3] - 60) / 2)
+    local label = Sprite:create('label',node)
+    Sprite:setProperty( label,'text','加载中...')
+    Sprite:setProperty( label,'rect',xoffset .. ',0,120,50')
+    Sprite:setProperty( label,'h-align','center')
+    Sprite:setProperty( label,'font-size',26)
+    Sprite:setProperty( label,'color','#262626')
+    Sprite:setProperty( label,'extendstyle','1010')
+
+    Sprite:setRect(node,0,20,800,50)
+    Sprite:setProperty(node, 'extendstyle', '1010')
+
+    Sprite:setRect(item,0,0,800,90)
+    Sprite:setProperty(item, 'extendstyle', '1010')
+    Sprite:setProperty(sprite,"data","1")
+    ListView:insertItem(sprite, ListView:getItemCount(sprite)+1, item)
+end

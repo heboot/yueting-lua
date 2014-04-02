@@ -242,7 +242,7 @@ function bodyOnPluginEvent(msg, param)
 	 novelData= Http:jsonDecode('novelData')
 	 subListTable=novelData.contList
 	 
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 	local index=Reg:getString(reg,'novelItemIndex')
 	 
 	Log:write('subListTable==================111',#subListTable,index)
@@ -267,7 +267,7 @@ function bodyOnPluginEvent(msg, param)
 	elseif msg==105 then
 	
 	novelListData2= Http:jsonDecode('novelListData2')
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')	
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)	
 	local novelItemParam=Reg:getString(reg,'novelItemId')
 	local _,_, nodeId1 = string.find(novelItemParam,'nodeId=(%d+);')
 	gallarydata={}	
@@ -361,7 +361,7 @@ function bodyOnSpriteEvent(msg, param)
 	else
 	Sprite:setProperty(wifiFlag, 'src', '') 
 	end
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     key=Reg:getNumber(reg, 'key')
 	if key and key~=0 then
 	    Reg:setNumber(reg, 'key', 0)
@@ -387,7 +387,7 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function setData()
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     local title= Reg:getString(reg,'novelItemTitle')
     local novelAuthor=Reg:getString(reg,'novelAuthor')  
 	local index=Reg:getString(reg,'novelItemIndex')
@@ -400,7 +400,7 @@ function setData()
 	else
 	Sprite:setProperty(anchor,'text','佚名')	
 	end
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 	local data='mainTitle='..Sprite:getText(mainTitle) ..';audioname='..Sprite:getText(audioname)..';anchor='..Sprite:getText(anchor) 
 	Reg:setString(reg,'novelLiveInfo',data)
 	subListTable = contList
@@ -441,7 +441,7 @@ function createPlayer()
             if objType == '0' or objType=='content' then --音频点播
                 if gContparam and gContparam ~= '' then
                     if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
-                    local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+                    local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
                     -- Reg:setString(reg, 'audioCurPlayingTitle',title)
                 end
             end
@@ -467,7 +467,7 @@ function openUrl()
     Player:open(playUrl,Http:getCurConnect(), breakPoint)
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    
 	
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
 	Reg:setString(bottomReg,'type',1)
 	
@@ -482,7 +482,7 @@ end
 function playBtnOnSelect(sprite)
   if not isPlayerCreate and subListTable then
         local contList = subListTable
-		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 		local index=Reg:getString(reg,'novelItemIndex')
 		Log:write("index===========",tonumber(index))
         if contList and '' ~= contList[tonumber(index)] then
@@ -707,21 +707,21 @@ end
 
 --三个。。。点击事件
 function moreContentsBtnOnSelect(sprite)
-   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
    Log:write('moreContentsBtnOnSelect======',#subListTable)
    Reg:setTable(reg,'selectedworks',subListTable)
-   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
    Reg:setString(reg,'selectedworkstitle', Sprite:getText(mainTitle))
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\downloadworks.wdml',{freeDestScene=true})
+   Scene:go(Alias.downloadworks,{freeDestScene=true})
 end
 
 --选集按钮
 function selectedWorksBtnOnSelect(sprite)
-   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
    Reg:setTable(reg,'selectedworks',subListTable)
    Log:write('selectedWorksBtnOnSelect====', Sprite:getText(mainTitle))
    Reg:setString(reg,'selectedworkstitle', Sprite:getText(mainTitle))
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\selectedworks.wdml',{freeDestScene=true})
+   Scene:go(Alias.selectedworks,{freeDestScene=true})
 end
 
 function backBtnOnSelect(sprite)
@@ -730,7 +730,7 @@ end
 
 --------------------暂时使用---Gallery-------------------------------
 function setGalleryData()
-    local reg = Reg:create('com_wondertek_mobileaudio_novel')
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 	local data = Reg:getString(reg,'novelItemId')
 	audioplayCollect=Reg:getString(reg,'audioplayCollect')
 	Log:write('===============audioplayCollect',audioplayCollect)
@@ -816,7 +816,7 @@ function galleryOnSelect(sprite)
    local _,_,name = string.find(data, 'name=([^;]+);')
    local _,_,nodeId=string.find(data,'nodeId=(%d+);')
    Sprite:setProperty(mainTitle,'text',name)
-   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
    Reg:setString(reg,'novelItemTitle',name)
    tempnodeId=nodeId
    elseif audioplayCollect=='2' then
@@ -824,13 +824,13 @@ function galleryOnSelect(sprite)
 		local name = data.name
 		local _,_,nodeId=string.find(data.param,'nodeId=(%d+);')
 		Sprite:setProperty(mainTitle,'text',name)
-		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 		Reg:setString(reg,'novelItemTitle',name)
 		tempnodeId=nodeId
    else
    local data=gallarydata[index+1].param
    Sprite:setProperty(mainTitle,'text',gallarydata[index+1].name)
-   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
    Reg:setString(reg,'novelItemTitle',gallarydata[index+1].name)
    local _,_,nodeId=string.find(data,'nodeId=(%d+);')
    tempnodeId=nodeId
@@ -846,7 +846,7 @@ function galleryOnSelect(sprite)
 		Sprite:setVisible(collection_n,1)
 		Sprite:setProperty(click2collect, 'text', '点击收藏') 
     end
-   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
    local isFirst=Reg:getInteger(reg, 'novelIsFirst') 
    Log:write('isFirst=======',isFirst)
    --if isFirst==1  then

@@ -133,7 +133,7 @@ function radiolistBtnOnSelect(sprite)
     local index=ListView:getItemIndex(item)
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
     Reg:setString(reg,'audioplayData',data)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})
+	Scene:go(Alias.playyue,{freeDestScene=true})
 end
 
 

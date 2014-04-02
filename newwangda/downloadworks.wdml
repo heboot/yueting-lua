@@ -96,7 +96,7 @@ function bodyBuildChildrenFinished(sprite)
 	 dataListviewItem= Sprite:findChild(sprite, 'dataListviewItem')
 	 dataItem = Sprite:findChild(sprite,'dataItem')
 	 mainTitle = Sprite:findChild(sprite, 'mainTitle')
-	 local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 	 subListTable =Reg:getTable(reg,'selectedworks')
 	 contentListData = subListTable
 	 count=#subListTable+1
@@ -105,7 +105,7 @@ function bodyBuildChildrenFinished(sprite)
 	 downbtns = Sprite:findChild(downloadBtn,'downbtns')
 	 downbtnlbl =  Sprite:findChild(downloadBtn,'downbtnlbl')
 	 mainTitle = Sprite:findChild(sprite,'mainTitle')
-	 local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
      title= Reg:getString(reg,'novelItemTitle')
 	 Sprite:setProperty(mainTitle,'text',title)
 	

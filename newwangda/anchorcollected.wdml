@@ -205,10 +205,10 @@ end
 function noticerItemBtnOnSelect(sprite)
 	local id = Sprite:getData(sprite)
 	Log:write('noticerItemBtnOnSelect==========',id)
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	Reg:setInteger(reg,'isUserId',1)
 	Reg:setString(reg,'userId','userId='..id..';')
-    Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+    Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
 end
 
 --点击管理按钮
@@ -227,10 +227,10 @@ end
 
 --进入个人主页按钮
 function personalHomepageBtnOnSelect(sprite)
-     local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
      Reg:setString(reg,'userId','userId='..podcastListData.userId..';')
 	 Reg:setInteger(reg,'isUserId',1)
-     Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+     Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
 end
 
 function contentListOnOverTrail(sprite , x)

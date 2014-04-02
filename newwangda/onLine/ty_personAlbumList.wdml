@@ -1,0 +1,138 @@
+local rootSprite
+local podcastListview
+local podcastItem
+local mainTitle
+local parentId
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 podcastListview = Sprite:findChild(sprite, 'podcastListview')
+	 podcastItem = Sprite:findChild(rootSprite, 'podcastItem')
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	     Bottom:show()
+         requestPodcastUserData()
+	     Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求播客列表数据方法  ]]--
+function requestPodcastUserData()
+	 local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+     local userId = Reg:getString(regCommunity ,'userId')
+     _userId = userId
+     Http:request('podcastUserData', Util:getWeiBoServer() .. '/publish/clt/resource/mobileaudio3/podcast/podcastUserData.jsp?'..'userId='..userId,103)
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 103 then
+	     Loading:close()
+		 podcastUserData = Http:jsonDecode('podcastUserData')
+		 loadpodcastListviewData()
+    else
+       Util:onPluginEvent(msg, param)	
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function loadpodcastListviewData()
+    if podcastUserData.list0~='' and podcastUserData.list0~=nil then 
+	   ListView:removeAllItems(podcastListview, 1, 1)
+       ListView:loadItem(podcastListview,podcastItem,4,'loadpodcastItem')
+	   ListView:adjust(podcastListview)
+    end	
+end
+
+--[[  加载播客列表ITEM数据方法 ]]--
+function loadpodcastItem(list,item,index)
+    Sprite:setRect(item, 0,0,686,172)
+    Sprite:setProperty(item,'extendstyle','1010')
+	local podcastImage=Sprite:findChild(item,'podcastImage')
+	local podcastName=Sprite:findChild(item,'podcastName')
+	local podcastAnchor=Sprite:findChild(item,'podcastAnchor')
+	local podcastItemBtn=Sprite:findChild(item,'podcastItemBtn')
+	local podcastAnchorLabel=Sprite:findChild(item,'podcastAnchorLabel')
+	if index==0 then
+	     if podcastUserData.list1~='' and podcastUserData.list1~=nil then 
+		     Sprite:setProperty(podcastAnchor,'text',podcastUserData.list1[#podcastUserData.list1].sname)
+	         Sprite:setProperty(podcastImage,'src',podcastUserData.list1[#podcastUserData.list1].videoImg)
+	         Sprite:setProperty(podcastName,'text','娱乐/'..#podcastUserData.list1+1)
+	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=1;')
+	    else
+	         Sprite:setProperty(podcastName,'text','娱乐/0')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
+		     Sprite:setEnable(podcastItemBtn,0)
+			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40) 	 
+	     end
+	elseif index==1 then
+	     if podcastUserData.list2~='' and podcastUserData.list2~=nil then 
+	         Sprite:setProperty(podcastImage,'src',podcastUserData.list2[#podcastUserData.list2].videoImg)
+	         Sprite:setProperty(podcastName,'text','音乐/'..#podcastUserData.list2+1)
+	         Sprite:setProperty(podcastAnchor,'text',podcastUserData.list2[#podcastUserData.list2].sname)
+	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=2;')
+	    else
+	         Sprite:setProperty(podcastName,'text','音乐/0')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
+		     Sprite:setEnable(podcastItemBtn,0)
+			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40)
+	     end
+	elseif index==2 then
+	     if podcastUserData.list3~='' and podcastUserData.list3~=nil then 
+	         Sprite:setProperty(podcastImage,'src',podcastUserData.list3[#podcastUserData.list3].videoImg)
+	         Sprite:setProperty(podcastName,'text','情感/'..#podcastUserData.list3+1)
+	         Sprite:setProperty(podcastAnchor,'text',podcastUserData.list3[#podcastUserData.list3].sname)
+	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=3;')
+	     else
+	         Sprite:setProperty(podcastName,'text','情感/0')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
+		     Sprite:setEnable(podcastItemBtn,0)
+			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40)
+	     end
+	elseif index==3 then
+	     if podcastUserData.list4~='' and podcastUserData.list4~=nil then 
+	         Sprite:setProperty(podcastImage,'src',podcastUserData.list4[#podcastUserData.list4].videoImg)
+	         Sprite:setProperty(podcastName,'text','脱口秀/'..#podcastUserData.list4+1)
+	         Sprite:setProperty(podcastAnchor,'text',podcastUserData.list4[#podcastUserData.list4].sname)
+	         Sprite:setProperty(podcastItemBtn,'data','albumIndex=4;')
+	    else
+	         Sprite:setProperty(podcastName,'text','脱口秀/0')
+		     Sprite:setProperty(podcastAnchorLabel,'text','暂无作品')
+		     Sprite:setEnable(podcastItemBtn,0)
+			 Sprite:setRect(podcastAnchorLabel, 270,110,150,40)
+	     end
+	end
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function podcastItemBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	Reg:setString(reg,'albumIndex',data)
+	Scene:go(Alias.personAlbumList2,{freeDestScene=true})
+end

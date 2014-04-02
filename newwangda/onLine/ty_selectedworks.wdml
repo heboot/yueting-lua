@@ -1,0 +1,100 @@
+local rootSprite
+local datalListView
+local dataListviewItem
+local dataItem
+local mainTitle
+local count
+local subListTable
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 datalListView= Sprite:findChild(sprite, 'datalListView')
+	 dataListviewItem= Sprite:findChild(sprite, 'dataListviewItem')
+	 dataItem = Sprite:findChild(sprite, 'dataItem')
+	 mainTitle = Sprite:findChild(sprite, 'mainTitle')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+     subListTable=Reg:getTable(reg,'selectedworks')
+	 local title=Reg:getString(reg,'selectedworkstitle')
+	 Sprite:setProperty(mainTitle,'text',title)
+	 count=#subListTable+1
+	 
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Bottom:show()
+	  LoadListData()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)		
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 103 then
+	else
+      Util:onPluginEvent(msg, param)	
+	end
+end
+
+
+function LoadListData()
+	ListView:removeAllItems(datalListView, 1, 1)
+    ListView:loadItem(datalListView,dataListviewItem,1,'loadDataItem')
+	ListView:adjust(datalListView) 
+end
+
+
+function loadDataItem(list,item,index)
+	--Sprite:setRect(item,0,0,689,0)
+	Sprite:setProperty(item, 'extendstyle', '1111')
+	datalList = Sprite:findChild(item, 'datalList')
+	local line =  math.ceil(count/5)
+	Sprite:setRect(item,0,0,686,line*137)
+	Sprite:setProperty(datalList, 'line', math.ceil(count/5))
+	Sprite:setProperty(datalList, 'col', '5')
+	List:removeAllItems(datalList, 1, 1)
+    List:loadItem(datalList,dataItem,count,'loadDataListItem')
+	List:adjust(datalList)   
+end
+
+function loadDataListItem(list,item,index)
+    Sprite:setRect(item,0,0,136,137)
+    Sprite:setProperty(item, 'extendstyle', '1111')
+	local numbelNumber=Sprite:findChild(item,'numbelNumber')
+    local dataItemBtn=Sprite:findChild(item,'dataItemBtn')
+	Sprite:setProperty(numbelNumber,'text',index+1)
+	Sprite:setProperty(dataItemBtn,'data',subListTable[index].param)
+	Log:write('loadDataListItem=========',subListTable[index].param)
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function dataItemBtnOnSelect(sprite)
+   local param=Sprite:getData(sprite)
+   Log:write('param============',param)
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+   Reg:setString(reg,'selectedworksparam',param)
+   Reg:setNumber(reg, 'key', 1)
+   Scene:back()
+end

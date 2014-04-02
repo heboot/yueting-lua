@@ -27,7 +27,7 @@
 		<node rect="0,0,720,150"  extendstyle="1810">
 		     <label rect="20,0,500,150" extendstyle="1111" text="连续签到，赢取特权奖励" color="#FFFFFF"  v-align="center" font-size="35"/>
 		     <image rect="476,25,219,120" style="autosize" src="file://image/checkindays.png" extendstyle="1010">
-			     <label name="checkInDaysName" rect="0,0,219,80" extendstyle="1010" text="0" color="#FFFFFF"  h-align="center" v-align="center" font-size="35"/>
+			     <label name="checkInDaysName" rect="0,0,219,80" extendstyle="1010" text="0" color="#FFFFFF"  h-align="center" v-align="center" font-size="35" visible="0"/>
 			 </image>
 		</node>
 		<node rect="17,0,686,54"  extendstyle="1810">
@@ -94,7 +94,7 @@ function bodyBuildChildrenFinished(sprite)
      checkInDaysName1= Sprite:findChild(rootSprite, 'checkInDaysName1')
 	 progressImg= Sprite:findChild(rootSprite, 'progressImg')
      progressBarImg= Sprite:findChild(rootSprite, 'progressBarImg')
-	 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	 toUserId=Reg:getString(reg,'checkInUserId')
 end
 
@@ -215,10 +215,10 @@ end
 
 function checkinItemBtnOnSelect(sprite)
 	 local data = Sprite:getData(sprite)
-	 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	 Reg:setInteger(reg,'isUserId',1)
 	 Reg:setString(reg,'userId','userId='..data)
-	 Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+	 Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
 end
 
 function requestIsCheck()

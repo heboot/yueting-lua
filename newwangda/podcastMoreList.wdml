@@ -87,7 +87,7 @@ end
 
 --[[  请求小说列表数据方法  ]]--
 function requestPodcastListData()
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	local data=Reg:getString(reg,'podcastRecMoreData')
 	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
 	local _,_,name=string.find(data,'name=([^;]+);')
@@ -144,10 +144,10 @@ function podcastItemBtnOnSelect(sprite)
 	local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
 	local data = Sprite:getData(sprite)
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	Reg:setInteger(reg,'isNodeId',1)
 	Reg:setString(reg,'bokeItemData',data)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+	Scene:go(Alias.podcastList,{freeDestScene=true})
 end
 
 

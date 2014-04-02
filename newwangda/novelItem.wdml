@@ -145,7 +145,7 @@ function bodyOnPluginEvent(msg, param)
 		--Loading:close()
 		--novelListData = Http:jsonDecode('novelListData')
 		--if novelListData and novelListData~='' then
-		   --local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		   --local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
            --Reg:setTable(reg,'novelContList',novelListData.contList)
 		--end
 		--Log:write('fanhui.......',novelListData.contList.name)
@@ -229,7 +229,7 @@ end
 
 --[[  新增OMS读取小说数据方法  ]]--
 function requestNovelData()
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     local data = Reg:getString(reg,'novelItemId')	
 	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
 	if nodeId and nodeId ~= '' then
@@ -265,7 +265,7 @@ function LoadNovelData()
 				table.insert(tempTable,novelData.contList[i])
 			end
 		   Log:write('LoadNovelData==============',#tempTable)
-		   local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
            --Reg:setTable(reg,'novelContList',novelData.contList)
 		   Reg:setTable(reg,'novelContList',tempTable)
     end
@@ -286,11 +286,11 @@ end
 
 --[[  点击小说简介  ]]--
 function novelInfoBtnOnSelect()
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 	Log:write('aluha',novelData.name,novelData.desc)
 	Reg:setString(reg,'title',novelData.name)
 	Reg:setString(reg,'desc',novelData.desc)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelInfo.wdml',{freeDestScene=true})
+	Scene:go(Alias.novelInfo,{freeDestScene=true})
 end
 
 
@@ -299,7 +299,7 @@ function novelItemBtnOnSelect(sprite)
 	local index=ListView:getItemIndex(item)
 	Log:write('novelItemBtnOnSelect111==============',index)
 	local data=Sprite:getData(sprite) 
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 	Reg:setString(reg,'novelItemParam',data)
 	Reg:setString(reg,'novelItemIndex',index+1)
 	Reg:setString(reg,'novelItemTitle',Sprite:getText(mainTitle))
@@ -322,11 +322,7 @@ function novelItemBtnOnSelect(sprite)
 		Reg:setTable(reg,'audioplayCollectTable',atable)
 		--Reg:setTable(reg,'audioplayCollectTable',novelData.contList)
 	end
-
-
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{freeDestScene=true, setReturn = false})
-	--Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',{setReturn=false})
-
+	Scene:go(Alias.audioplay,{freeDestScene=true, setReturn = false})
 end
 
 ]]>

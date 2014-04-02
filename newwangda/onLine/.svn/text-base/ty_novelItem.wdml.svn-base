@@ -1,0 +1,253 @@
+local mainTitle
+local noveslListview
+local novelItem
+local novelInfo
+local novelInfoBtn
+local novelTopImg
+local authorName
+local playCount
+local tempNodeId
+
+local contentPageIndex = 1
+local contentPageSize = 30
+local isLoadingMore = 0
+
+local tempTable = {}
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	 noveslListview = Sprite:findChild(sprite, 'noveslListview')
+	 novelItem = Sprite:findChild(rootSprite, 'novelItem')
+	 novelInfo  = Sprite:findChild(rootSprite, 'novelInfo')
+	 novelTopImg = Sprite:findChild(rootSprite, 'novelTopImg')
+	 authorName = Sprite:findChild(rootSprite, 'authorName')
+	 playCount = Sprite:findChild(rootSprite, 'playCount')
+	 authorImg = Sprite:findChild(rootSprite, 'authorImg')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Loading:show()
+	  Bottom:show()
+      --LoadNovelData()
+	  requestNovelData()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 101 then
+	    Loading:close()
+		isLoadingMore = 0
+		novelData = Http:jsonDecode('novelData')
+		Log:write('LoadNovelData===000',novelData==nil,novelData.name)
+		LoadNovelData()
+		local lvitemcount = ListView:getItemCount(noveslListview)
+		if lvitemcount > 0 then
+			local lastItem = ListView:getItem(noveslListview,ListView:getItemCount(noveslListview)-1)
+			ListView:removeItem(noveslListview,lastItem,1,1)
+		end
+		if novelData.contList then
+			local count = #novelData.contList+1
+			ListView:loadItem(noveslListview,novelItem,count,"loadNovelItem")
+			ListView:adjust(noveslListview)
+			--if ListView:getItemCount(noveslListview) >= tonumber(novelData.commentCount) then
+		else
+			contentPageIndex = -1
+		end
+		
+		
+		
+	elseif msg == 103 then
+		--Loading:close()
+		--novelListData = Http:jsonDecode('novelListData')
+		--if novelListData and novelListData~='' then
+		   --local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+           --Reg:setTable(reg,'novelContList',novelListData.contList)
+		--end
+		--Log:write('fanhui.......',novelListData.contList.name)
+		--LoadnoveslListviewData()
+	else
+      Util:onPluginEvent(msg, param)	
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function LoadnoveslListviewData()
+	ListView:removeAllItems(noveslListview,1,1)
+    ListView:loadItem(noveslListview,novelItem,math.ceil(#novelData.contList+1),'loadNovelItem')
+	ListView:adjust(noveslListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadNovelItem(list,item,index)
+	 --Sprite:setProperty(item,"extendstyle","1070")
+	 --Sprite:setRect(item,0,0,720,255)
+
+	 Sprite:setProperty(Sprite:findChild(item,'novelChildName'),'text',novelData.contList[index].name)
+	 Sprite:setProperty(Sprite:findChild(item,'novelItemBtn'),'data',novelData.contList[index].param)
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function contentListOnOverTrail(sprite , x)
+	Log:write('contentListOnOverTrail=====',x)
+    if x ~= 0 or isLoadingMore > 0 then
+        return
+    end
+    if contentPageIndex ~= -1 and contentPageIndex < 200 then
+        contentPageIndex = contentPageIndex + 1
+        if contentPageIndex< 1 then --2013.10.24
+            return
+        end
+        insertLoading(sprite)
+        Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelItemData.jsp?nodeId='..tempNodeId..'&objType=0&pageIndex='..contentPageIndex..'&pageSize='..contentPageSize,101)
+
+    else
+        Tips:show('到底啦')
+    end
+end
+
+function insertLoading(sprite)
+    isLoadingMore = 1
+    local item = Sprite:create("listitem",0)
+    local node = Sprite:create("node",item)
+   
+    local spriteRect = {Sprite:getRect(sprite)}
+    local xoffset = math.floor( (spriteRect[3] - 60) / 2)
+    local label = Sprite:create('label',node)
+    Sprite:setProperty( label,'text','加载中...')
+    Sprite:setProperty( label,'rect',xoffset .. ',0,120,50')
+    Sprite:setProperty( label,'h-align','center')
+    Sprite:setProperty( label,'font-size',26)
+    Sprite:setProperty( label,'color','#262626')
+    Sprite:setProperty( label,'extendstyle','1010')
+
+    Sprite:setRect(node,0,20,800,50)
+    Sprite:setProperty(node, 'extendstyle', '1010')
+
+    Sprite:setRect(item,0,0,800,90)
+    Sprite:setProperty(item, 'extendstyle', '1010')
+    Sprite:setProperty(sprite,"data","1")
+    ListView:insertItem(sprite, ListView:getItemCount(sprite)+1, item)
+end
+
+
+--[[  新增OMS读取小说数据方法  ]]--
+function requestNovelData()
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+    local data = Reg:getString(reg,'novelItemId')	
+	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	if nodeId and nodeId ~= '' then
+	   tempNodeId = nodeId
+       Http:request('novelData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelItemData.jsp?nodeId='..nodeId..'&objType=0&pageIndex='..contentPageIndex..'&pageSize='..contentPageSize,101)
+    end
+end
+
+--[[  读取小说数据方法  ]]--
+function LoadNovelData()
+
+	Sprite:setProperty(mainTitle,'text',novelData.name)
+	Sprite:setProperty(novelInfo,'text',novelData.desc)
+
+	if novelData.timg~= nil then
+	Sprite:setProperty(novelTopImg,'src',novelData.timg)
+	else
+	-- Sprite:setProperty(novelTopImg,'src',novelData.cimg)
+	end	
+
+	Sprite:setProperty(authorName,'text',novelData.anchor)
+	
+	Sprite:setProperty(playCount,'extendstyle','5111')
+
+	
+	Sprite:setProperty(playCount,'text',novelData.count..'人收听')
+	if novelData.aimg and novelData.aimg ~= nil and novelData.aimg ~= '' then
+	Sprite:setProperty(authorImg,'src',novelData.aimg)
+	end
+	--LoadnoveslListviewData()
+	if novelData.contList and novelData.contList~='' then
+		    for i=0,#novelData.contList do
+				table.insert(tempTable,novelData.contList[i])
+			end
+		   Log:write('LoadNovelData==============',#tempTable)
+		   local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+           --Reg:setTable(reg,'novelContList',novelData.contList)
+		   Reg:setTable(reg,'novelContList',tempTable)
+    end
+	
+	if novelData.limg and novelData.contList and tempNodeId then
+        count = #novelData.contList+1
+        saveNodeInfo(novelData.name,{img=GetLocalFilename(novelData.limg),count=count,nodeId=tempNodeId,anchor=novelData.anchor})
+    end
+end
+
+function saveNodeInfo(nodeName,propTable)
+    local reg = Reg:create("tmp")
+    Reg:load(reg, "WONDER:\\temp\\nodeInfo.xml")
+    Reg:setTable(reg,Util:md5(nodeName),propTable)
+    Reg:save(reg, "WONDER:\\temp\\nodeInfo.xml")
+    Reg:release("tmp")
+end
+
+--[[  点击小说简介  ]]--
+function novelInfoBtnOnSelect()
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+	Log:write('aluha',novelData.name,novelData.desc)
+	Reg:setString(reg,'title',novelData.name)
+	Reg:setString(reg,'desc',novelData.desc)
+	Scene:go(Alias.novelInfo,{freeDestScene=true})
+end
+
+
+function novelItemBtnOnSelect(sprite)
+	local item=Sprite:getParent(sprite) 
+	local index=ListView:getItemIndex(item)
+	Log:write('novelItemBtnOnSelect111==============',index)
+	local data=Sprite:getData(sprite) 
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+	Reg:setString(reg,'novelItemParam',data)
+	Reg:setString(reg,'novelItemIndex',index+1)
+	Reg:setString(reg,'novelItemTitle',Sprite:getText(mainTitle))
+	Reg:setString(reg,'novelAuthor',Sprite:getText(authorName))
+	Reg:setInteger(reg, 'novelIsFirst',1) 
+
+
+	local data2 = Reg:getString(reg,'novelItemId')	
+	local _,_,parentId=string.find(data2,'parentId=(%d+);')
+	Log:write('===============audioplayCollect parentId',parentId)
+	if parentId==nil or parentId == '' then
+		Log:write('===============novelItemBtnOnSelect',data,Sprite:getText(mainTitle))
+		Reg:setString(reg,'audioplayCollect','2')
+		--{img=GetLocalFilename(novelData.limg),count=count,nodeId=tempNodeId,anchor=novelData.anchor}
+		local ttt = Sprite:getText(mainTitle)
+		local atable = {}
+		local stable = {name=ttt,param=data}
+		table.insert(atable,stable)
+		Log:write('===============novelItemBtnOnSelect2',atable[1])
+		Reg:setTable(reg,'audioplayCollectTable',atable)
+		--Reg:setTable(reg,'audioplayCollectTable',novelData.contList)
+	end
+	Scene:go(Alias.audioplay,{freeDestScene=true, setReturn = false})
+end

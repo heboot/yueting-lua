@@ -39,7 +39,11 @@ Reg.com_wondertek_mobileaudio = {
     playeryue = 'com_wondertek_mobileaudio_playeryue',-- 悦听仓库
     ranklist = 'com_wondertek_mobileaudio_ranklist' , -- 排行榜数据仓库
     audiolive = 'com_wondertek_mobileaudio_audiolive',--电台播放数据仓库
-	personalBoke='com_wondertek_mobileaudio_podcast',--播客数据仓库
+    personalBoke='com_wondertek_mobileaudio_podcast',--播客数据仓库
+    novel = 'com_wondertek_mobileaudio_novel',
+    bottomPlayer = 'com_wondertek_mobileaudio_bottomplayer',
+    localPlay = 'com_wondertek_mobileaudio_localplay',
+    closeTime = 'com_wondertek_mobileaudio_closetime',
 }
 
 -- 编译开发验证
@@ -48,59 +52,89 @@ Alias = {
     tipfile         = '/publish/clt/resource/mobileaudio3/common/tipfile.jsp',  --tips提示语数据页
     sceneModifiedData =  '/publish/clt/resource/mobileaudio3/common/sceneModifiedData.jsp',
     phonenumber     = '/publish/clt/resource/mobileaudio3/common/phonenumber.jsp', --登录状态与手机号数据
-
-    index           = 'MODULE:\\com_wondertek_mobileaudio\\index.wdml', -- 起始页
-
     --home            = '/publish/clt/resource/mobileaudio3/home/home.jsp', -- 首页
     homeData        = '/publish/clt/resource/mobileaudio3/home/homeData.jsp', -- 首页
     channelData     = '/publish/clt/resource/mobileaudio3/home/channelData.jsp', -- 首页
-
-    myaccount       = '/publish/clt/resource/mobileaudio3/account/myaccount.jsp', --我的账号
-    registration    = '/publish/clt/resource/mobileaudio3/account/registration.jsp', --账号注册
-    signup          = '/publish/clt/resource/mobileaudio3/signup/signup.jsp', --报名参赛
-
-    uploadworks     = '/publish/clt/resource/mobileaudio3/upload/uploadworks.jsp', --上传
+    --myaccount       = '/publish/clt/resource/mobileaudio3/account/myaccount.jsp', --我的账号
+    --registration    = '/publish/clt/resource/mobileaudio3/account/registration.jsp', --账号注册
+    --signup          = '/publish/clt/resource/mobileaudio3/signup/signup.jsp', --报名参赛
+    --uploadworks     = '/publish/clt/resource/mobileaudio3/upload/uploadworks.jsp', --上传
     uploadimgedit   = '/publish/clt/resource/mobileaudio3/upload/uploadimgedit.jsp', --编辑头像
-    uploadrecording = '/publish/clt/resource/mobileaudio3/upload/uploadrecording.jsp', --录音
-    uploadlocalsearch= '/publish/clt/resource/mobileaudio3/upload/uploadlocalsearch.jsp', --录音
-
-    playeryue       = '/publish/clt/resource/mobileaudio3/audioplay/playeryue.jsp', -- 悦听直播页
+   -- uploadrecording = '/publish/clt/resource/mobileaudio3/upload/uploadrecording.jsp', --录音
+   -- uploadlocalsearch= '/publish/clt/resource/mobileaudio3/upload/uploadlocalsearch.jsp', --录音
+  --  playeryue       = '/publish/clt/resource/mobileaudio3/audioplay/playeryue.jsp', -- 悦听直播页
     playerData      = '/publish/clt/resource/mobileaudio3/audioplay/playerData.jsp', -- 播放页面json数据
-    catalogueAudioData = '/publish/clt/resource/mobileaudio3/audioplay/catalogueAudioData.jsp', --悦听分类栏目-直播-一级直播列表数据
-    catalogueAudioData2 = '/publish/clt/resource/mobileaudio3/audioplay/catalogueAudioData2.jsp', --悦听分类栏目-直播-二级直播列表json数据
-
+   -- catalogueAudioData = '/publish/clt/resource/mobileaudio3/audioplay/catalogueAudioData.jsp', --悦听分类栏目-直播-一级直播列表数据
+   -- catalogueAudioData2 = '/publish/clt/resource/mobileaudio3/audioplay/catalogueAudioData2.jsp', --悦听分类栏目-直播-二级直播列表json数据
     --audioplay       = '/publish/clt/resource/mobileaudio3/audioplay/Exaudioplay.jsp',-- 点播
-    audioplayData   = '/publish/clt/resource/mobileaudio3/audioplay/audioplayData.jsp', -- 点播数据
-    audioplayblogData   = '/publish/clt/resource/mobileaudio3/audioplay/audioplayblogData.jsp', -- 点播数据
-    userinfoData    = '/publish/clt/resource/mobileaudio3/mycommunity/userinfoData.jsp',
-    commentPageData = '/publish/clt/resource/mobileaudio3/audioplay/commentPageData.jsp',
-    userboxData     = '/publish/clt/resource/mobileaudio3/mycommunity/userboxData.jsp',
-    usernetworkData = '/publish/clt/resource/mobileaudio3/mycommunity/usernetworkData.jsp',
+    --audioplayData   = '/publish/clt/resource/mobileaudio3/audioplay/audioplayData.jsp', -- 点播数据
+   -- audioplayblogData   = '/publish/clt/resource/mobileaudio3/audioplay/audioplayblogData.jsp', -- 点播数据
+      userinfoData    = '/publish/clt/resource/mobileaudio3/mycommunity/userinfoData.jsp',
+   -- commentPageData = '/publish/clt/resource/mobileaudio3/audioplay/commentPageData.jsp',
+   -- userboxData     = '/publish/clt/resource/mobileaudio3/mycommunity/userboxData.jsp',
+      usernetworkData = '/publish/clt/resource/mobileaudio3/mycommunity/usernetworkData.jsp',
     -- userworksData   = '/publish/clt/resource/mobileaudio3/mycommunity/userboxData.jsp',
-
-    mycommunity     = '/publish/clt/resource/mobileaudio3/mycommunity/mycommunity.jsp',  --我的空间
-    mycommunitysetting = '/publish/clt/resource/mobileaudio3/mycommunity/mycommunitysetting.jsp',  --空间设置
-    communityFavoriteData = 'publish/clt/resource/mobileaudio3/mycommunity/communityFavoriteData.jsp', --社区收藏数据
-    gatewayCheckFavData = 'publish/clt/resource/mobileaudio3/mycommunity/gatewayCheckFavData.jsp', --门户收藏数据
-
-    competition     = '/publish/clt/resource/mobileaudio3/competition/competition.jsp', --DJ大赛
-    competitionData = '/publish/clt/resource/mobileaudio3/competition/competitionData.jsp',  --大赛空间数据
-    registerform    = '/publish/clt/resource/mobileaudio3/registerform/registerform.jsp',   --报名页
-    ranklist        = '/publish/clt/resource/mobileaudio3/ranklist/ranklist.jsp',   --排行榜
-    ranklistData    = '/publish/clt/resource/mobileaudio3/ranklist/ranklistData.jsp',   --排行榜数据
-
-    syssetting      = '/publish/clt/resource/mobileaudio3/syssetting/syssetting.jsp',   --设置页
-    myorderproduct  = '/publish/clt/resource/mobileaudio3/syssetting/myorderproduct.jsp', -- 我的订购json数据
-    advice          = '/publish/clt/resource/mobileaudio3/syssetting/advice.jsp', -- 意见反馈
-
-    audiolocallive ='/publish/clt/resource/mobileaudio3/radiolive/audiolocallive.jsp',--悦听电台数据列表
-    audioliveplay ='/publish/clt/resource/mobileaudio3/radiolive/audioliveplay.jsp',--悦听电台播放页面
-	 audioplay       = 'MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',  -- 点播
-	 home       = 'MODULE:\\com_wondertek_mobileaudio\\home.wdml',  -- 首页推荐
-	 
-	nodeImgData     = '/publish/clt/resource/mobileaudio3/common/nodeImgData.jsp', --获取栏目图
-
+   -- mycommunity     = '/publish/clt/resource/mobileaudio3/mycommunity/mycommunity.jsp',  --我的空间
+    --mycommunitysetting = '/publish/clt/resource/mobileaudio3/mycommunity/mycommunitysetting.jsp',  --空间设置
+   -- communityFavoriteData = 'publish/clt/resource/mobileaudio3/mycommunity/communityFavoriteData.jsp', --社区收藏数据
+   -- gatewayCheckFavData = 'publish/clt/resource/mobileaudio3/mycommunity/gatewayCheckFavData.jsp', --门户收藏数据
+   -- competition     = '/publish/clt/resource/mobileaudio3/competition/competition.jsp', --DJ大赛
+   -- competitionData = '/publish/clt/resource/mobileaudio3/competition/competitionData.jsp',  --大赛空间数据
+    --registerform    = '/publish/clt/resource/mobileaudio3/registerform/registerform.jsp',   --报名页
+    --ranklist        = '/publish/clt/resource/mobileaudio3/ranklist/ranklist.jsp',   --排行榜
+   -- ranklistData    = '/publish/clt/resource/mobileaudio3/ranklist/ranklistData.jsp',   --排行榜数据
+   -- syssetting      = '/publish/clt/resource/mobileaudio3/syssetting/syssetting.jsp',   --设置页
+   -- myorderproduct  = '/publish/clt/resource/mobileaudio3/syssetting/myorderproduct.jsp', -- 我的订购json数据
+   -- advice          = '/publish/clt/resource/mobileaudio3/syssetting/advice.jsp', -- 意见反馈
+   -- nodeImgData     = '/publish/clt/resource/mobileaudio3/common/nodeImgData.jsp', --获取栏目图
+    --audiolocallive ='/publish/clt/resource/mobileaudio3/radiolive/audiolocallive.jsp',--悦听电台数据列表
+   -- audioliveplay ='/publish/clt/resource/mobileaudio3/radiolive/audioliveplay.jsp',--悦听电台播放页面
+	----------------------wdml
+	audioplay       = 'MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml',  -- 点播
+	home       = 'MODULE:\\com_wondertek_mobileaudio\\home.wdml',  -- 首页推荐
+	index           = 'MODULE:\\com_wondertek_mobileaudio\\index.wdml', -- 起始页
 	setting = 'MODULE:\\com_wondertek_mobileaudio\\mycommunitysetting.wdml', 
+	bokeplay='MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml',
+    personalBokeHomepage='MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',
+	downloadworks='MODULE:\\com_wondertek_mobileaudio\\downloadworks.wdml',
+	selectedworks='MODULE:\\com_wondertek_mobileaudio\\selectedworks.wdml',
+	podcastdownload='MODULE:\\com_wondertek_mobileaudio\\podcastdownload.wdml',
+	comment='MODULE:\\com_wondertek_mobileaudio\\comment.wdml',
+	audioplaylocal='MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml',
+	playyue='MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',
+	novelItem='MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',
+	podcastList='MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',
+	radiolist='MODULE:\\com_wondertek_mobileaudio\\radiolist.wdml',
+	novelList='MODULE:\\com_wondertek_mobileaudio\\novelList.wdml',
+	podcastMoreList='MODULE:\\com_wondertek_mobileaudio\\podcastMoreList.wdml',
+	search='MODULE:\\com_wondertek_mobileaudio\\search.wdml',
+	mycollected='MODULE:\\com_wondertek_mobileaudio\\mycollected.wdml',
+	personHomePage='MODULE:\\com_wondertek_mobileaudio\\personHomePage.wdml',
+	syssetting='MODULE:\\com_wondertek_mobileaudio\\syssetting.wdml',
+	advice='MODULE:\\com_wondertek_mobileaudio\\advice.wdml',
+	globe='MODULE:\\com_wondertek_mobileaudio\\globe.wdml',
+	myaccount='MODULE:\\com_wondertek_mobileaudio\\myaccount.wdml',
+	uploadworks='MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml',
+	recording='MODULE:\\com_wondertek_mobileaudio\\recording.wdml',
+	registration='MODULE:\\com_wondertek_mobileaudio\\registration.wdml',
+	radiocollected= 'MODULE:\\com_wondertek_mobileaudio\\radiocollected.wdml',
+	novelcollected='MODULE:\\com_wondertek_mobileaudio\\novelcollected.wdml',	 
+	bokecollected='MODULE:\\com_wondertek_mobileaudio\\bokecollected.wdml',
+	anchorcollected='MODULE:\\com_wondertek_mobileaudio\\anchorcollected.wdml',	 
+	downloadcollected= 'MODULE:\\com_wondertek_mobileaudio\\downloadcollected.wdml',
+	novelInfo='MODULE:\\com_wondertek_mobileaudio\\novelInfo.wdml',
+	albumList='MODULE:\\com_wondertek_mobileaudio\\albumList.wdml',
+	information='MODULE:\\com_wondertek_mobileaudio\\information.wdml',
+	checkin='MODULE:\\com_wondertek_mobileaudio\\checkin.wdml',
+	personAlbumList2='MODULE:\\com_wondertek_mobileaudio\\personAlbumList2.wdml',
+	localfile='MODULE:\\com_wondertek_mobileaudio\\localfile.wdml',
+	workslist='MODULE:\\com_wondertek_mobileaudio\\workslist.wdml',
+	personAlbumList='MODULE:\\com_wondertek_mobileaudio\\personAlbumList.wdml',
+	introduction='MODULE:\\com_wondertek_mobileaudio\\introduction.wdml',
+	fans='MODULE:\\com_wondertek_mobileaudio\\fans.wdml',
+	radiorelisten= 'MODULE:\\com_wondertek_mobileaudio\\radiorelisten.wdml', 
+	radioappoint = 'MODULE:\\com_wondertek_mobileaudio\\radioappoint.wdml',  
+	radiolist2 = 'MODULE:\\com_wondertek_mobileaudio\\radiolist2.wdml', 
 	}
 
 Msg = {
@@ -1026,7 +1060,7 @@ end
 
 function LoadBottomPlayerData()
 	Log:write('commonbottom====5LoadBottomPlayerData')
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	local type = Reg:getInteger(bottomReg,'type')
 	if type == 1 then
 		local audioName = Reg:getString(bottomReg,'audioName')
@@ -1065,8 +1099,8 @@ function LoadBottomPlayerData()
 end
 
 function playgoBtnOnSelect(sprite)
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	local gtype = Reg:getInteger(bottomReg,'type')
 	local ttext = Sprite:getText(bottomAudioName) 
 	if ttext == '暂无节目' then
@@ -1077,15 +1111,15 @@ function playgoBtnOnSelect(sprite)
 			--local data = Reg:getString(bottomReg,'tempParentId')
 			--Reg:setInteger(reg,'fromFlag',1)
 			--Reg:setString(reg,'novelItemId',data)
-			Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplay.wdml')
+			Scene:go(Alias.audioplay)
 		elseif gtype == 0 then
-			Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml')
+			Scene:go(Alias.playyue)
 		elseif gtype == 2 then
 			Reg:setInteger(bottomReg,'bottomPlayFlag',1)
 			Reg:setInteger(bottomReg,'bottomSelectFlag',1)
-			Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml',{freeDestScene=true})
+			Scene:go(Alias.bokeplay,{freeDestScene=true})
 		elseif gtype == 3 then
-			Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml')
+			Scene:go(Alias.audioplaylocal)
 		else
 			--暂无节目
 			Tips:show('暂无节目')
@@ -1126,7 +1160,7 @@ end
 -- 播放
 function playBtnOnSelect(sprite)
 	status, errorCode = Player:getStatus()  
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	local gtype = Reg:getInteger(bottomReg,'type')
 	Log:write('playBtnOnSelect============',gtype,status,Player.status.Finished)
 	if gtype == 2 and status == Player.status.Finished  then

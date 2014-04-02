@@ -316,14 +316,14 @@ end
 --确认上传按钮
 function uploadworksBtnOnSelect(sprite)
      if desFilePath~='' and desFilePath ~=nil then
-         Scene:go('MODULE:\\com_wondertek_mobileaudio\\uploadworks.wdml', {setReturn=false})
+         Scene:go(Alias.uploadworks, {setReturn=false})
 	 else
 	 Tips:show("未选择作品")
 	 end
 end
 --录音按钮
 function goRecordingBtnOnSelect(sprite)
-     Scene:go('MODULE:\\com_wondertek_mobileaudio\\recording.wdml',{freeDestScene=true})
+     Scene:go(Alias.recording,{freeDestScene=true})
 end
 
 --扫描按钮

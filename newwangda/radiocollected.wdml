@@ -155,7 +155,7 @@ function radiolistBtnOnSelect(sprite)
    Reg:setString(reg,'radioplayCollect','1')
    Log:write('radioplayCollectTable====',#listviewdata)
    Reg:setTable(reg,'radioplayCollectTable',listviewdata)
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\playyue.wdml',{freeDestScene=true})   
+   Scene:go(Alias.playyue,{freeDestScene=true})   
 end
 
 

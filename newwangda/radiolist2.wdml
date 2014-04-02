@@ -5,8 +5,6 @@
  == ============================================================================
  == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
  == ============================================================================
- == | Author: wangweipeng <wangweipeng@mantis.com>
- == ============================================================================
  == | Desc: 首页
  == ============================================================================
 -->
@@ -119,8 +117,6 @@
             </button>
     </node>
 		<node name="tipsNode" rect="0,0,720,210" extendstyle="0017"/>
-		
-	
     </node>	
 </body>
 </root>
@@ -343,7 +339,7 @@ end
 --昨日节目回放
 function audioyesterdayBtnOnSelect(sprite)
    local data=Sprite:getData(sprite) 
-   local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
    Reg:setString(reg, 'audioReplayData',data)
    Scene:back()
 end
@@ -357,7 +353,7 @@ function audiotodayBtnOnSelect(sprite)
    local curTime = math.floor(Util:getServerTime()/1000)
    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)
    if startTimeToSec<=curTime then
-   local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
    Reg:setString(reg, 'audioReplayData',data)
    Scene:back()
    else

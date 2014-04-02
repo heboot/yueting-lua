@@ -83,7 +83,7 @@ function bodyBuildChildrenFinished(sprite)
 	 podcastItem = Sprite:findChild(rootSprite, 'podcastItem')
 	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
 	 panoramaItem1= Sprite:findChild(rootSprite, 'panoramaItem1')
-	 local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	 local data=Reg:getString(reg,'albumIndex')
 	 local _,_,Index=string.find(data, 'albumIndex=(%d+);')
 	 albumIndex=Index
@@ -282,14 +282,14 @@ end
 
 function podcastItemBtnOnSelect(sprite)
 	-- local data = Sprite:getData(sprite)
-	-- local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	-- local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	-- Reg:setString(reg,'albumIndex',data)
 	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
 	local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
     local data = Sprite:getData(sprite)
 	local bokeCollectTable={}
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	local stable = {}
 	if albumIndex=='1' then
 		for i = 0,#podcastUserData.list1 do
@@ -400,7 +400,7 @@ function createPlayer()
             if objType == '0' or objType=='content' then --音频点播
                 if gContparam and gContparam ~= '' then
                     if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
-                    local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+                    local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
                     -- Reg:setString(reg, 'audioCurPlayingTitle',title)
                 end
             end
@@ -426,7 +426,7 @@ function openUrl()
     Player:open(playUrl,Http:getCurConnect(), breakPoint)
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    
 	Log:write('testbottominsert',playerJson.titleName)
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	Reg:setString(bottomReg,'audioName',playerJson.titleName)
 	Reg:setString(bottomReg,'type',2)
 	Reg:setString(bottomReg,'playUrl',playUrl)	

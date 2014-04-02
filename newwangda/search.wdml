@@ -5,8 +5,6 @@
  == ============================================================================
  == | Copyright (c) 2011, WonderTek, Inc. All Rights Reserved.
  == ============================================================================
- == | Author: wangweipeng <wangweipeng@mantis.com>
- == ============================================================================
  == | Desc: 首页
  == ============================================================================
 -->
@@ -195,16 +193,16 @@ function searchDataItemBtnOnSelect(sprite)
 	local _,_,type = string.find(data,'type=(.-);')
 	Log:write("searchDataItemBtnOnSelect=====",type)
 	if type == 'content' then
-		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 		Reg:setString(reg,'novelItemId',data)
 		Log:write('isurl============',data)
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+		Scene:go(Alias.novelItem,{freeDestScene=true})
 	elseif type == 'blog' then 	
-		local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 		Reg:setString(reg,'bokeItemData',data)
 		Reg:setInteger(reg,'isNodeId',0)
 		Reg:setInteger(reg,'isUserId',1)
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\podcastList.wdml',{freeDestScene=true})
+		Scene:go(Alias.podcastList,{freeDestScene=true})
 	else
 	end
 	

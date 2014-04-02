@@ -254,7 +254,7 @@ end
 
 function setData()
 	Log:write('shuixian....setdata')
-	local reg = Reg:create('com_wondertek_mobileaudio_localplay')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.localPlay)
     title= Reg:getString(reg,'novelItemTitle')
     local novelAuthor=Reg:getString(reg,'novelAuthor')  
 	local index=Reg:getString(reg,'novelItemIndex')
@@ -303,7 +303,7 @@ function createPlayer()
             if objType == '0' or objType=='content' then --音频点播
                 if gContparam and gContparam ~= '' then
                     if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
-                    local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+                    local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
                     -- Reg:setString(reg, 'audioCurPlayingTitle',title)
                 end
             end
@@ -321,7 +321,7 @@ function openUrl()
 	
 	pluginInvoke(Player:_getHandle(),'StartPlayer')    
 	
-	local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
 	Reg:setString(bottomReg,'audioName',title)
 	Reg:setString(bottomReg,'type',3)
 	
@@ -533,7 +533,7 @@ end
 
 --------------------暂时使用---Gallery-------------------------------
 function setGalleryData()
-    local reg = Reg:create('com_wondertek_mobileaudio_localplay')
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.localPlay)
 	audioplayCollectTable = Reg:getTable(reg,'audioplayCollectTable')
 	gallarydata={}	
 		

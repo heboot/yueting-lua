@@ -1,0 +1,254 @@
+local rootSprite
+local checkinListview
+local checkinItem
+local parentId
+local checkinName
+local checkinBtn
+local checkInDaysName
+local checkInDaysName1
+local progressImg
+local progressBarImg
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 checkinListview = Sprite:findChild(sprite, 'checkinListview')
+	 checkinItem = Sprite:findChild(rootSprite, 'checkinItem')
+	 checkinName= Sprite:findChild(rootSprite, 'checkinName')
+	 checkinBtn= Sprite:findChild(rootSprite, 'checkinBtn')
+	 checkInDaysName= Sprite:findChild(rootSprite, 'checkInDaysName')
+     checkInDaysName1= Sprite:findChild(rootSprite, 'checkInDaysName1')
+	 progressImg= Sprite:findChild(rootSprite, 'progressImg')
+     progressBarImg= Sprite:findChild(rootSprite, 'progressBarImg')
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	 toUserId=Reg:getString(reg,'checkInUserId')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Bottom:show()
+	  requestUserInfo()	
+      local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)	  
+      local regFile = 'MODULE:\\com_wondertek_mobileaudio\\checkinlistlocal.xml'
+      Reg:load(reg,regFile)
+      g_checkinIdsStr = Reg:getString(reg, 'checkinIds')
+	  readCheckIns(g_checkinIdsStr)
+	  Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求小说列表数据方法  ]]--
+function requestcheckinListData()
+     Http:request('checkinListData', Util:getWeiBoServer()..'/publish/clt/resource/mobileaudio3/podcast/userSignListData.jsp?userId='..toUserId..'&type=sign',104,{useCache=0})
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	 if msg == 103 then
+	     Loading:close()
+		 isCheckIn = Http:jsonDecode('isCheckIn')
+		 if isCheckIn.isSignedIn~='' and isCheckIn.isSignedIn~=nil then 
+		     if isCheckIn.isSignedIn=="0" or isCheckIn.isSignedIn=="-1" then
+			     Sprite:setProperty(checkinName,'text',"今日签到")
+				 Sprite:setProperty(checkinName,'color',"#fe8300")
+			 elseif  isCheckIn.isSignedIn=="1"  then
+			     Sprite:setProperty(checkinName,'text',"已签到") 
+				 Sprite:setProperty(checkinName,'color',"#b2b2b2")
+		     end
+	     end
+	 elseif msg== 110 then
+		userinfoData = Http:jsonDecode('userinfoData')
+		if userinfoData.userId~='' and userinfoData.userId~=nil then
+			 userId_=userinfoData.userId--当前用户登录的ID
+			 requestcheckinListData()
+			 requestIsCheck()
+		end
+	 elseif msg==104 then
+		 checkinListData = Http:jsonDecode('checkinListData')
+		 loadcheckinListviewData()
+	 elseif msg==105 then
+		toCheck =  Http:jsonDecode('toCheck')
+		if toCheck.result~='' and toCheck.result~=nil then 
+			 if toCheck.result == '0000' then
+			 local days=Sprite:getText(checkInDaysName) 
+	         if days== '15' then
+	             Sprite:setProperty(checkInDaysName,'text','1')
+		         Sprite:setProperty(checkInDaysName1,'text','1天')
+	         else
+		         Sprite:setProperty(checkInDaysName,'text',tonumber(days)+1)
+		         Sprite:setProperty(checkInDaysName1,'text',(tonumber(days)+1)..'天')
+	         end
+			     tempnodeId=toUserId
+	             progParam=Sprite:getText(checkInDaysName) 
+	             CollectionType=1
+				 deleteOneCheckProg(tempnodeId,CollectionType)
+	             addOneCheckProg(tempnodeId,progParam,CollectionType)
+				 Sprite:setProperty(checkinName,'text',"已签到") 
+				 Sprite:setProperty(checkinName,'color',"#b2b2b2")
+				 requestcheckinListData()
+			elseif toCheck.result == '0029' then
+				Tips:show("没有关注不能签到哦")
+			else
+				 Sprite:setProperty(checkinName,'text',"已签到") 
+				 Sprite:setProperty(checkinName,'color',"#b2b2b2")
+				 Tips:show("今日已经签到过")
+			end
+		end
+	 else
+         Util:onPluginEvent(msg, param)	
+	end
+end
+
+--[[  加载签到列表数据方法 ]]--
+function loadcheckinListviewData()
+     if checkinListData.signToUserList~='' and checkinListData.signToUserList~=nil then
+		 ListView:removeAllItems(checkinListview, 1, 1)
+         ListView:loadItem(checkinListview,checkinItem,#checkinListData.signToUserList+1,'loadcheckinItem')
+	     ListView:adjust(checkinListview)   
+	 end	
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadcheckinItem(list,item,index)
+     Sprite:setRect(item, 0,0,720,90)
+     Sprite:setProperty(item,'extendstyle','1010')
+	 Sprite:setProperty(Sprite:findChild(item,'checkinRank'),'text','第'..(index+1)..'名')
+	 Sprite:setProperty(Sprite:findChild(item,'checkinImage'),'src',Util:getWeiBoServer() ..'publish/clt'..checkinListData.signToUserList[index].picture)
+	 Sprite:setProperty(Sprite:findChild(item,'checkinName'),'text',checkinListData.signToUserList[index].sname)
+	 Sprite:setProperty(Sprite:findChild(item,'checkinItemBtn'),'data',checkinListData.signToUserList[index].userId)
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function checkinItemBtnOnSelect(sprite)
+	 local data = Sprite:getData(sprite)
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	 Reg:setInteger(reg,'isUserId',1)
+	 Reg:setString(reg,'userId','userId='..data)
+	 Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
+end
+
+function requestIsCheck()
+	 Http:request('isCheckIn',Util:getWeiBoServer() ..'publish/clt/resource/mobileaudio3/podcast/userIsSignedIn.jsp?userId='..userId_..'&toUserId='..toUserId,103,{useCache=0})
+end
+
+--请求个人信息
+function requestUserInfo()
+     local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+     local userId = Reg:getString(regCommunity ,'userId')
+     _userId = userId
+	 Loading:show()
+     Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
+end
+
+--签到按钮的点击事件
+function checkinBtnOnSelect()
+	 Http:request('toCheck',Util:getWeiBoServer() ..'sup/sup_infoSignIn.msp?signUserId='..userId_..'&signedUserId='..toUserId..'&signEmpValue=10&signedEmpValue=8',105,{useCache=0})  
+end
+
+-- @brief 签到，向本地写入数据
+function addOneCheckProg(userId,CollectionParam,CollectionType)
+     local _,_,CollectionParamStartTime= string.find(CollectionParam,'(.-)|')
+     local tempIdsStr = ''
+     local reg = 0
+     local regFile = ''
+     if CollectionType == 0 or CollectionType == nil then
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile = 'MODULE:\\com_wondertek_mobileaudio\\checkinlist.xml'
+     else
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile =  'MODULE:\\com_wondertek_mobileaudio\\checkinlistlocal.xml'
+     end
+     Reg:load(reg,regFile)
+     local checkinIds = Reg:getString(reg, 'checkinIds')
+     if checkinIds and '' ~= checkinIds then
+        --按照时间排序插入
+         local collectionIdsTable = Util:split(checkinIds, '|')
+         local count = #collectionIdsTable - 1
+         if tempIdsStr == '' then --表明没找到合适的位子，说明该时间最小,插入到最前面
+             tempIdsStr = userId ..'|'.. checkinIds
+         end
+         Reg:setString(reg, 'checkinIds', tempIdsStr)
+     else
+         Reg:setString(reg, 'checkinIds', userId .. '|')
+     end
+     Reg:setString(reg, userId, CollectionParam)
+     Reg:save(reg, regFile)
+     Reg:release(Reg.com_wondertek_mobileaudio.personalBoke)
+end
+
+--删除一个签到数据
+function deleteOneCheckProg(userId,collectionType)
+     local reg = 0
+     local regFile = ''
+     if collectionType == 0 or collectionType == nil then
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile = 'MODULE:\\com_wondertek_mobileaudio\\checkinlist.xml'
+     else
+         reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+         regFile =  'MODULE:\\com_wondertek_mobileaudio\\checkinlistlocal.xml'
+     end
+     Reg:load(reg,regFile)
+     local checkinIdsStr = Reg:getString(reg, 'checkinIds')
+     if hasCheckCollected(userId,checkinIdsStr) then
+         checkinIdsStr = string.gsub(checkinIdsStr,userId..'|' ,'')
+         Reg:setString(reg,'checkinIds',checkinIdsStr)
+         Reg:remove(reg,userId)
+         Reg:save(reg, regFile)
+     end
+     Reg:release(Reg.com_wondertek_mobileaudio.personalBoke)
+end
+
+-- @brief 判断节目是否在收藏列表中
+function hasCheckCollected(userId, checkinIdsStr)
+    if checkinIdsStr and '' ~= checkinIdsStr then
+        local checkinIdsTable = Util:split(checkinIdsStr, '|')
+        local count = #checkinIdsTable - 1
+        for i=1,count do
+            if tonumber(checkinIdsTable[i]) == tonumber(userId) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+--读取xml数据，拼装成table
+function readCheckIns(checkinIdsStr)
+    if checkinIdsStr and '' ~= checkinIdsStr then
+	    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+        local checkinIdsTable = Util:split(checkinIdsStr, '|')
+        local count = #checkinIdsTable - 1
+		for i=1,count do
+		local checkInContents = Reg:getString(reg,checkinIdsTable[i])
+		 local checkInContentsTable = Util:split(checkInContents, '|')
+		 local count2=#checkInContentsTable
+		
+		 local days=checkInContentsTable[1]
+		  Sprite:setProperty(checkInDaysName,'text',days)
+		  Sprite:setProperty(checkInDaysName1,'text',days..'天')
+		  local x, y,width,height =Sprite:getRect(progressImg) 
+		  Sprite:setRect(progressBarImg, 0,0,(days/15)*width,height)
+        end
+	end
+
+end

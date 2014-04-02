@@ -1,0 +1,195 @@
+local commentPageIndex = 1
+local commentPageSize = 10
+local commentType = '1'
+local commentlv
+local commentItem
+
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite = sprite
+	
+	commentlv = Sprite:findChild(sprite,'commentlv')
+    commentItem = Sprite:findChild(sprite,'commentItem')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+    contentId =Reg:getString(reg,'contentId')
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+    if msg == 113 then
+       detailCommentPageData = Http:jsonDecode('detailCommentPageData')
+	   if detailCommentPageData.commentList~='' and detailCommentPageData.commentList~=nil then 
+	    loadComments()
+	   end
+	elseif msg==123 then
+	   isLoadingMore = 0
+        local lvitemcount = ListView:getItemCount(commentlv)
+        if lvitemcount > 0 then
+        local lastItem = ListView:getItem(commentlv,ListView:getItemCount(commentlv)-1)
+        ListView:removeItem(commentlv,lastItem,1,1)
+        end
+        detailCommentPageData = Http:jsonDecode('detailCommentPageData')
+        if not detailCommentPageData then
+            return
+        end
+        Log:write(' detailCommentPageData = ' , detailCommentPageData)
+        local commentCount =Sprite:findChild( rootSprite ,'commentCount')
+        Sprite:setProperty( commentCount,'text',detailCommentPageData.commentCount or '0')
+        if detailCommentPageData.commentList then
+            local count = #detailCommentPageData.commentList +1
+            ListView:loadItem(commentlv, commentItem, count, 'onLoadCommentList')
+            ListView:adjust(commentlv)
+            if ListView:getItemCount(commentlv) >= tonumber(detailCommentPageData.commentCount) then
+                commentPageIndex = -1
+            end
+        else
+ 
+            commentPageIndex = -1
+        end
+	elseif msg == 126 then
+	    Loading:close()
+        local params = Http:jsonDecode('commentjson')
+        if params.success == 'true' then
+            Tips:show('评论成功，正在全速审核中，稍后放出哦')
+            local defaultText = Sprite:findChild(rootSprite ,'defaultText')
+            local editCommentContent = Sprite:findChild(rootSprite ,'editCommentContent')
+            Sprite:setProperty(editCommentContent,'text','')
+            Sprite:setVisible( defaultText,1)
+        elseif params.code == '1014' then
+            Net:goToMyAccount()
+        else
+            Tips:show('汗，评论失败…')
+            errorDispose(29,'send comment failed')
+        end	
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+		 Bottom:show()
+        commonActivate()
+		requestComments()
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--请求评论数据
+function requestComments()
+   commentId = contentId
+   Http:request('detailCommentPageData', Util:getWeiBoServer() ..'publish/clt' ..'/resource/mobileaudio3/podcast/podcastCommentData.jsp?objectId='.. commentId 
+   ..'&pageIndex='..commentPageIndex..'&pageSize='..commentPageSize..'&objectType=' .. commentType, 113)
+end
+
+--加载评论数据
+function loadComments()
+    ListView:removeItem(commentlv,commentItem,1,1)
+    ListView:loadItem(commentlv, commentItem, #detailCommentPageData.commentList+1, 'onLoadCommentList')
+    ListView:adjust(commentlv)
+end
+
+function onLoadCommentList (list,item,index)
+    Sprite:setRect( item,0,0,686,160)
+    Sprite:setProperty( item,'extendstyle','1010')
+    local usrIcon =Sprite:findChild( item,'usrIcon')
+    local usrName = Sprite:findChild( item,'usrName')
+    local commentcontent = Sprite:findChild( item,'commentcontent')
+	local beforeTime=Sprite:findChild(item, 'beforeTime')	
+	if detailCommentPageData.commentList[index].picture~='' and detailCommentPageData.commentList[index].picture~=nil then
+	    Sprite:setProperty(usrIcon,'src',Util:getWeiBoServer() ..'publish/clt' ..detailCommentPageData.commentList[index].picture)
+	else
+	    Sprite:setProperty(usrIcon,'src','file://image/dft_headimg_mid.jpg')
+	end
+	if  detailCommentPageData.commentList[index].sname~='' and detailCommentPageData.commentList[index].sname~=nil then
+	    Sprite:setProperty( usrName,'text',detailCommentPageData.commentList[index].sname)	    
+	else
+		local phonenumber = detailCommentPageData.commentList[index].mobile
+        local _phonenumber = string.gsub(phonenumber,string.sub(phonenumber,4,7),'****')
+        Sprite:setProperty( usrName,'text',_phonenumber)
+	end
+    Sprite:setProperty( commentcontent,'text',detailCommentPageData.commentList[index].content)
+	Sprite:setProperty( beforeTime,'text',string.sub(detailCommentPageData.commentList[index].updateTime,1,10))
+    local _,_,_,h = Sprite:getRect(commentcontent)
+    if h > 77 then
+		Sprite:setRect(item, 0, 0, 686, 160+h-60)
+        local lineNode = Sprite:findChild(item,'lineNode')
+		Sprite:setProperty(lineNode,'extendstyle','1510')
+    end
+end
+
+function contentListOnOverTrail(sprite , x)
+    if x ~= 0 then
+        return
+    end
+    if commentPageIndex ~= -1 and commentPageIndex < 200 then
+        commentPageIndex = commentPageIndex + 1
+        if commentPageIndex< 1 then
+            return
+        end
+        insertLoading(sprite)
+        Http:request('detailCommentPageData', Util:getWeiBoServer() ..'publish/clt' ..'/resource/mobileaudio3/podcast/podcastCommentData.jsp?objectId='.. commentId ..'&pageIndex='..commentPageIndex..'&pageSize='..commentPageSize..'&objectType=' .. commentType , 123)
+    else
+        Tips:show('到底啦')
+    end
+end
+
+function insertLoading(sprite)
+    local item = Sprite:create("listitem",0)
+    local node = Sprite:create("node",item)
+    local spriteRect = {Sprite:getRect(sprite)}
+    local xoffset = math.floor( (spriteRect[3] - 60) / 2)
+    local label = Sprite:create('label',node)
+    Sprite:setProperty( label,'text','加载中...')
+    Sprite:setProperty( label,'rect',xoffset .. ',0,120,50')
+    Sprite:setProperty( label,'h-align','center')
+    Sprite:setProperty( label,'font-size',26)
+    Sprite:setProperty( label,'color','#262626')
+    Sprite:setProperty( label,'extendstyle','1010')
+    Sprite:setRect(node,0,20,800,50)
+    Sprite:setProperty(node, 'extendstyle', '1010')
+    Sprite:setRect(item,0,0,800,90)
+    Sprite:setProperty(item, 'extendstyle', '1010')
+    Sprite:setProperty(sprite,"data","1")
+    ListView:insertItem(sprite, ListView:getItemCount(sprite)+1, item)
+end
+
+function sendCommentBtnOnSelect(sprite)
+ local editCommentContent = Sprite:findChild( Sprite:getParent( sprite),'editCommentContent')
+ local postData = 'content=' .. Sprite:getText(editCommentContent) 
+ local commentParam='objectType=' .. commentType .. '&objectId='.. commentId
+  Http:request('commentjson', Util:getServer() .. 'msp/comment.msp?'..commentParam .. '&' .. postData, 126, {useCache = 0})
+ end
+    
+
+function commentEditFocus(sprite)
+    local defaultText = Sprite:findChild( Sprite:getParent( sprite),'defaultText')
+    setNodeState(defaultText , 0)
+end
+
+function commentEditLostFocus(sprite)
+    local defaultText = Sprite:findChild( Sprite:getParent( sprite),'defaultText')
+    local text = Sprite:getText( sprite)
+    if text == '' then
+        setNodeState(defaultText,1)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function backBtnOnSelect(sprite)
+    Scene:back()
+end

@@ -1,0 +1,284 @@
+local rootSprite
+local nickName
+local ageName
+local editBtn
+local nickNameEditbg  
+local nickNameEdit  
+local ageNameEditbg 
+local ageNameEdit
+local editLabel
+local driverDirGroupchecked1
+local driverDirGroupchecked2
+local driverDirGroupchecked3
+local driverDirGroupbutton1
+local driverDirGroupbutton2
+local driverDirGroupbutton3
+local driverDirGroupbutton1Bg
+local driverDirGroupbutton2Bg
+local driverDirGroupbutton3Bg
+
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 nickName=Sprite:findChild(sprite,'nickName')
+     ageName=Sprite:findChild(sprite,'ageName')
+	 driverDirGroupchecked1=Sprite:findChild(sprite,'driverDirGroupchecked1')
+     driverDirGroupchecked2=Sprite:findChild(sprite,'driverDirGroupchecked2')
+     driverDirGroupchecked3=Sprite:findChild(sprite,'driverDirGroupchecked3')
+	 driverDirGroupbutton1=Sprite:findChild(sprite,'driverDirGroupbutton1')
+     driverDirGroupbutton2=Sprite:findChild(sprite,'driverDirGroupbutton2')
+     driverDirGroupbutton3=Sprite:findChild(sprite,'driverDirGroupbutton3')
+	 driverDirGroupbutton1Bg=Sprite:findChild(sprite,'driverDirGroupbutton1Bg')
+     driverDirGroupbutton2Bg=Sprite:findChild(sprite,'driverDirGroupbutton2Bg')
+     driverDirGroupbutton3Bg=Sprite:findChild(sprite,'driverDirGroupbutton3Bg')
+	
+	 editBtn= Sprite:findChild(sprite,'editBtn')
+	 nickNameEditbg = Sprite:findChild(sprite,'nickNameEditbg') 
+     nickNameEdit  = Sprite:findChild(sprite,'nickNameEdit')
+     ageNameEditbg = Sprite:findChild(sprite,'ageNameEditbg')
+     ageNameEdit= Sprite:findChild(sprite,'ageNameEdit')
+	 editLabel= Sprite:findChild(sprite,'editLabel')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	 Bottom:show()
+	  -- Loading:show()
+	   local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+       local userId = Reg:getString(regCommunity ,'userId')
+        _userId = userId
+		requestUserinfoData()		 	 
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 110 then
+	    userinfoData = Http:jsonDecode('userinfoData')
+	    Loading:close()
+        if userinfoData.code =='1014' then
+            setNodeState(contentList1,0)
+            Net:goToMyAccount()
+        else
+            LoadUserInfo()
+        end
+	elseif msg==112 then
+	    Log:write('requestData=====')
+	    Loading:close()
+        local requestData = Http:jsonDecode('settingData')
+        if requestData then
+		Log:write('requestData=====',requestData.result)
+            if requestData.result == '0000' then
+                Tips:show('亲，修改成功啦')
+                setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
+                Timer:set(TimerId.once,1000,"backBtnOnSelect")
+            else
+                Tips:show(requestData.description)
+            end
+        end
+	elseif msg == 103 then
+        local checkUserData = Http:jsonDecode('checkUserData')
+        if checkUserData and checkUserData.result == '3007' then
+            Tips:show('亲，您的输入有误哦')
+            Sprite:setFocus(checkEdit)
+            Sprite:setProperty(checkEdit, 'text', '')
+            checkInfo()
+        end
+	else
+      Util:onPluginEvent(msg, param)	
+	end
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function requestUserinfoData()
+      local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+      personalInfo =Reg:getString(reg,'personalInfo')
+	  if personalInfo~='' and personalInfo~=nil then
+	  local _,_,sname=string.find(personalInfo, 'sname=([^;]+);')
+	  local _,_,age=string.find(personalInfo, 'age=(%d+);')
+	  local _,_,sex=string.find(personalInfo, 'sex=(%d+);')	  
+	  Sprite:setProperty(nickName,'text',sname)
+	  Sprite:setProperty(ageName,'text',age==''  and '未填' or age)
+	  if sex ~='' and sex ~= nil and sex== '0' then 
+	    Sprite:setVisible(driverDirGroupchecked1,1)
+        Sprite:setVisible(driverDirGroupchecked2,0)
+		Sprite:setVisible(driverDirGroupchecked3,0)
+		Sprite:setVisible(driverDirGroupbutton1Bg,0)
+		Sprite:setVisible(driverDirGroupbutton2Bg,1)
+		Sprite:setVisible(driverDirGroupbutton3Bg,1)
+	  elseif sex ~='' and sex ~= nil and sex== '1' then
+	    Sprite:setVisible(driverDirGroupchecked1,0)
+        Sprite:setVisible(driverDirGroupchecked2,1)
+		Sprite:setVisible(driverDirGroupchecked3,0)
+		Sprite:setVisible(driverDirGroupbutton1Bg,1)
+		Sprite:setVisible(driverDirGroupbutton2Bg,0)
+		Sprite:setVisible(driverDirGroupbutton3Bg,1)
+	  elseif sex ~='' and sex ~= nil and sex== '2' then
+	    Sprite:setVisible(driverDirGroupchecked1,0)
+        Sprite:setVisible(driverDirGroupchecked2,0)
+		Sprite:setVisible(driverDirGroupchecked3,1)
+		Sprite:setVisible(driverDirGroupbutton1Bg,1)
+		Sprite:setVisible(driverDirGroupbutton2Bg,1)
+		Sprite:setVisible(driverDirGroupbutton3Bg,0)
+	  end
+	  personalInfo =Reg:setString(reg,'personalInfo','')
+	  else 
+      setNodeState(editBtn,1)	  
+	  local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+      local useCache = getRequestState("userinfoDataState" .. _userId, regCommunity)
+      Loading:show()
+      Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
+	  end
+end
+
+function LoadUserInfo()     
+	  if userinfoData.sname== '' or userinfoData.sname==nil then
+	  local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+      phoneNumber = Reg:getString(regI, 'phoneNumber')
+	  Sprite:setProperty(nickName,'text',phoneNumber)
+	  Sprite:setProperty(nickNameEdit,'text',phoneNumber)
+	  else
+	  Sprite:setProperty(nickName,'text',userinfoData.sname)
+	  Sprite:setProperty(nickNameEdit,'text',userinfoData.sname)
+	  end     
+	  Sprite:setProperty(ageName,'text',userinfoData.age=='' and '未填' or userinfoData.age)
+	  Sprite:setProperty(ageNameEdit,'text',userinfoData.age=='' and '未填' or userinfoData.age)
+	  _sex=userinfoData.sex
+	  if userinfoData.sex ~='' and userinfoData.sex ~= nil and userinfoData.sex== '0' then 
+	    Sprite:setVisible(driverDirGroupchecked1,1)
+        Sprite:setVisible(driverDirGroupchecked2,0)
+		Sprite:setVisible(driverDirGroupchecked3,0)
+		Sprite:setVisible(driverDirGroupbutton1Bg,0)
+		Sprite:setVisible(driverDirGroupbutton2Bg,1)
+		Sprite:setVisible(driverDirGroupbutton3Bg,1)
+	  elseif userinfoData.sex ~='' and userinfoData.sex ~= nil and userinfoData.sex== '1' then
+	    Sprite:setVisible(driverDirGroupchecked1,0)
+        Sprite:setVisible(driverDirGroupchecked2,1)
+		Sprite:setVisible(driverDirGroupchecked3,0)
+		Sprite:setVisible(driverDirGroupbutton1Bg,1)
+		Sprite:setVisible(driverDirGroupbutton2Bg,0)
+		Sprite:setVisible(driverDirGroupbutton3Bg,1)
+	  elseif userinfoData.sex ~='' and userinfoData.sex ~= nil and userinfoData.sex=='2' then
+	    Sprite:setVisible(driverDirGroupchecked1,0)
+        Sprite:setVisible(driverDirGroupchecked2,0)
+		Sprite:setVisible(driverDirGroupchecked3,1)
+		Sprite:setVisible(driverDirGroupbutton1Bg,1)
+		Sprite:setVisible(driverDirGroupbutton2Bg,1)
+		Sprite:setVisible(driverDirGroupbutton3Bg,0)
+	  end
+end
+
+function editBtnOnSelect(sprite)
+if Sprite:isVisible(nickNameEditbg)==1 and  
+   Sprite:isVisible(nickNameEdit)==1 and 
+   Sprite:isVisible(ageNameEditbg)==1 and 
+   Sprite:isVisible(ageNameEdit)==1 then
+   setNodeState(nickNameEditbg,0)
+   setNodeState(nickNameEdit,0)
+   setNodeState(ageNameEditbg,0)
+   setNodeState(ageNameEdit,0)
+   setNodeState(nickName,1)
+   setNodeState(ageName,1)
+   Sprite:setEnable(driverDirGroupbutton1, 0) 
+   Sprite:setEnable(driverDirGroupbutton2, 0) 
+   Sprite:setEnable(driverDirGroupbutton3, 0) 
+   Sprite:setProperty(nickName,'text',Sprite:getText(nickNameEdit))
+   Sprite:setProperty(ageName,'text',Sprite:getText(ageNameEdit))
+   Sprite:setProperty(editLabel,'text','编辑')
+   local nickName = Sprite:getText(nickName)
+   local sex =_sex
+   local age = tonumber(Sprite:getText(ageName))
+   Http:request('settingData', Util:getWeiBoServer() .. 'sup/sup_infoEdit.msp?sname=' .. nickName .. '&sex=' .. sex .. '&age=' .. age, 112)
+   else
+   setNodeState(nickNameEditbg,1)
+   setNodeState(nickNameEdit,1)
+   setNodeState(ageNameEditbg,1)
+   setNodeState(ageNameEdit,1)
+   setNodeState(nickName,0)
+   setNodeState(ageName,0)
+   Sprite:setEnable(driverDirGroupbutton1, 1) 
+   Sprite:setEnable(driverDirGroupbutton2, 1) 
+   Sprite:setEnable(driverDirGroupbutton3, 1) 
+   Sprite:setProperty(editLabel,'text','完成')
+end
+end
+
+function driverDirGrouponchange(sprite)
+   if Sprite:getName(sprite) == "driverDirGroupbutton1" then 
+       if Sprite:isVisible(driverDirGroupchecked1) == 0 then
+           Sprite:setVisible(driverDirGroupchecked1,1)--选中
+		   Sprite:setVisible(driverDirGroupbutton1Bg,0)--选中
+           Sprite:setVisible(driverDirGroupchecked2,0)--未选中
+		   Sprite:setVisible(driverDirGroupbutton2Bg,1)--未选中
+		   Sprite:setVisible(driverDirGroupchecked3,0)--未选中
+		   Sprite:setVisible(driverDirGroupbutton3Bg,1)--未选中
+		   _sex='0'
+		end
+	elseif Sprite:getName(sprite) == "driverDirGroupbutton2" then 
+		if Sprite:isVisible(driverDirGroupchecked2) == 0 then
+           Sprite:setVisible(driverDirGroupchecked1,0)--未选中
+		   Sprite:setVisible(driverDirGroupbutton1Bg,1)--未选中
+           Sprite:setVisible(driverDirGroupchecked2,1)--选中
+		   Sprite:setVisible(driverDirGroupbutton2Bg,0)--选中
+		   Sprite:setVisible(driverDirGroupchecked3,0)--未选中
+		   Sprite:setVisible(driverDirGroupbutton3Bg,1)--未选中
+		   _sex='1'
+		end
+	elseif Sprite:getName(sprite) == "driverDirGroupbutton3" then 
+		if Sprite:isVisible(driverDirGroupchecked3,0)==0 then
+	       Sprite:setVisible(driverDirGroupchecked1,0)--未选中
+		   Sprite:setVisible(driverDirGroupbutton1Bg,1)--未选中
+           Sprite:setVisible(driverDirGroupchecked2,0)--未选中
+		   Sprite:setVisible(driverDirGroupbutton2Bg,1)--未选中
+		   Sprite:setVisible(driverDirGroupchecked3,1)--选中
+		   Sprite:setVisible(driverDirGroupbutton3Bg,0)--选中
+		   _sex='2'
+		end
+    end
+end
+
+function nameLostFocus(sprite)
+    local text = Sprite:getText(sprite)
+    if '' == text then
+        Sprite:setProperty(nickNameEdit,'text',phoneNumber)       
+    elseif text ~= userinfoData.sname then
+        checkInput(sprite, text)
+    end
+end
+
+function checkInput(sprite, text)
+    if string.find(text, '"') then
+        Tips:show('亲，输入不能包含双引号哦')
+        return
+    end
+    checkEdit = sprite
+    if not isEdit then
+        isEdit = true
+    end
+    if text ~= '' then
+        Http:request('checkUserData', Util:getWeiBoServer() .. 'sup/validateName.msp?word=' .. text, 103, {useCache=1})
+    end
+end

@@ -68,7 +68,7 @@ function bodyBuildChildrenFinished(sprite)
 	
 	commentlv = Sprite:findChild(sprite,'commentlv')
     commentItem = Sprite:findChild(sprite,'commentItem')
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
     contentId =Reg:getString(reg,'contentId')
 end
 

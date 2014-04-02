@@ -280,16 +280,16 @@ function personHomeItemBtnOnSelect(sprite)
 	local item= Sprite:getParent(sprite)
     local index=ListView:getItemIndex(item) 
 	if index==0 then
-	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\localfile.wdml',{freeDestScene=true})
+	   Scene:go(Alias.localfile,{freeDestScene=true})
 	elseif index==1 then
-	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\workslist.wdml',{freeDestScene=true})
+	   Scene:go(Alias.workslist,{freeDestScene=true})
 	elseif index==2 then
-	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\personAlbumList.wdml',{freeDestScene=true})
+	   Scene:go(Alias.personAlbumList,{freeDestScene=true})
 	end
 end
 
 function msgMoodBtnOnSelect(sprite)
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\introduction.wdml',{freeDestScene=true})
+   Scene:go(Alias.introduction,{freeDestScene=true})
 end
 
 
@@ -361,7 +361,7 @@ end
 
 --点击资料按钮
 function informationBtnOnSelect(sprite)
-     Scene:go('MODULE:\\com_wondertek_mobileaudio\\information.wdml',{freeDestScene=true})
+     Scene:go(Alias.information,{freeDestScene=true})
 end
 
 --更换背景
@@ -502,7 +502,7 @@ function cameraBtnOnSelect(sprite)
 end
 
 function checkInBtnOnSelect(sprite)
-	 Scene:go('MODULE:\\com_wondertek_mobileaudio\\fans.wdml',{freeDestScene=true})
+	 Scene:go(Alias.fans,{freeDestScene=true})
 end
 
 ]]>

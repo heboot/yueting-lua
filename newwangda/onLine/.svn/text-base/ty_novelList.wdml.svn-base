@@ -1,0 +1,131 @@
+local rootSprite
+local novelListview
+local novelItem
+local mainTitle
+local parentId
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 novelListview = Sprite:findChild(sprite, 'novelListview')
+	 novelItem = Sprite:findChild(rootSprite, 'novelItem')
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+		
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Bottom:show()
+      requestNovelListData()
+	  Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求小说列表数据方法  ]]--
+function requestNovelListData()
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+    local data = Reg:getString(reg,'ListViewData')
+	local title = Reg:getString(reg, 'ListViewDataTitle')
+	Sprite:setProperty(mainTitle,'text',title)
+	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	parentId=nodeId
+	if nodeId and nodeId ~= '' then
+       Http:request('novelListDatab', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/novelListData2.jsp?nodeId='..nodeId..'&objType=live',103)
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 103 then
+	     Loading:close()
+		 novelListData = Http:jsonDecode('novelListDatab')
+		 Log:write('yyyyyyyyy2',#novelListData.contentList)
+		 LoadNovelListViewData()
+	else
+      Util:onPluginEvent(msg, param)	
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function LoadNovelListViewData()
+	ListView:removeAllItems(novelListview, 1, 1)
+    ListView:loadItem(novelListview,novelItem,math.ceil(#novelListData.contentList+1),'loadNovelItem')
+	ListView:adjust(novelListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadNovelItem(list,item,index)
+	 --Sprite:setProperty(item,"extendstyle","1070")
+     --Sprite:setRect(item,0,0,720,255)
+	 if novelListData.contentList[index].limg ~= nil then
+	 Sprite:setProperty(Sprite:findChild(item,'novelImage'),'src',novelListData.contentList[index].limg)
+	 else
+	 Sprite:setProperty(Sprite:findChild(item,'novelImage'),'src',novelListData.contentList[index].cimg)
+	 end
+	 Sprite:setProperty(Sprite:findChild(item,'novelName'),'text',novelListData.contentList[index].name)
+	 --Sprite:setProperty(Sprite:findChild(item,'novelAuthor'),'text',novelListData.contentList[index].author)
+	 Sprite:setProperty(Sprite:findChild(item,'novelAnchor'),'text',novelListData.contentList[index].anchor)
+	 local param=novelListData.contentList[index].param..'parentId='..parentId..';'
+	 Log:write('isurl=========1===',param)
+	 Sprite:setProperty(Sprite:findChild(item,'novelItemBtn'),'data',param)
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function novelItemBtnOnSelect(sprite)
+	local item= Sprite:getParent(sprite)
+    local index=ListView:getItemIndex(item) 
+
+	local data = Sprite:getData(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+    Reg:setString(reg,'novelItemId',data)
+    Log:write('isurl============',data)
+	-- local temptable={}
+    --index  取得的item下标准
+    -- 定义一个table对象，先把原来的table里面按照index取数据，，放到新的table里面
+    -- Log:write('novelListData======ss=',index)
+     --打印所有的原有列表数据
+     -- Log:write('novelListData======打印所有的原有列表数据长度',#novelListData.contentList)
+     -- for i=0,#novelListData.contentList do
+         -- Log:write('novelListData======打印所有的原有列表名称',novelListData.contentList[i].name)
+     -- end
+     -- Log:write('novelListData======打印table长度=',#temptable,index,#novelListData.contentList)
+     --取从index往后的所有列表
+    -- for i=index,#novelListData.contentList do
+       -- table.insert(temptable,novelListData.contentList[i])
+       -- Log:write('novelListData======插入index后的名称=',novelListData.contentList[i].name)
+    -- end
+    -- Log:write('novelListData======新table长度[从index往后取]',#temptable)
+    --取index之前的所有列表
+    -- for i=0,index-1 do
+        -- Log:write('novelListData====插入index前的名称',novelListData.contentList[i].name)
+        -- table.insert(temptable,novelListData.contentList[i])
+    -- end
+    -- Log:write('novelListData======打印table长度2',#temptable)
+    -- for i=1,#temptable do
+        -- Log:write('novelListData======打印table的名称',temptable[i].name)
+    -- end
+
+    -- Reg:setTable(reg,'novelParentData',temptable)
+	-- Reg:setInteger(reg, 'novelIsUrl', 1) 	
+	Scene:go(Alias.novelItem,{freeDestScene=true})
+end

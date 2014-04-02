@@ -1,0 +1,190 @@
+local rootSprite
+local checkinListview
+local checkinItem
+local parentId
+local userName
+local gradeNumber
+local empValueName
+local todayEmpValue
+local progressImg
+local progressBarImg
+
+local checkTable = {}
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 checkinListview = Sprite:findChild(sprite, 'checkinListview')
+	 checkinItem = Sprite:findChild(rootSprite, 'checkinItem')
+	 userName = Sprite:findChild(rootSprite, 'userName')
+     gradeNumber = Sprite:findChild(rootSprite, 'gradeNumber')
+	 empValueName= Sprite:findChild(rootSprite, 'empValueName')
+	 progressImg= Sprite:findChild(rootSprite, 'progressImg')
+     progressBarImg= Sprite:findChild(rootSprite, 'progressBarImg')
+	 todayEmpValue= Sprite:findChild(rootSprite, 'todayEmpValue')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Bottom:show()
+	  requestUserInfo()
+	  Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求小说列表数据方法  ]]--
+function requestcheckinListData()
+     Http:request('usernetworkData',  Util:getWeiBoServer() .. Alias.usernetworkData .. '?userId=' .. userId_..'&usertype=follower', 104, {useCache = 0})
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	 if msg == 104 then
+	     Loading:close()
+	     usernetworkData = Http:jsonDecode('usernetworkData')
+		 local tempTable = {}
+		 Log:write('bodyOnPluginEvent=============1',#usernetworkData.userInfoList)
+		 for i = 0,#usernetworkData.userInfoList do
+			if usernetworkData.userInfoList[i].isSigned == 1 then
+			table.insert(checkTable,usernetworkData.userInfoList[i])
+			else
+			table.insert(tempTable,usernetworkData.userInfoList[i])
+			end
+		 end
+		 if tempTable and tempTable ~= nil then
+			for i = 1,#tempTable do
+				table.insert(checkTable,tempTable[i])
+			end
+		 end
+		 Log:write('bodyOnPluginEvent=============',#checkTable)
+		 loadcheckinListviewData()
+	 elseif msg==110 then
+		     userinfoData = Http:jsonDecode('userinfoData')
+		     if userinfoData.sname~= '' or userinfoData.sname~=nil then
+			     Sprite:setProperty(userName,'text',userinfoData.sname)
+		     end
+			 if userinfoData.empValue~= '' or userinfoData.empValue~=nil then
+			     Sprite:setProperty(empValueName,'text',userinfoData.empValue..'/300000')
+				 Sprite:setProperty(todayEmpValue,'text','今日获得'..userinfoData.todayEmpValue..'点经验值')
+				 local _empValue=tonumber(userinfoData.empValue)
+				 local x, y,width,height =Sprite:getRect(progressImg) 
+				     Sprite:setRect(progressBarImg, 0,0,(_empValue/300000)*width,height)
+				 if _empValue>=0 and _empValue<5 then
+				     Sprite:setProperty(gradeNumber,'text','LV.1')
+				 elseif _empValue>=5 and _empValue<15 then
+				     Sprite:setProperty(gradeNumber,'text','LV.2')
+				 elseif _empValue>=15 and _empValue<30 then
+				     Sprite:setProperty(gradeNumber,'text','LV.3')
+				 elseif _empValue>=30 and _empValue<50 then
+				     Sprite:setProperty(gradeNumber,'text','LV.4')
+				 elseif _empValue>=50 and _empValue<100 then
+				     Sprite:setProperty(gradeNumber,'text','LV.5')
+				 elseif _empValue>=100 and _empValue<200 then
+				     Sprite:setProperty(gradeNumber,'text','LV.6')
+				 elseif _empValue>=200 and _empValue<500 then
+				     Sprite:setProperty(gradeNumber,'text','LV.7')
+				 elseif _empValue>=500 and _empValue<1000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.8')
+				 elseif _empValue>=1000 and _empValue<2000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.9')
+				 elseif _empValue>=2000 and _empValue<3000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.10')
+				 elseif _empValue>=3000 and _empValue<6000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.11')
+				 elseif _empValue>=6000 and _empValue<10000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.12')
+				 elseif _empValue>=10000 and _empValue<18000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.13')
+				 elseif _empValue>=18000 and _empValue<30000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.14')
+				 elseif _empValue>=30000 and _empValue<60000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.15')
+				 elseif _empValue>=60000 and _empValue<100000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.16')
+				 elseif _empValue>=100000 and _empValue<300000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.17')
+				 elseif _empValue>=300000 then
+				     Sprite:setProperty(gradeNumber,'text','LV.18')
+				 end
+		     end
+			 if userinfoData.userId~='' and userinfoData.userId~=nil then
+			         userId_=userinfoData.userId
+			         requestcheckinListData()
+			 end
+     else  
+         Util:onPluginEvent(msg, param)	
+	 end
+end
+
+--请求个人信息
+function requestUserInfo()
+     local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+     local userId = Reg:getString(regCommunity ,'userId')
+     _userId = userId
+	 Loading:show()
+     Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
+end
+
+--[[  加载粉丝列表数据方法 ]]--
+function loadcheckinListviewData()
+	 if usernetworkData.userInfoList~='' and usernetworkData.userInfoList~=nil then
+		 ListView:removeAllItems(checkinListview, 1, 1)
+         ListView:loadItem(checkinListview,checkinItem,#checkTable,'loadcheckinItem')
+	     ListView:adjust(checkinListview)   
+	 end	
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadcheckinItem(list,item,index)
+	Log:write('loadcheckinItem=============',index)
+     Sprite:setRect(item, 0,0,720,90)
+     Sprite:setProperty(item,'extendstyle','1010')
+	 Sprite:setProperty(Sprite:findChild(item,'checkinImage'),'src',Util:getWeiBoServer() ..'publish/clt'..usernetworkData.userInfoList[index].img)
+	 Sprite:setProperty(Sprite:findChild(item,'checkinItemBtn'),'data',checkTable[index+1].id)
+	 if checkTable[index+1].name~='' and checkTable[index+1].name~=nil then
+	     Sprite:setProperty(Sprite:findChild(item,'checkinName'),'text',checkTable[index+1].name)
+	 else
+	     Sprite:setProperty(Sprite:findChild(item,'checkinName'),'text','佚名')
+	 end
+	 if checkTable[index+1].isSigned==0 then
+	     Sprite:setVisible(Sprite:findChild(item,'checkinNode'),0)
+	 elseif checkTable[index+1].isSigned==1 then
+	     Sprite:setVisible(Sprite:findChild(item,'checkinNode'),1)
+	 end
+	
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function checkinItemBtnOnSelect(sprite)
+	-- local item= Sprite:getParent(sprite)
+    -- local index=ListView:getItemIndex(item) 
+	-- local data = Sprite:getData(sprite)
+	-- local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+    -- Reg:setString(reg,'checkinItemId',data)	
+	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\checkinItem.wdml',{freeDestScene=true})
+	local id = Sprite:getData(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	Reg:setInteger(reg,'isUserId',1)
+	Reg:setString(reg,'userId','userId='..id..';')
+    Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
+end

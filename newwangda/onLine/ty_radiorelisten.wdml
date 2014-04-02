@@ -1,0 +1,184 @@
+local rootSprite
+local yesterdaylistlv
+local yesterdaylistlvItem
+local todaylistlv
+local todaylistlvItem
+local mainPanorama
+local catalogList
+local isHaveProgramYesterday 
+local isHaveProgramToday
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	rootSprite = sprite
+	yesterdaylistlv= Sprite:findChild(sprite, 'yesterdaylistlv')
+	yesterdaylistlvItem= Sprite:findChild(sprite, 'yesterdaylistlvItem')
+	isHaveProgramYesterday= Sprite:findChild(sprite, 'isHaveProgramYesterday')
+	isHaveProgramToday= Sprite:findChild(sprite, 'isHaveProgramToday')
+	todaylistlv= Sprite:findChild(sprite, 'todaylistlv')
+    todaylistlvItem= Sprite:findChild(sprite, 'todaylistlvItem')
+	mainPanorama= Sprite:findChild(sprite, 'mainPanorama')
+	catalogList= Sprite:findChild(sprite, 'catalogList')
+	
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	local nodeId=Reg:getString(reg,'liveNodeId')
+	Http:request('radioLiveItemData', Util:getServer()..'/publish/clt/resource/mobileaudio3/radiolive/radioLiveItemData2.jsp?nodeId='..nodeId..'&objType=live',142)
+
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+		 Bottom:show()
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+   if msg==142 then
+    -- Log:write('radioLiveItemData=======',#radioLiveItemData)
+    radioLiveItemData=Http:jsonDecode('radioLiveItemData') 
+	-- Log:write('radioLiveItemData=======',#radioLiveItemData.list1.programs)
+	LoadyesterdayData()
+	LoadtodayData()
+	else
+      Util:onPluginEvent(msg, param)	
+    end
+end
+
+--昨日节目加载
+function LoadyesterdayData()
+    if radioLiveItemData.list1.programs~='' and radioLiveItemData.list1.programs~=nil then
+	Sprite:setVisible(isHaveProgramYesterday, 0) 
+	ListView:removeAllItems(yesterdaylistlv, 1) 
+	ListView:loadItem(yesterdaylistlv, yesterdaylistlvItem, #radioLiveItemData.list1.programs+1, 'onLoadyesterdayItem')
+    ListView:adjust(yesterdaylistlv)  
+	end  
+end
+
+--昨日节目填充
+function onLoadyesterdayItem(list, item, index)
+    local radioname = Sprite:findChild(item,'radioname')
+	local audiostarttime= Sprite:findChild(item,'audiostarttime')
+    local audioendtime= Sprite:findChild(item,'audioendtime')
+	local audioyesterdayBtn= Sprite:findChild(item,'audioyesterdayBtn')
+    Sprite:setProperty(radioname, 'text', radioLiveItemData.list1.programs[index].name)
+	Sprite:setProperty(audiostarttime, 'text', radioLiveItemData.list1.programs[index].sTime)
+	Sprite:setProperty(audioendtime, 'text',radioLiveItemData.list1.programs[index].eTime)
+	Sprite:setProperty(audioyesterdayBtn, 'data', radioLiveItemData.list1.programs[index].param..
+	'name='..radioLiveItemData.list1.programs[index].name..';'..
+	'sTime='..radioLiveItemData.list1.programs[index].sTime..';'..
+	'eTime='..radioLiveItemData.list1.programs[index].eTime..';'..
+	'sCompleteTime='..radioLiveItemData.list1.programs[index].sCompleteTime..';'..
+	'curDay='..radioLiveItemData.list1.curDay..';')
+end
+
+--今日节目加载
+function LoadtodayData()
+    if radioLiveItemData.list2.programs~='' and radioLiveItemData.list2.programs~=nil then
+	Sprite:setVisible(isHaveProgramToday, 0) 
+	ListView:removeAllItems(todaylistlv, 1) 
+	ListView:loadItem(todaylistlv, todaylistlvItem, #radioLiveItemData.list2.programs+1, 'onLoadtodayItem')
+    ListView:adjust(todaylistlv) 
+	end 
+end
+
+--今日节目填充
+function onLoadtodayItem(list, item, index)
+    local radioname = Sprite:findChild(item,'radioname')
+	local audiostarttime= Sprite:findChild(item,'audiostarttime')
+    local audioendtime= Sprite:findChild(item,'audioendtime')
+	local audiotodayBtn= Sprite:findChild(item,'audiotodayBtn')
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(radioLiveItemData.list2.programs[index].sCompleteTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')	
+    local startTimeToSec = os.time{year=cyear, month=cmonth, day=cday, hour=chour,min=cmin,sec=csec}
+    local curTime = math.floor(Util:getServerTime()/1000)
+    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)
+	if startTimeToSec>=curTime then
+	Sprite:setEnable(audiotodayBtn,0) 
+	Sprite:setProperty(radioname, 'color', '#a3a3a3')
+	end	
+    Sprite:setProperty(radioname, 'text', radioLiveItemData.list2.programs[index].name)
+	Sprite:setProperty(audiostarttime, 'text', radioLiveItemData.list2.programs[index].sTime)
+	Sprite:setProperty(audioendtime, 'text',radioLiveItemData.list2.programs[index].eTime)
+	Sprite:setProperty(audiotodayBtn, 'data', radioLiveItemData.list2.programs[index].param..
+	'name='..radioLiveItemData.list2.programs[index].name..';'..
+	'sTime='..radioLiveItemData.list2.programs[index].sTime..';'..
+	'eTime='..radioLiveItemData.list2.programs[index].eTime..';'..
+	'sCompleteTime='..radioLiveItemData.list2.programs[index].sCompleteTime..';'..
+	'curDay='..radioLiveItemData.list2.curDay..';')
+end
+
+
+--Panorama滑动事件
+function mainPanoramaOnSel(sprite)
+   local n =Panorama:getCurItem(mainPanorama)
+     for i=0,2 do
+        local item =List:getItem(catalogList,i)
+        local catalogBtn=Sprite:findChild(item,'catalogBtn')
+        if i==n then
+            Panorama:setCurItem(mainPanorama,n)
+            Sprite:setEnable(catalogBtn,0)
+        else
+            Sprite:setEnable(catalogBtn,1)
+        end
+    end
+end
+
+
+--catalogList里btn点击事件
+function catalogBtnOnSelect(sprite)
+    local n= List:getCurItem(catalogList)
+    for i=0,1 do
+    local item =List:getItem(catalogList,i)
+    local catalogBtn=Sprite:findChild(item,'catalogBtn')
+        if i==n then
+            Sprite:setEnable(catalogBtn,0)
+            Panorama:setCurItem(mainPanorama,n)
+            curIndex=i
+        else
+            Sprite:setEnable(catalogBtn,1)
+        end
+    end
+end
+
+
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+
+
+--昨日节目按钮点击事件
+function audioyesterdayBtnOnSelect(sprite)
+   local data=Sprite:getData(sprite) 
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
+   Reg:setString(reg, 'audioReplayData',data)
+   Scene:back()
+end
+
+--今日节目按钮点击事件
+function audiotodayBtnOnSelect(sprite)
+   local data=Sprite:getData(sprite) 
+   Log:write('audiotodayBtnOnSelect======',data)
+   local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
+   Reg:setString(reg, 'audioReplayData',data)
+   Scene:back()
+end

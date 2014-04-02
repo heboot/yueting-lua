@@ -1,0 +1,387 @@
+local rootSprite
+local albumListview
+local albumItem
+local mainTitle
+local parentId
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	 rootSprite = sprite
+	 albumListview = Sprite:findChild(sprite, 'albumListview')
+	 albumItem = Sprite:findChild(rootSprite, 'albumItem')
+	 mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	 Bottom:show()
+      -- requestAlbumListData()
+	  LoadAlbumListviewData()
+	  -- Loading:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  请求小说列表数据方法  ]]--
+-- function requestAlbumListData()
+	-- local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+    -- local data = Reg:getString(reg,'ListViewData')
+	-- local title = Reg:getString(reg, 'ListViewDataTitle')
+	-- Sprite:setProperty(mainTitle,'text',title)
+	-- Sprite:setProperty(mainTitle,'text','专辑')
+	-- local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	-- LoadAlbumListviewData()
+	-- parentId=nodeId
+	-- if nodeId and nodeId ~= '' then
+       -- Http:request('albumListData', Util:getServer()..'/publish/clt/resource/mobileaudio3/novel/albumListData2.jsp?nodeId='..nodeId..'&objType=live',103)
+    -- end
+-- end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == Msg.getJsonPlayer then
+        Loading:close()
+        playerJson = Http:jsonDecode('playerData')
+		Log:write('playerData111=================1',playerJson)
+        if playerJson and playerJson.code == '1014' then
+            Net:goToMyAccount()
+        elseif playerJson and playerJson.orderList then
+            OrderNode:show(playerJson)
+        elseif playerJson and playerJson.errordesc then
+            Tips:show(playerJson.errordesc)
+        elseif playerJson and 'table' == type(playerJson) then
+            --获取本次数据内容
+			Log:write('playerData111=================2',playerJson)
+            gContparam = playerJson ~=nil and playerJson.param or ''
+			Log:write('playerData111=================3',gContparam)
+            _,_,contentId = string.find(gContparam , 'contentId=(%d+);')
+            if playerJson and playerJson~='' and gContparam and gContparam ~='' then
+                if string.match(gContparam,'objType=live') or string.match(gContparam,'objType=review') then
+                    -- donothing
+                elseif string.match(gContparam,'objType=community') or string.match(gContparam,'objType=content') then
+                    --判断是否音频正在播放，如在播放则停止
+                    if getAudioPlayFlag then
+                        if getAudioPlayFlag() ~= 0 then
+                            Log:write('------------Msg.getJsonPlayer-2--------')
+                            --停止定时器，防止视频停止后音频点播自动播放下一集，取悦听场景句柄
+                            if getAudioScene then
+                                local curAudioScene = getAudioScene()
+                                Log:write('Msg.getJsonPlayer CurScene =',curAudioScene )
+                                Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
+                                resetAudioScene()
+								
+                            end
+                            --Player:stop()
+                            --Player:show(0)
+                            --isPlayerCreate = false
+                            --resetAudioPlayFlag()
+                        end
+                    end
+                    initPlayer()
+                end
+            -- end
+			end
+        -- else
+            -- Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,7)) --('无法获取数据，请稍后再试')
+        end
+    else
+      Util:onPluginEvent(msg, param)			
+	end
+end
+
+--[[  加载小说列表数据方法 ]]--
+function LoadAlbumListviewData()
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	local index=Reg:getInteger(reg,'albumListIndex')
+	ListView:removeAllItems(albumListview, 1, 1)
+	if index==1 then 
+	Sprite:setProperty(mainTitle,'text','娱乐')
+	albumList1=Reg:getTable(reg,'albumList1')
+	ListView:loadItem(albumListview,albumItem,#albumList1+1,'loadAlbumItem')
+	elseif index==2 then 
+	Sprite:setProperty(mainTitle,'text','音乐')
+	albumList2=Reg:getTable(reg,'albumList2')
+	ListView:loadItem(albumListview,albumItem,#albumList2+1,'loadAlbumItem')
+	elseif index==3 then 
+	Sprite:setProperty(mainTitle,'text','情感')
+	albumList3=Reg:getTable(reg,'albumList3')
+	ListView:loadItem(albumListview,albumItem,#albumList3+1,'loadAlbumItem')
+	elseif index==4 then 
+	Sprite:setProperty(mainTitle,'text','脱口秀')
+	albumList4=Reg:getTable(reg,'albumList4')
+	ListView:loadItem(albumListview,albumItem,#albumList4+1,'loadAlbumItem')
+	end
+	ListView:adjust(albumListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadAlbumItem(list,item,index)
+    Sprite:setRect(item, 0,0,720,172)
+    Sprite:setProperty(item,'extendstyle','1010')
+	local albumImage=Sprite:findChild(item,'albumImage')
+	local albumName=Sprite:findChild(item,'albumName')
+	local albumAnchor=Sprite:findChild(item,'albumAnchor')
+	local albumItemBtn= Sprite:findChild(item,'albumItemBtn')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+    albumListIndex=Reg:getInteger(reg,'albumListIndex')
+	Log:write('loadAlbumItem=====111',index,albumItemBtn)
+	if albumListIndex==1 then 
+	Log:write('loadAlbumItem=====2',albumList1[index].videoImg)
+	Log:write('loadAlbumItem=====2',albumList1[index].title)
+	Log:write('loadAlbumItem=====2',albumList1[index].sname)
+	Log:write('loadAlbumItem=====2',albumList1[index].param)
+    Sprite:setProperty(albumImage,'src',albumList1[index].videoImg)
+	Sprite:setProperty(albumName,'text',albumList1[index].title)
+	Sprite:setProperty(albumAnchor,'text',albumList1[index].sname)
+	Sprite:setProperty(albumItemBtn,'data',albumList1[index].param)
+	elseif albumListIndex==2 then 
+    Sprite:setProperty(albumImage,'src',albumList2[index].videoImg)
+	Sprite:setProperty(albumName,'text',albumList2[index].title)
+	Sprite:setProperty(albumAnchor,'text',albumList2[index].sname)
+	Sprite:setProperty(albumItemBtn,'data',albumList2[index].param)
+	elseif albumListIndex==3 then 
+    Sprite:setProperty(albumImage,'src',albumList3[index].videoImg)
+	Sprite:setProperty(albumName,'text',albumList3[index].title)
+	Sprite:setProperty(albumAnchor,'text',albumList3[index].sname)
+	Sprite:setProperty(albumItemBtn,'data',albumList3[index].param)
+	elseif albumListIndex==4 then 
+    Sprite:setProperty(albumImage,'src',albumList4[index].videoImg)
+	Sprite:setProperty(albumName,'text',albumList4[index].title)
+	Sprite:setProperty(albumAnchor,'text',albumList4[index].sname)
+	Sprite:setProperty(albumItemBtn,'data',albumList4[index].param)
+	end
+	-- Reg:setInteger(reg,'albumListIndex',0)
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function albumItemBtnOnSelect(sprite)
+    local count=ListView:getItemCount(albumListview) 
+    for i=0,count-1 do
+      local item = ListView:getItem(albumListview,i)
+      local albumItemBtn = Sprite:findChild(item,"albumItemBtn")
+      Sprite:setEnable(albumItemBtn,1)
+    end
+    Sprite:setEnable(sprite,0)
+	local bokeCollectTable={}
+	if albumListIndex==1 then 
+    for i=0,#albumList1 do
+	table.insert(bokeCollectTable,albumList1[i])
+	end
+	elseif albumListIndex==2 then 
+    for i=0,#albumList2 do
+	table.insert(bokeCollectTable,albumList2[i])
+	end
+	elseif albumListIndex==3 then 
+    for i=0,#albumList3 do
+	table.insert(bokeCollectTable,albumList3[i])
+	end
+	elseif albumListIndex==4 then 
+    for i=0,#albumList4 do
+	table.insert(bokeCollectTable,albumList4[i])
+	end
+	end
+    local item= Sprite:getParent(sprite)
+    local index=ListView:getItemIndex(item) 
+    local data = Sprite:getData(sprite)	
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+	Reg:setString(reg,'bokeItemId',data)
+	Reg:setString(reg,'bokeItemIndex',index)
+	bokeCollectTable=Reg:setTable(reg,'bokeCollectTable',bokeCollectTable)	
+	--Scene:go(Alias.bokeplay,{freeDestScene=true})
+	Log:write('loadAlbumItem',data)
+	Util:_goPlay(data)
+end
+
+-- @brief 初始化播放器
+function initPlayer()
+    
+    -- symbian手机请求的播放地址不知为何会带&amp;字符串 导致open后play死机 在这里统一替换
+    playUrl = string.gsub(playerJson.playUrl,"&amp;","&")
+
+    local regplayer = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    Reg:setInteger(regplayer, 'minFlag',0) --客户端状态，0表示在应用里，1表示在后台,2表示重复后台 由于可能在后台切换player界面 所以用reg记录
+    if Reg:getInteger(regplayer, 'isScreenLock') == 0 then  -- 是否为锁屏状态
+        isScreenLock = false
+    else
+        isScreenLock = true
+    end
+    createPlayer()
+end
+
+
+
+-- @brief 创建播放器区域
+function createPlayer()
+	Log:write('创建')
+    Player:create(0, -1, 1, 1)
+    isPlayerCreate = true
+    --旋屏操作放在openUrl里
+    openUrl()
+
+    ----设置音频播放标志,在此处加是解决loading数据时快速点返回，当前场景以及切换而本场景不释放仍然能收到音频数据产生播放，单播放标志不对的情况
+    if isPlayerCreate then
+        setAudioPlayFlag(2)
+
+        --增加音频通知消息
+        if SendNotification then
+            if objType == '0' or objType=='content' then --音频点播
+                if gContparam and gContparam ~= '' then
+                    if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
+                    local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
+                    -- Reg:setString(reg, 'audioCurPlayingTitle',title)
+                end
+            end
+        end
+    else
+        resetAudioPlayFlag()
+    end
+end
+
+-- @brief 打开url
+function openUrl()
+    --取断点
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    local breakPoint = Reg:getInteger(reg, 'breakPoint')
+    if breakPoint ~= 0 then
+        Reg:remove(reg, 'breakPoint')
+    end
+    if Http:getCurConnect() == 'WLAN' then
+        System:setBufferTime(1)
+    else
+        System:setBufferTime(3)
+    end
+    Player:open(playUrl,Http:getCurConnect(), breakPoint)
+	pluginInvoke(Player:_getHandle(),'StartPlayer')    
+	Log:write('testbottominsert',playerJson.titleName)
+	local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
+	Reg:setString(bottomReg,'audioName',playerJson.titleName)
+	Reg:setString(bottomReg,'type',2)
+	
+	Player:setFullScreen(0)
+    Timer:cancel(TimerId.status)
+    Timer:set(TimerId.status, 1000, 'getStatus')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.detail)
+    Reg:setString(reg,'audioResource','')
+end
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatus()
+    lastStatus = status
+    status, errorCode = Player:getStatus()  
+	Log:write('bushi',objType,status,errorCode)
+    if  status == Player.status.Connecting or
+        status == Player.status.Buffering or status == Player.status.Idle then
+	    uiRefresh()
+		if objType ~= 'live' then 
+		refreshDemandProgress()	
+		end
+	elseif (status == Player.status.Playing and not PEReviewFinishFlag ) then
+        uiPause()
+		if objType ~= 'live' then 
+		--refreshDemandProgress()	
+		end
+	local CurTime = timeFormat(Player:getCurTime())
+	--Sprite:setProperty(audioCurTime,'text',CurTime)
+        -- if objType ~= 'live' then refreshDemandProgress() end
+    elseif status == Player.status.Paused or status == Player.status.Ready then
+        uiPlay()
+        -- if objType == 'live' then refreshLiveProgress() end
+    elseif status == Player.status.Stopped or status == Player.status.Finished or PEReviewFinishFlag then
+        if lastStatus ~= Player.status.Stopped and lastStatus ~= Player.status.Finished then
+            if status == Player.status.Finished then
+                local pIndex = getNextPlayParam(1)
+                if subListTable and subListTable ~= '' and pIndex ~= -1 then
+                    Log:write('subListTable[pIndex].param=',subListTable[pIndex].param)
+                    doPlaynext(subListTable[pIndex].param)
+                else
+                    resetAudioPlayFlag()           
+                    Player:stop()
+                    Player:show(0)
+                    Timer:cancel(TimerId.status)
+                end
+            else
+                Player:stop()
+                Player:show(0)
+                Timer:cancel(TimerId.status)
+            end
+        end
+        uiPlay()
+    end
+	 if objType ~= 'live' and objType ~= 'review' then
+            --local totalTime = timeFormat(Player:getTotalTime())
+            --Sprite:setProperty(lblCurtime,'text',totalTime)
+     end
+    Timer:set(TimerId.status, 500, 'getStatus')
+end
+
+-- @brief 格式化时间
+function timeFormat(sec)
+    if sec == nil then return '00:00:00' end
+	local  hh = math.floor(sec / 3600) < 10 and '0' .. math.floor(sec / 3600) or math.floor(sec / 3600)
+    local mm = math.floor(sec / 60) < 10 and '0' .. math.floor(sec / 60) or math.floor(sec / 60)
+    local ss = math.mod(sec, 60) < 10 and '0' .. math.mod(sec, 60) or math.mod(sec, 60)
+    local time = hh..':'..mm .. ':' .. ss
+    return time
+end
+
+--播放
+function Util:_goPlay(contparam, param)
+	Loading:show()
+    Log:write('_goPlay=====',contparam, param)
+    local _,_,contentId = string.find(contparam, 'contentId=(%d+);')
+    if contentId == nil then contentId = "null" end
+    local _,_,nodeId = string.find(contparam, 'nodeId=(%d+);')
+    local _,_,objType = string.find(contparam, 'objType=([%a%d]+);')
+    if not objType then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+        return
+    end
+    if not nodeId and objType ~= 'community' then
+        Tips:show(Util:getTipsMsg(usrMsgFileName.localTipsMsg,11)) --('该内容已下线')
+        return
+    end
+    nodeId = nodeId or ''
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.player)
+    if param and param.breakPoint then 
+	Reg:setInteger(reg, 'breakPoint', param.breakPoint) 
+	else Reg:setInteger(reg, 'breakPoint', 0) 
+	end
+    Reg:setString(reg, 'contparam', contparam)
+    if param and param.multiDownload then Reg:setString(reg, 'multiDownload', param.multiDownload) else Reg:setString(reg, 'multiDownload', 'false') end
+    if param and param.isAudio and param.isAudio == "true" then Reg:setString(reg, 'isAudio', param.isAudio) else Reg:setString(reg, 'isAudio', 'false') end
+    if param and not param.withoutLoading then uiRefresh()end
+    initCodeRateRule(Util:getNetworkType())  --初始化码率适配规则
+    local codeRate = Config:get('rate') --默认读取码率设置，home页里根据网络状况设置初始值,2G流畅，3G和wlan默认是高清
+    if param and param.codeRate then codeRate = param.codeRate end --手动码率切换时从参数读取coderate
+    local url = Util:getServer() .. Alias.playerData .. '?contentId=' .. contentId .. '&nodeId=' .. nodeId .. '&objType=community' .. '&rate=' .. codeRate
+    url = string.find(contparam, 'live=true') and url .. '&live=true' or url
+	uiRefresh()
+    Http:request('playerData', url, Msg.getJsonPlayer, {useCache = 0})
+end
+
+--进入个人主页按钮
+function personalHomepageBtnOnSelect(sprite)
+     -- local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+     -- Reg:setString(reg,'userId','userId='..podcastListData.userId..';')
+	 -- Reg:setInteger(reg,'isUserId',1)
+     Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
+end

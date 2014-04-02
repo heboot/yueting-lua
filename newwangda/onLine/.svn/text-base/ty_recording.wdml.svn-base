@@ -1,0 +1,233 @@
+require('framework.player')
+--底部所需变量start
+local bottomAudioName
+local playBtn
+local pauseBtn
+local refreshAnimation
+local titleName
+local blankTip
+local audioCurTime
+local audioCurTimeSS
+local tryListenBtn
+local reRecordingBtn
+local uploadBtn
+local recordingLabel
+local isrecording=0
+--底部所需变量end
+
+function bodyBuildChildrenFinished(sprite)
+     rootSprite = sprite
+	 titleName=Sprite:findChild(sprite,'titleName')
+	 blankTip = Sprite:findChild(sprite,"blankTip")
+     audioCurTime=Sprite:findChild(sprite,'audioCurTime')
+	 audioCurTimeSS=Sprite:findChild(sprite,'audioCurTimeSS')
+     tryListenBtn=Sprite:findChild(sprite,'tryListenBtn')
+     reRecordingBtn=Sprite:findChild(sprite,'reRecordingBtn')
+     uploadBtn=Sprite:findChild(sprite,'uploadBtn')
+	 recordingLabel=Sprite:findChild(sprite,'recordingLabel')
+	 recordingBtn = Sprite:findChild(sprite,'recordingBtn')
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+     Util:onPluginEvent(msg, param)
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+         commonActivate()
+	     setNodeState(audioCurTime, 0) 
+		 setNodeState(audioCurTimeSS, 0) 		
+	     setNodeState(tryListenBtn,0) 
+	     setNodeState(reRecordingBtn, 0) 
+	     setNodeState(uploadBtn, 0)	
+         setNodeState(recordingLabel, 1)			
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    else
+         Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+         if commonF2KeyUp and commonF2KeyUp() then return end
+         Scene:back()
+    else
+         Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function backBtnOnSelect(sprite)
+     Scene:back()
+end
+
+
+
+-- @brief 刷新播放与暂停按钮状态
+function getStatus()
+     lastStatus = status
+     status, errorCode = Player:getStatus()
+     Log:write("status, errorCode",status, errorCode)
+     if status == Player.status.Idle or
+         status == Player.status.Connecting or
+         status == Player.status.Buffering or
+         status == Player.status.Playing then
+         -- uiPause()
+		  local tick = Player:getCurTime()
+		  -- Log:write('desFilePath==========1',t)
+		  local t = Util:timeFormat(tick)
+	      local s = Util:split(t, ':')
+          Sprite:setProperty(audioCurTime,"text",'00:'..s[1])
+		  Sprite:setProperty(audioCurTimeSS,"text",':'..s[2])		
+     elseif status == Player.status.Paused or status == Player.status.Ready then
+        -- uiPlay()
+     elseif status == Player.status.Paused then
+        -- uiPlay()
+     elseif status == Player.status.Stopped or status == Player.status.Finished then
+        -- uiPlay()
+         Player:stop()
+         Player:show(0)
+         isPlayerCreate = nil
+         return
+     end
+     Timer:set(TimerId.status, 500, 'getStatus')
+end
+
+
+function editOnTextChanged(sprite)
+     local p = Sprite:getParent(sprite)
+     local blankTip = Sprite:findChild(p,"blankTip")
+     if Sprite:getText(sprite) == "" then
+         setNodeState(blankTip,1)
+     else
+         setNodeState(blankTip,0)
+     end
+end
+
+--录音点击按钮
+function recordingBtnOnSelect(sprite)
+     if getAudioPlayFlag then
+        if getAudioPlayFlag() ~= 0 then
+             Player:stop()
+	     end
+	     setNodeState(audioCurTime, 1) 
+	     setNodeState(audioCurTimeSS, 1) 	
+	     setNodeState(tryListenBtn,0) 
+	     setNodeState(reRecordingBtn, 0) 
+	     setNodeState(uploadBtn, 0)
+         if isrecording==0 then 
+             setNodeState(recordingLabel, 0)		
+      	     local flashCard = System:getFlashCardName(1)
+             local innerCard = System:getFlashCardName(0)
+      	     local desPath = ""
+      	     if flashCard and flashCard ~= "" then
+      	         desPath = flashCard .. "audiodownload/"
+      	     elseif innerCard and innerCard ~= "" then
+      	         desPath = innerCard .. "audiodownload/"
+      	     else
+                 Tips:show("sd卡没插吧？")
+             return
+             end
+             if not IO:dirExist(desPath) then
+                 IO:dirCreate(desPath)
+             end
+             local ct = Util:getServerTime()
+             local t = os.date('*t', math.floor(ct / 1000))
+             for i,v in pairs(t) do
+                 local numv = tonumber(v)
+                 if numv and numv < 10 then
+                     t[i] = 0 .. v
+                 end
+             end
+             desFilePath = desPath .. t["year"] .. t["month"] .. t["day"] .. t["hour"] .. t["min"] .. t["sec"] .. ".mp3"
+             dofunction(8, desFilePath, "", 1, 0)
+             timeTickingStart = GetTickTime()
+		     setNodeState(recordingLabel, 1)		
+             Sprite:setProperty(recordingLabel,"text","结束")
+             Timer:set(TimerId.once,500,"OnTimeTicking")
+	         isrecording=1
+	 elseif isrecording==1 then 
+	     if not desFilePath then return end
+             dofunction(8, "", "", 0, 0)
+             setNodeState(recordingLabel, 0)		
+             --Sprite:setProperty(recordingLabel,"text","结束")
+	         setNodeState(tryListenBtn,1) 
+	         setNodeState(reRecordingBtn, 1) 
+	         setNodeState(uploadBtn,1)
+			 Sprite:setEnable(recordingBtn,0)
+             Timer:cancel(TimerId.once)
+	         isrecording=0
+	     end
+     end
+end
+
+function OnTimeTicking()
+     local tick = math.floor((GetTickTime() - timeTickingStart)/1000)
+     local t = Util:timeFormat(tick)
+	 local s = Util:split(t, ':')
+     Sprite:setProperty(audioCurTime,"text",'00:'..s[1])
+	 Sprite:setProperty(audioCurTimeSS,"text",':'..s[2])	
+     Timer:cancel(TimerId.once)
+     Timer:set(TimerId.once,500,"OnTimeTicking")
+end
+
+--重录按钮
+function reRecordingBtnOnSelect(sprite)
+	 Sprite:setEnable(recordingBtn,1)
+     deleteRecordingFile()
+     Sprite:setProperty(audioCurTime,"text","00:00")
+	 Sprite:setProperty(audioCurTimeSS,"text",":00")	
+	 isrecording=0
+     recordingBtnOnSelect()
+end
+
+
+--点击上传按钮
+function uploadBtnOnSelect(sprite)
+     local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+     Reg:setString(reg,"filepath",desFilePath)
+     Scene:go(Alias.uploadworks,{setReturn=false,freeDestScene=true})
+end
+
+--点击试听按钮
+function tryListenBtnOnSelect(sprite)
+     if getAudioPlayFlag() ~= 0 then
+         local curAudioScene = getAudioScene()
+         Log:write('Msg.getJsonPlayer CurScene =',curAudioScene )
+         Sprite:sendEvent(curAudioScene, Msg.stopAudioTimer)
+         Player:stop()
+		 pluginInvoke(Player:_getHandle(),'StartPlayer')   
+         resetAudioPlayFlag() 
+		 Timer:cancel(TimerId.status)
+         Timer:set(TimerId.status, 500, 'getStatus')
+     end
+     if not isPlayerCreate then
+         Player:create(0, -1, 1, 1)
+         isPlayerCreate = true
+         openUrl()
+     else
+         Player:play()
+        -- uiPause()
+     end
+end
+
+function openUrl()
+    --desFilePath='/mnt/sdcard/audiodownload/20140303141219.mp3'
+	--Log:write('desFilePath==========',desFilePath)
+     Player:open(desFilePath)
+	 pluginInvoke(Player:_getHandle(),'StartPlayer')
+     Timer:cancel(TimerId.status)
+     Timer:set(TimerId.status, 500, 'getStatus')
+end
+
+
+
+function deleteRecordingFile()
+     if desFilePath and IO:fileExist(desFilePath) then
+         IO:fileRemove(desFilePath)
+     end
+end

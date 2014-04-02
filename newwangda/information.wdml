@@ -200,7 +200,7 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function requestUserinfoData()
-      local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+      local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
       personalInfo =Reg:getString(reg,'personalInfo')
 	  if personalInfo~='' and personalInfo~=nil then
 	  local _,_,sname=string.find(personalInfo, 'sname=([^;]+);')

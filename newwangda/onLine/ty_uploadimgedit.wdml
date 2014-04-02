@@ -1,0 +1,252 @@
+imgRatio = 1
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite=sprite
+    _curPhotoSprite = Sprite:findChild(sprite,"imagephoto")
+    _curStaticRectSprite = Sprite:findChild(sprite,"staticrect")
+    mainTitle= Sprite:findChild(sprite,"mainTitle")
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+    imgPath = Reg:getString(reg,"imgPath")
+    Sprite:setProperty(_curPhotoSprite,"src",imgPath)
+    _,staticY,staticW,staticH = Sprite:computeRect(_curStaticRectSprite)
+    srcW,srcH = Sprite:getProperty(_curPhotoSprite,"src_size")
+    staticDisplayH = srcH*staticW/srcW
+    local setY = (staticH - staticDisplayH)/2
+    Sprite:setRect(_curPhotoSprite,0,setY,staticW,staticDisplayH)
+    Sprite:setProperty(_curPhotoSprite,"extendstyle","4444")
+    
+    local displayNode = 0
+    displaystyle = Reg:getString(reg,"displaystyle")
+    local ds1,ds2 = Sprite:findChild(sprite,"displaystyle1"),Sprite:findChild(sprite,"displaystyle2")
+    setNodeState(ds1,0) setNodeState(ds2,0)
+     if displaystyle == "3" then
+        displayNode = ds2
+		Sprite:setProperty(mainTitle,"text",'头像设置')
+    else
+        displayNode = ds1
+		Sprite:setProperty(mainTitle,"text",'封面设置')
+    end
+    setNodeState(displayNode,1)
+    imgFrame = Sprite:findChild(displayNode,"imgFrame")
+    frameX,frameY,frameW,frameH = Sprite:computeRect(imgFrame)
+end
+
+function bodyOnSpriteEvent(msg, param)
+   if msg == MSG_ACTIVATE then
+        
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    elseif msg == MSG_STRINGEVENT then
+       
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+function bodyOnPluginEvent(msg, param)
+    Util:onPluginEvent(msg, param)
+end
+
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function backOnSelect(sprite)
+    Scene:back()
+end
+
+function bodyOnGestureBegin(sprite, x, y)
+    Timer:cancel(TimerId.once)
+    bMouseEventDisabled = 1
+    frmMidX,frmMidY = frameX+frameW/2,frameH+frameH/2
+end
+
+function bodyOnGestureMove(sprite, x, y)
+    if lastX and lastY and _curPhotoSprite then
+        lastDistance = math.sqrt(lastX^2 + lastY^2)
+        distance = math.sqrt(x^2 + y^2)
+        lastX, lastY = x, y
+        if lastDistance > distance then
+            local l,t,w,h = Sprite:computeRect(_curPhotoSprite)
+            local scale = lastDistance - distance
+            local setl,sett,setw,seth = l,t,w,h
+            if w > frameW and h > frameH then
+                imgRatio = imgRatio-scale/500
+                setw,seth = staticW*imgRatio,staticDisplayH*imgRatio
+            elseif w <= frameW then
+                setw,seth = frameW,frameW/staticW*staticDisplayH
+            elseif h <= frameH then
+                 setw,seth = frameH/staticDisplayH*staticW,frameH
+            end
+            setl,sett = getRatioXY(frmMidX,frmMidY,l,t,w,h,setw,seth)
+            setl,sett = getxy(setl,sett,setw,seth)
+            Sprite:setRect(_curPhotoSprite,setl,sett-staticY,setw,seth)
+            Log:write('smaller')
+        elseif lastDistance <= distance then
+            local l,t,w,h = Sprite:computeRect(_curPhotoSprite)
+            local scale = valueTrans(distance - lastDistance)
+            local setl,sett,setw,seth = l,t,w,h
+            if w <= 3*staticW then
+                imgRatio = imgRatio+scale/500
+                setw,seth = staticW*imgRatio,staticDisplayH*imgRatio
+            end
+            setl,sett = getRatioXY(frmMidX,frmMidY,l,t,w,h,setw,seth)
+            setl,sett = getxy(setl,sett,setw,seth)
+            Sprite:setRect(_curPhotoSprite,setl,sett-staticY,staticW*imgRatio,staticDisplayH*imgRatio)
+            Log:write('biger')
+        end
+    else
+        lastX, lastY = x, y
+    end
+end
+
+function bodyOnGestureEnd(sprite, x, y)
+    lastX, lastY = nil, nil
+    WriteLogs("-----------bodyOnGestureEnd--------------")
+    Timer:set(TimerId.once,200,"enableMouseEvent")
+end
+
+function photoSpriteRecoverery()
+    WriteLogs("-----------photoSpriteRecoverery--------------" .. recoverPace)
+    if recoverPace < 10 then
+        local prop = recoverPace/10
+        Sprite:setRect(_curPhotoSprite,-deltal*(1-prop),-deltat*(1-prop),oriw+deltaw*prop,orih+deltah*prop)
+        recoverPace = recoverPace + 1
+        Timer:set(TimerId.once2,1,"photoSpriteRecoverery")
+    else
+        recoverPace = nil
+        Sprite:setRect(_curPhotoSprite,0,0,720,1280)
+    end
+end
+
+function enableMouseEvent()
+    bMouseEventDisabled = nil
+end
+
+function pitemOMD(sprite,x,y)
+    if bMouseEventDisabled then return end
+    WriteLogs("-----------pitemOMD--------------" .. x .. "  " .. y)
+    OMDx,OMDy,OMDtick = x,y,GetTickTime()
+    pitemOMMx,pitemOMMy = x,y
+end
+
+function pitemOMM(sprite,x,y)
+    if bMouseEventDisabled then return end
+    WriteLogs("-----------pitemOMM--------------" .. x .. "  " .. y)
+    if pitemOMMx and pitemOMMy then
+        local l,t,w,h = Sprite:computeRect(_curPhotoSprite)
+        inertiax,inertiay = -x+pitemOMMx,-y+pitemOMMy
+        local setx,sety = getxy(l-valueTrans(inertiax),t-valueTrans(inertiay),w,h)
+        Sprite:setRect(_curPhotoSprite,setx,sety-staticY,w,h)
+        pitemOMMx,pitemOMMy = x,y
+    else
+        inertiax,inertiay = nil,nil
+        pitemOMMx,pitemOMMy = x,y
+    end
+end
+
+function pitemOMU(sprite,x,y)
+    if bMouseEventDisabled then return end
+    WriteLogs("-----------pitemOMU--------------" .. x .. "  " .. y)
+    if inertiax and inertiay then
+        local l1,t1,w1,h1 = Sprite:computeRect(_curPhotoSprite)
+        local inertiax_t,inertiay_t = valueTrans(inertiax),valueTrans(inertiay)
+        if math.abs(inertiax_t) >= 5 or math.abs(inertiay_t) >= 5 then
+            deltal,deltat,deltaw,deltah = inertiax_t*10,inertiay_t*10,w1,h1
+        else
+            deltal,deltat,deltaw,deltah = 0,0,w1,h1
+        end
+        oril,orit = l1,t1
+        recoverPace = 1
+        Timer:cancel(TimerId.once2)
+        Timer:set(TimerId.once2,1,"photoSpriteInertia")
+    end
+    pitemOMMx,pitemOMMy = nil,nil
+end
+
+function photoSpriteInertia()
+    WriteLogs("-----------photoSpriteInertia--------------" .. recoverPace)
+    if recoverPace < 20 then
+        local prop = math.log(recoverPace)/math.log(20)
+        local setx,sety = getxy(oril-deltal*prop,orit-deltat*prop,deltaw,deltah)
+        Sprite:setRect(_curPhotoSprite,setx,sety-staticY,deltaw,deltah)
+        recoverPace = recoverPace + 1
+        Timer:set(TimerId.once2,1,"photoSpriteInertia")
+    else
+        recoverPace = nil
+        inertiax,inertiay = nil,nil
+        local setx,sety = getxy(oril-deltal,orit-deltat,deltaw,deltah)
+        Sprite:setRect(_curPhotoSprite,setx,sety-staticY,deltaw,deltah)
+    end
+end
+
+function getxy(setx,sety,setw,seth)
+    if setx > frameX then setx = frameX end
+    if sety > frameY then sety = frameY end
+    if setx+setw < frameX+frameW then setx = frameX+frameW-setw end
+    if sety+seth < frameY+frameH then sety = frameY+frameH-seth end
+    return setx,sety
+end
+
+function clipBtnOS()
+    local flashCard = System:getFlashCardName(1)
+    local innerCard = System:getFlashCardName(0)
+    local outPath = ""
+    if flashCard and flashCard ~= "" then
+        outPath = flashCard .. "audiodownload/"
+    elseif innerCard and innerCard ~= "" then
+        outPath = innerCard .. "audiodownload/"
+    else
+        Tips:show("sd卡没插吧？")
+        return
+    end
+    if not IO:dirExist(outPath) then
+        IO:dirCreate(outPath)
+    end
+    local ct = Util:getServerTime()
+    local t = os.date('*t', math.floor(ct / 1000))
+    for i,v in pairs(t) do
+        local numv = tonumber(v)
+        if numv and numv < 10 then
+            t[i] = 0 .. v
+        end
+    end
+    local fileExt = string.lower(IO:fileExt(imgPath))
+    local outFilePath = outPath .. t["year"] .. t["month"] .. t["day"] .. t["hour"] .. t["min"] .. t["sec"] .. ".jpg"
+    WriteLogs("-----------------" .. outFilePath)
+    local x,y,w,h = ImgParamCaculate()
+    local p = 1
+    if displaystyle == "3" then
+        p = 130/w
+    else
+        p = SCREEN_WIDTH/w > 1 and 1 or SCREEN_WIDTH/w 
+    end
+    ClipImageSaveAsStretchFile(imgPath,outFilePath, 1, x, y, w, h, p, 0)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.upload)
+    Reg:setString(reg,"imgpath",outFilePath)
+    Scene:back()
+end
+
+function ImgParamCaculate()
+    local src_w,src_h = Sprite:getProperty(_curPhotoSprite,"src_size")
+    local curimg_x,curimg_y,curimg_w,curimg_h = Sprite:computeRect(_curPhotoSprite)
+    local img_x,img_y,img_w,img_h = frameX-curimg_x,frameY-curimg_y,frameW,frameH
+    local p = src_w/curimg_w
+    local out_x,out_y,out_w,out_h = img_x*p,img_y*p,img_w*p,img_h*p
+    Log:write("out_x,out_y,out_w,out_h",out_x,out_y,out_w,out_h)
+    return math.floor(out_x),math.floor(out_y),math.floor(out_w),math.floor(out_h)
+end
+
+function valueTrans(num)
+    return num*staticW/720
+end
+
+function getRatioXY(frameMidX,frameMidY,curX,curY,curW,curH,expW,expH)
+    return frameMidX-(frameMidX-curX)*expW/curW,frameMidY-(frameMidY-curY)*expH/curH
+end

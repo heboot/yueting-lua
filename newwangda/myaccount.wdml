@@ -365,7 +365,7 @@ function getPwdBtnOS(sprite)
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
     Reg:setInteger(reg, 'isRegister', 0)
     -- Scene:go(Alias.registration)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\registration.wdml',{freeDestScene = true})
+	Scene:go(Alias.registration,{freeDestScene = true})
 end
 
 --[[  账号注册  ]]--
@@ -373,7 +373,7 @@ function registerBtnOS(sprite)
     local reg = Reg:create(Reg.com_wondertek_mobileaudio.myaccount)
     Reg:setInteger(reg, 'isRegister', 1)
     -- Scene:go(Alias.registration)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\registration.wdml',{freeDestScene = true})
+	Scene:go(Alias.registration,{freeDestScene = true})
     goRegistration = true
 end
 

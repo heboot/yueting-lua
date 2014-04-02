@@ -634,14 +634,14 @@ function downloadoptionBtnOnSelect(sprite)
 		Log:write('downloadoptionBtnOnSelect2====',tableLocalVideo[dindex+0].setList[1].path)
 		Log:write('downloadoptionBtnOnSelect2====',tableLocalVideo[dindex+0].setName)
 	
-	    local reg = Reg:create('com_wondertek_mobileaudio_localplay')
+	    local reg = Reg:create(Reg.com_wondertek_mobileaudio.localPlay)
 		Reg:setString(reg,'audioplayCollect','3')
 		Reg:setTable(reg,'audioplayCollectTable',tableLocalVideo)
 		Reg:setString(reg,'novelItemIndex',dindex)
 		Reg:setString(reg,'novelItemTitle',dname)
 		Reg:setString(reg,'novelAuthor',aData)
 
-		Scene:go('MODULE:\\com_wondertek_mobileaudio\\audioplaylocal.wdml',{freeDestScene=true})
+		Scene:go(Alias.audioplaylocal,{freeDestScene=true})
 	elseif op~=nil and op == 'pause' then  --go暂停
 	    local xid = Download:getIndexById(did+0)
 		Download:pause(xid+0) 

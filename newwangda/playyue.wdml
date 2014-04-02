@@ -285,7 +285,7 @@ function bodyOnPluginEvent(msg, param)
 						   totalTime=endTime-startTime
 						   Sprite:setVisible(startTimeNode,1)	
                            Sprite:setVisible(endTimeNode,1)	
-						   local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+						   local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
                            Reg:setInteger(bottomReg,'type',0)
                            Reg:setString(bottomReg,'audioName',radioLiveItemData.livePlayList.programs[i].name)
 						   if radioLiveItemData.livePlayList then
@@ -375,7 +375,7 @@ function bodyOnSpriteEvent(msg, param)
 	   else
 	      Sprite:setProperty(wifiFlag, 'src', '') 
 	   end
-	   local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+	   local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
        local audioReplayData=Reg:getString(reg, 'audioReplayData')
 	   if audioReplayData and audioReplayData~='' and audioReplayData~=nil then	
 	      local _,_,objType = string.find(audioReplayData, 'objType=([%a%d]+);')
@@ -458,7 +458,7 @@ function createPlayer()
             if objType == '0' or objType=='content' then --音频点播
                 if gContparam and gContparam ~= '' then
                     if setAudioGParam then setAudioGParam(gContparam) end --保存当前音频参数，供其他场景保存历史记录使用
-                    -- local reg = Reg:create('Reg.com_wondertek_mobileaudio.playeryue') --保存当前播放节目名称
+                    -- local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue) --保存当前播放节目名称
                     -- Reg:setString(reg, 'audioCurPlayingTitle',title)
                 end
             end
@@ -495,7 +495,7 @@ end
 function playBtnOnSelect(sprite)
   if not isPlayerCreate and subListTable then
         local contList = subListTable
-		local reg = Reg:create('com_wondertek_mobileaudio_novel')
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
 		local index=Reg:getString(reg,'novelItemIndex')
         if contList and '' ~= contList[tonumber(index)] then
             local contparam = contList[tonumber(index)].param
@@ -654,7 +654,7 @@ function getRadioStatus()
 					startTimeLbl = subListTable[pIndex].sTime
                     endTimeLbl =subListTable[pIndex].eTime
 					totalTime=endTime-startTime
-					local bottomReg = Reg:create('com_wondertek_mobileaudio_bottomplayer')
+					local bottomReg = Reg:create(Reg.com_wondertek_mobileaudio.bottomPlayer)
                     Reg:setInteger(bottomReg,'type',0)
 				    refreshDemandProgress()	
 					PELiveFinishFlag=false
@@ -1196,11 +1196,11 @@ function radioMoreItemBtnOnSelect(sprite)
     local item = Sprite:getParent(sprite)
     local index = List:getItemIndex(item)
 	if index ==0 then
-	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\radiorelisten.wdml',{freeDestScene=true})
+	   Scene:go(Alias.radiorelisten,{freeDestScene=true})
 	elseif index==1 then
-	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\radioappoint.wdml',{freeDestScene=true})
+	   Scene:go(Alias.radioappoint,{freeDestScene=true})
 	elseif index==2 then
-	   Scene:go('MODULE:\\com_wondertek_mobileaudio\\radiolist2.wdml',{freeDestScene=true})
+	   Scene:go(Alias.radiolist2,{freeDestScene=true})
 	end	
 	if Sprite:isVisible(moreContentsNode)==0  then
        setNodeState(moreContentsNode,1)

@@ -109,15 +109,15 @@ function collecedBtnOnSelect(sprite)
     local index =List:getItemIndex(item)
 	Log:write('collecedBtnOnSelect===',index)
 	if index == 0 then --电台收藏
-	  Scene:go('MODULE:\\com_wondertek_mobileaudio\\radiocollected.wdml',{freeDestScene=true})
+	  Scene:go(Alias.radiocollected,{freeDestScene=true})
 	elseif index == 1 then --小说收藏
-	  Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelcollected.wdml',{freeDestScene=true})
+	  Scene:go(Alias.novelcollected,{freeDestScene=true})
 	elseif index == 2 then --作品收藏
-	 Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokecollected.wdml',{freeDestScene=true})
+	 Scene:go(Alias.bokecollected,{freeDestScene=true})
 	elseif index == 3 then --关注的人
-	  Scene:go('MODULE:\\com_wondertek_mobileaudio\\anchorcollected.wdml',{freeDestScene=true})
+	  Scene:go(Alias.anchorcollected,{freeDestScene=true})
 	elseif index == 4 then --下载收藏
-	  Scene:go('MODULE:\\com_wondertek_mobileaudio\\downloadcollected.wdml',{freeDestScene=true})
+	  Scene:go(Alias.downloadcollected,{freeDestScene=true})
 	end
 end
 

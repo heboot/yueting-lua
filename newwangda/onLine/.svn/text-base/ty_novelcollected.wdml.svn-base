@@ -1,0 +1,293 @@
+--table用于存放当前拼装后的数据
+local contentItem
+local listviewdata={}
+local IfDelete=false --判断是否删除
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	contentListview = Sprite:findChild(sprite,'contentListview')
+	contentItem= Sprite:findChild(sprite,'contentItem')
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+	if msg == MSG_ACTIVATE then
+	  Bottom:show()
+	   --读取本地文件的xml文件
+	  local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+      local regFile = 'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlistlocal.xml'
+      Reg:load(reg,regFile)
+      g_collectionIdsStr = Reg:getString(reg, 'audiocollectionIds')
+	  Log:write('g_collectionIdsStr=====1',g_collectionIdsStr)
+	  listviewdata=readCollections(g_collectionIdsStr)	
+	  Log:write('listviewdata=====',listviewdata)
+	  loadListviewData()
+    elseif msg == MSG_DEACTIVATE then
+        
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+      Util:onPluginEvent(msg, param)	
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+
+
+--加载listview数据
+function loadListviewData()
+    ListView:removeAllItems(contentListview, 1, 1)
+    ListView:loadItem(contentListview, contentItem,#listviewdata, 'onLoadListviewItem')
+	ListView:adjust(contentListview) 
+end
+
+function onLoadListviewItem(listview, item, index)
+    Log:write('listviewdata=========',listviewdata[index+1])
+	Sprite:setRect(item, 0,0,686,160)
+    Sprite:setProperty(item,'extendstyle','1010')	
+	local _,_,name = string.find(listviewdata[index+1], 'name=([^;]+);')
+	local _,_,img = string.find(listviewdata[index+1], 'img=([^;]+);')
+	local _,_,anchor = string.find(listviewdata[index+1], 'anchor=([^;]+);')
+	local _,_,nodeId = string.find(listviewdata[index+1], 'nodeId=([^;]+);')
+	local novelName =Sprite:findChild(item, 'novelName')
+	local novelImage =Sprite:findChild(item, 'novelImage')
+	local novelItemBtn =Sprite:findChild(item, 'novelItemBtn')
+	local novelAnchor =Sprite:findChild(item, 'novelAnchor')
+	local arrowGo =Sprite:findChild(item, 'arrowGo')
+	local deleteBtn =Sprite:findChild(item, 'deleteBtn')
+	Sprite:setProperty(novelName,'text',name)
+	Sprite:setProperty(novelImage,'src',img)
+	Sprite:setProperty(novelItemBtn,'data',listviewdata[index+1])
+	Sprite:setProperty(deleteBtn,'data','nodeId='..nodeId..';')
+	Sprite:setProperty(novelAnchor,'text',anchor)
+	if not IfDelete then
+	   Sprite:setVisible(arrowGo, 1)
+       Sprite:setVisible(deleteBtn, 0)
+	   Sprite:setEnable(deleteBtn, 0)  
+       Sprite:setEnable(novelItemBtn, 1)  	   
+	else 
+	   Sprite:setVisible(arrowGo, 0)
+       Sprite:setVisible(deleteBtn, 1)
+	   Sprite:setEnable(deleteBtn, 1)  
+       Sprite:setEnable(novelItemBtn, 0)  	   
+	end
+end
+
+function novelItemBtnOnSelect(sprite)
+    local data = Sprite:getData(sprite)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+    Reg:setString(reg,'novelItemId',data)
+    Reg:setString(reg,'audioplayCollect','1')
+    Log:write('audioplayCollectTable====',#listviewdata)
+    Reg:setTable(reg,'audioplayCollectTable',listviewdata)
+	Scene:go(Alias.novelItem,{freeDestScene=true})
+end
+
+--点击管理按钮
+function managerBtnOnSelect(sprite)
+    local managername=Sprite:findChild(sprite, 'managername')
+	if Sprite:getText(managername) =='管理' then
+    Sprite:setProperty(managername,'text','完成')
+	IfDelete=true
+	elseif  Sprite:getText(managername) =='完成' then
+	Sprite:setProperty(managername,'text','管理')
+	IfDelete=false
+	end
+	loadListviewData()
+end
+
+--点击删除按钮
+function deleteBtnOnSelect(sprite)
+    Log:write('deleteBtnOnSelect=====')
+	local data=Sprite:getData(sprite)
+	local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	deleteNodeId=nodeId
+	-- dialogContent,dialogTitle = Util:getTipsMsg(usrMsgFileName.localDialogMsg,4) --or '确定要退出手机视频？','提示'
+    Dialog:show('', '是否确认删除该作品？', 'ok_cancel', 'Delete_cancel')
+end
+
+--[[
+ ------------------------------------------------------------
+ -- @function Dialog:show(title, message, typeStr, okCallback, cancelCallback, okText, cancelText, checkBoxCallback, checkBoxText, isChecked)
+ ------------------------------------------------------------
+ -- @brief 显示对话框
+ ------------------------------------------------------------
+ -- @param string title 对话框标题
+ -- @param string message 对话框内容
+ -- @param string typeStr 对话框类型，'ok'、'cancle'、'ok_cancel'
+ -- @param string okCallback 确定回调函数名，可空
+ ------------------------------------------------------------
+ -- @return void
+ ------------------------------------------------------------
+ --]]
+function Dialog:show(title, message, typeStr, okCallback)
+    local curScene = Sprite:getCurScene()
+    Sprite:sendEvent(curScene, Msg.dialogShow)
+    local mainNode = Sprite:findChild(curScene, 'mainNode')
+    local dialogNode = Sprite:findChild(curScene, 'dialogNode')
+    if dialogNode ~= 0 then
+        setNodeState(dialogNode, 1)
+    else
+        dialogNode = Sprite:create('node', Sprite:findChild(curScene, 'mainNode'))
+        Sprite:setProperty(dialogNode, 'name', 'dialogNode')
+		Sprite:loadFromString(dialogNode, Dialog.layout)
+    end
+	local dtext = Sprite:findChild(dialogNode, 'dtext')
+	local okBtn = Sprite:findChild(dialogNode, 'okBtn')
+	local cancelBtn = Sprite:findChild(dialogNode, 'cancelBtn')
+    Sprite:setProperty(dtext, 'text', message)
+end
+
+--Dialog确定按钮
+function _okProc()
+CollectionType=1
+deleteOneCollectionProg(deleteNodeId,CollectionType)
+local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+local regFile = 'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlistlocal.xml'
+Reg:load(reg,regFile)
+g_collectionIdsStr = Reg:getString(reg, 'audiocollectionIds')
+listviewdata=readCollections(g_collectionIdsStr)	
+loadListviewData()
+Dialog:close()
+end
+
+--Dialog取消按钮
+function _cancelProc()
+Dialog:close()
+end
+
+------------------------------------------------------------
+ -- @function deleteOneCollectionProg()
+ ------------------------------------------------------------
+ -- @brief 删除一个收藏节目
+ ------------------------------------------------------------
+ -- @access public
+ ------------------------------------------------------------
+ -- @param nodeId            -- 内容ID作为保存的键值关键字
+ -- @param collectionType          -- 预约文件类型, 0 - 平台预约 ,1-本地预约
+ ------------------------------------------------------------
+ -- @return
+ ------------------------------------------------------------
+function deleteOneCollectionProg(nodeId,collectionType)
+    Log:write('deleteOneCollectionProg', nodeId, collectionType)
+    local reg = 0
+    local regFile = ''
+    if collectionType == 0 or collectionType == nil then
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+        regFile = 'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlist.xml'
+    else
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+        regFile =  'MODULE:\\com_wondertek_mobileaudio\\audiocollectionlistlocal.xml'
+    end
+    Reg:load(reg,regFile)
+    local collectionIdsStr = Reg:getString(reg, 'audiocollectionIds')
+    if hasCollected(nodeId,collectionIdsStr) then
+        collectionIdsStr = string.gsub(collectionIdsStr,nodeId..'|' ,'')
+        Reg:setString(reg,'audiocollectionIds',collectionIdsStr)
+        Reg:remove(reg,nodeId)
+        Reg:save(reg, regFile)
+    end
+    Reg:release(Reg.com_wondertek_mobileaudio.playeryue)
+	Tips:show('取消成功')
+end
+
+-- @brief 判断节目是否在收藏列表中
+function hasCollected(nodeId, collectionIdsStr)
+    if collectionIdsStr and '' ~= collectionIdsStr then
+        local collectionIdsTable = Util:split(collectionIdsStr, '|')
+        local count = #collectionIdsTable - 1
+        for i=1,count do
+            if tonumber(collectionIdsTable[i]) == tonumber(nodeId) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+--读取xml数据，拼装成table
+function readCollections(collectionIdsStr)
+    local collectiondata={}
+    if collectionIdsStr and '' ~= collectionIdsStr then
+	    local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+        local collectionIdsTable = Util:split(collectionIdsStr, '|')
+        local count = #collectionIdsTable - 1
+		for i=1,count do
+		local collectionContents = Reg:getString(reg,collectionIdsTable[i])
+		 local collectionContentsTable = Util:split(collectionContents, '|')
+		 local count2=#collectionContentsTable
+		
+		 local name,nodeId,item,parentId,img
+		 for i=1,count2 do
+		    if i==1 then 
+			  name='name='..collectionContentsTable[i]..';'
+			elseif i==2 then
+			  nodeId='nodeId='..collectionContentsTable[i]..';'
+			elseif i==3 then
+			  parentId='parentId='..collectionContentsTable[i]..';'
+			elseif i==4 then
+			  anchor='anchor='..collectionContentsTable[i]..';'
+			elseif i==5 then
+			  img='img='..collectionContentsTable[i]..';'
+			end
+		 end		 
+		 table.insert(collectiondata,name..nodeId..parentId..anchor..img)
+        end
+	end
+	return collectiondata
+end
+
+Dialog.layout = [[
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <header/>
+    <body>
+        <button rect="0,0,720,1280" OnSelect="" extendstyle="1111"/>
+        <shadow rect="0,0,720,1280" color="#000000" alpha="70" extendstyle="1111"/>
+        <node name="dframe" rect="54,475,612,230" extendstyle="1010">
+            <image rect="0,0,612,230" src="file://image/dialogbg.png"  style="sudoku-auto" sudoku="5,5,5,5" extendstyle="1017" />
+            <textarea name="dtext" text="" rect="80,0,460,100" extendstyle="1010" font-size="28" color="#7F7B7A" line-height="25" h-align="center" v-align="center" loop="true" step="1"/>
+            <node name="btnArea" rect="34,120,544,77" extendstyle="0010">
+                <button name="okBtn" rect="0,0,255,77" style="autosize" OnSelect="_okProc" extendstyle="1510" normal="n" sel="s">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkN" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,255,77" extendstyle="1010" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1010" />
+                        <label name="textOkF" rect="0,0,255,77" extendstyle="1010" text="确定" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+                <button name="cancelBtn" rect="289,50,255,77" OnSelect="_cancelProc" extendstyle="1570" normal="n" sel="s" disabled="d">
+                    <node name="n" rect="0,0,255,77" extendstyle="1010" >
+					    <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070"/>
+                        <label name="textCancelN" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                    <node name="s" rect="0,0,255,77" extendstyle="1070" frame="true">
+                        <image rect="0,0,255,77" src="file://image/dialogbtnbg.png"  style="sudoku-auto" sudoku="11,11,11,11" extendstyle="1070"/>
+                        <label name="textCancelF" rect="0,0,255,77" extendstyle="1010" text="取消" font-size="30" color="#000000" v-align="center" h-align="center"/>
+                    </node>
+                </button>
+            </node>
+        </node>
+    </body>
+</root>
+]]

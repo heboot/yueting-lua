@@ -85,7 +85,7 @@ function mainNodeOnKeyUp(sprite, kc)
 end
 
 function loadNovelInfo()
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     local title = Reg:getString(reg,'title')
 	local desc = Reg:getString(reg,'desc')
 	Sprite:setProperty(mainTitle,'text',title)

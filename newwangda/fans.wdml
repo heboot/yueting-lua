@@ -38,7 +38,7 @@
 				 </image>
 				 <label  name="empValueName"  rect="190,55,250,25" text="1000/3000" color="#FFFFFF" v-align="center" h-align="center" font-size="20" extendstyle="1010"/>
 				 <label  name="todayEmpValue" rect="440,0,280,80" text="" color="#777777" v-align="center" h-align="center" font-size="25" extendstyle="0010"/>
-                 <label  rect="40,100,680,30" text="每有一个粉丝为您签到可增长8点经验值" font-size="25" color="#777777" v-align="center" extendstyle="1010"/>				 
+                 <textarea  rect="40,100,680,30" text="每有一个粉丝为您签到可增长<C:fe8300>8<N>点经验值" font-size="25" color="#777777" v-align="center" extendstyle="1010"/>				 
 			 </node>
 		</node> 
 		<node name="contentNode" rect="0,350,720,0"    extendstyle="1017" >
@@ -249,15 +249,14 @@ function checkinItemBtnOnSelect(sprite)
 	-- local item= Sprite:getParent(sprite)
     -- local index=ListView:getItemIndex(item) 
 	-- local data = Sprite:getData(sprite)
-	-- local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	-- local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     -- Reg:setString(reg,'checkinItemId',data)	
 	-- Scene:go('MODULE:\\com_wondertek_mobileaudio\\checkinItem.wdml',{freeDestScene=true})
 	local id = Sprite:getData(sprite)
-	Log:write('noticerItemBtnOnSelect==========',id)
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	Reg:setInteger(reg,'isUserId',1)
 	Reg:setString(reg,'userId','userId='..id..';')
-    Scene:go('MODULE:\\com_wondertek_mobileaudio\\personalBokeHomepage.wdml',{freeDestScene=true})
+    Scene:go(Alias.personalBokeHomepage,{freeDestScene=true})
 end
 
 

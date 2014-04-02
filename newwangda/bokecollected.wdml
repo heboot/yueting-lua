@@ -161,11 +161,11 @@ end
 
 function podcastItemBtnOnSelect(sprite)
     local data = Sprite:getData(sprite)
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
     Reg:setString(reg,'bokeItemId',data)
     Reg:setString(reg,'bokeCollect','1')
     Reg:setTable(reg,'bokeCollectTable1',listviewdata)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\bokeplay.wdml',{freeDestScene=true})
+	Scene:go(Alias.bokeplay,{freeDestScene=true})
 end
 
 --点击管理按钮

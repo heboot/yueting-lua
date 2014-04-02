@@ -1,0 +1,117 @@
+local contentLabelDesc
+local labelNode
+local editNode
+local noCommentNode
+local editLabel
+
+
+function bodyBuildChildrenFinished(sprite)
+    rootSprite = sprite
+    contentDesc = Sprite:findChild(sprite,"contentDesc")
+	
+    editNode= Sprite:findChild(sprite,'editNode')
+    noCommentNode= Sprite:findChild(sprite,'noCommentNode')
+	contentLabelDesc= Sprite:findChild(sprite,'contentLabelDesc')
+    labelNode= Sprite:findChild(sprite,'labelNode')
+	editLabel= Sprite:findChild(sprite,'editLabel')
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+    if msg == 110 then
+       userinfoData = Http:jsonDecode('userinfoData')
+	    Loading:close()
+        if userinfoData.code =='1014' then
+            setNodeState(contentList1,0)
+            Net:goToMyAccount()
+        else
+            LoadUserInfo()
+        end
+	elseif msg==112 then
+	    Loading:close()
+        local requestData = Http:jsonDecode('settingData')
+        if requestData then
+            if requestData.result == '0000' then
+                Tips:show('亲，修改成功啦')
+                setRequestUpdate("userinfoDataState",Reg:create(Reg.com_wondertek_mobileaudio.community))
+                Timer:set(TimerId.once,1000,"backBtnOnSelect")
+            else
+                Tips:show(requestData.description)
+            end
+        end
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+		Bottom:show()
+        commonActivate()
+		local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+        local userId = Reg:getString(regCommunity ,'userId')
+        _userId = userId
+		requestUserinfoData()
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function backBtnOnSelect(sprite)
+    Scene:back()
+end
+
+function requestUserinfoData()    	    	   
+	  local regCommunity = Reg:create(Reg.com_wondertek_mobileaudio.community)
+      local useCache = getRequestState("userinfoDataState" .. _userId, regCommunity)
+      Loading:show()
+      Http:request('userinfoData',  Util:getWeiBoServer() .. Alias.userinfoData .. '?userId=' .. _userId, 110, {useCache = 0})
+end
+
+function LoadUserInfo()     
+	  if userinfoData.sign== '' or userinfoData.sign==nil then
+	    Sprite:setVisible(editNode,0)
+		Sprite:setEnable(editNode,0)
+		Sprite:setVisible(noCommentNode,1)
+		Sprite:setVisible(labelNode,0)
+	  else
+	    Sprite:setVisible(editNode,0)
+		Sprite:setEnable(editNode,0)
+		Sprite:setVisible(noCommentNode,0)
+		Sprite:setVisible(labelNode,1)
+		Sprite:setProperty(contentDesc,'text', userinfoData.sign)
+		Sprite:setProperty(contentLabelDesc,'text', userinfoData.sign)
+	  end
+end
+
+function editBtnOnSelect(sprite)
+      if Sprite:isVisible(editNode)==1 then
+	  Sprite:setProperty(editLabel,'text', '编辑')
+	  Sprite:setVisible(editNode,0)
+	  Sprite:setEnable(editNode,0)
+	  Sprite:setVisible(labelNode,1)
+	  Sprite:setProperty(contentLabelDesc,'text', Sprite:getText(contentDesc))
+	  local sign=Sprite:getText(contentDesc)
+	  Http:request('settingData', Util:getWeiBoServer() .. 'sup/sup_infoEdit.msp?sign=' .. sign, 112)
+	  else
+	  Sprite:setProperty(editLabel,'text', '完成')
+	  Sprite:setVisible(editNode,1)
+	  Sprite:setEnable(editNode,1)
+	  Sprite:setVisible(labelNode,0)
+	  Sprite:setProperty(contentLabelDesc,'text', Sprite:getText(contentDesc))
+	  end  
+end

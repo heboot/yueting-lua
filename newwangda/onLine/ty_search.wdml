@@ -1,0 +1,207 @@
+local rootSprite
+local mainTitle
+local searchText
+
+local searchDataListview
+local searchDataItem
+local resultData = {}
+local noHaveResult
+
+
+local tempTable = {}
+local showFlag = false
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	rootSprite = sprite	
+	--mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	
+	
+	searchText = Sprite:findChild(sprite,'searchText')
+	searchDataListview = Sprite:findChild(sprite, 'searchDataListview')
+	searchDataItem = Sprite:findChild(sprite, 'searchDataItem')
+	noHaveResult = Sprite:findChild(sprite, 'noHaveResult')
+	Sprite:setProperty(noHaveResult,"texgt","请输入搜索关键字")
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	   Bottom:show()
+	  Loading:close()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg == 101 then
+	    resultData = {}
+		local searchResultData = Http:jsonDecode('search_result')
+		Log:write('=======searchdata',searchResultData.count)	
+		if searchResultData.searchresult and  searchResultData.count+0 >0 then
+		    Log:write('=======searchdata2',#searchResultData.searchresult)
+			Loading:close()
+			Sprite:setVisible(searchDataListview, 1) 
+			Sprite:setVisible(noHaveResult, 0)
+			showFlag = true
+			resultData = searchResultData.searchresult         
+			LoadSearchresultListviewData()
+			
+		else
+			Sprite:setVisible(searchDataListview, 0) 
+			Sprite:setVisible(noHaveResult, 1) 
+			Sprite:setProperty(noHaveResult,"texgt","抱歉没有找到相关内容")
+			showFlag = false
+		end		
+		
+		url = 'http://c22.cmvideo.cn/music-weibo/publish/clt/resource/mobileaudio3/search/communitysearchResult.jsp?searchType=1&k='..keyword
+		Http:request('search_result',url, 102, {method = 'post',  postData='k=' .. keyword .. "&searchType=1&timeparam=" .. g_timeparam,useCache=0})
+	elseif msg == 102 then
+		Loading:close()
+		local searchResultData = Http:jsonDecode('search_result')
+		
+		if searchResultData.searchresult and  searchResultData.count+0 >0 then
+			Sprite:setVisible(searchDataListview, 1) 
+			Sprite:setVisible(noHaveResult, 0) 
+			for i = 0,#searchResultData.searchresult do
+				for j=0,#searchResultData.searchresult[i].contentList do
+					table.insert(resultData,searchResultData.searchresult[i].contentList[j])
+				end
+			end
+			Log:write('=======searchdata555552',#resultData)
+			LoadSearchresultListviewData()
+		else
+			if showFlag == true then
+			else
+			Sprite:setVisible(searchDataListview, 0) 
+			Sprite:setVisible(noHaveResult, 1) 
+			Sprite:setProperty(noHaveResult,"texgt","抱歉没有找到相关内容")
+			end
+		end
+	else
+        Util:onPluginEvent(msg, param)
+	end
+end
+
+
+
+--[[  加载小说列表数据方法 ]]--
+function LoadSearchresultListviewData()
+	Log:write('=======searchdata555553',#resultData)
+	ListView:removeAllItems(searchDataListview,1,1)
+    ListView:loadItem(searchDataListview,searchDataItem,math.ceil(#resultData),'loadSearchresultItem')
+	ListView:adjust(searchDataListview) 
+end
+
+--[[  加载小说列表ITEM数据方法 ]]--
+function loadSearchresultItem(list,item,index)
+		Log:write('=======searchdata555554',index)
+		 Log:write('=======searchdata555554',index,resultData[index+1].contName)
+		 Sprite:setProperty(item,"extendstyle","1070")
+		 Sprite:setRect(item,0,0,720,160)
+		 Sprite:setRect(Sprite:findChild(item,'searchDataImage'),20,15,210,141)
+		 Sprite:setVisible(Sprite:findChild(item,'filterImage'),0)
+		 
+		 Sprite:setVisible(Sprite:findChild(item,'anchorLbl'),1)
+		 Sprite:setVisible(Sprite:findChild(item,'novelAnchor'),1)
+		 Sprite:setProperty(Sprite:findChild(item,'searchDataName'),'text',resultData[index+1].contName)
+		 Sprite:setProperty(Sprite:findChild(item,'searchDataItemBtn'),'data',resultData[index+1].contParam)	 
+		 Sprite:setProperty(Sprite:findChild(item,'searchDataImage'),'src',resultData[index+1].img) 
+		 Sprite:setProperty(Sprite:findChild(item,'novelAnchor'),'text',resultData[index+1].anchor)
+end
+
+function searchDataItemBtnOnSelect(sprite)
+	local data = Sprite:getData(sprite)
+	local _,_,type = string.find(data,'type=(.-);')
+	Log:write("searchDataItemBtnOnSelect=====",type)
+	if type == 'content' then
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
+		Reg:setString(reg,'novelItemId',data)
+		Log:write('isurl============',data)
+		Scene:go(Alias.novelItem,{freeDestScene=true})
+	elseif type == 'blog' then 	
+		local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
+		Reg:setString(reg,'bokeItemData',data)
+		Reg:setInteger(reg,'isNodeId',0)
+		Reg:setInteger(reg,'isUserId',1)
+		Scene:go(Alias.podcastList,{freeDestScene=true})
+	else
+	end
+	
+end
+
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+function searchBtnOnSelect(sprite)
+	Log:write('keyword ===============11 ')
+    keyword = Sprite:getText(searchText)
+    Log:write('keyword =============== ', keyword)
+	
+	 local i = string.find(keyword, '"')
+    if '' == keyword then
+        Tips:show('请输入搜索关键词')
+        return
+    elseif '*#local#' == keyword or '*#LOCAL#' == keyword then
+        Config:set("readLocal", 1)
+        Tips:show('已切换至本地模板')
+        return
+    elseif '*#online#' == keyword or '*#ONLINE#' == keyword then
+        Config:set("readLocal", 0)
+        Tips:show('已切换至在线模板')
+        return
+    elseif '*#dingxiang*#' == keyword or '*#DINGXIANG*#' == keyword then
+        Config:set('wlan_serverandportal', 'http://211.136.119.78/sup3/')
+        Config:set('cmwap_serverandportal', 'http://211.136.119.78/sup3/')
+        IO:fileRemove('MODULE:\\newToken.dat')
+        Tips:show('已切换至丁香环境')
+        return
+    elseif '*#yunqiao*#' == keyword or '*#YUNQIAO*#' == keyword then
+        Config:set('wlan_serverandportal', 'http://c22.cmvideo.cn/clt30/')
+        Config:set('cmwap_serverandportal', 'http://c2.cmvideo.cn/clt30/')
+        IO:fileRemove('MODULE:\\newToken.dat')
+        Tips:show('已切换至现网环境')
+        return
+    elseif '*#ylhj*#' == keyword or '*#YLHJ*#' == keyword then
+        Config:set('wlan_serverandportal', 'http://presup.cmvideo.cn:8080/clt30/')
+        Config:set('cmwap_serverandportal', 'http://presup.cmvideo.cn:8080/clt30/')
+        IO:fileRemove('MODULE:\\newToken.dat')
+        Tips:show('已切换至预览环境')
+        return
+    elseif i and i ~= 0 then
+        Tips:show('字符非法哦，请重新输入')
+        return
+    end
+	Loading:show()
+	local ct = Util:getServerTime()
+    local t = os.date('*t', math.floor(ct / 1000))
+    g_timeparam = t.month .. "-" .. t.day
+	--local url = Util:getServer() .. '/publish/clt/resource/mobileaudio3/search/Exsearchresult.jsp'
+	local url
+	Log:write('searchTYpe========',searchType)
+
+	 url = 'http://c22.cmvideo.cn/clt30/publish/clt/resource/mobileaudio3/search/Exsearchresult.jsp'
+
+	 --url = 'http://c22.cmvideo.cn/music-weibo/publish/clt/resource/mobileaudio3/search/communitysearchResult.jsp?searchType=1&k='..keyword
+	Http:request('search_result',url, 101, {method = 'post',  postData='k=' .. keyword .. "&searchType=1&timeparam=" .. g_timeparam,useCache=0})
+	
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end

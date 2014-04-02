@@ -1,0 +1,86 @@
+local mainTitle
+local radioListview
+local listItem
+local parentId
+
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	rootSprite = sprite
+	mainTitle = Sprite:findChild(rootSprite, 'mainTitle')
+	radioListview = Sprite:findChild(rootSprite, 'radioListview')
+    listItem = Sprite:findChild(rootSprite, 'listItem')
+	
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+	  Bottom:show()
+	 local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+     local data=Reg:getString(reg, 'ExradioData')
+	 local _,_,nodeId=string.find(data,'nodeId=(%d+);')
+	 parentId=nodeId
+     local titledata=Reg:getString(reg, 'ExradioTitle')
+	 Sprite:setProperty(mainTitle,"text",titledata)
+	 Http:request('radioLiveItemData', Util:getServer() .. '/publish/clt/resource/mobileaudio3/radiolive/radioLiveItemData.jsp?'..'nodeId='..parentId..'&objType=item',108)
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Scene:freeByHandle(rootSprite)
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	if msg== 108 then
+    radioLiveItemData = Http:jsonDecode('radioLiveItemData')
+	loadRadioInfo()
+	else
+      Util:onPluginEvent(msg, param)	
+	end
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+function loadRadioInfo()   
+	ListView:removeAllItems(radioListview, 1, 1)
+    ListView:loadItem(radioListview, listItem, #radioLiveItemData.radioLiveItemList+1, 'loadRadioItem')
+	ListView:adjust(radioListview) 
+end
+
+
+function loadRadioItem(list, item, index)
+    local radioName =Sprite:findChild(item, 'radioName')
+	local radioFmName =Sprite:findChild(item, 'radioFmName')
+	local radiolistBtn=Sprite:findChild(item, 'radiolistBtn')
+	Sprite:setProperty(radioName,'text',radioLiveItemData.radioLiveItemList[index].name)
+	Sprite:setProperty(radioFmName,'text',radioLiveItemData.radioLiveItemList[index].tag1)
+	-- parentId
+	Log:write('data===sss=1=nodeId========',parentId)
+	local data=radioLiveItemData.radioLiveItemList[index].param..'parentId='..parentId..';'
+	-- Log:write('radioLiveItemData====param',radioLiveItemData.radioLiveItemList[index].param)
+	Sprite:setProperty(radiolistBtn,'data',data)
+end
+
+function radiolistBtnOnSelect(sprite)
+    local data=Sprite:getData(sprite) 
+	local item=Sprite:getParent(sprite)
+    local index=ListView:getItemIndex(item)
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+    Reg:setString(reg,'audioplayData',data)
+	Scene:go(Alias.playyue,{freeDestScene=true})
+end

@@ -183,8 +183,8 @@ end
 
 function podcastItemBtnOnSelect(sprite)
 	local data = Sprite:getData(sprite)
-	local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	Reg:setString(reg,'albumIndex',data)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\personAlbumList2.wdml',{freeDestScene=true})
+	Scene:go(Alias.personAlbumList2,{freeDestScene=true})
 end
 ]]>

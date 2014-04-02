@@ -1,0 +1,388 @@
+function bodyBuildChildrenFinished(sprite)
+    rootSprite = sprite
+    hd = Sprite:findChild(sprite, 'hd')
+    standard = Sprite:findChild(sprite, 'standard')
+    smooth = Sprite:findChild(sprite, 'smooth')
+    settingArea = Sprite:findChild(sprite, 'settingArea')
+    accountChangeNode = Sprite:findChild(sprite, 'accountChangeNode')
+	replaceAccountBtn = Sprite:findChild(sprite, 'replaceAccountBtn')
+    msgImg = Sprite:findChild(sprite, 'msgImg')
+    setLastSettings(sprite)
+    
+    local versionLbl = Sprite:findChild(sprite, 'versionLbl')
+    local version = Config:get('sdk_version')
+    local t = Util:split(version,".")
+    local vText = tonumber(t[1]) .. "." .. tonumber(t[3]) .. "." .. tonumber(t[4])
+    Sprite:setProperty(versionLbl,"text","当前版本v" .. vText)
+end
+
+-- @brief root开始创建子节点事件
+function bodyPreBuildChildren(root)
+    download_driver_dir = Config:get('download_path')
+    local notificationFlag = widgetConfig:get('NotificationEnable')
+    if notificationFlag ~= '0' and notificationFlag ~= '1' then
+        widgetConfig:set('NotificationEnable','1')
+        notificationFlag = '1'
+    end
+    swich_setting = {Config:get('autoDownload'),Config:get('notice_set'),Config:get('updateTips_setting'),Config:get('noImageMode'),notificationFlag}
+    rate_setting = Config:get('rate')
+end
+
+function textareaBuildChildrenFinished(sprite)
+    local cacheTextArea = Sprite:findChild(sprite, 'cacheTextArea')
+    local cacheBg = Sprite:findChild(sprite, 'cacheBg')
+    local cacheBtn = Sprite:findChild(sprite, 'cacheBtn')
+    local _, _, _, tah = Sprite:getRect(cacheTextArea)
+    local offset = tah - 130
+    local bgx, bgy, bgw, bgh = Sprite:getRect(cacheBg)
+    local bx, by, bw, bh = Sprite:getRect(cacheBtn)
+    local x, y, w, h = Sprite:getRect(sprite)
+    Sprite:setRect(cacheBg, bgx, bgy, bgw, bgh + offset)
+    Sprite:setRect(cacheBtn, bx, bgy + (bgh + offset - bh)/2, bw, bh)
+    Sprite:setRect(sprite, x, y, w, h + offset)
+end
+
+function setLastSettings(sprite)
+    driverDirGroupbutton1 = Sprite:findChild(sprite, 'driverDirGroupbutton1')
+    driverDirGroupbutton1Bg = Sprite:findChild(sprite, 'driverDirGroupbutton1Bg')
+    
+    driverDirGroupchecked1 = Sprite:findChild(sprite, 'driverDirGroupchecked1')
+    driverDirGroupchecked2 = Sprite:findChild(sprite, 'driverDirGroupchecked2')
+    
+    for i=1,#swich_setting do 
+        switchBtn = Sprite:findChild(sprite, "switchBtn"..i)
+        switchNode = Sprite:findChild(switchBtn, "switchNode"..i)
+        switchNode_s = Sprite:findChild(switchBtn, "switchNode"..i.."_s")
+        local shadow,onlbl,offlbl = Sprite:findChild(switchBtn,"shadow"),Sprite:findChild(switchBtn,"on"),Sprite:findChild(switchBtn,"off")
+        if swich_setting[i] == "1" then 
+            Sprite:setProperty(switchBtn, 'data', 'on')
+            -- Sprite:setProperty(shadow,"color","#1C9FE3")
+            -- Sprite:setProperty(onlbl,"color","#9ACD32")
+            -- Sprite:setProperty(offlbl,"color","#CD2626")
+            setSwitchPos(100)
+        else
+            Sprite:setProperty(switchBtn, 'data', 'off')
+            -- Sprite:setProperty(shadow,"color","#C2C0C1")
+            -- Sprite:setProperty(onlbl,"color","#9ACD32")  
+            -- Sprite:setProperty(offlbl,"color","#CD2626")
+            setSwitchPos(0)
+        end
+     end
+     
+    local flashCard = System:getFlashCardName(1)
+    local innerCard = System:getFlashCardName(0)
+    if (flashCard and flashCard ~= '') or (innerCard and innerCard ~= '') then --存在外置SD卡
+        Log:write(' sd find--------', download_driver_dir)
+        if download_driver_dir == "1" then 
+            Sprite:setVisible(driverDirGroupchecked1,1)
+            Sprite:setVisible(driverDirGroupchecked2,0)
+        else
+            Sprite:setVisible(driverDirGroupchecked1,0)
+            Sprite:setVisible(driverDirGroupchecked2,1)
+        end
+    else   --不存在外置SD卡
+        Log:write(' no sd-------------')
+        Sprite:setEnable(driverDirGroupbutton1, 0)
+        Sprite:setVisible(driverDirGroupchecked1,0)
+        Sprite:setVisible(driverDirGroupchecked2,1)
+    end
+    
+    if rate_setting == "1" then
+        Sprite:setEnable(smooth,0)
+    elseif rate_setting == "2" then
+        Sprite:setEnable(standard,0)
+    else
+        Sprite:setEnable(hd,0)
+    end
+end
+
+function backBtnOnSelect(sprite)
+    bFree = 1
+    Scene:back()
+end
+
+function driverDirGrouponchange(spriteGroup)
+    if Sprite:getName(spriteGroup) == "driverDirGroupbutton1" then 
+       if Sprite:isVisible(driverDirGroupchecked1) == 0 then
+           Sprite:setVisible(driverDirGroupchecked1,1)
+           Sprite:setVisible(driverDirGroupchecked2,0)
+           Index = "1"
+        end
+    else
+       if Sprite:isVisible(driverDirGroupchecked2) == 0 then
+           Sprite:setVisible(driverDirGroupchecked2,1)
+           Sprite:setVisible(driverDirGroupchecked1,0)
+           Index = "0"
+        end
+    end
+    Config:set('download_path', Index) 
+end
+
+function switchOnMouseUp(sprite)
+    local name=Sprite:getName(sprite)
+	
+    local index=string.sub(name,-1)
+	Log:write('name=============',name,index)
+    if index == "4" and not SetDownloadImage then
+        Tips:show("敬请期待")
+        return
+    end
+    switchBtn = sprite
+    switchNode = Sprite:findChild(sprite, "switchNode"..index)
+    switchNode_s = Sprite:findChild(switchBtn, "switchNode"..index.."_s")
+    animate0()
+end
+
+function setSwitchPos(offset)
+    local x, y, w, h = Sprite:getRect(switchNode)
+    Sprite:setRect(switchNode, math.floor((200 - 100)*offset/100), y, w, h)
+    Sprite:setRect(switchNode_s, math.floor((200 - 100)*offset/100), y, w, h)
+end
+
+function animate0()
+    WriteLogs(Sprite:getData(switchBtn))
+    if Sprite:getData(switchBtn) == 'on' then
+        setSwitchPos(93)
+        Timer:set(1, 1, 'animate1')
+    else
+        setSwitchPos(7)
+        Timer:set(1, 1, 'animate1')
+    end
+end
+
+function animate1()
+    if Sprite:getData(switchBtn) == 'on' then
+        setSwitchPos(79)
+        Timer:set(1, 1, 'animate2')
+    else
+        setSwitchPos(21)
+        Timer:set(1, 1, 'animate2')
+    end
+end
+
+function animate2()
+    if Sprite:getData(switchBtn) == 'on' then
+        setSwitchPos(52)
+        Timer:set(1, 1, 'animate3')
+    else
+        setSwitchPos(48)
+        Timer:set(1, 1, 'animate3')
+    end
+end
+
+function animate3()
+    local config_flag
+    local tx,ty,tw,th
+    local shadow,onlbl,offlbl = Sprite:findChild(switchBtn,"shadow"),Sprite:findChild(switchBtn,"on"),Sprite:findChild(switchBtn,"off")
+    if Sprite:getData(switchBtn) == 'on' then
+        Sprite:setProperty(switchBtn, 'data', 'off')
+        setSwitchPos(0)
+        config_flag="0"
+        WriteLogs("off")    
+        -- Sprite:setProperty(shadow,"color","#C2C0C1")
+        -- Sprite:setProperty(onlbl,"color","#CD2626")
+        -- Sprite:setProperty(offlbl,"color","#9ACD32")
+    else
+        Sprite:setProperty(switchBtn, 'data', 'on')
+        setSwitchPos(100)
+        config_flag="1"
+        WriteLogs("on")
+        -- Sprite:setProperty(shadow,"color","#1C9FE3")
+        -- Sprite:setProperty(onlbl,"color","#CD2626")
+        -- Sprite:setProperty(offlbl,"color","#9ACD32")
+    end
+    local name=Sprite:getName(switchBtn)
+    local index=string.sub(name,-1)
+    WriteLogs("config_flag=" .. config_flag)
+    if index == "1" then
+        Config:set('autoDownload', config_flag)
+    elseif index =="2" then
+        Config:set('notice_set', config_flag)
+    elseif index =="3" then
+        Config:set('updateTips_setting', config_flag)
+    elseif index =="4" then
+        Config:set('noImageMode', config_flag)
+        local curConnect = Http:getCurConnect()
+        if config_flag == "1" and (curConnect == 'CMWAP' or curConnect == 'CMNET') then
+            SetDownloadImage(0)
+        else
+            SetDownloadImage(1)
+        end
+    elseif index == '5' then
+        widgetConfig:set('NotificationEnable',config_flag)
+    end
+end
+
+--@breif 确定清除缓存
+function cachesetOkOnSelect(sprite)
+    IO:dirRemove('CACHE:\\com_wondertek_mobileaudio', 1)
+    IO:dirCreate('CACHE:\\com_wondertek_mobileaudio')
+    IO:dirCreate('CACHE:\\com_wondertek_mobileaudio\\image')
+    -- 退出时，释放该应用所有场景资源（除index.wdml、setting.wdml、home.wdml）
+    local sceneList = GetCurSceneList()
+    for n = 0, table.maxn(sceneList) do
+        local reg = Reg:create(Reg.g_observer)
+        local rmeappRoot = Reg:getInteger(reg, 'rootsprite')
+        local s = sceneList[n].sprite
+        if s ~= Sprite:getCurScene() and s ~= rmeappRoot then
+            if s == Scene:getHandleByName(Alias.index) and s == Scene:getHandleByName(Alias.home) then
+            -- elseif Alias.playeryue and s == Scene:getHandleByName(Alias.playeryue) then
+            -- elseif Alias.playeryuelocal and s == Scene:getHandleByName(Alias.playeryuelocal) then
+            else
+                Scene:freeByHandle(sceneList[n].sprite)
+            end
+        end
+    end
+    searchDownloadedFilesForTempFile()
+    cannotDelIndexTable = {}
+    for j=1,#filesName do
+        if string.match(filesName[j].name,"^temp_") then
+            for i=1,Download:getCount() do
+                local curTask = Download:getStatus(i)
+                local _,_,_,curName = string.find(curTask.title, "(.+)@(.+)" )
+                local subCurName = string.gsub(curName, "%-", "|minus|")
+                local subFilesName = string.gsub(filesName[j].name, "%-", "|minus|")
+                if string.match(subFilesName, subCurName) then
+                    table.insert(cannotDelIndexTable, j)
+                end
+            end
+        end
+    end
+    for j=1,#filesName do
+        local canDel = true
+        for i=1,#cannotDelIndexTable do
+            if j == cannotDelIndexTable[i] then
+                canDel = false
+                break
+            end
+        end
+        if canDel then
+            Log:write('deleteFileName:',filesName[j].path .. filesName[j].name)
+            IO:fileRemove(filesName[j].path .. filesName[j].name)
+        end
+    end
+    Tips:show('碎片清除成功')
+end
+
+function searchDownloadedFilesForTempFile()
+    filesName = {}
+    local flashCard = Util:getDownloadFolder(1) -- 外置存储卡
+    local innerCard = Util:getDownloadFolder(0) -- 内置存储卡
+    --local _, filterStr = Util:getPlayerInfo()
+    local filterStr = Config:get('video_type')
+    local filterArr = Util:split(filterStr, '|')
+    local count = #filterArr
+    if flashCard and flashCard ~= '' then       -- 外置存储卡
+        for i=1, count do
+            local files = IO:openDir(flashCard .. '\\' .. filterArr[i])
+            filterFilesForTempFile(files, flashCard .. '\\')
+        end
+    end
+    if innerCard ~= flashCard and innerCard and innerCard ~= '' then       -- 内置存储卡
+        for i=1, count do
+            local files = IO:openDir(innerCard .. '\\' .. filterArr[i])
+            filterFilesForTempFile(files, innerCard .. '\\')
+        end
+    end
+    for i=1, count do
+        local files = IO:openDir(Util:getDefaultFolder(WDFIDL_MYVIDIO) .. filterArr[i])
+        filterFilesForTempFile(files, Util:getDefaultFolder(WDFIDL_MYVIDIO))
+    end
+    if Util:getDefaultFolder(WDFIDL_MYVIDIO) == Util:getDefaultFolder(WDFIDL_DOWNLOAD) then
+        return
+    end
+    for i=1, count do
+        local files = IO:openDir(Util:getDefaultFolder(WDFIDL_DOWNLOAD) .. filterArr[i])
+        filterFilesForTempFile(files, Util:getDefaultFolder(WDFIDL_DOWNLOAD))
+    end
+end
+
+function filterFilesForTempFile(files, path)
+    if files then
+        local count = #files
+        for i = 0, count do
+            if files[i].attr == 0 then -- 若是文件
+                if string.match(files[i].filename, '^temp') then
+                    local fileTable = {}
+                    fileTable.name = files[i].filename
+                    fileTable.path = path
+                    table.insert(filesName, fileTable)
+                else -- 若不是下载临时文件
+                end
+            end
+        end
+    end
+end
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+    if msg == 101 then
+        -- Loading:close()
+        -- userinfoData = Http:jsonDecode('userinfoData')
+        -- Log:write('userinfoData', userinfoData)
+        -- if userinfoData and userinfoData.userId and userinfoData.userId ~= "" then
+            -- setSettingUI(1)
+            -- Loading:show()
+            -- Http:request('myorder_data', Util:getServer() .. Alias.myorderproduct, 102, {useCache = 0})
+        -- else
+            -- setSettingUI(0)
+        -- end
+    elseif msg == 102 then
+        myorderData = Http:jsonDecode('myorder_data')
+        Log:write('myorderData', myorderData)
+        Loading:close()
+        if myorderData then
+            setOrderState()
+        else
+            Tips:show('返回数据格式错误')
+        end
+    else
+        Util:onPluginEvent(msg, param)
+    end
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+    if msg == MSG_ACTIVATE then
+		 Bottom:show()
+        commonActivate()
+	    local regI = Reg:create(Reg.com_wondertek_mobileaudio.index)
+		Log:write('setting============', Reg:getInteger(regI, 'accountLogin'))
+		if Reg:getInteger(regI, 'accountLogin') == 1  then --已显式登录标志位
+		     Sprite:setEnable(replaceAccountBtn, 1)
+             Sprite:setVisible(replaceAccountBtn, 1)
+		else
+		     Sprite:setEnable(replaceAccountBtn, 0)
+             Sprite:setVisible(replaceAccountBtn, 0)
+	    end
+        -- requestUserinfoData()
+    elseif msg == MSG_DEACTIVATE then
+        commonDeactivate()
+        Timer:cancel(2)
+        if bFree == 1 then
+            Scene:freeByHandle(rootSprite)
+        end
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+--[[  按键事件响应  ]]--
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        bFree = 1
+        Scene:back()
+    else
+        Util:mainNodeOnKeyUp(sprite, kc)
+    end
+end
+
+function updateBtnOS()
+    Tips:show("当前已是最新版本")
+end
+
+--切换账号
+function replaceAccountBtnOnSelect(sprite)
+   Scene:go(Alias.myaccount,{freeDestScene=true})
+end

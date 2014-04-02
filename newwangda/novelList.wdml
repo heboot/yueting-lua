@@ -153,7 +153,7 @@ function novelItemBtnOnSelect(sprite)
     local index=ListView:getItemIndex(item) 
 
 	local data = Sprite:getData(sprite)
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     Reg:setString(reg,'novelItemId',data)
     Log:write('isurl============',data)
 	-- local temptable={}
@@ -183,11 +183,8 @@ function novelItemBtnOnSelect(sprite)
     -- end
 
     -- Reg:setTable(reg,'novelParentData',temptable)
-	-- Reg:setInteger(reg, 'novelIsUrl', 1) 
-	
-	
-	
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+	-- Reg:setInteger(reg, 'novelIsUrl', 1) 	
+	Scene:go(Alias.novelItem,{freeDestScene=true})
 end
 
 

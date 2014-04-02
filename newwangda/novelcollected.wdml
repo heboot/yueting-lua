@@ -158,12 +158,12 @@ end
 
 function novelItemBtnOnSelect(sprite)
     local data = Sprite:getData(sprite)
-	local reg = Reg:create('com_wondertek_mobileaudio_novel')
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.novel)
     Reg:setString(reg,'novelItemId',data)
     Reg:setString(reg,'audioplayCollect','1')
     Log:write('audioplayCollectTable====',#listviewdata)
     Reg:setTable(reg,'audioplayCollectTable',listviewdata)
-	Scene:go('MODULE:\\com_wondertek_mobileaudio\\novelItem.wdml',{freeDestScene=true})
+	Scene:go(Alias.novelItem,{freeDestScene=true})
 end
 
 --点击管理按钮

@@ -497,7 +497,7 @@ end
 
 --切换账号
 function replaceAccountBtnOnSelect(sprite)
-   Scene:go('MODULE:\\com_wondertek_mobileaudio\\myaccount.wdml',{freeDestScene=true})
+   Scene:go(Alias.myaccount,{freeDestScene=true})
 end
 
 ]]>

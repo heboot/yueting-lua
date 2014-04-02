@@ -91,7 +91,7 @@ function bodyBuildChildrenFinished(sprite)
 	contentListview = Sprite:findChild(sprite,'contentListview')
 	contentItem= Sprite:findChild(sprite,'contentItem')
 	mainTitle = Sprite:findChild(sprite,'mainTitle')
-    local reg = Reg:create('Reg.com_wondertek_mobileaudio_podcast.personalBoke')
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.personalBoke)
 	subListTable=Reg:getTable(reg,'bokeCollectTable')
 	title = '播客'
 	contentListData = subListTable

@@ -1,0 +1,421 @@
+local rootSprite
+local yesterdaylistlv
+local yesterdaylistlvItem
+local todaylistlv
+local todaylistlvItem
+local tommorrowlistlv
+local tommorrowlistlvItem
+local mainPanorama
+local catalogList
+local isHaveProgramToday
+local isHaveProgramTommorrow
+local parentId
+
+
+
+
+-- @brief root子节点创建完事件
+function bodyBuildChildrenFinished(sprite)
+	rootSprite = sprite
+	yesterdaylistlv= Sprite:findChild(sprite, 'yesterdaylistlv')
+	yesterdaylistlvItem= Sprite:findChild(sprite, 'yesterdaylistlvItem')
+	todaylistlv= Sprite:findChild(sprite, 'todaylistlv')
+    todaylistlvItem= Sprite:findChild(sprite, 'todaylistlvItem')
+    tommorrowlistlv= Sprite:findChild(sprite, 'tommorrowlistlv')
+    tommorrowlistlvItem= Sprite:findChild(sprite, 'tommorrowlistlvItem')
+	isHaveProgramToday= Sprite:findChild(sprite, 'isHaveProgramToday')
+	isHaveProgramTommorrow= Sprite:findChild(sprite, 'isHaveProgramTommorrow')
+	mainPanorama= Sprite:findChild(sprite, 'mainPanorama')
+	catalogList= Sprite:findChild(sprite, 'catalogList')	
+    local reg = Reg:create(Reg.com_wondertek_mobileaudio.home)
+	local nodeId=Reg:getString(reg,'liveNodeId')
+	
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.audiolive)
+	local data=Reg:getString(reg,'audioplayData')
+	_,_,parentId=string.find(data,'parentId=(%d+);')
+	Log:write('=============radioappoint',parentId)
+	
+	
+	Http:request('radioLiveItemData', Util:getServer()..'/publish/clt/resource/mobileaudio3/radiolive/radioLiveItemData2.jsp?nodeId='..nodeId..'&objType=live',142)
+end
+
+--[[  节点消息方法  ]]--
+function bodyOnSpriteEvent(msg, param)
+	Log:write('bodyOnSpriteEvent======11',msg)
+    if msg == MSG_ACTIVATE then
+		 Bottom:show()
+    elseif msg == MSG_DEACTIVATE then
+         commonDeactivate()
+         Scene:freeByHandle(rootSprite)
+    elseif msg == Msg.login then
+      
+    else
+        Util:onSpriteEvent(msg, param)
+    end
+end
+
+
+--[[  插件消息方法  ]]--
+function bodyOnPluginEvent(msg, param)
+	Log:write('bodyOnSpriteEvent======22',msg)
+   if msg==142 then
+    -- Log:write('radioLiveItemData=======',#radioLiveItemData)
+    radioLiveItemData=Http:jsonDecode('radioLiveItemData') 
+	-- Log:write('radioLiveItemData=======',#radioLiveItemData.list1.programs)
+	local reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+    local regFile = 'MODULE:\\com_wondertek_mobileaudio\\reservelistlocal.xml'
+    Reg:load(reg,regFile)
+    g_reserveIdsStr = Reg:getString(reg, 'reserveIds')
+	LoadtodayData()
+	LoadtommorrowData()
+   else
+	 Util:onPluginEvent(msg, param)
+   end
+end
+
+
+--今日节目加载
+function LoadtodayData()
+    if radioLiveItemData.list2.programs~='' and radioLiveItemData.list2.programs~=nil then
+	Sprite:setVisible(isHaveProgramToday, 0)
+	ListView:removeAllItems(todaylistlv, 1) 
+	ListView:loadItem(todaylistlv, todaylistlvItem, #radioLiveItemData.list2.programs+1, 'onLoadtodayItem')
+    ListView:adjust(todaylistlv) 
+	end
+end
+
+--今日节目填充
+function onLoadtodayItem(list, item, index)
+    local radioname = Sprite:findChild(item,'radioname')
+	local audiostarttime= Sprite:findChild(item,'audiostarttime')
+    local audioendtime= Sprite:findChild(item,'audioendtime')		
+	local audiotodayBtn= Sprite:findChild(item,'audiotodayBtn')	
+	local alreadyappoint= Sprite:findChild(item,'alreadyappoint')
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(radioLiveItemData.list2.programs[index].sCompleteTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')	
+    local startTimeToSec = os.time{year=cyear, month=cmonth, day=cday, hour=chour,min=cmin,sec=csec}
+    local curTime = math.floor(Util:getServerTime()/1000)
+    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)
+	if startTimeToSec<=curTime then
+	Sprite:setEnable(audiotodayBtn,0) 
+	Sprite:setProperty(radioname, 'color', '#a3a3a3')
+	end	
+	local reserveParam =radioLiveItemData.list2.programs[index].param
+	local _,_,contentId = string.find(reserveParam, 'contentId=(%d+);')
+	if hasReserved(contentId, g_reserveIdsStr) and startTimeToSec>curTime then
+        Sprite:setVisible(alreadyappoint,1)
+    end
+    Sprite:setProperty(radioname, 'text', radioLiveItemData.list2.programs[index].name)
+	Sprite:setProperty(audiostarttime, 'text', radioLiveItemData.list2.programs[index].sTime)
+	Sprite:setProperty(audioendtime, 'text',radioLiveItemData.list2.programs[index].eTime)
+	Sprite:setProperty(audiotodayBtn, 'data', radioLiveItemData.list2.programs[index].param..'sCompleteTime='..radioLiveItemData.list2.programs[index].sCompleteTime..';')
+end
+
+--明日节目加载
+function LoadtommorrowData()
+    if radioLiveItemData.list3.programs~='' and radioLiveItemData.list3.programs~=nil then
+	Sprite:setVisible(isHaveProgramTommorrow, 0) 
+	ListView:removeAllItems(tommorrowlistlv, 1) 
+	ListView:loadItem(tommorrowlistlv, tommorrowlistlvItem, #radioLiveItemData.list3.programs+1, 'onLoadtommorrowItem')
+    ListView:adjust(tommorrowlistlv) 
+	end  
+end
+
+--明日节目填充
+function onLoadtommorrowItem(list, item, index)
+    local radioname = Sprite:findChild(item,'radioname')
+	local audiostarttime= Sprite:findChild(item,'audiostarttime')
+	local audioendtime= Sprite:findChild(item,'audioendtime')
+	local audiotommorrowBtn= Sprite:findChild(item,'audiotommorrowBtn')
+	local alreadyappoint= Sprite:findChild(item,'alreadyappoint')
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(radioLiveItemData.list3.programs[index].sCompleteTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')	
+    local startTimeToSec = os.time{year=cyear, month=cmonth, day=cday, hour=chour,min=cmin,sec=csec}
+    local curTime = math.floor(Util:getServerTime()/1000)
+    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)
+	if startTimeToSec<=curTime then
+	Sprite:setEnable(audiotodayBtn,0) 
+	Sprite:setProperty(radioname, 'color', '#a3a3a3')
+	end
+	local reserveParam =radioLiveItemData.list3.programs[index].param
+	local _,_,contentId = string.find(reserveParam, 'contentId=(%d+);')
+	if hasReserved(contentId, g_reserveIdsStr) then
+        Sprite:setVisible(alreadyappoint,1)
+    end
+    Sprite:setProperty(radioname, 'text', radioLiveItemData.list3.programs[index].name)
+	Sprite:setProperty(audiostarttime, 'text', radioLiveItemData.list3.programs[index].sTime)
+	Sprite:setProperty(audioendtime, 'text', radioLiveItemData.list3.programs[index].eTime)
+	Sprite:setProperty(audiotommorrowBtn, 'data', radioLiveItemData.list3.programs[index].param..'sCompleteTime='..radioLiveItemData.list3.programs[index].sCompleteTime..';')
+end
+
+
+--Panorama滑动事件
+function mainPanoramaOnSel(sprite)
+   local n =Panorama:getCurItem(mainPanorama)
+     for i=0,2 do
+        local item =List:getItem(catalogList,i)
+        local catalogBtn=Sprite:findChild(item,'catalogBtn')
+        if i==n then
+            Panorama:setCurItem(mainPanorama,n)
+            Sprite:setEnable(catalogBtn,0)
+        else
+            Sprite:setEnable(catalogBtn,1)
+        end
+    end
+end
+
+
+--catalogList里btn点击事件
+function catalogBtnOnSelect(sprite)
+    local n= List:getCurItem(catalogList)
+    for i=0,1 do
+    local item =List:getItem(catalogList,i)
+    local catalogBtn=Sprite:findChild(item,'catalogBtn')
+        if i==n then
+            Sprite:setEnable(catalogBtn,0)
+            Panorama:setCurItem(mainPanorama,n)
+            curIndex=i
+        else
+            Sprite:setEnable(catalogBtn,1)
+        end
+    end
+end
+
+--明日节目点击事件
+function audiotommorrowBtnOnSelect(sprite)
+    reserveType=1
+	local audiostarttime=Sprite:findChild(sprite,'audiostarttime')
+	local audioendtime=Sprite:findChild(sprite,'audioendtime')
+	local radioname=Sprite:findChild(sprite,'radioname')
+    reserveParam = Sprite:getData(sprite)
+	local _,_,objType = string.find(reserveParam,'objType=([^;]+);')
+    local _,_,contentId = string.find(reserveParam,'contentId=(%d+);')
+    local _,_,nodeId = string.find(reserveParam,'nodeId=(%d+);')
+	local _,_,startTime = string.find(reserveParam,'sCompleteTime=([^;]+);')
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(startTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')
+	curTimeArea=Sprite:getText(audiostarttime)..'-'..Sprite:getText(audioendtime)
+	local curContentName=Sprite:getText(radioname)
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(startTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')	
+    startTimeToSec = os.time{year=cyear, month=cmonth, day=cday, hour=chour,min=cmin,sec=csec}
+    local curTime = math.floor(Util:getServerTime()/1000)
+    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)  --分钟
+	local alreadyappoint = Sprite:findChild(sprite,'alreadyappoint') 
+	if Sprite:isVisible(alreadyappoint) ==0 then 
+	if AppendAppointment then
+        local reserveEditTime = 10
+        if reserveTimeLeft < reserveEditTime then
+            Tips:show('马上播了，别预约啦')
+            return
+        end
+        local strRemind = '您预约的节目:'..curContentName..',即将于'..reserveEditTime..'分钟后播放,敬请观看。'
+        local appoitmentTimeLeft = (reserveTimeLeft - reserveEditTime)*60  -- 设定xx秒后弹出通知栏预约消息
+        local appoitmentParam = 'objType=radio'..';contentId='..contentId..';nodeId=' .. nodeId ..';parentId='..parentId..';'
+        Log:write('111 AppendAppointment()',strRemind,appoitmentTimeLeft,appoitmentParam)
+        AppendAppointment(tonumber(contentId), appoitmentTimeLeft, strRemind, appoitmentParam)		
+    end
+    startTime = Util:urlTrans(startTime)
+    local progParam = startTime ..'|'..curTimeArea..'|'.. curContentName..'|'..contentId..'|' ..nodeId
+    addOneReserveProg(contentId,progParam,reserveType)
+    Sprite:setVisible( alreadyappoint,1)
+	Tips:show('预约成功')
+	else
+	Sprite:setVisible(alreadyappoint,0)
+	doReserveCancel(sprite)
+	end
+end
+
+--今日节目点击事件
+function audiotodayBtnOnSelect(sprite)
+	reserveType=1
+	local audiostarttime=Sprite:findChild(sprite,'audiostarttime')
+	local audioendtime=Sprite:findChild(sprite,'audioendtime')
+	local radioname=Sprite:findChild(sprite,'radioname')
+    reserveParam = Sprite:getData(sprite)	
+	local _,_,objType = string.find(reserveParam,'objType=([^;]+);')
+    local _,_,contentId = string.find(reserveParam,'contentId=(%d+);')
+    local _,_,nodeId = string.find(reserveParam,'nodeId=(%d+);')
+	local _,_,startTime = string.find(reserveParam,'sCompleteTime=([^;]+);')
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(startTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')
+	curTimeArea=Sprite:getText(audiostarttime)..'-'..Sprite:getText(audioendtime)
+	local curContentName=Sprite:getText(radioname)
+	local _,_,cyear,cmonth,cday,chour,cmin,csec = string.find(startTime,'(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)')	
+    startTimeToSec = os.time{year=cyear, month=cmonth, day=cday, hour=chour,min=cmin,sec=csec}
+    local curTime = math.floor(Util:getServerTime()/1000)
+    reserveTimeLeft = math.floor((startTimeToSec - curTime)/60)  --分钟
+	local alreadyappoint = Sprite:findChild(sprite,'alreadyappoint')
+	if Sprite:isVisible(alreadyappoint) ==0 then 
+	if AppendAppointment then
+        local reserveEditTime = 10
+        if reserveTimeLeft < reserveEditTime then
+            Tips:show('马上播了，别预约啦')
+            return
+        end
+        local strRemind = '您预约的节目:'..curContentName..',即将于'..reserveEditTime..'分钟后播放,敬请观看。'
+        local appoitmentTimeLeft = (reserveTimeLeft - reserveEditTime)*60  -- 设定xx秒后弹出通知栏预约消息
+        local appoitmentParam = 'objType=radio'..';contentId='..contentId..';nodeId=' .. nodeId ..';parentId='..parentId..';'
+        Log:write('111 AppendAppointment()',strRemind,appoitmentTimeLeft,appoitmentParam)
+        AppendAppointment(tonumber(contentId), appoitmentTimeLeft, strRemind, appoitmentParam)
+		--AppendAppointment(tonumber(contentId), 10, strRemind, appoitmentParam)
+    end
+    startTime = Util:urlTrans(startTime)
+    local progParam = startTime ..'|'..curTimeArea..'|'.. curContentName..'|'..contentId..'|' ..nodeId
+    addOneReserveProg(contentId,progParam,reserveType)
+    Sprite:setVisible( alreadyappoint,1)
+	Tips:show('预约成功')
+	else
+	Sprite:setVisible(alreadyappoint,0)
+	doReserveCancel(sprite)
+	end
+end
+
+--返回按钮方法
+function backBtnOnSelect(sprite)
+	Scene:back()
+end
+
+-- @brief 主节点OnKeyUp事件
+function mainNodeOnKeyUp(sprite, kc)
+    if kc == Key.F2 then
+        if commonF2KeyUp and commonF2KeyUp() then return end
+        Scene:back()
+    end
+end
+
+------------------------------------------------------------
+ -- @function addOneReserveProg()
+ ------------------------------------------------------------
+ -- @brief 添加一个预约节目
+ ------------------------------------------------------------
+ -- @access public
+ ------------------------------------------------------------
+ -- @param contentId -- 内容ID作为保存的键值关键字
+ -- @param reserveParam -- 预约的保存参数
+                        -- 老版本:节目起始时间
+                        -- 新版本:节目起始时间|时间段|内容名|栏目名|contentId|nodeId
+ -- @param reserveType         -- 预约文件类型, 0 - 平台预约 ,1-本地预约
+ ------------------------------------------------------------
+ -- @return
+ ------------------------------------------------------------
+ --]]
+function addOneReserveProg(contentId,reserveParam,reserveType)
+    Log:write('addOneReserveProg=======',contentId,reserveParam,reserveType)
+    local _,_,reserveParamStartTime= string.find(reserveParam,'(.-)|')
+    Log:write('addOneReserveProg', contentId, reserveParam,reserveType)
+    local tempIdsStr = ''
+    local reg = 0
+    local regFile = ''
+    if reserveType == 0 or reserveType == nil then
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+        regFile = 'MODULE:\\com_wondertek_mobileaudio\\reservelist.xml'
+    else
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.playeryue)
+        regFile =  'MODULE:\\com_wondertek_mobileaudio\\reservelistlocal.xml'
+    end
+    Reg:load(reg,regFile)
+    local reserveIdsStr = Reg:getString(reg, 'reserveIds')
+    if reserveIdsStr and '' ~= reserveIdsStr then
+        --按照时间排序插入
+        local reserveIdsTable = Util:split(reserveIdsStr, '|')
+        local count = #reserveIdsTable - 1
+        Log:write('addOneReserveProg',reserveIdsStr,reserveIdsTable,count)
+        for i=count,1,-1 do
+            local reserveValueStr = Reg:getString(reg, reserveIdsTable[i])
+            Log:write('addOneReserveProg reserveValueStr',reserveValueStr)
+            local _,_,valueStartTime= string.find(reserveValueStr,'(.-)|')
+            Log:write('addOneReserveProg() valueStartTime',valueStartTime,reserveParamStartTime)
+            if reserveParamStartTime >= valueStartTime then  --比较日期，大的插入最后面
+                 for j=1,i do
+                    if tempIdsStr == '' then
+                        tempIdsStr = reserveIdsTable[j] .. '|'
+                    else
+                        tempIdsStr = tempIdsStr .. reserveIdsTable[j] .. '|'
+                    end
+                 end
+                 tempIdsStr = tempIdsStr .. contentId.. '|'
+                 for k=i+1,count do
+                    tempIdsStr = tempIdsStr ..reserveIdsTable[k].. '|'
+                 end
+                 break
+            end
+        end
+        if tempIdsStr == '' then --表明没找到合适的位子，说明该时间最小,插入到最前面
+            tempIdsStr = contentId ..'|'.. reserveIdsStr
+        end
+        Reg:setString(reg, 'reserveIds', tempIdsStr)
+    else
+        Reg:setString(reg, 'reserveIds', contentId .. '|')
+    end
+    Reg:setString(reg, contentId, reserveParam)
+    Reg:save(reg, regFile)
+    Reg:release(Reg.com_wondertek_mobileaudio.playeryue)
+end
+
+ ------------------------------------------------------------
+ -- @function deleteOneReserveProg()
+ ------------------------------------------------------------
+ -- @brief 删除一个预约节目
+ ------------------------------------------------------------
+ -- @access public
+ ------------------------------------------------------------
+ -- @param contentId            -- 内容ID作为保存的键值关键字
+ -- @param reserveType          -- 预约文件类型, 0 - 平台预约 ,1-本地预约
+ ------------------------------------------------------------
+ -- @return
+ ------------------------------------------------------------
+function deleteOneReserveProg(contentId,reserveType)
+    Log:write('deleteOneReserveProg', contentId, reserveType)
+    local reg = 0
+    local regFile = ''
+    if reserveType == 0 or reserveType == nil then
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.reservelist)
+        regFile = 'MODULE:\\com_wondertek_mobileaudio\\reservelist.xml'
+    else
+        reg = Reg:create(Reg.com_wondertek_mobileaudio.reservelist)
+        regFile =  'MODULE:\\com_wondertek_mobileaudio\\reservelistlocal.xml'
+    end
+    Reg:load(reg,regFile)
+
+    local reserveIdsStr = Reg:getString(reg, 'reserveIds')
+    if hasReserved(contentId,reserveIdsStr) then
+        reserveIdsStr = string.gsub(reserveIdsStr,contentId..'|' ,'')
+        Reg:setString(reg,'reserveIds',reserveIdsStr)
+        Reg:remove(reg,contentId)
+        Reg:save(reg, regFile)
+    end
+    Reg:release(Reg.com_wondertek_mobileaudio.reservelist)
+end
+
+
+--取消预约
+function doReserveCancel(sprite)
+    Log:write('licj  doReserveCancel')
+    reserveParam = Sprite:getData(sprite)
+    local _,_,contentId = string.find(reserveParam, 'contentId=(%d+);')
+    local reserveType = 1
+    if DeleteAppointment then
+        DeleteAppointment(tonumber(contentId))
+    end
+    deleteOneReserveProg(contentId,reserveType)
+    -- local imgicon = Sprite:findChild(item,'imgicon')
+    -- Sprite:setProperty( imgicon,'data','2')
+    -- local timeArea = Sprite:findChild( item ,'timeArea')
+    -- local contentName = Sprite:findChild( item,'contentName')
+    -- Sprite:setProperty( timeArea,'color','#9F9D9E')
+    -- Sprite:setProperty( contentName,'color','#9F9D9E')
+
+    --Sprite:setProperty(imgicon, 'src', 'file://image/live2.png')
+    --resChoose(imgicon)
+    Tips:show('取消成功')
+end
+
+-- @brief 判断节目是否在预约列表中
+function hasReserved(contentId, reserveIdsStr)
+    if reserveIdsStr and '' ~= reserveIdsStr then
+        local reserveIdsTable = Util:split(reserveIdsStr, '|')
+        local count = #reserveIdsTable - 1
+        for i=1,count do
+            if tonumber(reserveIdsTable[i]) == tonumber(contentId) then
+                return true
+            end
+        end
+    end
+    return false
+end
